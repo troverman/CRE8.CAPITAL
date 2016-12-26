@@ -1,0 +1,258 @@
+.map-container {
+    position: relative;
+    overflow: hidden;
+    z-index: 15;
+    border-bottom: 3px solid #2ab996;
+    border-top: 3px solid #2ab996;
+}
+
+.map-center {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.map-container iframe,
+.map-container object,
+.map-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.title-surface-container {
+    z-index: 20;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background:black;
+    padding-top: 50px;
+    border-bottom: 3px solid #2ab996;
+}
+
+.contact-page-container {
+    z-index: 20;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background:url(/images/texture-bg.png) repeat;
+}
+
+.info {
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 1%;
+    padding-left: 1%;
+    padding-top: 5%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    color: black;
+    text-align: justify;
+}
+
+.city {
+    font-family: 'Jura', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: #2ab996;
+    font-weight: 400;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.interested {
+    margin-top: 20px;
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.interested a {
+    color: #2ab996;
+    font-size: 1.5em;
+}
+
+.interested a:hover {
+    text-decoration: underline;
+}
+
+.contact-us {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.contact-us a {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.contact-icons {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.contact-icons a {
+    font-size: 3.5em;
+    color: #2AB996;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.contact-icons a:hover {
+    opacity: .8;
+}
+
+.contact-title-location p {
+    font-family: 'Jura', sans-serif;
+    font-weight: 600;
+    font-size: 35px;
+    color: #000;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.message p {
+    font-size: 1.5em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.office-contact {
+    width: 20%;
+    min-width: 200px;
+    padding: 10px;
+}
+
+.contact-city {
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    font-size: 17px;
+    overflow: hidden;
+    padding: 0.5em 0;
+    background-color: transparent; 
+}
+
+.newsletter {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: large;
+}
+
+.subtitle:hover {
+    color: #222;
+}
+
+.link {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.box2 {
+    position: relative;
+    width: 100%;
+}
+
+.small-medium {
+    position: relative;
+    width: 190px;
+    height: auto;
+    margin: 0;
+    padding: 0px 0px 0px 0px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.small-medium a {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.medium {
+    position: relative;
+    width: 250px;
+    height: auto;
+    margin: 1%;
+    padding: 2.5%;
+    //background-color: yellow;
+}
+
+.opacity {
+    -webkit-transition: .4s ease-in-out opacity;
+    -moz-transition: .4s ease-in-out opacity;
+    -o-transition: .4s ease-in-out opacity;
+    transition: .4s ease-in-out opacity;
+    opacity: 0.7;
+}
+
+.opacity:hover {
+    opacity: 1.0;
+}
+
+.img-fill {
+    width: 150px;
+    height: auto;
+    overflow: hidden;
+}
+
+.bottom-tagline {
+    padding-bottom: 3%;
+    font-size: 1.5em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+/* media queries */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+{
+    .contact-icons a {
+        font-size: 2.5em;
+    }
+    .contact-icons a:hover {
+        opacity: 1;
+    }
+    .contact-title-location p {
+        font-size: 30px;
+    }
+    .contact-city {
+        font-size: 13px;
+        top: -9;
+    }
+}
+@media screen and (max-width: 920px) {
+    .map-container {
+        display: none;
+    }
+    .contact-icons a:hover {
+        opacity: 1;
+    }
+}
