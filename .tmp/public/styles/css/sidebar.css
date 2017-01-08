@@ -1,0 +1,130 @@
+.page-nav-zone {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    top:0;
+    opacity: 0.7;
+    width:67px;
+    height:100%;
+    background-color: black;
+    transition: width ease-in-out 0.3s;
+    z-index: 5000;
+    overflow: hidden;
+}
+
+.item-container {
+    width: 100%;
+    height: 10%;
+    display: table;
+    position: relative;
+    transition: background-color ease-in-out 0.3s;
+}
+
+.list-item {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 23px;
+    transition: font-size ease-in-out 0.2s;
+}
+
+.flex-item-top {
+    align-self: flex-start;
+}
+
+.flex-item-bottom {
+    align-self: flex-end;
+}
+
+.nav-small-list {
+    position: absolute;
+    left: 0;
+    width: 64px;
+    height: 64px;
+    padding-left: 5px;
+    padding-right: 5px;
+    z-index: 5003;
+    align-items: center;
+}
+
+.nav-large-list {
+    position: absolute;
+    right: 0;
+    height: 64px;
+    width: 220px;
+    z-index: 5002;
+    transition: width ease-in-out 0.2s;
+}
+
+.page-nav-zone:hover .nav-large-list {
+    width: 284px;
+}
+
+.opacity {
+    opacity: 0.7;
+    transition: opacity ease-in-out 0.2s;
+}
+
+.opacity:hover {
+    opacity: 1.0;
+}
+
+.top-right {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    margin: 5%;
+    color: #fff;
+    z-index: 5003;
+    font-size: 60px;
+}
+
+.page-nav-zone:hover .top-right {
+    display: visible;
+}
+
+/* media queries */
+
+@media screen and (max-width: 920px) {
+
+}
+
+/* The only way to get your rule to apply only when the media query isn't satisfied is to isolate it in a negated version of the query */
+@media not screen and (max-width: 720px) {
+    .page-nav-zone:hover {
+        width: 284px;
+        opacity: 1.0;
+        background-color: #1db996;
+    }
+    .list-item:hover {
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .page-nav-zone {
+        opacity: 1.0;
+        background-color: #1db996;
+        left: 0;
+        box-shadow: 2px 0px 5px #000000;
+    }
+    .nav-small-list {
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .page-nav-zone {
+        width: 50px;
+    }
+    .nav-small-list {
+        width: 50px;
+    }
+}

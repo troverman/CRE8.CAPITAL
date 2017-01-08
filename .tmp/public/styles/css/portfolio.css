@@ -1,0 +1,171 @@
+body {
+  background: #f1f1fa;
+}
+
+.active{
+  display:none;
+}
+
+.container {
+  font-size: 0;
+  max-width: 95%;
+}
+
+.portfolio-message {
+  margin-top: 20px;
+  font-size: 22px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+}
+.wrap {
+  -webkit-transform: rotate(45deg) translate3d(0, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0, 0, 0);
+  -ms-transform: rotate(45deg) translate3d(0, 0, 0);
+  -o-transform: rotate(45deg) translate3d(0, 0, 0);
+  transform: rotate(45deg) translate3d(0, 0, 0);
+  display: inline-block;
+  -webkit-transition: -webkit-transform 300ms ease-out;
+  -moz-transition: -moz-transform 300ms ease-out;
+  transition: transform 300ms ease-out;
+  width: 100px;
+  cursor: pointer;
+
+}
+.wrap:nth-child(even) {
+  width: 40px;
+  -webkit-transform: rotate(225deg) translate3d(30px, 120px, 0);
+  -moz-transform: rotate(225deg) translate3d(30px, 120px, 0);
+  -ms-transform: rotate(225deg) translate3d(30px, 120px, 0);
+  -o-transform: rotate(225deg) translate3d(30px, 120px, 0);
+  transform: rotate(225deg) translate3d(30px, 120px, 0);
+}
+.wrap:nth-child(even) .crop img {
+  -webkit-transform: skew(-20deg, -20deg) rotate(-225deg);
+  -moz-transform: skew(-20deg, -20deg) rotate(-225deg);
+  -ms-transform: skew(-20deg, -20deg) rotate(-225deg);
+  -o-transform: skew(-20deg, -20deg) rotate(-225deg);
+  transform: skew(-20deg, -20deg) rotate(-225deg);
+}
+.crop {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0;
+  display: block;
+  overflow: hidden;
+  -webkit-transform: skew(20deg, 20deg) translate3d(0, 0, 0);
+  -moz-transform: skew(20deg, 20deg) translate3d(0, 0, 0);
+  -ms-transform: skew(20deg, 20deg) translate3d(0, 0, 0);
+  -o-transform: skew(20deg, 20deg) translate3d(0, 0, 0);
+  transform: skew(20deg, 20deg) translate3d(0, 0, 0);
+}
+.crop img {
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  left: -50%;
+  margin-top: 36px;
+  margin-left: 36px;
+  top: -50%;
+  -webkit-transform: skew(-20deg, -20deg) rotate(-45deg);
+  -moz-transform: skew(-20deg, -20deg) rotate(-45deg);
+  -ms-transform: skew(-20deg, -20deg) rotate(-45deg);
+  -o-transform: skew(-20deg, -20deg) rotate(-45deg);
+  transform: skew(-20deg, -20deg) rotate(-45deg);
+  opacity: 0.7;
+  -webkit-transition: opacity 300ms ease-in-out;
+  -moz-transition: opacity 300ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
+}
+.crop img:hover {
+  opacity: 1;
+}
+
+.top-area {
+    //background-color: #a3a3a3;
+    background: url(/images/portfolio/code.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: white;
+    padding: 2%;
+    border-bottom: 2px solid #2ab996;
+}
+
+.bottom-area {
+    background:url(/images/texture-bg.png) repeat;
+    color: black;
+    border-top: 2px solid #2ab996;
+}
+
+.title-top {
+    color: white;
+    font-family: 'Jura', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    text-align: center;
+    width: 80%;
+}
+
+.title-bottom {
+    color: black;
+    font-family: 'Jura', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    text-align: center;
+    width: 80%;
+    margin-top: 3%;
+}
+
+.message-portfolio {
+    font-size: 1.1em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    width: 85%;
+}
+
+.interested-portfolio {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    width: 85%;
+}
+
+.portfolio-tile {
+    width: 33.33%;
+    height: auto;
+    overflow: hidden;
+    margin: 0 !important;
+}
+
+.hover-info {
+    color: white;
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
+    padding: 2%;
+}
+
+@media screen and (max-width: 1400px) {
+    .portfolio-tile {
+        width: 33.33%;
+    }
+}
+
+@media screen and (max-width: 920px) {
+    .portfolio-tile {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .portfolio-tile {
+        width: 100%;
+    }
+}
