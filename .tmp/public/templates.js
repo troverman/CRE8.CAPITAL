@@ -10,18 +10,16 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
 angular.module("home/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/index.tpl.html",
     "<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
-    "\n" +
     "<canvas id=\"scene\"></canvas>\n" +
     "\n" +
-    "<div id=\"header-container\">\n" +
-    "	<canvas id=\"scene\"></canvas>\n" +
+    "<div id=\"header-container container\">\n" +
     "    <div style=\"text-align:center;\" id=\"header-text-area\">\n" +
-    "       <p style=\"color:rgb(255,255,255);font-size:64px;margin-left:10%\">empowered financial decisions</p>\n" +
-    "       <p style=\"color:rgb(255,255,255);margin-left:15%\">backed by sound, open, data</p>\n" +
+    "       <p style=\"font-size:64px;margin-left:10%\">empowered financial decisions</p>\n" +
+    "       <p style=\"margin-left:15%\">backed by sound, open, data</p>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"centered-width\">\n" +
+    "<div class=\"centered-width container\">\n" +
     "	<br>\n" +
     "	<h3 style=\"text-align:center;\">a computational network designed to normalize risk and equalize investment returns.</h3>\n" +
     "	<br><br>\n" +
@@ -63,10 +61,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<br><br><br>\n" +
     "	<p class=\"lead\">where does the money go?</p>\n" +
     "	<p class=\"lead\">mapping out the investment space</p>\n" +
-    "	<br><br><br><br><br><br>\n" +
+    "	<br><br>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"background-color:rgb(220,220,240);height:750px;\">\n" +
+    "<div style=\"background-color:rgb(220,220,220);height:750px;\">\n" +
     "	<br><br><br>\n" +
     "	<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
     "	<br><br>\n" +
@@ -82,15 +80,17 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
     "	<br><br><br>\n" +
     "</div>\n" +
-    "<div style=\"background-color:rgb(240,220,220);height:750px;text-align:center;\">\n" +
+    "\n" +
+    "<div style=\"background-color:rgb(180,180,180);height:750px;text-align:center;\">\n" +
     "	<br><br><br>\n" +
     "	<h1>sound and transparent investments</h1>\n" +
     "</div>\n" +
-    "<div style=\"background-color:rgb(220,240,220);height:750px;text-align:center;\">\n" +
+    "\n" +
+    "<div style=\"background-color:rgb(120,120,120);height:750px;text-align:center;\">\n" +
     "	<br><br><br>\n" +
     "	<h1>more stuff</h1>\n" +
-    "	<p>a decentralized network that works together to power financial simulations. financed by investmentcoin. r8\n" +
-    "</p></div>\n" +
+    "	<p>a decentralized network that works together to power financial simulations. financed by investmentcoin. r8</p>\n" +
+    "</div>\n" +
     "\n" +
     "");
 }]);
@@ -136,10 +136,10 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "            </svg>\n" +
     "        </a>\n" +
     "    </svg>\n" +
-    "    <video id=\"video\" autoplay=\"autoplay\" muted=\"muted\" preload=\"auto\" loop=\"loop\">\n" +
+    "    <!--<video id=\"video\" autoplay=\"autoplay\" muted=\"muted\" preload=\"auto\" loop=\"loop\">\n" +
     "        <source src=\"videos/stock.mp4\" type=\"video/mp4\">\n" +
     "    </video>\n" +
-    "    <img class=\"intro-img\" id=\"image\" src=\"http://36.media.tumblr.com/318b26ada390554e3940e1907c0e6d0f/tumblr_no0pwu8TmB1uuhx17o1_1280.jpg\">\n" +
+    "    <img class=\"intro-img\" id=\"image\" src=\"http://36.media.tumblr.com/318b26ada390554e3940e1907c0e6d0f/tumblr_no0pwu8TmB1uuhx17o1_1280.jpg\">-->\n" +
     "</div>");
 }]);
 
@@ -239,7 +239,7 @@ angular.module("sidebar/index.tpl.html", []).run(["$templateCache", function($te
     "            </a>\n" +
     "        </div>\n" +
     "        <div class=\"item-container\">\n" +
-    "            <a href=\"/portfolio\">\n" +
+    "            <a href=\"#\">\n" +
     "                <div class=\"list-item\">\n" +
     "                    <div class=\"nav-small-list\"><i class=\"fa fa-picture-o\"></i></div>\n" +
     "                    <div class=\"nav-large-list\">Portfolio</div>\n" +
