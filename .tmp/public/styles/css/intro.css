@@ -1,6 +1,5 @@
 html {
     height: 100%;
-    overflow: hidden;
     font-weight:100;
 }
 body {
@@ -164,40 +163,12 @@ svg mask rect {
 }
 svg > .intro-rect {
     //fill: #2ab996; /* novo green */
-    fill: black;
+    fill: #00562b;
     opacity: 0.75;
     -webkit-mask: url(#intro-mask);
-    /* for webkit browsers */
     mask: url(#intro-mask);
-    /* for Firefox */
-}
-svg > .portfolio-rect {
-    //fill: #2ab996; /* novo green */
-    fill: white;
-    opacity: 0.75;
-    -webkit-mask: url(#portfolio-mask);
-    /* for webkit browsers */
-    mask: url(#portfolio-mask);
-    /* for Firefox */
 }
 
-.portfolio-rect:hover {
-    fill: #2ab996;
-    transition: fill .2s;
-}
-svg > .newsletter-rect {
-    //fill: #2ab996; /* novo green */
-    fill: white;
-    opacity: 0.75;
-    -webkit-mask: url(#newsletter-mask);
-    /* for webkit browsers */
-    mask: url(#newsletter-mask);
-    /* for Firefox */
-}
-/*.newsletter-rect:hover {
-    fill: #2ab996;
-    transition: fill .2s;
-}*/
 video {
   position: absolute;
   top: 0%;

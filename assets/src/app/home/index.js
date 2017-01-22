@@ -38,7 +38,7 @@ angular.module( 'investing.home', [
 	    antialias: true
 	  });
 	  renderer.setSize(ww, wh);
-	  renderer.setClearColor(0x2980B9);
+	  renderer.setClearColor(0x808080);
 
 	  scene = new THREE.Scene();
 
@@ -165,7 +165,7 @@ angular.module( 'investing.home', [
                 showMaxMin: false
             },
             zoom: {
-                enabled: true,
+                enabled: false,
                 scaleExtent: [1, 10],
                 useFixedDomain: false,
                 useNiceScale: false,
@@ -255,8 +255,8 @@ angular.module( 'investing.home', [
     $scope.directedOptions = {
         chart: {
             type: 'forceDirectedGraph',
-            height: 450,
-            width: (function(){ return nv.utils.windowSize().width - 450 })(),
+            height:  (function(){ return nv.utils.windowSize().height })(),
+            width: (function(){ return nv.utils.windowSize().width })(),
             margin:{top: 20, right: 20, bottom: 20, left: 20},
             color: function(d){
                 return color(d.group)
@@ -267,6 +267,14 @@ angular.module( 'investing.home', [
                   .attr("dx", 8)
                   .attr("dy", ".35em")
                   .text(function(d) { return d.name })
+                  .style('font-size', '10px');
+            },
+            linkExtras: function(link) {
+                link && link
+                  .append("text")
+                  .attr("dx", 8)
+                  .attr("dy", ".35em")
+                  .text(function(d) { return d.value })
                   .style('font-size', '10px');
             }
         }

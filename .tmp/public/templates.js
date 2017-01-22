@@ -2,71 +2,95 @@ angular.module('templates-app', ['about/index.tpl.html', 'home/index.tpl.html', 
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
-    "<div class=\"surface-container home-pad\">\n" +
-    "  our network of advisors, consisting of hunderds of companies spanning the globe. \n" +
-    "</div>");
+    "<div class=\"container\">\n" +
+    "	<h2>investingfor</h2>\n" +
+    "	<p>our network of advisors, consisting of hunderds of companies spanning the globe.</p> \n" +
+    "\n" +
+    "	<br><br><br>\n" +
+    "	<nvd3 options='options' data='data'></nvd3>\n" +
+    "	<br><br><br>\n" +
+    "\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
+    "      <p>data, we use. data we prouduce, together.</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
+    "      <p>contribute. collab. invest.</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-wrench\"></i>view our results </h3>\n" +
+    "      <p>(y)our machines are continuously running and producing valuable investment information. it's <a href=\"#\">it's transparent</a></p>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
+    "      <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-lg-4 col-sm-6\">\n" +
+    "      <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "<div style=\"height:100px;\"></div>\n" +
+    "");
 }]);
 
 angular.module("home/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/index.tpl.html",
     "<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
     "<canvas id=\"scene\"></canvas>\n" +
-    "<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
+    "<nvd3 options='options' data='data'></nvd3>\n" +
     "<nvd3 options='directedOptions' data='directedData'></nvd3>\n" +
     "\n" +
-    "<div id=\"header-container container\">\n" +
+    "<div class=\"container\" id=\"about\">\n" +
+    "	<div style=\"height:50px;\"></div>\n" +
     "    <div style=\"text-align:center;\" id=\"header-text-area\">\n" +
-    "       <p style=\"font-size:64px;margin-left:10%\">empowered financial decisions</p>\n" +
-    "       <p style=\"margin-left:15%\">backed by sound, open, data</p>\n" +
+    "       <p style=\"font-size:64px;\">empowered financial decisions</p>\n" +
+    "       <p style=\"\">backed by sound, open, data</p>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"centered-width container\">\n" +
+    "<div class=\"container\">\n" +
     "	<br>\n" +
     "	<h3 style=\"text-align:center;\">a computational network designed to normalize risk and equalize investment returns.</h3>\n" +
     "	<br><br>\n" +
-    "	<div class=\"section-tout\"> \n" +
-    "	  <div class=\"container\">\n" +
-    "	    <div class=\"row\">\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-file-o\"></i> open datasets -- coin</h3>\n" +
-    "	        <p>data, we use. data we prouduce, together. </p>\n" +
-    "	      </div>\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
-    "	        <p>contribute. collab, invest, bitcoin</p>\n" +
-    "	      </div>\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-wrench\"></i>back testing -- open data -- look at our results </h3>\n" +
-    "	        <p>(y)our machines are continuously running and producing valuable investment information, check it.</p>\n" +
-    "	      </div>\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
-    "	         <p>Changes are contained with transparency.</p>\n" +
-    "	      </div>\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
-    "	        <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
-    "	      </div>\n" +
-    "	      <div class=\"col-lg-4 col-sm-6\">\n" +
-    "	        <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
-    "	        <p>Be notified about updates by subscribing.</p>\n" +
-    "	      </div>\n" +
-    "	    </div>\n" +
-    "\n" +
-    "	  </div>\n" +
+    "	<div class=\"row\">\n" +
+    "		<div class=\"col-lg-4 col-sm-6\">\n" +
+    "		  <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
+    "		  <p>data, we use. data we prouduce, together.</p>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-lg-4 col-sm-6\">\n" +
+    "		  <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
+    "		  <p>contribute. collab. invest.</p>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-lg-4 col-sm-6\">\n" +
+    "		  <h3><i class=\"fa fa-wrench\"></i> view our results </h3>\n" +
+    "		  <p>(y)our machines are continuously running and producing valuable investment information.</p>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-lg-6 col-sm-6\">\n" +
+    "		  <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-lg-6 col-sm-6\">\n" +
+    "		  <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
+    "		  <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
     "	<br>\n" +
     "	<p class=\"lead\">nice...</p>\n" +
-    "	<a href=\"/stats/\">now let me see some numbers</a>\n" +
+    "	<a href=\"#\">now let me see some numbers</a>\n" +
     "	<br><br><br>\n" +
     "	<p class=\"lead\">where does the money go?</p>\n" +
     "	<p class=\"lead\">mapping out the investment space</p>\n" +
     "	<br><br>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"background-color:rgb(220,220,220);height:750px;\">\n" +
+    "<div style=\"background-color:rgb(220,220,220);\">\n" +
     "	<br><br><br>\n" +
     "	<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
     "	<br><br>\n" +
@@ -83,16 +107,20 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<br><br><br>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"background-color:rgb(180,180,180);height:750px;text-align:center;\">\n" +
+    "<div style=\"background-color:rgb(180,180,180);text-align:center;\">\n" +
     "	<br><br><br>\n" +
     "	<h1>sound and transparent investments</h1>\n" +
+    "	<br><br><br>\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"background-color:rgb(120,120,120);height:750px;text-align:center;\">\n" +
+    "<div style=\"background-color:rgb(120,120,120);text-align:center;\">\n" +
     "	<br><br><br>\n" +
     "	<h1>more stuff</h1>\n" +
     "	<p>a decentralized network that works together to power financial simulations. financed by investmentcoin. r8</p>\n" +
+    "	<br><br><br>\n" +
     "</div>\n" +
+    "\n" +
+    "<div style=\"text-align:center\" ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "\n" +
     "");
 }]);
@@ -140,8 +168,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "    </svg>\n" +
     "    <!--<video id=\"video\" autoplay=\"autoplay\" muted=\"muted\" preload=\"auto\" loop=\"loop\">\n" +
     "        <source src=\"videos/stock.mp4\" type=\"video/mp4\">\n" +
-    "    </video>\n" +
-    "    <img class=\"intro-img\" id=\"image\" src=\"http://36.media.tumblr.com/318b26ada390554e3940e1907c0e6d0f/tumblr_no0pwu8TmB1uuhx17o1_1280.jpg\">-->\n" +
+    "    </video>-->\n" +
     "</div>");
 }]);
 

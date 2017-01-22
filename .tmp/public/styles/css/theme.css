@@ -1,6 +1,7 @@
 @import "http://fonts.googleapis.com/css?family=Jura";
 @import "http://fonts.googleapis.com/css?family=Cantarell";
 
+
 html,body {
   height:100%;
   font-family:verdana,arial,sans-serif;
@@ -8,7 +9,23 @@ html,body {
   text-align:center;
   margin:0;
   padding:0;
-  overflow-x:hidden!important;
+}
+
+html {
+    height:100%;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    position: relative;
+    margin:0;
+    padding-bottom:200px;
+    min-height: 100%;
+    overflow-x:hidden!important;
 }
 
 a {
