@@ -15,7 +15,8 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/**/*.css'
+  'styles/**/*.css',
+  'bower_components/nvd3/build/nv.d3.css'
 ];
 
 
@@ -34,7 +35,9 @@ var jsFilesToInject = [
   'bower_components/angular-moment/angular-moment.js',
   'bower_components/angular-google-maps/dist/angular-google-maps.js',
   'bower_components/angular-scroll/angular-scroll.js',
-
+  'bower_components/d3/d3.js',
+  'bower_components/nvd3/build/nv.d3.js',
+  'bower_components/angular-nvd3/dist/angular-nvd3.js',
 
 
   //

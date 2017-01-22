@@ -9,11 +9,12 @@ angular.module( 'investing', [
     'templates-app',
     'services',
     'models',
-    'investing.sidebar',
+    'nvd3',
     'investing.home',
     'investing.about',
     'investing.intro',
     'investing.login',
+    'investing.nav',
     'investing.register',
 
 

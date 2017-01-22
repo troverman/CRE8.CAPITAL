@@ -33,8 +33,8 @@ function ticker(){
 							//sails.log(name[1]);
 						}
 
+						sails.log(price);
 
-						//sails.log(price);
 						//sails.log(timeStamp);
 
 
@@ -43,11 +43,31 @@ function ticker(){
 			    }
 		});
 
-}
+};
+
+
+function BTC(){
+
+    var url = "https://cex.io/api/ticker/GHS/BTC";
+	request({
+		    url: url,
+		    json: true
+		}, function (error, response, body) {
+
+		    if (!error && response.statusCode === 200) {
+
+		        var tickerData = body;
+		        console.log(tickerData);
+
+		    }
+	});
+
+} 
+
 
 
 module.exports.intervalService = function(){
 
-    setInterval(ticker, 6000);
+	ticker();
 
 };

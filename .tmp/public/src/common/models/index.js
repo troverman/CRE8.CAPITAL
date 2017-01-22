@@ -1,4 +1,4 @@
 angular.module('models', [
-	'models.post',
+	'models.data',
 	'models.user'
 ]);

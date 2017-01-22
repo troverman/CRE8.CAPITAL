@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/index.tpl.html', 'home/index.tpl.html', 'intro/index.tpl.html', 'login/index.tpl.html', 'register/index.tpl.html', 'sidebar/index.tpl.html']);
+angular.module('templates-app', ['about/index.tpl.html', 'home/index.tpl.html', 'intro/index.tpl.html', 'login/index.tpl.html', 'nav/index.tpl.html', 'register/index.tpl.html']);
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
@@ -11,6 +11,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
   $templateCache.put("home/index.tpl.html",
     "<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
     "<canvas id=\"scene\"></canvas>\n" +
+    "<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
+    "<nvd3 options='directedOptions' data='directedData'></nvd3>\n" +
     "\n" +
     "<div id=\"header-container container\">\n" +
     "    <div style=\"text-align:center;\" id=\"header-text-area\">\n" +
@@ -103,7 +105,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "            <mask class=\"intro-mask\" id=\"intro-mask\" x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" maskUnits=\"userSpaceOnUse\">\n" +
     "                <rect class=\"intro-rect\" x=\"0\" y=\"0\" width=\"1920px\" height=\"1080px\"></rect>\n" +
     "                <text x=\"960\" y=\"46%\" class=\"medium-text desktop\">investingfor</text>\n" +
-    "                <text x=\"960\" y=\"44%\" class=\"medium-text mobile\">embrace change</text>\n" +
+    "                <text x=\"960\" y=\"44%\" class=\"medium-text mobile\"></text>\n" +
     "                <text x=\"960\" y=\"51%\" class=\"small-text mantra\">lessen risk, bolster returns</text>\n" +
     "                <text x=\"960\" y=\"67.5%\" class=\"small-text learn-more\">learn more</text>\n" +
     "                <a href=\"#about\" du-smooth-scroll>\n" +
@@ -175,6 +177,40 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
     "");
 }]);
 
+angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("nav/index.tpl.html",
+    "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
+    "  <div class=\"container\">\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n" +
+    "        <span class=\"sr-only\">Toggle navigation</span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "        <span class=\"icon-bar\"></span>\n" +
+    "      </button>\n" +
+    "      <a class=\"navbar-brand\" href=\"/\">investingfor</a>\n" +
+    "    </div>\n" +
+    "    <div class=\"collapse navbar-collapse\">\n" +
+    "      <ul class=\"nav navbar-nav\">\n" +
+    "        <li ng-show=\"!currentUser\"><a href=\"/about\">about</a></li>\n" +
+    "        <li><a href=\"/search\">discover</a></li>\n" +
+    "        <form class=\"navbar-form pull-left\" role=\"search\" action=\"/search/\" onSubmit=\" location.href = 'search/' + document.getElementById('search-link').value; return false;\">\n" +
+    "          <div class=\"form-group\">\n" +
+    "            <input ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
+    "          </div>\n" +
+    "        </form>\n" +
+    "      </ul>\n" +
+    "      <ul class=\"nav navbar-nav navbar-right\">\n" +
+    "        <li ng-show=\"currentUser\"><a href=\"/account\">{{currentUser.username}}</a></li>\n" +
+    "        <li ng-show=\"currentUser\"><a href=\"/logout\">signout</a></li>\n" +
+    "        <li ng-show=\"!currentUser\"><a href=\"/register\">register</a></li>\n" +
+    "        <li ng-show=\"!currentUser\"><a href=\"/login\">login</a></li>\n" +
+    "      </ul>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
+}]);
+
 angular.module("register/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("register/index.tpl.html",
     "<!--register-->\n" +
@@ -216,47 +252,4 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function($t
     "</div>\n" +
     "\n" +
     "<a href=\"/login\">already have an account?</a>");
-}]);
-
-angular.module("sidebar/index.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("sidebar/index.tpl.html",
-    "<div ng-controller=\"SidebarCtrl\">\n" +
-    "    <div class=\"page-nav-zone\">\n" +
-    "        <div class=\"flex-item-top\"></div>\n" +
-    "        <div class=\"item-container\">\n" +
-    "            <a href=\"/\">\n" +
-    "                <div class=\"list-item\">\n" +
-    "                    <div class=\"nav-large-list\">Home</div>\n" +
-    "                </div>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div class=\"item-container\">\n" +
-    "            <a href=\"/about\">\n" +
-    "                <div class=\"list-item\">\n" +
-    "                    <div class=\"nav-small-list\"><i class=\"fa fa-info\"></i></div>\n" +
-    "                    <div class=\"nav-large-list\">About</div>\n" +
-    "                </div>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div class=\"item-container\">\n" +
-    "            <a href=\"#\">\n" +
-    "                <div class=\"list-item\">\n" +
-    "                    <div class=\"nav-small-list\"><i class=\"fa fa-picture-o\"></i></div>\n" +
-    "                    <div class=\"nav-large-list\">Portfolio</div>\n" +
-    "                </div>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div class=\"item-container\">\n" +
-    "            <a href=\"/register\">\n" +
-    "                <div class=\"list-item\">\n" +
-    "                    <div class=\"nav-small-list\"><i class=\"fa fa-newspaper-o\"></i></div>\n" +
-    "                    <div class=\"nav-large-list\">Register</div>\n" +
-    "                </div>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div class=\"flex-item-bottom\"></div>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "\n" +
-    "");
 }]);

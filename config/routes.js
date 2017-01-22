@@ -43,6 +43,12 @@ module.exports.routes = {
   'post /auth/local/:action': 'AuthController.callback',
 
   /**
+   * Data routes
+   */
+  'get /api/data/currency': 'DataController.getCurrency',
+
+
+  /**
    * User routes
    */
   'get /api/user': 'UserController.getAll',
