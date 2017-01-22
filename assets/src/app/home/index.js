@@ -281,20 +281,5 @@ angular.module( 'investing.home', [
     };
 
     $scope.directedData = currencyData;
-    $scope.directedData.links = [];
-    /*for (x in $scope.directedData){
-    	if($scope.directedData[x]!=undefined){
-    		$scope.directedData.links.push({"source":0,"target":x,"value":1})
-    	}
-    }*/
-    $scope.directedData.links = [
-        {"source":0,"target":1,"value":1},
-        {"source":0,"target":2,"value":1},
-        {"source":0,"target":3,"value":1},
-        {"source":0,"target":4,"value":1},
-        {"source":0,"target":5,"value":1},
-        {"source":0,"target":6,"value":1},
-        {"source":0,"target":7,"value":1},
-        {"source":0,"target":8,"value":1},
-    ]
+
 });

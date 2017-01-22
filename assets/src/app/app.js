@@ -12,6 +12,7 @@ angular.module( 'investing', [
     'nvd3',
     'investing.home',
     'investing.about',
+    'investing.account',
     'investing.intro',
     'investing.login',
     'investing.nav',
