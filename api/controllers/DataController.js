@@ -8,7 +8,7 @@ module.exports = {
 		request(model , function (error, response, body) {
 		    if (!error && response.statusCode === 200) {
 		        var currencyData = body.list.resources;
-		        var nodeArray = [];
+		        var nodeArray = [{name: 'USD'}];
 		        var linkArray = [];
 				for (var key in currencyData) {
 		        	var pairData = currencyData[key].resource.fields;
@@ -18,12 +18,12 @@ module.exports = {
 					var timeStamp = pairData.ts;
 					var utctime = pairData.utctime;
 					//if (nodeArray.indexOf({name: name[0]}) != -1){
-						nodeArray.push({name: name[0]});
+						//nodeArray.push({name: name[0]});
 					//}
 					//if (nodeArray.indexOf({name: name[1]}) != -1){
 						nodeArray.push({name: name[1]});
 					//}
-					//linkArray.push({source: key, target: 0, value: 1});
+					//linkArray.push({source: 0, target: key, value: 1});
 		    	}
 				var model = {nodes:nodeArray, links:linkArray}
 		    }

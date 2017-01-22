@@ -27,13 +27,13 @@ function ticker(){
 						var timeStamp = pairData.ts;
 						var utctime = pairData.utctime;
 
-						sails.log(name);
+						//sails.log(name);
 
 						if (name[0] == 'USD'){
-							//sails.log(name[1]);
+							sails.log(name[1]);
 						}
 
-						sails.log(price);
+						//sails.log(price);
 
 						//sails.log(timeStamp);
 

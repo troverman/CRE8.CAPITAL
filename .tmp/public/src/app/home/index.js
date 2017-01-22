@@ -272,23 +272,21 @@ angular.module( 'investing.home', [
         }
     };
 
-    $scope.directedData = {
-        //"nodes":[
-        //    {"name":"Myriel","group":1},
-        //    {"name":"Napoleon","group":1},
-        //    {"name":"Mlle.Baptistine","group":1},
-        //    {"name":"CountessdeLo","group":1},
-        //    {"name":"Geborand","group":1},
-        //    {"name":"Champtercier","group":1},
-        //    {"name":"Cravatte","group":1},
-        //],
-        "links":[
-            {"source":1,"target":0,"value":1},
-            {"source":4,"target":0,"value":1},
-            {"source":6,"target":0,"value":1},
-        ]
-    };
-
     $scope.directedData = currencyData;
-
+    $scope.directedData.links = [];
+    /*for (x in $scope.directedData){
+    	if($scope.directedData[x]!=undefined){
+    		$scope.directedData.links.push({"source":0,"target":x,"value":1})
+    	}
+    }*/
+    $scope.directedData.links = [
+        {"source":0,"target":1,"value":1},
+        {"source":0,"target":2,"value":1},
+        {"source":0,"target":3,"value":1},
+        {"source":0,"target":4,"value":1},
+        {"source":0,"target":5,"value":1},
+        {"source":0,"target":6,"value":1},
+        {"source":0,"target":7,"value":1},
+        {"source":0,"target":8,"value":1},
+    ]
 });
