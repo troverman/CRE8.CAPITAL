@@ -3,7 +3,6 @@ angular.module( 'investing.intro', [
 
 .controller( 'IntroCtrl', function IntroController( $scope, $state, config ) {
 
-	console.log('ok')
 	var ww, wh, renderer, scene, camera, cloud;
 
 	var opt = {
@@ -20,7 +19,7 @@ angular.module( 'investing.intro', [
 	    antialias: true
 	  });
 	  renderer.setSize(ww, wh);
-	  renderer.setClearColor(0x888888);
+	  renderer.setClearColor(0x101010);
 
 	  scene = new THREE.Scene();
 

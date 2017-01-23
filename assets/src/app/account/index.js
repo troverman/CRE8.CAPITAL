@@ -6,13 +6,13 @@ angular.module( 'investing.account', [
 		url: '/account',
 		views: {
 			"main": {
-				controller: 'AboutCtrl',
+				controller: 'AccountCtrl',
 				templateUrl: 'account/index.tpl.html'
 			}
 		}
 	});
 })
 
-.controller( 'AboutCtrl', function AboutController( $scope, titleService ) {
+.controller( 'AccoutCtrl', function AccoutController( $scope, titleService ) {
 	titleService.setTitle('Account - investingfor');
 });
