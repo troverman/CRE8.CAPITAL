@@ -1,11 +1,11 @@
-<div class="intro-container">
+<div ng-controller="IntroCtrl" class="intro-container">
     <svg style="z-index:10" class="intro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920px" height="1080px" preserveAspectRatio="xMidYMid slice">
         <defs>
             <mask class="intro-mask" id="intro-mask" x="0" y="0" width="100%" height="100%" maskUnits="userSpaceOnUse">
                 <rect class="intro-rect" x="0" y="0" width="1920px" height="1080px"></rect>
                 <text x="960" y="46%" class="medium-text desktop">investingfor</text>
-                <text x="960" y="44%" class="medium-text mobile">empowered financial decisions</text>
-                <text x="960" y="51%" class="small-text mantra">empowered financial decisions</text>
+                <text x="960" y="44%" class="medium-text mobile">empowered financial representation</text>
+                <text x="960" y="51%" class="small-text mantra">empowered financial representation</text>
                 <text x="960" y="67.5%" class="small-text learn-more">learn more</text>
                 <a href="#about" du-smooth-scroll>
                     <svg class="tri-before" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="883px" y="68%" width="150px" height="150px" viewBox="0 0 723 626" enable-background="new 0 0 723 626" xml:space="preserve">
@@ -37,6 +37,7 @@
             </svg>
         </a>
     </svg>
+    <canvas style="position:absolute;top:0%;left:0%;" id="scene"></canvas>
     <!--<video id="video" autoplay="autoplay" muted="muted" preload="auto" loop="loop">
         <source src="videos/stock.mp4" type="video/mp4">
     </video>-->

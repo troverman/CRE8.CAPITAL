@@ -163,7 +163,7 @@ svg mask rect {
 }
 svg > .intro-rect {
     //fill: #2ab996; /* novo green */
-    fill: #00562b;
+    fill: #ebeeff;
     opacity: 0.75;
     -webkit-mask: url(#intro-mask);
     mask: url(#intro-mask);
