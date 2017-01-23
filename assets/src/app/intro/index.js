@@ -20,7 +20,7 @@ angular.module( 'investing.intro', [
 	    antialias: true
 	  });
 	  renderer.setSize(ww, wh);
-	  renderer.setClearColor(0x4e4e4e);
+	  renderer.setClearColor(0x888888);
 
 	  scene = new THREE.Scene();
 
