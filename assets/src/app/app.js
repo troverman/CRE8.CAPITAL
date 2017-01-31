@@ -12,12 +12,13 @@ angular.module( 'investing', [
     'nvd3',
     'investing.about',
     'investing.account',
+    'investing.footer',
     'investing.home',
     'investing.intro',
     'investing.login',
+    'investing.member',
     'investing.nav',
     'investing.register',
-
 
 ])
 
