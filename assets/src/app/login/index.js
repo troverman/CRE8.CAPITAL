@@ -1,7 +1,7 @@
 angular.module( 'investing.login', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'login', {
 		url: '/login',
 		views: {
