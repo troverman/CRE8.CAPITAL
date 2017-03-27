@@ -37,5 +37,6 @@ module.exports = {
   // log: {
   //   level: "silent"
   // }
+  //    '*': [ 'passport' ]
 
 };

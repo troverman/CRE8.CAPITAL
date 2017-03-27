@@ -36,6 +36,7 @@
     "sails-disk": "~0.10.0",
     "sails-generate-auth": "~0.2.0",
     "sails-mongo": "^0.11.0",
+    "synaptic": "^1.0.10",
     "validator": "~3.28.0"
   },
   "scripts": {
