@@ -16,5 +16,4 @@ angular.module( 'investing.register', [
 .controller( 'RegisterCtrl', ['$scope', 'config', 'titleService', function RegisterController( $scope, config, titleService ) {
 	titleService.setTitle('Register - investingfor');
 	$scope.currentUser = config.currentUser;
-
 }]);

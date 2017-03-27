@@ -11,7 +11,7 @@ angular.module( 'investing.login', [
 			}
 		}
 	});
-})
+}])
 
 .controller( 'LoginCtrl', ['$scope', 'config', 'titleService', function LoginController( $scope, config, titleService ) {
 	titleService.setTitle('NOVO');
