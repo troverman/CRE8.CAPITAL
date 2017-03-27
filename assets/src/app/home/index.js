@@ -1,7 +1,7 @@
 angular.module( 'investing.home', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'home', {
 		url: '/',
 		views: {
@@ -11,14 +11,14 @@ angular.module( 'investing.home', [
 			}
 		},
 		resolve:{
-			currencyData: function(DataModel) {
+			currencyData: ['DataModel', function(DataModel) {
 				return DataModel.getCurrency();
-            },
+            }],
     	}
 	});
-})
+}])
 
-.controller( 'HomeCtrl', function HomeController( $scope, titleService, config, currencyData ) {
+.controller( 'HomeCtrl', ['$scope', 'titleService', 'config', 'currencyData', function HomeController( $scope, titleService, config, currencyData ) {
 	titleService.setTitle('investingfor');
 	$scope.currentUser = config.currentUser;
 
@@ -167,4 +167,4 @@ angular.module( 'investing.home', [
 
     $scope.directedData = currencyData;
 
-});
+}]);

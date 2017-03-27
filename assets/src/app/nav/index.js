@@ -1,6 +1,6 @@
 angular.module( 'investing.nav', [
 ])
 
-.controller( 'NavCtrl', function NavController( $scope, $state, config ) {
+.controller( 'NavCtrl', ['$scope', 'config', function NavController( $scope, config ) {
     $scope.currentUser = config.currentUser;
-});
+}]);

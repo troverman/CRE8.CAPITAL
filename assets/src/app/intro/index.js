@@ -1,7 +1,7 @@
 angular.module( 'investing.intro', [
 ])
 
-.controller( 'IntroCtrl', function IntroController( $scope, $state, config ) {
+.controller( 'IntroCtrl', ['$scope', 'config', function IntroController( $scope, config ) {
 
 	var ww, wh, renderer, scene, camera, cloud;
 
@@ -116,4 +116,4 @@ angular.module( 'investing.intro', [
 
 	init();
 
-});
+}]);

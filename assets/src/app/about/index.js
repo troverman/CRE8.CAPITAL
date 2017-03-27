@@ -1,7 +1,7 @@
 angular.module( 'investing.about', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'about', {
 		url: '/about',
 		views: {
@@ -11,9 +11,9 @@ angular.module( 'investing.about', [
 			}
 		}
 	});
-})
+}])
 
-.controller( 'AboutCtrl', function AboutController( $scope, titleService ) {
+.controller( 'AboutCtrl', ['$scope', 'titleService', function AboutController( $scope, titleService ) {
 	titleService.setTitle('About - investingfor');
 
     console.log(123)
@@ -84,4 +84,4 @@ angular.module( 'investing.about', [
         }
     ];
 
-});
+}]);

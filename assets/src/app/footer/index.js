@@ -1,6 +1,6 @@
 angular.module( 'investing.footer', [
 ])
 
-.controller( 'FooterCrtl', function FooterController( $scope, $state, config ) {
+.controller( 'FooterCrtl', ['$scope', 'config', function FooterController( $scope, config ) {
     $scope.currentUser = config.currentUser;
-});
+}]);

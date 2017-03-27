@@ -19,30 +19,25 @@ angular.module( 'investing', [
     'investing.member',
     'investing.nav',
     'investing.register',
-
 ])
-
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $locationProvider ) {
-
-
-    $urlRouterProvider.otherwise(function ($injector, $location) {
-        if ($location.$$url === '/') {
-            window.location = '/';
-        }
-        else {
-            // pass through to let the web server handle this request
-            window.location = $location.$$absUrl;
-        }
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function myAppConfig ( $stateProvider, $urlRouterProvider, $locationProvider ) {
+    $urlRouterProvider.rule(function($injector, $location) {
+        var path = $location.path();
+        var hasTrailingSlash = path[path.length-1] === '/';
+        if(hasTrailingSlash) {
+            var newPath = path.substr(0, path.length - 1); 
+            return newPath; 
+        } 
     });
-
+    $urlRouterProvider.otherwise(function ($injector, $location) {
+        if ($location.$$url === '/') {window.location = '/';}
+        else {window.location = $location.$$absUrl;}
+    });
     $locationProvider.html5Mode(true);
-
-})
-
+}])
 .run( function run () {
     moment.locale('en');
 })
-
-.controller( 'AppCtrl', function AppCtrl ( $scope, config ) {
+.controller( 'AppCtrl', ['$rootScope', '$scope', 'config', function AppCtrl ( $rootScope, $scope, config) {
     config.currentUser = window.currentUser;
-});
+}]);

@@ -13,8 +13,7 @@ angular.module( 'investing.login', [
 	});
 })
 
-.controller( 'LoginCtrl', function LoginController( $scope, titleService, config ) {
+.controller( 'LoginCtrl', ['$scope', 'config', 'titleService', function LoginController( $scope, config, titleService ) {
 	titleService.setTitle('NOVO');
 	$scope.currentUser = config.currentUser;
-
-});
+}]);

@@ -1,7 +1,7 @@
 angular.module( 'investing.member', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'member', {
 		url: '/member/:id',
 		views: {
@@ -11,8 +11,8 @@ angular.module( 'investing.member', [
 			}
 		}
 	});
-})
+}])
 
-.controller( 'MemberCtrl', function MemberController( $scope, titleService ) {
+.controller( 'MemberCtrl', ['$scope', 'config', 'titleService', function MemberController( $scope, config, titleService ) {
 	titleService.setTitle('Member - investingfor');
-});
+}]);

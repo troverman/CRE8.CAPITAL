@@ -1,7 +1,7 @@
 angular.module( 'investing.register', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'register', {
 		url: '/register',
 		views: {
@@ -11,10 +11,10 @@ angular.module( 'investing.register', [
 			}
 		}
 	});
-})
+}])
 
-.controller( 'RegisterCtrl', function RegisterController( $scope, titleService, config ) {
-	titleService.setTitle('NOVO');
+.controller( 'RegisterCtrl', ['$scope', 'config', 'titleService', function RegisterController( $scope, config, titleService ) {
+	titleService.setTitle('Register - investingfor');
 	$scope.currentUser = config.currentUser;
 
-});
+}]);

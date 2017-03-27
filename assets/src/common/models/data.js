@@ -1,6 +1,6 @@
 angular.module('models.data', ['lodash', 'services', 'sails.io',])
 
-.service('DataModel', function(lodash, utils, $sailsSocket) {
+.service('DataModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
     this.getAll = function() {
         var url = utils.prepareUrl('data');
         return $sailsSocket.get(url).then(success, error);
@@ -24,4 +24,4 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
     var error = function(error) {
         console.log(error);
     };
-});
+}]);

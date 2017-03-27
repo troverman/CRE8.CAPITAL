@@ -1,7 +1,7 @@
 angular.module( 'investing.account', [
 ])
 
-.config(function config( $stateProvider ) {
+.config(['$stateProvider', function config( $stateProvider ) {
 	$stateProvider.state( 'account', {
 		url: '/account',
 		views: {
@@ -11,8 +11,8 @@ angular.module( 'investing.account', [
 			}
 		}
 	});
-})
+}])
 
-.controller( 'AccoutCtrl', function AccoutController( $scope, titleService ) {
+.controller( 'AccoutCtrl', ['$scope', 'titleService', function AccoutController( $scope, titleService ) {
 	titleService.setTitle('Account - investingfor');
-});
+}]);
