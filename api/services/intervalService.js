@@ -137,23 +137,7 @@ function neuralNet(intervalDelay, biggerDelay){
 			}
 		});
 
-		getBTC().then(function(btcData){
-			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
-			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-			var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
-			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-			var latestInput = [normalizedBidInput, normalizedAskInput];
-			console.log(btcData)
-			console.log('USING THE TRAINED NETWORK TO PREDICT... this is given: ' + latestInput)
-			var output = myNetwork.activate(latestInput);
-			console.log(output);//convert to price again
-			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
-			var denormalizeBid1 = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
-			var denormalizeAsk1 = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-			console.log(denormalizeBid1, denormalizeAsk1);
-
-		});
-
+		/*
 		console.log('USING THE TRAINED NETWORK TO PREDICT... this is given a static input, max range. non current data. [0,1]')
 		var input = [0, 1];
 		var output = myNetwork.activate(input);
@@ -162,6 +146,25 @@ function neuralNet(intervalDelay, biggerDelay){
 		var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 		var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 		console.log(denormalizeBid, denormalizeAsk);
+		*/
+
+		getBTC().then(function(btcData){
+			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
+			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+			var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
+			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+			var latestInput = [normalizedBidInput, normalizedAskInput];
+			var output = myNetwork.activate(latestInput);
+			var denormalizeBid1 = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
+			var denormalizeAsk1 = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
+			console.log('INPUT: '+latestInput)
+			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
+			console.log('NORMALIZED OUTPUT: '+output);//convert to price again
+			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
+			console.log('PREDICTED BID: '+denormalizeBid1+' PREDICTED ASK: '+denormalizeAsk1);
+
+		});
 
 	});
 
