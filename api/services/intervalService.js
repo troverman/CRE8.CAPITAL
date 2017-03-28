@@ -173,6 +173,5 @@ module.exports.intervalService = function(){
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
 	//neuralNet(30000/5,60000);
-	neuralNet(2000, 6000)
-	//setInterval(neuralNet.bind(null, 2000, 6000),60000)
+	setInterval(neuralNet.bind(null, 6000, 60000),60000)
 };
