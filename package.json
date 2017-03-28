@@ -5,6 +5,7 @@
   "description": "NOVO LLC",
   "keywords": [],
   "dependencies": {
+    "async": "^2.2.0",
     "bcryptjs": "~2.1.0",
     "coininfo": "^0.1.0",
     "coinkey": "^1.4.0",
