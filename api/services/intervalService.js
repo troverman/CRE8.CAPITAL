@@ -130,14 +130,14 @@ function neuralNet(intervalDelay, biggerDelay){
 			log: 10000,
 			cost: Trainer.cost.MSE,
 			schedule: {
-				every: 1,
+				every: 500,
 				do: function(data) {
 					console.log(data)
 				}
 			}
 		});
 
-		/*getBTC().then(function(input){
+		getBTC().then(function(input){
 
 			var normalizedBidInput = (input.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
@@ -161,7 +161,7 @@ function neuralNet(intervalDelay, biggerDelay){
 		console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
 		var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 		var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-		console.log(denormalize, denormalizeAsk);*/
+		console.log(denormalize, denormalizeAsk);
 
 	});
 
