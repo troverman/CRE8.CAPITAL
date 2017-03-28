@@ -120,22 +120,48 @@ function neuralNet(intervalDelay, biggerDelay){
 
 		}
 
-		console.log(trainingData);
-		console.log(trainingSet);
+		//console.log(trainingData);
+		//console.log(trainingSet);
 		trainer.train(trainingSet, {
 			rate: .1,
 			iterations: 2000000,
 			error: -10000000,
 			shuffle: false,
-			log: 1000,
+			log: 10000,
 			cost: Trainer.cost.MSE,
 			schedule: {
 				every: 500,
 				do: function(data) {
-					console.log(data)
+					//console.log(data)
 				}
 			}
 		});
+
+		getBTC().then(function(input){
+
+			var normalizedBidInput = (input.bid-minBidInput)/(maxBidInput-minBidInput);
+			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+			var normalizedAskInput = (input.ask-minAskInput)/(maxAskInput-minAskInput);
+			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+			var latestInput = [normalizedBidInput, normalizedAskInput];
+			console.log('USING THE TRAINED NETWORK TO PREDICT... this is given: ' + latestInput)
+			var output = myNetwork.activate(latestInput);
+			console.log(output);//convert to price again
+			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
+			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
+			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+			console.log(denormalize, denormalizeAsk);
+
+		});
+
+		console.log('USING THE TRAINED NETWORK TO PREDICT... this is given a static input, max range. non current data. [0,1]')
+		var input = [0, 1];
+		var output = myNetwork.activate(input);
+		console.log(output);//convert to price again
+		console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
+		var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
+		var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+		console.log(denormalize, denormalizeAsk);
 
 	});
 
@@ -144,7 +170,9 @@ function neuralNet(intervalDelay, biggerDelay){
 
 
 module.exports.intervalService = function(){
-	neuralNet(50000,80000);
-	neuralNet(30000,60000*5);
-	neuralNet(30000/5,60000);
+	//neuralNet(50000,80000);
+	//neuralNet(30000,60000*5);
+	//neuralNet(30000/5,60000);
+
+	setInterval(neuralNet.bind(null, 6000, 60000))
 };
