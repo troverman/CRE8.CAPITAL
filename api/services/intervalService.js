@@ -138,12 +138,12 @@ function neuralNet(intervalDelay, biggerDelay){
 		});
 
 		getBTC().then(function(input){
-
 			var normalizedBidInput = (input.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
 			var normalizedAskInput = (input.ask-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
 			var latestInput = [normalizedBidInput, normalizedAskInput];
+			console.log(input)
 			console.log('USING THE TRAINED NETWORK TO PREDICT... this is given: ' + latestInput)
 			var output = myNetwork.activate(latestInput);
 			console.log(output);//convert to price again
