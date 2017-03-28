@@ -125,7 +125,7 @@ function neuralNet(intervalDelay, biggerDelay){
 		trainer.train(trainingSet, {
 			rate: .1,
 			iterations: 2000000,
-			error: -10000000,
+			error: -100000,
 			shuffle: false,
 			log: 10000,
 			cost: Trainer.cost.MSE,
@@ -137,20 +137,20 @@ function neuralNet(intervalDelay, biggerDelay){
 			}
 		});
 
-		getBTC().then(function(input){
-			var normalizedBidInput = (input.bid-minBidInput)/(maxBidInput-minBidInput);
+		getBTC().then(function(btcData){
+			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-			var normalizedAskInput = (input.ask-minAskInput)/(maxAskInput-minAskInput);
+			var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
 			var latestInput = [normalizedBidInput, normalizedAskInput];
-			console.log(input)
+			console.log(btcData)
 			console.log('USING THE TRAINED NETWORK TO PREDICT... this is given: ' + latestInput)
 			var output = myNetwork.activate(latestInput);
 			console.log(output);//convert to price again
 			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
-			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
-			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-			console.log(denormalize, denormalizeAsk);
+			var denormalizeBid1 = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
+			var denormalizeAsk1 = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+			console.log(denormalizeBid1, denormalizeAsk1);
 
 		});
 
@@ -161,7 +161,7 @@ function neuralNet(intervalDelay, biggerDelay){
 		console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
 		var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 		var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-		console.log(denormalize, denormalizeAsk);
+		console.log(denormalizeBid, denormalizeAsk);
 
 	});
 
