@@ -1,23 +1,13 @@
 module.exports = {
     index: function(req, res) {
-        var navItems = [
-            {url: '/post', cssClass: 'fa fa-comments', title: 'Messages'},
-            {url: '/messages', cssClass: 'fa fa-comments', title: 'Messages'},
-            {url: '/about', cssClass: 'fa fa-infoc-circle', title: 'About'}
-        ];
-
-        if (req.isAuthenticated()) {
-            navItems.push({url: '/logout', cssClass: 'fa fa-comments', title: 'Logout'});
-        }
-        else {
-            navItems.push({url: '/register', cssClass: 'fa fa-briefcase', title: 'Register'});
-            navItems.push({url: '/login', cssClass: 'fa fa-comments', title: 'Login'});
-        }
-
         res.view({
             title: 'Home',
-            navItems: navItems,
             currentUser: req.user
         });
+    },
+
+    ssl: function(req, res) {
+        res.send('p6-BYDeD-6XQYfYwqEEU6RN1pDBXw_FBQu-mokY9u8E.yMz-EAV5agQah1zn-w6Aqp0JVzxv1jmSFH6dh5Ea9uI')
     }
+
 };

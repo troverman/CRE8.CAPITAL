@@ -121,7 +121,7 @@ function neuralNet(intervalDelay, biggerDelay){
 		}
 
 		//console.log(trainingData);
-		console.log(trainingSet);
+		//console.log(trainingSet);
 		trainer.train(trainingSet, {
 			rate: .1,
 			iterations: 2000000,
@@ -159,7 +159,7 @@ function neuralNet(intervalDelay, biggerDelay){
 			var denormalizeAsk1 = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
 			console.log('INPUT: '+latestInput)
-			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
+			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: '+biggerDelay);
 			console.log('NORMALIZED OUTPUT: '+output);//convert to price again
 			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
 			console.log('PREDICTED BID: '+denormalizeBid1+' PREDICTED ASK: '+denormalizeAsk1);
