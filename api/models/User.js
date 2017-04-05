@@ -12,7 +12,9 @@ module.exports = {
         },
         firstName: {
             type: 'string',
-            required: true
+        },
+        lastName: {
+            type: 'string',
         },
         holdings: {
             type: 'json'
