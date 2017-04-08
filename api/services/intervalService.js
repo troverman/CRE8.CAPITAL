@@ -149,12 +149,12 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			iterations: 2000000,
 			error: -10000,
 			shuffle: false,
-			log: 10000,
+			log: 1000000,
 			cost: Trainer.cost.MSE,
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					console.log(data)
+					//console.log(data)
 				}
 			}
 		});
@@ -188,7 +188,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
 			console.log('INPUT: ' +latestInput);
 			console.log('OUTPUT: '+output);//convert to price again
-			console.log('BID / ASK ' + biggerDelay/1000 +' SECONDS FROM NOW PREDICTION');
+			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 +' SECONDS');
 			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
 			console.log('PREDICTED BID: '+denormalizeBid+' PREDICTED ASK: '+denormalizeAsk);
 
