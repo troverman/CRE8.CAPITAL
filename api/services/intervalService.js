@@ -218,10 +218,10 @@ module.exports.intervalService = function(){
 	var trainer2 = new Trainer(myNetwork2);
 
 	var myNetwork3 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer3 = new Trainer(myNetwork2);
+	var trainer3 = new Trainer(myNetwork3);
 
 	var myNetwork4 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer4 = new Trainer(myNetwork2);
+	var trainer4 = new Trainer(myNetwork4);
 
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
