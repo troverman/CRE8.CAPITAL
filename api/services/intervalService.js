@@ -79,7 +79,6 @@ function ioGrab(intervalDelay, biggerDelay){
 
 
 function neuralNet(intervalDelay, biggerDelay){
-	console.log(intervalDelay)
 	var synaptic = require('synaptic');
 	var Neuron = synaptic.Neuron,
 		Layer = synaptic.Layer,
@@ -121,13 +120,30 @@ function neuralNet(intervalDelay, biggerDelay){
 
 		}
 
-		return trainingSet;
+		return {
+			trainingSet:trainingSet, 
+			minBidInput:minBidInput,  
+			maxBidInput:maxBidInput,  
+			minAskInput:minAskInput,  
+			maxAskInput:maxAskInput,  
+			minAskOutput:minAskOutput,  
+			maxAskOutput:maxAskOutput,  
+		};
 	
-	}).then(function(trainingSet){
+	}).then(function(dataSet){
+
+		var minBidInput = dataSet.minBidInput;
+		var maxBidInput = dataSet.maxBidInput;
+		var minAskInput = dataSet.minAskInput;
+		var maxAskInput = dataSet.maxAskInput;
+		var minBidOutput = dataSet.minBidOutput;
+		var maxBidOutput = dataSet.maxBidOutput;
+		var minAskOutput = dataSet.minAskOutput;
+		var maxAskOutput = dataSet.maxAskOutput;
 
 		//console.log(trainingData);
 		//console.log(trainingSet);
-		trainer.train(trainingSet, {
+		trainer.train(dataSet.trainingSet, {
 			rate: .1,
 			iterations: 2000000,
 			error: -10000,
@@ -177,6 +193,8 @@ function neuralNet(intervalDelay, biggerDelay){
 			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
 			console.log('PREDICTED BID: '+denormalizeBid+' PREDICTED ASK: '+denormalizeAsk);
 
+			//save latest prediction with seconds and btc timestamp
+			//train a network based on a history of trained networks... 
 
 		});
 
@@ -192,10 +210,14 @@ module.exports.intervalService = function(){
 	//neuralNet(30000,60000*5);
 	//neuralNet(30000/5,60000);
 
-	//1 min, 6 seconds
+	//1 min, 6 seconds(x10)
+	//1 min to train, wait 1 min, 1 min to train
+	//new prediction every 3 min
 	setInterval(neuralNet.bind(null, 6000, 60000), 60000);
 
-	//5 min, 30 sec
+	//5 min, 30 sec(x10)
+	//5 min to train, wait 5 min, 5 min to train
+	//new prediction every 15min
 	setInterval(neuralNet.bind(null, 30000, 300000), 300000);
 
 
