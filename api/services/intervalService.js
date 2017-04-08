@@ -79,6 +79,7 @@ function ioGrab(intervalDelay, biggerDelay){
 
 
 function neuralNet(intervalDelay, biggerDelay){
+	console.log(intervalDelay)
 	var synaptic = require('synaptic');
 	var Neuron = synaptic.Neuron,
 		Layer = synaptic.Layer,
@@ -88,8 +89,8 @@ function neuralNet(intervalDelay, biggerDelay){
 	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	var trainer = new Trainer(myNetwork);
 
+
 	ioGrab(intervalDelay, biggerDelay).then(function(trainingData){
-		console.log(intervalDelay+' : '+ biggerDelay)
 
 		var trainingSet = [];
 
@@ -120,17 +121,21 @@ function neuralNet(intervalDelay, biggerDelay){
 
 		}
 
+		return trainingSet;
+	
+	}).then(function(trainingSet){
+
 		//console.log(trainingData);
 		//console.log(trainingSet);
 		trainer.train(trainingSet, {
 			rate: .1,
 			iterations: 2000000,
-			error: -100000,
+			error: -10000,
 			shuffle: false,
 			log: 10000,
 			cost: Trainer.cost.MSE,
 			schedule: {
-				every: 500,
+				every: 5000,
 				do: function(data) {
 					console.log(data)
 				}
@@ -148,23 +153,33 @@ function neuralNet(intervalDelay, biggerDelay){
 		console.log(denormalizeBid, denormalizeAsk);
 		*/
 
+		//use neural nets to predict every currency pair --> ye
+		//create new netwroks for each n stuff
+		//how to not hold trainer in memory? store as a seed?
+
+
 		getBTC().then(function(btcData){
+
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
 			var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
 			var latestInput = [normalizedBidInput, normalizedAskInput];
 			var output = myNetwork.activate(latestInput);
-			var denormalizeBid1 = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
-			var denormalizeAsk1 = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
+			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+
+
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
-			console.log('INPUT: '+latestInput)
-			console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: '+biggerDelay);
-			console.log('NORMALIZED OUTPUT: '+output);//convert to price again
+			console.log('INPUT: ' +latestInput);
+			console.log('OUTPUT: '+output);//convert to price again
+			console.log('BID / ASK' + biggerDelay/1000 +' SECONDS FROM NOW PREDICTION');
 			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
-			console.log('PREDICTED BID: '+denormalizeBid1+' PREDICTED ASK: '+denormalizeAsk1);
+			console.log('PREDICTED BID: '+denormalizeBid+' PREDICTED ASK: '+denormalizeAsk);
+
 
 		});
+
 
 	});
 
@@ -176,5 +191,12 @@ module.exports.intervalService = function(){
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
 	//neuralNet(30000/5,60000);
-	setInterval(neuralNet.bind(null, 6000, 60000),60000)
+
+	//1 min, 6 seconds
+	setInterval(neuralNet.bind(null, 6000, 60000), 60000);
+
+	//5 min, 30 sec
+	setInterval(neuralNet.bind(null, 30000, 300000), 300000);
+
+
 };
