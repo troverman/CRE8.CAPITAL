@@ -185,12 +185,14 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 
+			console.log('---------------------------------------------------------------');
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
-			console.log('INPUT: ' +latestInput);
-			console.log('OUTPUT: '+output);//convert to price again
-			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 +' SECONDS');
-			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
-			console.log('PREDICTED BID: '+denormalizeBid+' PREDICTED ASK: '+denormalizeAsk);
+			console.log('INPUT: ' + latestInput);
+			console.log('OUTPUT: '+ output);
+			console.log('CURRENT BID: ' + btcData.bid + ' CURRENT ASK: ' + btcData.ask);
+			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 + ' SECONDS');
+			console.log('PREDICTED BID: ' + denormalizeBid + ' PREDICTED ASK: ' + denormalizeAsk);
+			console.log('---------------------------------------------------------------');
 
 			//network has no memory ---
 			//save myNetwork in session?? 
