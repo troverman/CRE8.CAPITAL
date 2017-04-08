@@ -1,6 +1,12 @@
 var request = require('request');
 var Q = require('q');
 var async = require('async');
+var synaptic = require('synaptic');
+var Neuron = synaptic.Neuron,
+	Layer = synaptic.Layer,
+	Network = synaptic.Network,
+	Trainer = synaptic.Trainer,
+	Architect = synaptic.Architect;
 
 //var sylvester = require('sylvester'),  
 	//Matrix = sylvester.Matrix,  
@@ -78,15 +84,10 @@ function ioGrab(intervalDelay, biggerDelay){
 };
 
 
-function neuralNet(intervalDelay, biggerDelay){
-	var synaptic = require('synaptic');
-	var Neuron = synaptic.Neuron,
-		Layer = synaptic.Layer,
-		Network = synaptic.Network,
-		Trainer = synaptic.Trainer,
-		Architect = synaptic.Architect;
-	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer = new Trainer(myNetwork);
+function neuralNet(intervalDelay, biggerDelay, trainer){
+
+	//var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
+	//var trainer = new Trainer(myNetwork);
 
 
 	ioGrab(intervalDelay, biggerDelay).then(function(trainingData){
@@ -173,7 +174,6 @@ function neuralNet(intervalDelay, biggerDelay){
 		//create new netwroks for each n stuff
 		//how to not hold trainer in memory? store as a seed?
 
-
 		getBTC().then(function(btcData){
 
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
@@ -185,19 +185,20 @@ function neuralNet(intervalDelay, biggerDelay){
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 
-
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
 			console.log('INPUT: ' +latestInput);
 			console.log('OUTPUT: '+output);//convert to price again
-			console.log('BID / ASK' + biggerDelay/1000 +' SECONDS FROM NOW PREDICTION');
+			console.log('BID / ASK ' + biggerDelay/1000 +' SECONDS FROM NOW PREDICTION');
 			console.log('CURRENT BID: '+btcData.bid+' CURRENT ASK: '+btcData.ask);
 			console.log('PREDICTED BID: '+denormalizeBid+' PREDICTED ASK: '+denormalizeAsk);
+
+			//network has no memory ---
+			//save myNetwork in session?? 
 
 			//save latest prediction with seconds and btc timestamp
 			//train a network based on a history of trained networks... 
 
 		});
-
 
 	});
 
@@ -206,6 +207,13 @@ function neuralNet(intervalDelay, biggerDelay){
 
 
 module.exports.intervalService = function(){
+
+	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
+	var trainer = new Trainer(myNetwork);
+
+	var myNetwork1 = new Architect.Perceptron(2, 4, 3, 2);
+	var trainer1 = new Trainer(myNetwork);
+
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
 	//neuralNet(30000/5,60000);
@@ -213,12 +221,11 @@ module.exports.intervalService = function(){
 	//1 min, 6 seconds(x10)
 	//1 min to train, wait 1 min, 1 min to train
 	//new prediction every 3 min
-	setInterval(neuralNet.bind(null, 6000, 60000), 60000);
+	setInterval(neuralNet.bind(null, 6000, 60000, trainer), 60000);
 
 	//5 min, 30 sec(x10)
 	//5 min to train, wait 5 min, 5 min to train
 	//new prediction every 15min
-	setInterval(neuralNet.bind(null, 30000, 300000), 300000);
-
+	setInterval(neuralNet.bind(null, 30000, 300000, trainer1), 300000);
 
 };
