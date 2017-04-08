@@ -84,7 +84,7 @@ function ioGrab(intervalDelay, biggerDelay){
 };
 
 
-function neuralNet(intervalDelay, biggerDelay, network, trainer){
+function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 
 	//var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	//var trainer = new Trainer(myNetwork);
