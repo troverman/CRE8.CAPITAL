@@ -187,10 +187,10 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 
 			console.log('---------------------------------------------------------------');
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
+			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 + ' SECONDS');
 			console.log('INPUT: ' + latestInput);
 			console.log('OUTPUT: '+ output);
 			console.log('CURRENT BID: ' + btcData.bid + ' CURRENT ASK: ' + btcData.ask);
-			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 + ' SECONDS');
 			console.log('PREDICTED BID: ' + denormalizeBid + ' PREDICTED ASK: ' + denormalizeAsk);
 			console.log('---------------------------------------------------------------');
 
