@@ -9,24 +9,39 @@ module.exports = {
 
 	attributes: {
         asset: {
-            type: 'string',
+            assetPair: 'string',
         },
-        symbol: {
+        predictionTime: {
             type: 'string',
             required: true
         },
-        conversionArray: {
-            type: 'json',
-            required: true
-        }
+        currentBid:{
+            type: 'string',
+        },
+        currentAsk:{
+            type: 'string',
+        },
+        predictedBid:{
+            type: 'string',
+        },
+        predictedAsk:{
+            type: 'string',
+        },
+        timeStamp:{
+            type: 'string',
+        },
+        actualBid:{
+            type: 'string',
+        },
+        actualAsk:{
+            type: 'string',
+        },       
     },
 
-    afterCreate: function (post, next) {
-        // set message.user = to appropriate user model
-        Asset.getOne(post.user)
-        .spread(function(user) {
-            post.user = user;
-            next(null, post);
+    getOne: function(id) {
+        return Asset.findOne(id)
+        .then(function (model) {
+            return [model];
         });
     },
 
@@ -38,11 +53,5 @@ module.exports = {
         });
     },
 
-    getOne: function(id) {
-        return Asset.findOne(id)
-        .then(function (model) {
-            return [model];
-        });
-    }
 };
 

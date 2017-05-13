@@ -197,8 +197,40 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			//network has no memory ---
 			//save myNetwork in session?? 
 
-			//save latest prediction with seconds and btc timestamp
-			//train a network based on a history of trained networks... 
+			var predictionModel = {
+				assetPair: 'BTC/USD',
+				predictionTime: biggerDelay,
+				currentBid: btcData.bid,
+				currentAsk: btcData.ask,
+				predictedBid: denormalizeBid,
+				predictedAsk: denormalizeAsk,
+				timeStamp: new Date(),
+				actualBid: 0,
+				actualAsk: 0,
+			};
+
+			Prediction.create(predictionModel).then(function(predictionModel){
+				console.log(predictionModel)
+				Prediction.publishCreate(predictionModel.toJSON());
+
+				//find actual pair time-->
+				
+
+				setTimeout(function () {
+					getBTC().then(function(btcData){
+						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
+
+							Prediction.publishUpdate(predictionModel.toJSON());
+
+						});
+
+					});
+				}, predictionModel.predictionTime);
+
+
+
+
+			});
 
 		});
 
