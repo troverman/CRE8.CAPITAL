@@ -226,7 +226,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			var predictionModel = {
 				assetPair: [asset1, asset2],
 				asset1: asset1,
-				asset2: aset2,
+				asset2: asset2,
 				predictionTime: biggerDelay,
 				currentBid: btcData.bid,
 				currentAsk: btcData.ask,
