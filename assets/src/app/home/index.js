@@ -99,7 +99,7 @@ angular.module( 'investing.home', [
         }
     });
 
-    $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
+    $scope.data = [$scope.predictionAskData, $scope.actualAskData, $scope.predictionBidData, $scope.actualBidData]
     console.log($scope.data);
 
     /*
