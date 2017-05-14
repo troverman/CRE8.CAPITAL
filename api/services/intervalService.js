@@ -111,8 +111,9 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 	//var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	//var trainer = new Trainer(myNetwork);
 
-
-	ioGrab(intervalDelay, biggerDelay).then(function(trainingData){
+	console.log(intervalDelay)
+	ioGrab(intervalDelay, biggerDelay, asset1, asset2).then(function(trainingData){
+		console.log(trainingData)
 
 		var trainingSet = [];
 
@@ -287,16 +288,14 @@ module.exports.intervalService = function(){
 			}
 		);
 	}
-	console.log(networkArray)
 
 	for (x in networkArray){
-
+		//neuralNet.bind(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]);
 		setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
 		setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
 		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
 		setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
 		setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
-
 	}
 
 	/*

@@ -9,6 +9,7 @@ module.exports.routes = {
   'get /': 'HomeController.index',
   'get /about': 'HomeController.index',
   'get /account': 'HomeController.index',
+  'get /market/:path': 'HomeController.index',
   'get /member/:id': 'HomeController.index',
 
   'get /login': 'HomeController.index',
@@ -17,6 +18,11 @@ module.exports.routes = {
 
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
+
+  /**
+   * Market routes
+   */
+  'get /api/market': 'DataController.getCurrency',
 
   /**
    * Data routes
