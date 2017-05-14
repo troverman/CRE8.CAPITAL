@@ -38,9 +38,31 @@ function ticker(){
 	});
 };
 
-function getBTC(){
+var tradingPairs = [
+	['BTC','USD'],
+	['ETH','USD'],
+	['ETH','BTC'],	
+	['ETC','USD'],
+	['ETC','BTC'],
+	['ZEC','USD'],	
+	['ZEC','BTC'],
+	['XMR','USD'],
+	['XMR','BTC'],
+	['LTC','USD'],
+	['LTC','BTC'],
+	['DASH','USD'],
+	['DASH','BTC'],
+	['RRT','USD'],
+	['RRT','BTC'],
+	['BCC','USD'],
+	['BCC','BTC'],
+	['BCU','USD'],
+	['BCU','BTC'],	
+];
+
+function getPairData(asset1, asset2){
 	var deferred = Q.defer();
-	var url = "https://api.bitfinex.com/v1/pubticker/btcusd";
+	var url = "https://api.bitfinex.com/v1/pubticker/"+asset1+asset2;
 	request({url: url, json: true }, function (error, response, body) {
 	    if (!error && response.statusCode === 200) {
 	        deferred.resolve(body);
@@ -49,12 +71,12 @@ function getBTC(){
 	return deferred.promise;
 };
 
-function Loopin(intervalDelay){
+function Loopin(intervalDelay, asset1, asset2){
 	var deferred = Q.defer();
 	var array = [];
 	var test = [1,2,3,4,5,6,7,8,9,10];
 	async.eachSeries(test, function (iterator, nextIteration){ 
-		getBTC().then(function(model){
+		getPairData(asset1, asset2).then(function(model){
 			setTimeout(function () {
 				array.push(model);
 				process.nextTick(nextIteration);
@@ -68,13 +90,13 @@ function Loopin(intervalDelay){
 };
 
 
-function ioGrab(intervalDelay, biggerDelay){
+function ioGrab(intervalDelay, biggerDelay, asset1, asset2){
 	var trainingData = {};
 	var deferred = Q.defer();
-	Loopin(intervalDelay).then(function(inputData){
+	Loopin(intervalDelay, asset1, asset2).then(function(inputData){
 		trainingData.input = inputData;
 		setTimeout(function () {
-			Loopin(intervalDelay).then(function(outputData){
+			Loopin(intervalDelay, asset1, asset2).then(function(outputData){
 				trainingData.output = outputData;
 				deferred.resolve(trainingData);
 			});
@@ -84,7 +106,7 @@ function ioGrab(intervalDelay, biggerDelay){
 };
 
 
-function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
+function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset2){
 
 	//var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	//var trainer = new Trainer(myNetwork);
@@ -174,7 +196,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 		//create new netwroks for each n stuff
 		//how to not hold trainer in memory? store as a seed?
 
-		getBTC().then(function(btcData){
+		getPairData(asset1, asset2).then(function(btcData){
 
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
@@ -201,7 +223,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			//save myNetwork in session?? 
 
 			var predictionModel = {
-				assetPair: 'BTC/USD',
+				assetPair: [asset1, asset2],
 				predictionTime: biggerDelay,
 				currentBid: btcData.bid,
 				currentAsk: btcData.ask,
@@ -216,11 +238,16 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
 
+
+				//if prediction hits the lowest in some time scale....
+				//place buy order
+				//if prediction hits the highest in some time scale.... (and then go down)
+
 				//find actual pair time-->
 				
 
 				setTimeout(function () {
-					getBTC().then(function(btcData){
+					getPairData(asset1,asset2).then(function(btcData){
 						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
 
 							Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
@@ -243,6 +270,36 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 
 
 module.exports.intervalService = function(){
+
+
+	//gonna have to save the trainers to a db -- aka the weighted nodes
+	//meantime
+	var networkArray = []
+	for (x in tradingPairs){
+		networkArray.push(
+			{
+				pair: tradingPairs[x],
+				network1:[new Architect.Perceptron(2, 4, 3, 2)],
+				network2:[new Architect.Perceptron(2, 4, 3, 2)],
+				network3:[new Architect.Perceptron(2, 4, 3, 2)],
+				network4:[new Architect.Perceptron(2, 4, 3, 2)],
+				network5:[new Architect.Perceptron(2, 4, 3, 2)]
+			}
+		);
+	}
+	console.log(networkArray)
+
+	for (x in networkArray){
+
+		setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
+		setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
+		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
+		setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
+		setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
+
+	}
+
+	/*
 
 	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	var trainer = new Trainer(myNetwork);
@@ -294,5 +351,7 @@ module.exports.intervalService = function(){
 	//720 min to train, wait 720 min, 720 min to train
 	//new prediction every 36hrs
 	setInterval(neuralNet.bind(null, 4320000, 43200000, myNetwork4, trainer4), 43200000);
+
+	*/
 
 };
