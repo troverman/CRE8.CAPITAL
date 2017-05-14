@@ -88,7 +88,7 @@ angular.module( 'investing.home', [
         console.log(obj.predictionTime)
         if (obj.actualAsk == 0){obj.actualAsk = null}
         if (obj.actualBid == 0){obj.actualBid = null}
-        if (obj.predictionTime == '300000'){
+        if (obj.predictionTime == '60000'){
             var predictionAskModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.predictedAsk];
             var predictionBidModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.predictedBid];
             var actualAskModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.actualAsk];
