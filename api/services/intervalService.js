@@ -40,7 +40,7 @@ function ticker(){
 
 function getBTC(){
 	var deferred = Q.defer();
-	var url = "https://cex.io/api/ticker/BTC/USD";
+	var url = "https://api.bitfinex.com/v1/pubticker/btcusd";
 	request({url: url, json: true }, function (error, response, body) {
 	    if (!error && response.statusCode === 200) {
 	        deferred.resolve(body);
