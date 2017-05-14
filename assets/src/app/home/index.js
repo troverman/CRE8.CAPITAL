@@ -76,12 +76,12 @@ angular.module( 'investing.home', [
 
     $scope.actualAskData = {};
     $scope.actualAskData.key = 'Actual Ask';
-    $scope.actualAskData.color = '#2ca02c';
+    $scope.actualAskData.color = '#1c671c';
     $scope.actualAskData.values = [];
 
     $scope.actualBidData = {};
     $scope.actualBidData.key = 'Actual Bid';
-    $scope.actualBidData.color = '#7777ff';
+    $scope.actualBidData.color = '#2ca02c';
     $scope.actualBidData.values = [];
 
     $scope.predictionData.forEach(function(obj){ 
