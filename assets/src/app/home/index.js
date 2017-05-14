@@ -28,7 +28,7 @@ angular.module( 'investing.home', [
 
     $scope.options = {
         chart: {
-            type: 'lineChart',
+            type: 'lineWithFocusChart',
             height: 450,
             margin : {
                 top: 20,
@@ -44,22 +44,21 @@ angular.module( 'investing.home', [
             },
 
             color: d3.scale.category10().range(),
-            duration: 300,
+            duration: 1500,
             useInteractiveGuideline: true,
-            clipVoronoi: false,
+            clipVoronoi: true,
 
             xAxis: {
-                axisLabel: 'X Axis',
+                axisLabel: 'Time',
                 tickFormat: function(d) {
                     return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
                 },
-                showMaxMin: false,
                 staggerLabels: true
             },
 
             yAxis: {
                 axisLabel: 'USD/BTC',
-                axisLabelDistance: 20
+                axisLabelDistance: 50
             }
         }
     };
@@ -71,12 +70,12 @@ angular.module( 'investing.home', [
 
     $scope.predictionBidData = {};
     $scope.predictionBidData.key = 'Prediction Bid';
-    $scope.predictionBidData.color = '#2ca02c';
+    $scope.predictionBidData.color = '#2ab996';
     $scope.predictionBidData.values = [];
 
     $scope.actualAskData = {};
     $scope.actualAskData.key = 'Actual Ask';
-    $scope.actualAskData.color = '#1c671c';
+    $scope.actualAskData.color = '#a94442';
     $scope.actualAskData.values = [];
 
     $scope.actualBidData = {};
@@ -84,15 +83,14 @@ angular.module( 'investing.home', [
     $scope.actualBidData.color = '#2ca02c';
     $scope.actualBidData.values = [];
 
-    $scope.predictionData.forEach(function(obj){ 
-        console.log(obj.predictionTime)
+    $scope.predictionData.reverse().forEach(function(obj){ 
         if (obj.actualAsk == 0){obj.actualAsk = null}
         if (obj.actualBid == 0){obj.actualBid = null}
         if (obj.predictionTime == '60000'){
-            var predictionAskModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.predictedAsk];
-            var predictionBidModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.predictedBid];
-            var actualAskModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.actualAsk];
-            var actualBidModel = [ new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime), obj.actualBid];
+            var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
+            var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
+            var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
+            var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
 
             $scope.predictionAskData.values.push(predictionAskModel);
             $scope.predictionBidData.values.push(predictionBidModel);
@@ -102,9 +100,9 @@ angular.module( 'investing.home', [
     });
 
     $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
-    //console.log($scope.data);
+    console.log($scope.data);
 
-
+    /*
     var color = d3.scale.category20()
     $scope.directedOptions = {
         chart: {
@@ -135,6 +133,7 @@ angular.module( 'investing.home', [
     };
 
     $scope.directedData = currencyData;
+    */
 
     $sailsSocket.subscribe('prediction', function (envelope) {
         switch(envelope.verb) {
