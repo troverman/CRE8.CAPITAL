@@ -8,8 +8,14 @@
 module.exports = {
 
 	attributes: {
-        asset: {
-            assetPair: 'string',
+        assetPair: {
+            type: 'string',
+        },
+        asset1: {
+            type: 'string',
+        },
+        asset2: {
+            type: 'string',
         },
         predictionTime: {
             type: 'string',
