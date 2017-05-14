@@ -51,7 +51,7 @@ angular.module( 'investing.home', [
             xAxis: {
                 axisLabel: 'X Axis',
                 tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y')(new Date(d))
+                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
                 },
                 showMaxMin: false,
                 staggerLabels: true
