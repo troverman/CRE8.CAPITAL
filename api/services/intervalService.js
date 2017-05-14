@@ -211,7 +211,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 
 			Prediction.create(predictionModel).then(function(predictionModel){
 				console.log(predictionModel)
-				Prediction.publishCreate(predictionModel.toJSON());
+				Prediction.publishCreate(predictionModel);
 
 				//find actual pair time-->
 				
@@ -220,13 +220,12 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 					getBTC().then(function(btcData){
 						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
 
-							Prediction.publishUpdate(predictionModel.toJSON());
+							Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
 
 						});
 
 					});
 				}, predictionModel.predictionTime);
-
 
 
 

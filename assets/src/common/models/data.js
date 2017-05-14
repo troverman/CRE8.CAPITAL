@@ -11,7 +11,6 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url).then(success, error);
     };
 
-
     this.delete = function(model) {
         var url = utils.prepareUrl('post/' + model.id);
         return $sailsSocket.delete(url).then(success, error);
