@@ -81,8 +81,8 @@ angular.module( 'investing.about', [
     $scope.actualBidData.values = [];
 
     $scope.predictionData.reverse().forEach(function(obj){ 
-        if (obj.actualAsk == 0){obj.actualAsk = 1000}
-        if (obj.actualBid == 0){obj.actualBid = 1000}
+        if (obj.actualAsk == 0){obj.actualAsk = null}
+        if (obj.actualBid == 0){obj.actualBid = null}
         if (obj.predictionTime == '60000'){
             var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
             var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];

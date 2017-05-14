@@ -82,26 +82,28 @@ angular.module( 'investing.home', [
     $scope.actualBidData.key = 'Actual Bid';
     $scope.actualBidData.color = '#2ca02c';
     $scope.actualBidData.values = [];
+    $scope.updateData = function (){
+        $scope.predictionData.reverse().forEach(function(obj){ 
+            if (obj.actualAsk == 0){obj.actualAsk = null}
+            if (obj.actualBid == 0){obj.actualBid = null}
+            if (obj.predictionTime == '60000'){
+                var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
+                var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
+                var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
+                var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
 
-    $scope.predictionData.reverse().forEach(function(obj){ 
-        if (obj.actualAsk == 0){obj.actualAsk = null}
-        if (obj.actualBid == 0){obj.actualBid = null}
-        if (obj.predictionTime == '60000'){
-            var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
-            var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
-            var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
-            var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
+                $scope.predictionAskData.values.push(predictionAskModel);
+                $scope.predictionBidData.values.push(predictionBidModel);
+                $scope.actualAskData.values.push(actualAskModel);
+                $scope.actualBidData.values.push(actualBidModel);
+            }
+        });
 
-            $scope.predictionAskData.values.push(predictionAskModel);
-            $scope.predictionBidData.values.push(predictionBidModel);
-            $scope.actualAskData.values.push(actualAskModel);
-            $scope.actualBidData.values.push(actualBidModel);
-        }
-    });
-
-    $scope.data = [$scope.predictionAskData, $scope.actualAskData, $scope.predictionBidData, $scope.actualBidData]
-    console.log($scope.data);
-
+        $scope.data = [$scope.predictionAskData, $scope.actualAskData, $scope.predictionBidData, $scope.actualBidData];
+        console.log($scope.data);
+    }
+    $scope.updateData();
+    
     /*
     var color = d3.scale.category20()
     $scope.directedOptions = {
@@ -139,8 +141,10 @@ angular.module( 'investing.home', [
         switch(envelope.verb) {
             case 'created':
                 $scope.predictionData.unshift(envelope.data);
+                $scope.updateData();
                 //$scope.calculateSum();
             case 'updated':
+                $scope.updateData();
                 //$scope.predictionData
         }
     });

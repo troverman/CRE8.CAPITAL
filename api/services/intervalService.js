@@ -185,6 +185,8 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 
+			
+			/*
 			console.log('---------------------------------------------------------------');
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
 			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 + ' SECONDS');
@@ -193,7 +195,8 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 			console.log('CURRENT BID: ' + btcData.bid + ' CURRENT ASK: ' + btcData.ask);
 			console.log('PREDICTED BID: ' + denormalizeBid + ' PREDICTED ASK: ' + denormalizeAsk);
 			console.log('---------------------------------------------------------------');
-
+			*/
+			
 			//network has no memory ---
 			//save myNetwork in session?? 
 
@@ -205,8 +208,8 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer){
 				predictedBid: denormalizeBid,
 				predictedAsk: denormalizeAsk,
 				timeStamp: new Date(),
-				actualBid: 0,
-				actualAsk: 0,
+				actualBid: null,
+				actualAsk: null,
 			};
 
 			Prediction.create(predictionModel).then(function(predictionModel){
@@ -255,6 +258,13 @@ module.exports.intervalService = function(){
 
 	var myNetwork4 = new Architect.Perceptron(2, 4, 3, 2);
 	var trainer4 = new Trainer(myNetwork4);
+
+
+	//portfolio weight is 0-1 btc to usd
+	////make trade? 
+	var budgetNetwork = new Architect.Perceptron(2, 4, 3, 2);
+	var budgetTrainer = new Trainer(budgetNetwork);
+
 
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
