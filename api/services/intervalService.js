@@ -141,7 +141,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
 
 		}
-
+		console.log(trainingData)
 		return {
 			trainingSet:trainingSet, 
 			minBidInput:minBidInput,  
