@@ -108,9 +108,6 @@ function ioGrab(intervalDelay, biggerDelay, asset1, asset2){
 
 function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset2){
 
-	//var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
-	//var trainer = new Trainer(myNetwork);
-
 	ioGrab(intervalDelay, biggerDelay, asset1, asset2).then(function(trainingData){
 
 		var trainingSet = [];
@@ -141,7 +138,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
 
 		}
-		console.log(trainingData)
+
 		return {
 			trainingSet:trainingSet, 
 			minBidInput:minBidInput,  
@@ -153,6 +150,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 		};
 	
 	}).then(function(dataSet){
+		//console.log(dataSet);
 
 		var minBidInput = dataSet.minBidInput;
 		var maxBidInput = dataSet.maxBidInput;
@@ -165,6 +163,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 
 		//console.log(trainingData);
 		//console.log(trainingSet);
+		//console.log(trainer)
 		trainer.train(dataSet.trainingSet, {
 			rate: .1,
 			iterations: 2000000,
@@ -180,21 +179,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			}
 		});
 
-		/*
-		console.log('USING THE TRAINED NETWORK TO PREDICT... this is given a static input, max range. non current data. [0,1]')
-		var input = [0, 1];
-		var output = myNetwork.activate(input);
-		console.log(output);//convert to price again
-		console.log('BID / ASK ONE TIME INTERVAL FROM NOW PREDICTION: ' + biggerDelay);
-		var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
-		var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-		console.log(denormalizeBid, denormalizeAsk);
-		*/
-
-		//use neural nets to predict every currency pair --> ye
-		//create new netwroks for each n stuff
 		//how to not hold trainer in memory? store as a seed?
-
 		getPairData(asset1, asset2).then(function(btcData){
 
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
@@ -206,7 +191,6 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 
-			
 			/*
 			console.log('---------------------------------------------------------------');
 			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
@@ -220,8 +204,6 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			
 			//network has no memory ---
 			//save myNetwork in session?? 
-
-
 
 			var predictionModel = {
 				assetPair: [asset1, asset2],
@@ -237,32 +219,22 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 				actualAsk: null,
 			};
 
-			console.log(predictionModel)
-
 			Prediction.create(predictionModel).then(function(predictionModel){
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
 
-
 				//if prediction hits the lowest in some time scale....
 				//place buy order
 				//if prediction hits the highest in some time scale.... (and then go down)
-
 				//find actual pair time-->
 				
-
 				setTimeout(function () {
 					getPairData(asset1,asset2).then(function(btcData){
 						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
-
 							Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
-
 						});
-
 					});
 				}, predictionModel.predictionTime);
-
-
 
 			});
 
@@ -276,7 +248,6 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 
 module.exports.intervalService = function(){
 
-
 	//gonna have to save the trainers to a db -- aka the weighted nodes
 	//meantime
 	var networkArray = []
@@ -284,17 +255,15 @@ module.exports.intervalService = function(){
 		networkArray.push(
 			{
 				pair: tradingPairs[x],
-				network1:[new Architect.Perceptron(2, 4, 3, 2)],
-				network2:[new Architect.Perceptron(2, 4, 3, 2)],
-				network3:[new Architect.Perceptron(2, 4, 3, 2)],
-				network4:[new Architect.Perceptron(2, 4, 3, 2)],
-				network5:[new Architect.Perceptron(2, 4, 3, 2)]
+				network1: new Architect.Perceptron(2, 4, 3, 2),
+				network2: new Architect.Perceptron(2, 4, 3, 2),
+				network3: new Architect.Perceptron(2, 4, 3, 2),
+				network4: new Architect.Perceptron(2, 4, 3, 2),
+				network5: new Architect.Perceptron(2, 4, 3, 2)
 			}
 		);
 	}
-
 	for (x in networkArray){
-		neuralNet.bind(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]);
 		setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
 		setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
 		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
@@ -302,8 +271,8 @@ module.exports.intervalService = function(){
 		setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
 	}
 
-	/*
 
+	/*
 	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	var trainer = new Trainer(myNetwork);
 
@@ -319,12 +288,10 @@ module.exports.intervalService = function(){
 	var myNetwork4 = new Architect.Perceptron(2, 4, 3, 2);
 	var trainer4 = new Trainer(myNetwork4);
 
-
 	//portfolio weight is 0-1 btc to usd
 	////make trade? 
 	var budgetNetwork = new Architect.Perceptron(2, 4, 3, 2);
 	var budgetTrainer = new Trainer(budgetNetwork);
-
 
 	//neuralNet(50000,80000);
 	//neuralNet(30000,60000*5);
@@ -354,7 +321,7 @@ module.exports.intervalService = function(){
 	//720 min to train, wait 720 min, 720 min to train
 	//new prediction every 36hrs
 	setInterval(neuralNet.bind(null, 4320000, 43200000, myNetwork4, trainer4), 43200000);
-
 	*/
+
 
 };
