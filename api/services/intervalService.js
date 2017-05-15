@@ -174,7 +174,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					//console.log(data)
+					console.log(data)
 				}
 			}
 		});
@@ -252,6 +252,8 @@ module.exports.intervalService = function(){
 	//meantime
 	var networkArray = []
 	for (x in tradingPairs){
+		//var network = new Architect.Perceptron(2, 4, 3, 2);
+		//var trainer = new Trainer(network);
 		networkArray.push(
 			{
 				pair: tradingPairs[x],
@@ -264,6 +266,7 @@ module.exports.intervalService = function(){
 		);
 	}
 	for (x in networkArray){
+		//neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
 		setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
 		setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
 		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
