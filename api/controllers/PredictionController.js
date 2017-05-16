@@ -20,14 +20,11 @@ module.exports = {
 	},
 
 	getSome: function(req,res){
-
-		console.log(req.query.filter)
 		Prediction.find()
 		.limit(req.query.limit)
 		.skip(req.query.skip)
 		.sort(req.query.sort)
-		.where(req.query.filter)
-
+		.where(JSON.parse(req.query.filter))
 		.then(function(predictionModel){
 			res.json(predictionModel);
 		});
