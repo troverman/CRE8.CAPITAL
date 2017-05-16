@@ -174,7 +174,7 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					console.log(data)
+					//console.log(data)
 				}
 			}
 		});

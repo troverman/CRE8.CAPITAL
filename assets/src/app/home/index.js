@@ -12,10 +12,11 @@ angular.module( 'investing.home', [
         },
         resolve:{
             currencyData: ['DataModel', function(DataModel) {
-                return DataModel.getCurrency();
+                //return DataModel.getCurrency();
+                return null;
             }],
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD'});
+                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
             }],
         }
     });
@@ -84,19 +85,19 @@ angular.module( 'investing.home', [
     $scope.actualBidData.values = [];
     $scope.updateData = function (){
         $scope.predictionData.reverse().forEach(function(obj){ 
+
             if (obj.actualAsk == 0){obj.actualAsk = null}
             if (obj.actualBid == 0){obj.actualBid = null}
-            if (obj.predictionTime == '60000'){
-                var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
-                var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
-                var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
-                var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
+            var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
+            var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
+            var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
+            var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
 
-                $scope.predictionAskData.values.push(predictionAskModel);
-                $scope.predictionBidData.values.push(predictionBidModel);
-                $scope.actualAskData.values.push(actualAskModel);
-                $scope.actualBidData.values.push(actualBidModel);
-            }
+            $scope.predictionAskData.values.push(predictionAskModel);
+            $scope.predictionBidData.values.push(predictionBidModel);
+            $scope.actualAskData.values.push(actualAskModel);
+            $scope.actualBidData.values.push(actualBidModel);
+
         });
 
         $scope.data = [$scope.predictionAskData, $scope.actualAskData, $scope.predictionBidData, $scope.actualBidData];
