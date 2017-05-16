@@ -21,6 +21,7 @@ module.exports = {
 
 	getSome: function(req,res){
 
+		console.log(req.query.filter)
 		Prediction.find()
 		.limit(req.query.limit)
 		.skip(req.query.skip)

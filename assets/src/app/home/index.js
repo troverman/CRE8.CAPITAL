@@ -15,7 +15,7 @@ angular.module( 'investing.home', [
                 return DataModel.getCurrency();
             }],
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', null);
+                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'USD', asset2:'BTC'});
             }],
         }
     });
