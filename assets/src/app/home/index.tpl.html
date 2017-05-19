@@ -68,6 +68,11 @@
 	<div class="container">
 		<p>decentralized network that works together to power financial simulations.</p>
 		<nvd3 options='options' data='data'></nvd3>
+		<br><br>
+		<div ng-repeat="pair in tradingPairs">
+			<a href="market/{{pair[0]}}/{{pair[1]}}">{{pair[0]}}/{{pair[1]}}</a>
+			<br>
+		</div>
 
 	</div>
 	<br><br><br>

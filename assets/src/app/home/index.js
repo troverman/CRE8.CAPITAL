@@ -27,6 +27,31 @@ angular.module( 'investing.home', [
     $scope.currentUser = config.currentUser;
     $scope.predictionData = predictionData;
 
+
+    $scope.tradingPairs = [
+        ['BTC','USD'],
+        ['ETH','USD'],
+        ['ETH','BTC'],  
+        ['ETC','USD'],
+        ['ETC','BTC'],
+        ['ZEC','USD'],  
+        ['ZEC','BTC'],
+        ['XMR','USD'],
+        ['XMR','BTC'],
+        ['LTC','USD'],
+        ['LTC','BTC'],
+        ['DASH','USD'],
+        ['DASH','BTC'],
+        ['RRT','USD'],
+        ['RRT','BTC'],
+        ['BCC','USD'],
+        ['BCC','BTC'],
+        ['BCU','USD'],
+        ['BCU','BTC'],  
+    ];
+
+
+
     $scope.options = {
         chart: {
             type: 'lineWithFocusChart',
