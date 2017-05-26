@@ -11,18 +11,21 @@ angular.module( 'investing.market', [
 			}
 		},
         resolve:{
-            predictionData: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
+            predictionDataFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
                 return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'300000'});
             }],
+            predictionDataThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
+                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
+            }]
         }
 	});
 }])
 
-.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'predictionData', 'titleService', function MarketController( $scope, $stateParams, config, predictionData, titleService ) {
+.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'titleService', function MarketController( $scope, $stateParams, config, predictionDataFiveMin, predictionDataThirtyMin, titleService ) {
 	titleService.setTitle('Market - investingfor');
-	$scope.predictionData = predictionData;
+	$scope.predictionDataFiveMin = predictionDataFiveMin;
+    $scope.predictionDataThirtyMin = predictionDataThirtyMin;
     $scope.stateParams = $stateParams;
-
 
     $scope.options = {
         chart: {
@@ -55,47 +58,88 @@ angular.module( 'investing.market', [
             },
 
             yAxis: {
-                axisLabel: 'USD/BTC',
+                //axisLabel: 'USD/BTC',
                 axisLabelDistance: 50
             }
         }
     };
 
-    $scope.predictionAskData = {};
-    $scope.predictionAskData.key = 'Prediction Ask';
-    $scope.predictionAskData.color = '#ff7f0e';
-    $scope.predictionAskData.values = [];
+    $scope.predictionFiveMinAskData = {};
+    $scope.predictionFiveMinAskData.key = 'Prediction Ask';
+    $scope.predictionFiveMinAskData.color = '#ff7f0e';
+    $scope.predictionFiveMinAskData.values = [];
 
-    $scope.predictionBidData = {};
-    $scope.predictionBidData.key = 'Prediction Bid';
-    $scope.predictionBidData.color = '#2ab996';
-    $scope.predictionBidData.values = [];
+    $scope.predictionFiveMinBidData = {};
+    $scope.predictionFiveMinBidData.key = 'Prediction Bid';
+    $scope.predictionFiveMinBidData.color = '#2ab996';
+    $scope.predictionFiveMinBidData.values = [];
 
-    $scope.actualAskData = {};
-    $scope.actualAskData.key = 'Actual Ask';
-    $scope.actualAskData.color = '#a94442';
-    $scope.actualAskData.values = [];
+    $scope.actualFiveMinAskData = {};
+    $scope.actualFiveMinAskData.key = 'Actual Ask';
+    $scope.actualFiveMinAskData.color = '#a94442';
+    $scope.actualFiveMinAskData.values = [];
 
-    $scope.actualBidData = {};
-    $scope.actualBidData.key = 'Actual Bid';
-    $scope.actualBidData.color = '#2ca02c';
-    $scope.actualBidData.values = [];
+    $scope.actualFiveMinBidData = {};
+    $scope.actualFiveMinBidData.key = 'Actual Bid';
+    $scope.actualFiveMinBidData.color = '#2ca02c';
+    $scope.actualFiveMinBidData.values = [];
 
-    $scope.predictionData.reverse().forEach(function(obj){ 
+    $scope.predictionDataFiveMin.reverse().forEach(function(obj){ 
         if (obj.actualAsk == 0){obj.actualAsk = null}
         if (obj.actualBid == 0){obj.actualBid = null}
-        var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
-        var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
-        var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
-        var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
+        if (obj.predictionAsk == NaN){obj.predictionAsk = null}
+        if (obj.predictionBid == NaN){obj.predictionBid = null}
+        var predictionFiveMinAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
+        var predictionFiveMinBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
+        var actualFiveMinAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
+        var actualFiveMinBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
 
-        $scope.predictionAskData.values.push(predictionAskModel);
-        $scope.predictionBidData.values.push(predictionBidModel);
-        $scope.actualAskData.values.push(actualAskModel);
-        $scope.actualBidData.values.push(actualBidModel);
+        $scope.predictionFiveMinAskData.values.push(predictionFiveMinAskModel);
+        $scope.predictionFiveMinBidData.values.push(predictionFiveMinBidModel);
+        $scope.actualFiveMinAskData.values.push(actualFiveMinAskModel);
+        $scope.actualFiveMinBidData.values.push(actualFiveMinBidModel);
     });
 
-    $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
+    $scope.fiveMinData = [$scope.predictionFiveMinAskData, $scope.predictionFiveMinBidData, $scope.actualFiveMinAskData, $scope.actualFiveMinBidData]
+
+    $scope.predictionThirtyMinAskData = {};
+    $scope.predictionThirtyMinAskData.key = 'Prediction Ask';
+    $scope.predictionThirtyMinAskData.color = '#ff7f0e';
+    $scope.predictionThirtyMinAskData.values = [];
+
+    $scope.predictionThirtyMinBidData = {};
+    $scope.predictionThirtyMinBidData.key = 'Prediction Bid';
+    $scope.predictionThirtyMinBidData.color = '#2ab996';
+    $scope.predictionThirtyMinBidData.values = [];
+
+    $scope.actualThirtyMinAskData = {};
+    $scope.actualThirtyMinAskData.key = 'Actual Ask';
+    $scope.actualThirtyMinAskData.color = '#a94442';
+    $scope.actualThirtyMinAskData.values = [];
+
+    $scope.actualThirtyMinBidData = {};
+    $scope.actualThirtyMinBidData.key = 'Actual Bid';
+    $scope.actualThirtyMinBidData.color = '#2ca02c';
+    $scope.actualThirtyMinBidData.values = [];
+
+    $scope.predictionDataThirtyMin.reverse().forEach(function(obj){ 
+        if (obj.actualAsk == 0){obj.actualAsk = null}
+        if (obj.actualBid == 0){obj.actualBid = null}
+        if (obj.predictionAsk == NaN){obj.predictionAsk = null}
+        if (obj.predictionBid == NaN){obj.predictionBid = null}
+        var predictionThirtyMinAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
+        var predictionThirtyMinBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
+        var actualThirtyMinAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
+        var actualThirtyMinBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
+
+        $scope.predictionThirtyMinAskData.values.push(predictionThirtyMinAskModel);
+        $scope.predictionThirtyMinBidData.values.push(predictionThirtyMinBidModel);
+        $scope.actualThirtyMinAskData.values.push(actualThirtyMinAskModel);
+        $scope.actualThirtyMinBidData.values.push(actualThirtyMinBidModel);
+    });
+
+    $scope.thirtyMinData = [$scope.predictionThirtyMinAskData, $scope.predictionThirtyMinBidData, $scope.actualThirtyMinAskData, $scope.actualThirtyMinBidData]
+
 
 
 

@@ -179,8 +179,24 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			}
 		});
 
+
+
+		//update network db here
+
+		
+
 		//how to not hold trainer in memory? store as a seed?
 		getPairData(asset1, asset2).then(function(btcData){
+
+
+
+
+
+
+			//get myNetwrok
+
+
+
 
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
@@ -272,6 +288,7 @@ module.exports.intervalService = function(){
 		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
 		setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
 		setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
+		
 	}
 
 
