@@ -305,7 +305,7 @@ module.exports.intervalService = function(){
 	NeuralNetwork.find()
     .then(function (models) {
 		//console.log(models);
-		for (x in models.slice(0, 1)){
+		for (x in models){
 			if (models[x].predictionTime!=60000){
 				//neuralNet(models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2)
 				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
