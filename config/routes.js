@@ -33,6 +33,7 @@ module.exports.routes = {
    * Prediction routes
    */
   'get /api/prediction': 'PredictionController.getSome',
+  'get /api/prediction/current': 'PredictionController.getCurrentPrediction',
 
 
   /**

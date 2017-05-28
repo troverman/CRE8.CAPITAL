@@ -8,9 +8,51 @@ var Neuron = synaptic.Neuron,
 	Trainer = synaptic.Trainer,
 	Architect = synaptic.Architect;
 
+var tradingPairs = [
+	['BTC','USD'],
+	['ETH','USD'],
+	['ETH','BTC'],	
+	['ETC','USD'],
+	['ETC','BTC'],
+	['ZEC','USD'],	
+	['ZEC','BTC'],
+	['XMR','USD'],
+	['XMR','BTC'],
+	['LTC','USD'],
+	['LTC','BTC'],
+	['DASH','USD'],
+	['DASH','BTC'],
+	['RRT','USD'],
+	['RRT','BTC'],
+	['BCC','USD'],
+	['BCC','BTC'],
+	['BCU','USD'],
+	['BCU','BTC'],	
+];
+
 //var sylvester = require('sylvester'),  
 	//Matrix = sylvester.Matrix,  
 	//Vector = sylvester.Vector;  
+
+
+
+function assetArrayLinearCombinationEquality(){
+
+	var exchangeMap = [];
+	for (x in tradingPairs){
+		getPairData(tradingPairs[x][0], tradingPairs[x][1]).then(function(currencyData){
+			exchangeMap.push({asset1:tradingPairs[x][0], asset2: tradingPairs[x][1], price: last_price})
+			exchangeMap.push({asset1:tradingPairs[x][1], asset2: tradingPairs[x][0], price: 1/last_price})
+			console.log(exchangeMap)
+		});
+	}
+
+
+	//Portfolio.find()
+
+
+
+}
 
 
 function ticker(){
@@ -37,28 +79,6 @@ function ticker(){
 	    }
 	});
 };
-
-var tradingPairs = [
-	['BTC','USD'],
-	['ETH','USD'],
-	['ETH','BTC'],	
-	['ETC','USD'],
-	['ETC','BTC'],
-	['ZEC','USD'],	
-	['ZEC','BTC'],
-	['XMR','USD'],
-	['XMR','BTC'],
-	['LTC','USD'],
-	['LTC','BTC'],
-	['DASH','USD'],
-	['DASH','BTC'],
-	['RRT','USD'],
-	['RRT','BTC'],
-	['BCC','USD'],
-	['BCC','BTC'],
-	['BCU','USD'],
-	['BCU','BTC'],	
-];
 
 function getPairData(asset1, asset2){
 	var deferred = Q.defer();
@@ -106,9 +126,21 @@ function ioGrab(intervalDelay, biggerDelay, asset1, asset2){
 };
 
 
-function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset2){
+
+//experimental neural net where time is a variable'
+//experimental neural net where currency pair are variable arrays -- > abstract
+
+function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
+
+	var myNetwork = Network.fromJSON(networkModel.networkJson);
+	var trainer =  new Trainer(myNetwork);
+
+	//console.log(networkModel);
 
 	ioGrab(intervalDelay, biggerDelay, asset1, asset2).then(function(trainingData){
+
+
+		console.log('hello1')
 
 		var trainingSet = [];
 
@@ -150,7 +182,6 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 		};
 	
 	}).then(function(dataSet){
-		//console.log(dataSet);
 
 		var minBidInput = dataSet.minBidInput;
 		var maxBidInput = dataSet.maxBidInput;
@@ -163,7 +194,10 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 
 		//console.log(trainingData);
 		//console.log(trainingSet);
-		//console.log(trainer)
+		//console.log(trainer);
+
+		console.log('hello')
+
 		trainer.train(dataSet.trainingSet, {
 			rate: .1,
 			iterations: 2000000,
@@ -181,20 +215,19 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 
 
 
-		//update network db here
+		var networkJson = myNetwork.toJson();
 
-		
+		console.log(networkJson);
 
-		//how to not hold trainer in memory? store as a seed?
+		var newNetworkModel = {
+			id: networkModel.id,
+			network: networkJson,
+		};
+
+		Network.update(networkModel)
+
+
 		getPairData(asset1, asset2).then(function(btcData){
-
-
-
-
-
-
-			//get myNetwrok
-
 
 
 
@@ -206,17 +239,6 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 			var output = myNetwork.activate(latestInput);
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-
-			/*
-			console.log('---------------------------------------------------------------');
-			console.log('USING THE TRAINED NETWORK TO PREDICT... ')
-			console.log('BID / ASK PREDICTION IN ' + biggerDelay/1000 + ' SECONDS');
-			console.log('INPUT: ' + latestInput);
-			console.log('OUTPUT: '+ output);
-			console.log('CURRENT BID: ' + btcData.bid + ' CURRENT ASK: ' + btcData.ask);
-			console.log('PREDICTED BID: ' + denormalizeBid + ' PREDICTED ASK: ' + denormalizeAsk);
-			console.log('---------------------------------------------------------------');
-			*/
 			
 			//network has no memory ---
 			//save myNetwork in session?? 
@@ -239,11 +261,15 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
 
+
 				//if prediction hits the lowest in some time scale....
 				//place buy order
+
+
 				//if prediction hits the highest in some time scale.... (and then go down)
 				//find actual pair time-->
-				
+
+
 				setTimeout(function () {
 					getPairData(asset1,asset2).then(function(btcData){
 						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
@@ -251,13 +277,9 @@ function neuralNet(intervalDelay, biggerDelay, myNetwork, trainer, asset1, asset
 						});
 					});
 				}, predictionModel.predictionTime);
-
 			});
-
 		});
-
 	});
-
 };
 
 
@@ -266,6 +288,42 @@ module.exports.intervalService = function(){
 
 	//gonna have to save the trainers to a db -- aka the weighted nodes
 	//meantime
+
+	//populate Networks....---
+	/*for (x in tradingPairs){
+		var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+		var trainer = new Trainer(initNetwork)
+		//console.log(initNetwork)
+		var networkJson = initNetwork.toJSON();
+
+
+		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], predictionTime:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], predictionTime:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], predictionTime:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], predictionTime:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], predictionTime:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], predictionTime:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], predictionTime:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
+
+
+	};*/
+
+
+	assetArrayLinearCombinationEquality();
+
+	NeuralNetwork.find()
+    .then(function (models) {
+		//console.log(models);
+		for (x in models){
+			if (models[x].predictionTime!=60000){
+				neuralNet(models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2)
+			}
+		}
+       //neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
+    });
+
+
+    /*
 	var networkArray = []
 	for (x in tradingPairs){
 		//var network = new Architect.Perceptron(2, 4, 3, 2);
@@ -282,14 +340,16 @@ module.exports.intervalService = function(){
 		);
 	}
 	for (x in networkArray){
-		//neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
+		neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
 		//setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
-		setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
-		setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
-		setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
-		setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
+		//setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
+		//setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
+		//setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
+		//setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
 		
 	}
+	*/
+
 
 
 	/*

@@ -7,6 +7,12 @@ angular.module('models.prediction', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
+    this.getCurrentPrediction = function(asset1, asset2, predictionTime){
+        var url = utils.prepareUrl('prediction/current');
+        var query = {params:{asset1:asset1, asset2: asset2, predictionTime:predictionTime}}
+        return $sailsSocket.get(url, query).then(success, error);
+    };
+
     var success = function(response) {
         return response.data;
     };
