@@ -47,8 +47,22 @@ function assetArrayLinearCombinationEquality(){
 		});
 	}
 
+	//1btc --> 
+	//var btcExchange = exchangeMap.map(function(obj){
+		//obj.asset1 == 'BTC'
+	//})
+	//1 btc = btcExchange = [.001$, 23LTC, ... ]
 
-	//Portfolio.find()
+	//==--> [1BTC, 1750$, 23LTC]
+
+	//==--~~--> 1BTC = [], 1LTC = [], ...
+	//==> [] + [] + []
+	
+	
+
+
+	//Portfolio.find() --> multiply weights 
+	// --> find equalities : ) 
 
 
 
@@ -84,9 +98,11 @@ function getPairData(asset1, asset2){
 	var deferred = Q.defer();
 	var url = "https://api.bitfinex.com/v1/pubticker/"+asset1+asset2;
 	request({url: url, json: true }, function (error, response, body) {
+		console.log(body)
 	    if (!error && response.statusCode === 200) {
 	        deferred.resolve(body);
 	    }
+	    else{deferred.resolve(error)}
 	});
 	return deferred.promise;
 };
@@ -135,12 +151,7 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 	var myNetwork = Network.fromJSON(networkModel.networkJson);
 	var trainer =  new Trainer(myNetwork);
 
-	//console.log(networkModel);
-
 	ioGrab(intervalDelay, biggerDelay, asset1, asset2).then(function(trainingData){
-
-
-		console.log('hello1')
 
 		var trainingSet = [];
 
@@ -192,12 +203,6 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 		var minAskOutput = dataSet.minAskOutput;
 		var maxAskOutput = dataSet.maxAskOutput;
 
-		//console.log(trainingData);
-		//console.log(trainingSet);
-		//console.log(trainer);
-
-		console.log('hello')
-
 		trainer.train(dataSet.trainingSet, {
 			rate: .1,
 			iterations: 2000000,
@@ -208,28 +213,19 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					//console.log(data)
+					console.log(data)
 				}
 			}
 		});
 
-
-
-		var networkJson = myNetwork.toJson();
-
-		console.log(networkJson);
-
+		var networkJson = myNetwork.toJSON();
 		var newNetworkModel = {
 			id: networkModel.id,
 			network: networkJson,
 		};
-
-		Network.update(networkModel)
-
+		Network.update({id: networkModel.id}, networkModel);
 
 		getPairData(asset1, asset2).then(function(btcData){
-
-
 
 			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
@@ -240,10 +236,8 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
 			
-			//network has no memory ---
-			//save myNetwork in session?? 
-
 			var predictionModel = {
+				normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPrice:null, maxPrice:null},
 				assetPair: [asset1, asset2],
 				asset1: asset1,
 				asset2: asset2,
@@ -261,14 +255,11 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
 
-
 				//if prediction hits the lowest in some time scale....
 				//place buy order
 
-
 				//if prediction hits the highest in some time scale.... (and then go down)
 				//find actual pair time-->
-
 
 				setTimeout(function () {
 					getPairData(asset1,asset2).then(function(btcData){
@@ -314,12 +305,12 @@ module.exports.intervalService = function(){
 	NeuralNetwork.find()
     .then(function (models) {
 		//console.log(models);
-		for (x in models){
+		for (x in models.slice(0, 1)){
 			if (models[x].predictionTime!=60000){
-				neuralNet(models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2)
+				//neuralNet(models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2)
+				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
 			}
 		}
-       //neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
     });
 
 

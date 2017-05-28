@@ -44,9 +44,6 @@ module.exports = {
 				var model = {};
 				model.currentData = currentData;
 
-				
-
-
 				//make more accuralte with market inferance --~>
 				/*
 				var normalizedBidInput = (output.bid)/(maxBidInput-minBidInput);
@@ -63,38 +60,35 @@ module.exports = {
 				//gotta normalize with appropiate data..?
 				//save data to a data model -- with currency pairs etc. --> get resutls withing the past x time -- to normalize.....
 
-
 				//Prediction.find({predictionTime:predictionTime, asset1: asset1, asset2: asset2})
 				//get the latest normilazation data...... ----> :>
 
+				Prediction
+				.find({predictionTime:predictionTime})
+				.limit(1)
+				.sort('createdAt DESC')
+				.then(function(lastestPrediction){
+
+					console.log(lastestPrediction)
+
+					var normalizedBidInput = (model.currentData.bid)/(model.currentData.ask-model.currentData.bid);
+					var normalizedAskInput = (model.currentData.ask)/(model.currentData.ask-model.currentData.bid);
+					var latestInput = [0.5, 0.5];
+					console.log(latestInput)
+
+					var output = myNetwork.activate(latestInput);
+					console.log(output)
+
+					//var denormalizeBid = model.currentData.bid*-1*output[0]+model.currentData.bid+output[0]*model.currentData.bid;
+					//var denormalizeAsk =  model.currentData.ask*-1*output[1]+model.currentData.ask+output[1]*model.currentData.ask;
+					//console.log(denormalizeBid, denormalizeAsk)
+
+					model.output = [output[0]/0.5 * model.currentData.bid, output[1]/0.5 * model.currentData.ask];
+					console.log(model)
+					res.json(model);
 
 
-				var normalizedBidInput = (model.currentData.bid)/(model.currentData.ask-model.currentData.bid);
-				var normalizedAskInput = (model.currentData.ask)/(model.currentData.ask-model.currentData.bid);
-
-				var latestInput = [1, 1];
-
-				console.log(latestInput)
-
-				var output = myNetwork.activate(latestInput);
-				console.log(output)
-
-
-
-
-				//var denormalizeBid = model.currentData.bid*-1*output[0]+model.currentData.bid+output[0]*model.currentData.bid;
-				//var denormalizeAsk =  model.currentData.ask*-1*output[1]+model.currentData.ask+output[1]*model.currentData.ask;
-
-				//console.log(denormalizeBid, denormalizeAsk)
-
-
-
-				model.output = [model.currentData.bid/output[0], model.currentData.ask/output[1]];
-
-				console.log(model)
-
-				res.json(model);
-
+				})
 
 			});
 
