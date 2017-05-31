@@ -39,7 +39,9 @@ var tradingPairs = [
 function assetArrayLinearCombinationEquality(){
 
 	var exchangeMap = [];
+	console.log('assetArrayLinearCombinationEquality')
 	for (x in tradingPairs){
+		console.log(tradingPairs[x][0], tradingPairs[x][1])
 		getPairData(tradingPairs[x][0], tradingPairs[x][1]).then(function(currencyData){
 			exchangeMap.push({asset1:tradingPairs[x][0], asset2: tradingPairs[x][1], price: last_price})
 			exchangeMap.push({asset1:tradingPairs[x][1], asset2: tradingPairs[x][0], price: 1/last_price})
@@ -66,7 +68,7 @@ function assetArrayLinearCombinationEquality(){
 
 
 
-}
+};
 
 
 function ticker(){
@@ -98,7 +100,6 @@ function getPairData(asset1, asset2){
 	var deferred = Q.defer();
 	var url = "https://api.bitfinex.com/v1/pubticker/"+asset1+asset2;
 	request({url: url, json: true }, function (error, response, body) {
-		console.log(body)
 	    if (!error && response.statusCode === 200) {
 	        deferred.resolve(body);
 	    }
@@ -213,17 +214,14 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					console.log(data)
+					//console.log(data)
 				}
 			}
 		});
 
 		var networkJson = myNetwork.toJSON();
-		var newNetworkModel = {
-			id: networkModel.id,
-			network: networkJson,
-		};
-		Network.update({id: networkModel.id}, networkModel);
+
+		NeuralNetwork.update({id: networkModel.id}, {network:networkJson}).then(function(){console.log('HI')})
 
 		getPairData(asset1, asset2).then(function(btcData){
 
@@ -250,7 +248,7 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 				actualBid: null,
 				actualAsk: null,
 			};
-
+			console.log(predictionModel)
 			Prediction.create(predictionModel).then(function(predictionModel){
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
@@ -300,14 +298,13 @@ module.exports.intervalService = function(){
 	};*/
 
 
-	assetArrayLinearCombinationEquality();
+	//assetArrayLinearCombinationEquality();
 
 	NeuralNetwork.find()
     .then(function (models) {
-		//console.log(models);
+    	//neuralNet(models[0].predictionTime/10, models[0].predictionTime, models[0],	models[0].asset1, models[0].asset2)
 		for (x in models){
 			if (models[x].predictionTime!=60000){
-				//neuralNet(models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2)
 				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
 			}
 		}

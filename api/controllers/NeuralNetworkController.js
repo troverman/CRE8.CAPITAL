@@ -2,7 +2,7 @@ module.exports = {
 
 
 	getAll: function(req, res) {
-		Network.getAll()
+		NeuralNetwork.getAll()
 		.spread(function(models) {
 			res.json(models);
 		})
@@ -12,7 +12,7 @@ module.exports = {
 	},
 
 	getOne: function(req, res) {
-		Network.getOne(req.param('id'))
+		NeuralNetwork.getOne(req.param('id'))
 		.spread(function(model) {
 			res.json(model);
 		})
@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	getSome: function(req,res){
-		Network.find()
+		NeuralNetwork.find()
 		.limit(req.query.limit)
 		.skip(req.query.skip)
 		.sort(req.query.sort)
@@ -34,13 +34,9 @@ module.exports = {
 	},
 
 	create: function (req, res) {
-		var model = {
-			username: req.param('username'),
-			email: req.param('email'),
-			first_name: req.param('first_name')
-		};
+	
 
-		Network.create(model)
+		NeuralNetwork.create(model)
 		.exec(function(err, model) {
 			if (err) {
 				return console.log(err);

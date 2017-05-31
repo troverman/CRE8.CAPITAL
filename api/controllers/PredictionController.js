@@ -7,7 +7,6 @@ var Neuron = synaptic.Neuron,
 	Trainer = synaptic.Trainer,
 	Architect = synaptic.Architect;
 
-
 //refactor for global fn
 function getPairData(asset1, asset2){
 	var deferred = Q.defer();
@@ -33,7 +32,13 @@ module.exports = {
 
 		NeuralNetwork.find({predictionTime:predictionTime, asset1: asset1, asset2:asset2})
 		.then(function(neuralNetworkModel) {
+			console.log('1234');
 			console.log('1234')
+			console.log('1234')
+			console.log('1234')
+			console.log('1234')
+			console.log('1234')
+
 			//console.log(neuralNetworkModel[0].networkJson)
 			var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
 			//console.log(myNetwork)
@@ -69,7 +74,7 @@ module.exports = {
 				.sort('createdAt DESC')
 				.then(function(lastestPrediction){
 
-					console.log(lastestPrediction)
+					console.log(lastestPrediction[0])
 
 					var normalizedBidInput = (model.currentData.bid)/(model.currentData.ask-model.currentData.bid);
 					var normalizedAskInput = (model.currentData.ask)/(model.currentData.ask-model.currentData.bid);
