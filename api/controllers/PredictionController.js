@@ -33,11 +33,6 @@ module.exports = {
 		NeuralNetwork.find({predictionTime:predictionTime, asset1: asset1, asset2:asset2})
 		.then(function(neuralNetworkModel) {
 			console.log('1234');
-			console.log('1234')
-			console.log('1234')
-			console.log('1234')
-			console.log('1234')
-			console.log('1234')
 
 			//console.log(neuralNetworkModel[0].networkJson)
 			var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
@@ -49,25 +44,6 @@ module.exports = {
 				var model = {};
 				model.currentData = currentData;
 
-				//make more accuralte with market inferance --~>
-				/*
-				var normalizedBidInput = (output.bid)/(maxBidInput-minBidInput);
-				if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-				var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
-				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-
-				var latestInput = [normalizedBidInput, normalizedAskInput];
-				var output = myNetwork.activate(latestInput);
-				var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
-				var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-				*/
-
-				//gotta normalize with appropiate data..?
-				//save data to a data model -- with currency pairs etc. --> get resutls withing the past x time -- to normalize.....
-
-				//Prediction.find({predictionTime:predictionTime, asset1: asset1, asset2: asset2})
-				//get the latest normilazation data...... ----> :>
-
 				Prediction
 				.find({predictionTime:predictionTime})
 				.limit(1)
@@ -76,10 +52,18 @@ module.exports = {
 
 					console.log(lastestPrediction[0])
 
-					var normalizedBidInput = (model.currentData.bid)/(model.currentData.ask-model.currentData.bid);
-					var normalizedAskInput = (model.currentData.ask)/(model.currentData.ask-model.currentData.bid);
-					var latestInput = [0.5, 0.5];
+					var normalizedBidInput = (model.currentData.bid - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
+					if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+					var normalizedAskInput = (model.currentData.ask - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
+					if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+
+					var latestInput = [normalizedBidInput, normalizedAskInput];
 					console.log(latestInput)
+
+					//var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
+					//var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
+					//var latestInput = [normalizedBidInput, normalizedAskInput];
+
 
 					var output = myNetwork.activate(latestInput);
 					console.log(output)
@@ -88,7 +72,12 @@ module.exports = {
 					//var denormalizeAsk =  model.currentData.ask*-1*output[1]+model.currentData.ask+output[1]*model.currentData.ask;
 					//console.log(denormalizeBid, denormalizeAsk)
 
-					model.output = [output[0]/0.5 * model.currentData.bid, output[1]/0.5 * model.currentData.ask];
+					var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
+					var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
+
+					//model.output = [output[0]/0.5 * model.currentData.bid, output[1]/0.5 * model.currentData.ask];
+					model.output = [denormalizeBid, denormalizeAsk];
+					
 					console.log(model)
 					res.json(model);
 

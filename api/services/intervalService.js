@@ -281,6 +281,7 @@ module.exports.intervalService = function(){
 	//populate Networks....---
 	/*for (x in tradingPairs){
 		var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
 		var trainer = new Trainer(initNetwork)
 		//console.log(initNetwork)
 		var networkJson = initNetwork.toJSON();
