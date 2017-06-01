@@ -18,20 +18,25 @@ angular.module( 'investing.market', [
                 return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
             }],
             currentPredictionFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
+                return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
+            }],
+            currentPredictionThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
+                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 1800000);
                 return null;
             }]
         }
 	});
 }])
 
-.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $scope, $stateParams, config, currentPredictionFiveMin, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
 	$scope.predictionDataFiveMin = predictionDataFiveMin;
     $scope.predictionDataThirtyMin = predictionDataThirtyMin;
     $scope.stateParams = $stateParams;
 
     $scope.currentPredictionFiveMin = currentPredictionFiveMin;
+    $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
+
     $scope.currentData = null
     //console.log(currentPredictionFiveMin)
     PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000).then(function(model){

@@ -45,7 +45,7 @@ module.exports = {
 				model.currentData = currentData;
 
 				Prediction
-				.find({predictionTime:predictionTime})
+				.find({predictionTime:predictionTime, asset1: asset1, asset2: asset2})
 				.limit(1)
 				.sort('createdAt DESC')
 				.then(function(lastestPrediction){
@@ -64,7 +64,6 @@ module.exports = {
 					//var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
 					//var latestInput = [normalizedBidInput, normalizedAskInput];
 
-
 					var output = myNetwork.activate(latestInput);
 					console.log(output)
 
@@ -77,7 +76,7 @@ module.exports = {
 
 					//model.output = [output[0]/0.5 * model.currentData.bid, output[1]/0.5 * model.currentData.ask];
 					model.output = [denormalizeBid, denormalizeAsk];
-					
+
 					console.log(model)
 					res.json(model);
 
