@@ -32,7 +32,6 @@ module.exports = {
 
 		NeuralNetwork.find({predictionTime:predictionTime, asset1: asset1, asset2:asset2})
 		.then(function(neuralNetworkModel) {
-			console.log('1234');
 
 			//console.log(neuralNetworkModel[0].networkJson)
 			var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);

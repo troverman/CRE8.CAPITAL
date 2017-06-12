@@ -20,14 +20,14 @@ var tradingPairs = [
 	['XMR','BTC'],
 	['LTC','USD'],
 	['LTC','BTC'],
-	['DASH','USD'],
+	/*['DASH','USD'],
 	['DASH','BTC'],
 	['RRT','USD'],
 	['RRT','BTC'],
 	['BCC','USD'],
 	['BCC','BTC'],
 	['BCU','USD'],
-	['BCU','BTC'],	
+	['BCU','BTC'],*/
 ];
 
 //var sylvester = require('sylvester'),  
@@ -40,14 +40,61 @@ function assetArrayLinearCombinationEquality(){
 
 	var exchangeMap = [];
 	console.log('assetArrayLinearCombinationEquality')
-	for (x in tradingPairs){
-		console.log(tradingPairs[x][0], tradingPairs[x][1])
-		getPairData(tradingPairs[x][0], tradingPairs[x][1]).then(function(currencyData){
-			exchangeMap.push({asset1:tradingPairs[x][0], asset2: tradingPairs[x][1], price: last_price})
-			exchangeMap.push({asset1:tradingPairs[x][1], asset2: tradingPairs[x][0], price: 1/last_price})
+	//for (x in tradingPairs){
+	//	console.log(tradingPairs[x][0], tradingPairs[x][1])
+	//	getPairData(tradingPairs[x][0], tradingPairs[x][1]).then(function(currencyData){
+			//console.log(currencyData.last_price)
+	//		exchangeMap.push({asset1:tradingPairs[x][0], asset2: tradingPairs[x][1], price: currencyData.last_price})
+	//		exchangeMap.push({asset1:tradingPairs[x][1], asset2: tradingPairs[x][0], price: 1/currencyData.last_price})
+	//		console.log(exchangeMap)
+	//	});
+	//}
+
+	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
+		getPairData(tradingPair[0], tradingPair[1]).then(function(currencyData){
+			exchangeMap.push({asset1:tradingPair[0], asset2: tradingPair[1], price: currencyData.last_price})
+			exchangeMap.push({asset1:tradingPair[1], asset2: tradingPair[0], price: 1/currencyData.last_price})
 			console.log(exchangeMap)
+			process.nextTick(nextIteration);
 		});
-	}
+	}, 
+	function(err) {
+		console.log(exchangeMap);
+
+		//75$+3LTC+1ETC = ?BTC
+
+		var BTC = 0;
+		for (x in exchangeMap){
+			if(exchangeMap[x].asset2=='BTC'){
+				if(exchangeMap[x].asset1=='ETH'){
+					BTC += 1*exchangeMap[x].price;
+					console.log(BTC)
+				}
+				if(exchangeMap[x].asset1=='LTC'){
+					BTC += 3*exchangeMap[x].price;
+					console.log(BTC)
+				}
+				if(exchangeMap[x].asset1=='USD'){
+					BTC += 75*exchangeMap[x].price;
+					console.log(BTC)
+				}
+			}
+		}
+		console.log(BTC)
+
+		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
+		exchangeMap.map(function(obj){
+			for (x in Object.keys(allocationWeight)){
+				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
+					console.log(Object.keys(allocationWeight)[x] + ' : ' + BTC*obj.price*allocationWeight[Object.keys(allocationWeight)[x]])
+					//allocationWeight[Object.keys(allocationWeight)[x]]
+				}
+			}
+
+		});
+
+
+	});
 
 	//1btc --> 
 	//var btcExchange = exchangeMap.map(function(obj){
@@ -299,13 +346,15 @@ module.exports.intervalService = function(){
 	};*/
 
 
-	//assetArrayLinearCombinationEquality();
+	assetArrayLinearCombinationEquality();
 
 	NeuralNetwork.find()
     .then(function (models) {
+
     	//neuralNet(models[0].predictionTime/10, models[0].predictionTime, models[0],	models[0].asset1, models[0].asset2)
 		for (x in models){
-			if (models[x].predictionTime!=60000){
+			if (models[x].predictionTime==1800000){
+				//console.log(models[x].predictionTime)
 				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
 			}
 		}
