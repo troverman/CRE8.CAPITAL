@@ -54,33 +54,38 @@ function assetArrayLinearCombinationEquality(){
 		getPairData(tradingPair[0], tradingPair[1]).then(function(currencyData){
 			exchangeMap.push({asset1:tradingPair[0], asset2: tradingPair[1], price: currencyData.last_price})
 			exchangeMap.push({asset1:tradingPair[1], asset2: tradingPair[0], price: 1/currencyData.last_price})
-			console.log(exchangeMap)
 			process.nextTick(nextIteration);
 		});
 	}, 
 	function(err) {
-		console.log(exchangeMap);
 
-		//75$+3LTC+1ETC = ?BTC
-
+		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0}
 		var BTC = 0;
 		for (x in exchangeMap){
 			if(exchangeMap[x].asset2=='BTC'){
 				if(exchangeMap[x].asset1=='ETH'){
-					BTC += 1*exchangeMap[x].price;
+					BTC += currentPortfolio.ETH*exchangeMap[x].price;
 					console.log(BTC)
 				}
 				if(exchangeMap[x].asset1=='LTC'){
-					BTC += 3*exchangeMap[x].price;
+					BTC += currentPortfolio.LTC*exchangeMap[x].price;
 					console.log(BTC)
 				}
 				if(exchangeMap[x].asset1=='USD'){
-					BTC += 75*exchangeMap[x].price;
+					BTC += currentPortfolio.USD*exchangeMap[x].price;
 					console.log(BTC)
 				}
 			}
 		}
-		console.log(BTC)
+
+		//console.log(BTC)
+
+		//remember the shortest path.. this method converts to btc
+		//render these as a graph? 
+		//as in this is [USD, LTC, ETH, BTC] --> [BTC] --> [USD, LTC, ETH, BTC] ^^^
+		//if we rep them as [], then we mult by each rate vvv
+
+		//resursiveDecomposition(exchangeMap);
 
 		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
 		exchangeMap.map(function(obj){
@@ -92,7 +97,6 @@ function assetArrayLinearCombinationEquality(){
 			}
 
 		});
-
 
 	});
 
@@ -107,15 +111,22 @@ function assetArrayLinearCombinationEquality(){
 	//==--~~--> 1BTC = [], 1LTC = [], ...
 	//==> [] + [] + []
 	
-	
-
 
 	//Portfolio.find() --> multiply weights 
 	// --> find equalities : ) 
 
+};
 
+function recursiveDecomposition(dataObj){
+
+	for (x in Object.keys(dataObj)){
+
+		recursiveDecomposition(dataObj);
+
+	}
 
 };
+
 
 
 function ticker(){

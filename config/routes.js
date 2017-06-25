@@ -57,6 +57,6 @@ module.exports.routes = {
   'delete /api/post/:id': 'PostController.destroy',
 
 
-  '/.well-known/acme-challenge/d_F020DBiKbzUZZi3R_X6RsGpuoNPR_MU0yLLfvVGTM': 'HomeController.ssl',
+  '/.well-known/acme-challenge/6vMcD5bHdA1IbOn59yq6ms_wEF_h38L-rrOhjlJOKNI': 'HomeController.ssl',
 
 };
