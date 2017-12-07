@@ -58,7 +58,7 @@ function assetArrayLinearCombinationEquality(){
 		});
 	}, 
 	function(err) {
-
+		console.log(exchangeMap)
 		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0}
 		var BTC = 0;
 		for (x in exchangeMap){
@@ -118,19 +118,14 @@ function assetArrayLinearCombinationEquality(){
 };
 
 function recursiveDecomposition(dataObj){
-
 	for (x in Object.keys(dataObj)){
-
 		recursiveDecomposition(dataObj);
-
 	}
-
 };
 
 
 
 function ticker(){
-
 	var url = "http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json"
 	//https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dnl1d1t1%26s%3Dusdeur%3DX%22%3B&format=json&callback=
 	request({url: url,json: true}, function (error, response, body) {
@@ -360,10 +355,10 @@ module.exports.intervalService = function(){
 
     	//neuralNet(models[0].predictionTime/10, models[0].predictionTime, models[0],	models[0].asset1, models[0].asset2)
 		for (x in models){
-			if (models[x].predictionTime==1800000){
+			//if (models[x].predictionTime==1800000){
 				//console.log(models[x].predictionTime)
 				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
-			}
+			//}
 		}
     });
 
