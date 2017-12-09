@@ -28,10 +28,7 @@ module.exports = {
         },
         percentChange:{
             type: 'string',
-        },
-        seq:{
-            type: 'string',
-        },
+        }
     },
 
     //afterCreate: function (post, next) {
