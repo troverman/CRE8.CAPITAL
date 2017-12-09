@@ -338,8 +338,8 @@ module.exports.intervalService = function(){
 
 	//analyze();
 	dataService.ticker();
-	//setInterval(dataService.dataService, 14400000);
 
+	//setInterval(dataService.dataService, 14400000);
 	//setInterval(ticker, 6000);
 
 

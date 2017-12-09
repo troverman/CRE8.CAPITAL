@@ -1,6 +1,5 @@
 var request = require('request');
 var Poloniex = require('poloniex-api-node');
-
 //var sylvester = require('sylvester'),  
 	//Matrix = sylvester.Matrix,  
 	//Vector = sylvester.Vector;  
@@ -85,8 +84,9 @@ module.exports = {
 				currentAsk:data.lowestAsk,
 				percentChange:data.percentChange,
 			};
+
 			console.log(data.currencyPair, data.percentChange);
-			MarketData.create(model).then(function(model){console.log(model)});
+			Data.create(model).then(function(model){console.log(model)});
 
 			//if % change in past 10 min is >0 and predicted to rise.. trade into it
 			//1 min% 5 min%, 
@@ -96,7 +96,8 @@ module.exports = {
 			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
 			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
 
-			//,1000)
+			//,1000);
+
 		});
 
 		poloniex.on('open', () => {
@@ -112,7 +113,6 @@ module.exports = {
 		});
 
 		poloniex.openWebSocket({ version: 2 });
-
 
 	},
 
