@@ -324,9 +324,24 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 	});
 };
 
+function analyze(){
+	Prediction.find({asset1:'ETH', asset2:'BTC'})
+	.sort('createdAt DESC')
+	.then(function(models){
+		console.log(models[0]);
+	});
+};
+
 
 
 module.exports.intervalService = function(){
+
+	//analyze();
+	dataService.ticker();
+	//setInterval(dataService.dataService, 14400000);
+
+	//setInterval(ticker, 6000);
+
 
 	//gonna have to save the trainers to a db -- aka the weighted nodes
 	//meantime

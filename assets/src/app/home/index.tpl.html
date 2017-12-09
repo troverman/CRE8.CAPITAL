@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="text-align:left">
 	<br>
 	<!--<h3 style="text-align:center;">a computational network designed to normalize risk and equalize investment returns.</h3>-->
 	<p>select financial representatives</p>
@@ -63,10 +63,10 @@
 	<br><br><br>
 </div>-->
 
-<div style="background-color:rgb(220,220,220);">
+<div style="background-color:rgb(220,220,220);text-align:left">
 	<br><br><br>
 	<div class="container">
-		<p>decentralized network that works together to power financial simulations.</p>
+		<h4>decentralized network that works together to power financial simulations.</h4>
 		<nvd3 options='options' data='data'></nvd3>
 		<br><br>
 		<div ng-repeat="pair in tradingPairs">
@@ -88,6 +88,6 @@
 	<br><br><br>
 </div>
 
-<div style="text-align:center" ng-include="'register/index.tpl.html'"></div>
+<div ng-include="'register/index.tpl.html'"></div>
 <div ng-include="'footer/index.tpl.html'"></div>
 
