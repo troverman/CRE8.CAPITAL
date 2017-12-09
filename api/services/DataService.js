@@ -44,36 +44,72 @@ module.exports = {
 		});
 	},
 
+	cullData: function(delta, time){
+		var now = new Date(), start = new Date(now.getTime() - (time));
+		console.log(delta, time)
+		Data.find().limit(10000)
+	    .where({createdAt: {'<': start}, delta:delta})
+	    .exec(function (err, data) {
+	    	console.log(data)
+	    	for (x in data){
+	    		console.log(data[x]);
+	    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
+	    	}
+	    });  
+	},
+
+	tickerREST: function(delta){
+	    var poloniex = new Poloniex();  
+		poloniex.returnTicker((err, ticker) => {
+			if (err) {console.log(err.message)}
+			else {
+				for (x in Object.keys(ticker)){
+					var data = ticker[Object.keys(ticker)[x]]
+					var model = {
+						assetPair:Object.keys(ticker)[x],
+						asset1:Object.keys(ticker)[x].split('_')[0],
+						asset2:Object.keys(ticker)[x].split('_')[1],
+						price:data.last,
+						currentBid:data.highestBid,
+						currentAsk:data.lowestAsk,
+						percentChange:data.percentChange,
+						delta:delta,
+
+					};
+					//console.log(model)
+					//console.log(data.currencyPair, data.percentChange);
+					Data.create(model).then(function(model){console.log(model)});
+				}
+			}
+		});
+	},
+
+
 	ticker: function(){
-	    //var poloniex = new Poloniex();  
-	    var poloniex = new Poloniex('BNYQZ2FT-BQWS8X8M-QJZNJQF9-W9LSHF5I','bdff467ff8f02ee9dd9c3e4576b85b5f241b2f3dd8ed52b9247f12d40e068882a6ad2cf678e0410415c2fcea7e50c228e31aed9de92191c429975da7a1c71725');
+	    var poloniex = new Poloniex();  
+	    //var poloniex = new Poloniex('BNYQZ2FT-BQWS8X8M-QJZNJQF9-W9LSHF5I','bdff467ff8f02ee9dd9c3e4576b85b5f241b2f3dd8ed52b9247f12d40e068882a6ad2cf678e0410415c2fcea7e50c228e31aed9de92191c429975da7a1c71725');
 
 		//poloniex.returnCompleteBalances('all', (data) => {
 		//	console.log(data);
 		//});
 
-		poloniex.returnBalances((data) => {
-			console.log(data);
-		});
+		//poloniex.returnBalances((data) => {
+		//	console.log(data);
+		//});
 
 		//poloniex.returnActiveLoans((data) => {
 		//	console.log(data);
 		//});
 
-		poloniex.returnTicker((err, ticker) => {
-			if (err) {console.log(err.message)}
-			else {
-
-
-				//console.log(ticker);
-
-			}
-		});
-
 		poloniex.subscribe('ticker');
 		//poloniex.subscribe('BTC_ETH');
-
+		var test = 0;
+		//var date = new Date();
 		poloniex.on('message', (channelName, data, seq) => {
+			test++
+			//console.log(test);
+			//var date1 = new Date();
+			//console.log(date1-date)
 			//setTimeout(
 			var model = {
 				assetPair:data.currencyPair,
@@ -85,7 +121,7 @@ module.exports = {
 				percentChange:data.percentChange,
 			};
 
-			console.log(data.currencyPair, data.percentChange);
+			//console.log(data.currencyPair, data.percentChange);
 			Data.create(model).then(function(model){console.log(model)});
 
 			//if % change in past 10 min is >0 and predicted to rise.. trade into it

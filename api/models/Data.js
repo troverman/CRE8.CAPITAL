@@ -28,6 +28,9 @@ module.exports = {
         },
         percentChange:{
             type: 'string',
+        },
+        delta:{
+            type: 'string',
         }
     },
 
