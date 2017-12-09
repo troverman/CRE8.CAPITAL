@@ -114,7 +114,7 @@ module.exports = {
 
 		poloniex.openWebSocket({ version: 2 });
 
-	},
+	}
 
 };
 

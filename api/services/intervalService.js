@@ -337,6 +337,7 @@ function analyze(){
 module.exports.intervalService = function(){
 
 	//analyze();
+	console.log(dataService)
 	dataService.ticker();
 
 	//setInterval(dataService.dataService, 14400000);
