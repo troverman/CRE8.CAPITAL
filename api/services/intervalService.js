@@ -342,6 +342,7 @@ module.exports.intervalService = function(){
 	//analyze();
 	//dataService.ticker();
 	//get the data
+	console.log(dataService)
 	setInterval(dataService.tickerREST.bind(null, 1000), 1000);//second
 	setInterval(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	setInterval(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
