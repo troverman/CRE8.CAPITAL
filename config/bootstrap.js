@@ -13,8 +13,7 @@ module.exports.bootstrap = function(cb) {
 
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  console.log(sails.services.dataservice);
-  console.log(utilsService, sails.services.utilsservice,  sails.services.emailservice, emailService)
+  console.log(sails.services.dataservice, dataService);
 
   intervalService.intervalService();
   sails.services.passport.loadStrategies();

@@ -339,6 +339,8 @@ function analyze(){
 
 module.exports.intervalService = function(){
 
+	//var dataService = {};
+	//sails.services.dataservice = dataService;
 	//analyze();
 	//dataService.ticker();
 	//get the data
