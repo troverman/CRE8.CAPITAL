@@ -1,5 +1,52 @@
 var request = require('request');
+var Poloniex = require('poloniex-api-node');
+
 module.exports = {
+
+	getData: function(req, res){
+
+		var delta = req.query.delta;
+		var asset1 = req.query.asset1;
+		var asset2 = req.query.asset2;
+		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2}).then(function(dataModel){
+			res.json(dataModel);
+		});
+
+	},
+
+	getTicker: function(req, res){
+
+		var poloniex = new Poloniex();  
+		poloniex.subscribe('ticker');
+		poloniex.on('message', (channelName, data, seq) => {
+			var model = {
+				assetPair:data.currencyPair,
+				asset1:data.currencyPair.split('_')[0],
+				asset2:data.currencyPair.split('_')[1],
+				price:data.last,
+				currentBid:data.highestBid,
+				currentAsk:data.lowestAsk,
+				percentChange:data.percentChange,
+			};
+			//TODO:publish data here
+		});
+
+		poloniex.on('open', () => {
+		  console.log('Poloniex WebSocket connection open');
+		});
+
+		poloniex.on('close', (reason, details) => {
+		  console.log('Poloniex WebSocket connection disconnected:', reason, details);
+		});
+
+		poloniex.on('error', (error) => {
+		  console.log('An error has occured');
+		});
+
+		poloniex.openWebSocket({ version: 2 });
+		
+	},
+
 	getCurrency: function(req, res) {
 		var model= {
 			url: 'http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json',

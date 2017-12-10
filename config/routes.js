@@ -27,8 +27,10 @@ module.exports.routes = {
   /**
    * Data routes
    */
+  'get /api/data': 'DataController.getData',
   'get /api/data/currency': 'DataController.getCurrency',
-  'get /api/data/ticker': 'DataController.getCurrency',
+  'get /api/data/ticker': 'DataController.getTicker',
+
 
   /**
    * Prediction routes
