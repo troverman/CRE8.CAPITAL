@@ -361,10 +361,10 @@ module.exports.intervalService = function(){
 	//dataService.cullData('1000', 6*60*60*1000)
 
 	//cull the data.. 
-	setInterval(dataService.cullData.bind(null, '1000', 6*60*60*1000), 7200000);//second
-	setInterval(dataService.cullData.bind(null, '5000', 24*60*60*1000), 7200000);//5 seconds
-	setInterval(dataService.cullData.bind(null, '30000', 7*24*60*60*1000), 7200000);//30seconds
-	setInterval(dataService.cullData.bind(null, '60000', 2*7*24*60*60*1000), 7200000);//60sec
+	setInterval(dataService.cullData.bind(null, '1000', 1*60*60*1000), 7200000);//second
+	setInterval(dataService.cullData.bind(null, '5000', 12*60*60*1000), 7200000);//5 seconds
+	setInterval(dataService.cullData.bind(null, '30000', 2*24*60*60*1000), 7200000);//30seconds
+	setInterval(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 7200000);//60sec
 	setInterval(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	setInterval(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
 	setInterval(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
