@@ -1,5 +1,5 @@
 var request = require('request');
-var Poloniex = require('poloniex-api-node');
+//var Poloniex = require('poloniex-api-node');
 
 module.exports = {
 

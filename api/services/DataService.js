@@ -1,8 +1,8 @@
 var request = require('request');
-var Poloniex = require('poloniex-api-node');
 //var sylvester = require('sylvester'),  
 	//Matrix = sylvester.Matrix,  
 	//Vector = sylvester.Vector;  
+var Poloniex = require('poloniex-api-node');
 
 module.exports = {
 
@@ -63,6 +63,8 @@ module.exports = {
 		poloniex.returnTicker((err, ticker) => {
 			if (err) {console.log(err.message)}
 			else {
+				console.log(Object.keys(ticker).length);
+				//x records per time
 				for (x in Object.keys(ticker)){
 					var data = ticker[Object.keys(ticker)[x]]
 					var model = {
@@ -78,7 +80,7 @@ module.exports = {
 					};
 					//console.log(model)
 					//console.log(data.currencyPair, data.percentChange);
-					Data.create(model).then(function(model){console.log(model)});
+					//Data.create(model).then(function(model){console.log(model)});
 				}
 			}
 		});
@@ -101,17 +103,17 @@ module.exports = {
 		//	console.log(data);
 		//});
 
-		poloniex.subscribe('ticker');
-		//poloniex.subscribe('BTC_ETH');
-		var test = 0;
+		//poloniex.subscribe('ticker');
+		poloniex.subscribe('BTC_ETH');
+		//var test = 0;
 		//var date = new Date();
 		poloniex.on('message', (channelName, data, seq) => {
-			test++
-			//console.log(test);
+			//test++
+			//console.log(data);
 			//var date1 = new Date();
 			//console.log(date1-date)
 			//setTimeout(
-			var model = {
+			/*var model = {
 				assetPair:data.currencyPair,
 				asset1:data.currencyPair.split('_')[0],
 				asset2:data.currencyPair.split('_')[1],
@@ -119,10 +121,10 @@ module.exports = {
 				currentBid:data.highestBid,
 				currentAsk:data.lowestAsk,
 				percentChange:data.percentChange,
-			};
+			};*/
 
 			//console.log(data.currencyPair, data.percentChange);
-			Data.create(model).then(function(model){console.log(model)});
+			//Data.create(model).then(function(model){console.log(model)});
 
 			//if % change in past 10 min is >0 and predicted to rise.. trade into it
 			//1 min% 5 min%, 
@@ -131,7 +133,6 @@ module.exports = {
 			//buy order when second derivitive of asset exchange rate is positive
 			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
 			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
-
 			//,1000);
 
 		});
