@@ -397,7 +397,6 @@ module.exports.intervalService = function(){
 		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], predictionTime:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
 	};*/
 
-
 	assetArrayLinearCombinationEquality();
 
 	NeuralNetwork.find()
@@ -415,14 +414,16 @@ module.exports.intervalService = function(){
 	
 
 	var fft = require('fft-js').fft;
+	var forecast = require('nostradamus')
    	var dataArray = [];	
-
+   	var predictions = [];
+ 
     //var csvWriter = require('csv-write-stream');
 	//var writer = csvWriter({ headers: ["date", "price"]});
     //writer.pipe(fs.createWriteStream('equation.csv'));
-	var now = new Date(), start = new Date(now.getTime() - (10 * 60 * 60 * 1000));
+	var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 	var yesterday = Date.parse(start);
-    Data.find({assetPair:'BTC_LTC', delta:'5000'})
+    Data.find({assetPair:'BTC_LTC', delta:'1000'})
     .sort('createdAt ASC')
     .limit(32)
     .then(function(models){
@@ -433,7 +434,7 @@ module.exports.intervalService = function(){
     		var update = date - yesterday;
     		if (update > 0){
 				//writer.write([update/1000, price]);
-				dataArray.push([update/1000, price*10000]);
+				dataArray.push([update/1000, price]);
 				//dataArray.push(price);
 
     		}
@@ -456,26 +457,30 @@ module.exports.intervalService = function(){
 				string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
 			}
 		}
-		console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
-		console.log(string);
-		console.log(phasors);
+
+		//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
+		//console.log(string);
+		//console.log(phasors);
 		//store fft in db for time periods..
 		//var stream = fs.createWriteStream("my_file.txt");
 		//stream.once('open', function(fd) {
 		//  stream.write(string);
 		//});
 
+		//predictions = forecast(dataArray, 0.5, 0.1, 0.1, 32, 4);
+		//console.log(predictions)
 
-		//writer.end();
-    	//console.log(dataArray);
-    	//var result = regression.polynomial(dataArray, { order: 8, precision: 200 })
-    	//console.log(result);
-    	//console.log((Date.parse(new Date()) - yesterday)/1000);
+    	var result = regression.polynomial(dataArray, { order: 100, precision: 200 })
+    	console.log(result);
+    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
     	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
     	//console.log(predict)
     	//console.log(models);
 
     });
+
+
+
 
 
     /*
