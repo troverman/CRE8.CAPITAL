@@ -342,7 +342,7 @@ module.exports.intervalService = function(){
 	//var dataService = {};
 	//sails.services.dataservice = dataService;
 	//analyze();
-	dataService.ticker();
+	//dataService.ticker();
 	//get the data
 	setInterval(dataService.tickerREST.bind(null, 1000), 1000);//second
 	setInterval(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
@@ -414,15 +414,17 @@ module.exports.intervalService = function(){
 
 	
 
-	//F ( x ) = a /2 + a 1 cos x + b 1 sin x + a 2 cos 2 x + b 2 sin 2 x + ... + a n cos nx + b n sin nx + ...
-   	/*var dataArray = [];
+	var fft = require('fft-js').fft;
+   	var dataArray = [];	
+
     //var csvWriter = require('csv-write-stream');
 	//var writer = csvWriter({ headers: ["date", "price"]});
-    //writer.pipe(fs.createWriteStream('BTC_LTC.csv'));
-	var now = new Date(), start = new Date(now.getTime() - (24 * 1 * 60 * 60 * 1000));
+    //writer.pipe(fs.createWriteStream('equation.csv'));
+	var now = new Date(), start = new Date(now.getTime() - (10 * 60 * 60 * 1000));
 	var yesterday = Date.parse(start);
-    Data.find({assetPair:'BTC_LTC', delta:'1000'})
+    Data.find({assetPair:'BTC_LTC', delta:'5000'})
     .sort('createdAt ASC')
+    .limit(32)
     .then(function(models){
     	for (x in models){
 
@@ -432,11 +434,38 @@ module.exports.intervalService = function(){
     		if (update > 0){
 				//writer.write([update/1000, price]);
 				dataArray.push([update/1000, price*10000]);
+				//dataArray.push(price);
 
     		}
 
     	}
-    
+
+		//var signal=ifft(dataArray);
+		//console.log(signal);
+		//console.log(dataArray);
+    	var phasors=fft(dataArray);
+		//console.log(phasors);
+		var string = '';
+		//F ( x ) = a /2 + a 1 cos x + b 1 sin x + a 2 cos 2 x + b 2 sin 2 x + ... + a n cos nx + b n sin nx + ...
+		for (x in phasors){
+			var a = phasors[x][0];
+			var b = phasors[x][1];
+			if(x==0){string = a+'/2'+ a +'cos(x) + '+b+'sin(x) + ';}
+			else{
+				//ancos(nx) + bnsin(nx)
+				string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
+			}
+		}
+		console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
+		console.log(string);
+		console.log(phasors);
+		//store fft in db for time periods..
+		//var stream = fs.createWriteStream("my_file.txt");
+		//stream.once('open', function(fd) {
+		//  stream.write(string);
+		//});
+
+
 		//writer.end();
     	//console.log(dataArray);
     	//var result = regression.polynomial(dataArray, { order: 8, precision: 200 })
@@ -446,7 +475,7 @@ module.exports.intervalService = function(){
     	//console.log(predict)
     	//console.log(models);
 
-    });*/
+    });
 
 
     /*

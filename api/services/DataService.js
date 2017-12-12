@@ -63,8 +63,7 @@ module.exports = {
 		poloniex.returnTicker((err, ticker) => {
 			if (err) {console.log(err.message)}
 			else {
-				console.log(Object.keys(ticker).length);
-				//x records per time
+				//100 pairs
 				for (x in Object.keys(ticker)){
 					var data = ticker[Object.keys(ticker)[x]]
 					var model = {
