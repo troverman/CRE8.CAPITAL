@@ -397,9 +397,9 @@ module.exports.intervalService = function(){
 		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], predictionTime:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
 	};*/
 
-	assetArrayLinearCombinationEquality();
+	//assetArrayLinearCombinationEquality();
 
-	NeuralNetwork.find()
+	/*NeuralNetwork.find()
     .then(function (models) {
 
     	//neuralNet(models[0].predictionTime/10, models[0].predictionTime, models[0],	models[0].asset1, models[0].asset2)
@@ -409,7 +409,7 @@ module.exports.intervalService = function(){
 				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
 			//}
 		}
-    });
+    });*/
 
 	
 
@@ -478,79 +478,5 @@ module.exports.intervalService = function(){
     	//console.log(models);
 
     });
-
-
-
-
-
-    /*
-	var networkArray = []
-	for (x in tradingPairs){
-		//var network = new Architect.Perceptron(2, 4, 3, 2);
-		//var trainer = new Trainer(network);
-		networkArray.push(
-			{
-				pair: tradingPairs[x],
-				network1: new Architect.Perceptron(2, 4, 3, 2),
-				network2: new Architect.Perceptron(2, 4, 3, 2),
-				network3: new Architect.Perceptron(2, 4, 3, 2),
-				network4: new Architect.Perceptron(2, 4, 3, 2),
-				network5: new Architect.Perceptron(2, 4, 3, 2)
-			}
-		);
-	}
-	for (x in networkArray){
-		neuralNet(6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1])
-		//setInterval(neuralNet.bind(null, 6000, 60000, networkArray[x].network1, new Trainer(networkArray[x].network1), networkArray[x].pair[0], networkArray[x].pair[1]), 60000);
-		//setInterval(neuralNet.bind(null, 30000, 300000, networkArray[x].network2, new Trainer(networkArray[x].network2), networkArray[x].pair[0], networkArray[x].pair[1]), 300000);
-		//setInterval(neuralNet.bind(null, 1800000, 1800000, networkArray[x].network3, new Trainer(networkArray[x].network3), networkArray[x].pair[0], networkArray[x].pair[1]), 1800000);
-		//setInterval(neuralNet.bind(null, 5400000, 5400000, networkArray[x].network4, new Trainer(networkArray[x].network4), networkArray[x].pair[0], networkArray[x].pair[1]), 5400000);
-		//setInterval(neuralNet.bind(null, 43200000, 43200000, networkArray[x].network5, new Trainer(networkArray[x].network5), networkArray[x].pair[0], networkArray[x].pair[1]), 43200000);
-		
-	}
-	*/
-
-
-
-	/*
-	var myNetwork = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer = new Trainer(myNetwork);
-	var myNetwork1 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer1 = new Trainer(myNetwork1);
-	var myNetwork2 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer2 = new Trainer(myNetwork2);
-	var myNetwork3 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer3 = new Trainer(myNetwork3);
-	var myNetwork4 = new Architect.Perceptron(2, 4, 3, 2);
-	var trainer4 = new Trainer(myNetwork4);
-	//portfolio weight is 0-1 btc to usd
-	////make trade? 
-	var budgetNetwork = new Architect.Perceptron(2, 4, 3, 2);
-	var budgetTrainer = new Trainer(budgetNetwork);
-	//neuralNet(50000,80000);
-	//neuralNet(30000,60000*5);
-	//neuralNet(30000/5,60000);
-	//1 min, 6 seconds(x10)
-	//1 min to train, wait 1 min, 1 min to train
-	//new prediction every 3 min
-	setInterval(neuralNet.bind(null, 6000, 60000, myNetwork, trainer), 60000);
-	//5 min, 30 sec(x10)
-	//5 min to train, wait 5 min, 5 min to train
-	//new prediction every 15min
-	setInterval(neuralNet.bind(null, 30000, 300000, myNetwork1, trainer1), 300000);
-	//30 min, 180 sec(x10)
-	//30 min to train, wait 30 min, 30 min to train
-	//new prediction every 90min
-	setInterval(neuralNet.bind(null, 180000, 1800000, myNetwork2, trainer2), 1800000);
-	//90 min, 540 sec(x10)
-	//90 min to train, wait 90 min, 90 min to train
-	//new prediction every 270min
-	setInterval(neuralNet.bind(null, 540000, 5400000, myNetwork3, trainer3), 5400000);
-	//720 min, 4320 sec(x10)
-	//720 min to train, wait 720 min, 720 min to train
-	//new prediction every 36hrs
-	setInterval(neuralNet.bind(null, 4320000, 43200000, myNetwork4, trainer4), 43200000);
-	*/
-
 
 };
