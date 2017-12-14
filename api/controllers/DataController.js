@@ -1,5 +1,5 @@
 var request = require('request');
-//var Poloniex = require('poloniex-api-node');
+var Poloniex = require('poloniex-api-node');
 
 module.exports = {
 
@@ -8,7 +8,18 @@ module.exports = {
 		var delta = req.query.delta;
 		var asset1 = req.query.asset1;
 		var asset2 = req.query.asset2;
-		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2}).then(function(dataModel){
+		var limit = req.query.limit;
+		var skip = req.query.skip;
+		var sort = 'createdAt DESC';//req.query.filter;
+		//var filter;
+
+		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2})
+		.limit(limit)
+		.skip(skip)
+		.sort(sort)
+		.then(function(dataModel){
+			Data.subscribe(req, dataModel);
+			Data.watch(req);
 			res.json(dataModel);
 		});
 

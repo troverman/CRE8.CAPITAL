@@ -83,6 +83,10 @@
 	<br><br><br>
 	<div class="container">
 		<h1>Activity</h1>
+		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
+		<div ng-repeat="someData in marketData">
+			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}
+		</div>
 		<h4>sound and transparent investments</h4>
 	</div>
 	<br><br><br>

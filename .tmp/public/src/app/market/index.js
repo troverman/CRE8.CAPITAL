@@ -23,12 +23,18 @@ angular.module( 'investing.market', [
             currentPredictionThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
                 //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 1800000);
                 return null;
+            }],
+            marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
+                console.log('hi');
+                //return null;
+                //{asset1:$stateParams.path1, asset2:$stateParams.path2, delta:'1800000'}
+                return DataModel.getData(500, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 1000);
             }]
         }
 	});
 }])
 
-.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
 	$scope.predictionDataFiveMin = predictionDataFiveMin;
     $scope.predictionDataThirtyMin = predictionDataThirtyMin;
@@ -37,7 +43,11 @@ angular.module( 'investing.market', [
     $scope.currentPredictionFiveMin = currentPredictionFiveMin;
     $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
 
-    $scope.currentData = null
+    $scope.marketData = marketData;
+
+    console.log(marketData);
+
+    $scope.currentData = null;
     //console.log(currentPredictionFiveMin)
     PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000).then(function(model){
         console.log(model);

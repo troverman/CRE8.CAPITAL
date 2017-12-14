@@ -15,17 +15,23 @@ angular.module( 'investing.home', [
                 //return DataModel.getCurrency();
                 return null;
             }],
+            marketData: ['DataModel', function(DataModel) {
+                return DataModel.getData(500, 0, 'createdAt DESC', 'BTC', 'LTC', 5000);
+            }],
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
+                return PredictionModel.getSome(300, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
             }],
         }
     });
 }])
 
-.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, predictionData ) {
+.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'marketData', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, marketData, predictionData ) {
     titleService.setTitle('investingfor');
     $scope.currentUser = config.currentUser;
     $scope.predictionData = predictionData;
+
+    $scope.marketData = marketData;
+    console.log(marketData);
 
 
     $scope.tradingPairs = [
@@ -163,6 +169,74 @@ angular.module( 'investing.home', [
     $scope.directedData = currencyData;
     */
 
+
+
+
+    $scope.marketOptions = {
+        chart: {
+            type: 'lineWithFocusChart',
+            height: 450,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 65
+            },
+            x: function(d){ 
+                return d[0]; 
+            },
+            y: function(d){ 
+                return d[1]; 
+            },
+            color: d3.scale.category10().range(),
+            duration: 1500,
+            useInteractiveGuideline: true,
+            clipVoronoi: true,
+            xAxis: {
+                axisLabel: 'Time',
+                tickFormat: function(d) {
+                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                },
+                staggerLabels: true
+            },
+            yAxis: {
+                axisLabel: 'BTC/LTC',
+                axisLabelDistance: 50
+            }
+        }
+    };
+
+    $scope.marketGraphData = {};
+    $scope.marketGraphData.key = 'BTC LTC';
+    $scope.marketGraphData.color = '#ff7f0e';
+    $scope.marketGraphData.values = [];
+
+    $scope.marketGraphChangeData = {};
+    $scope.marketGraphChangeData.key = 'BTC LTC Change';
+    $scope.marketGraphChangeData.color = '#a94442';
+    $scope.marketGraphChangeData.values = [];
+
+
+    $scope.updateMarketData = function (){
+        $scope.marketData.reverse().forEach(function(obj, index){ 
+            $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
+            var change = 0;
+            if (index > 1){change = obj.price - $scope.marketData[index-1];}
+            $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
+            //console.log(change, 'hi');
+
+        });
+        //$scope.marketGraphDataRender = [$scope.marketGraphChangeData];
+        $scope.marketGraphDataRender = [$scope.marketGraphData];
+        //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
+
+    }
+    $scope.updateMarketData();
+    
+    //$scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
+    //$scope.marketGraphDataRender = [$scope.marketGraphData];
+
+
     $sailsSocket.subscribe('prediction', function (envelope) {
         switch(envelope.verb) {
             case 'created':
@@ -174,5 +248,53 @@ angular.module( 'investing.home', [
                 //$scope.predictionData
         }
     });
+
+    $sailsSocket.subscribe('data', function (envelope) {
+        switch(envelope.verb) {
+            case 'created':
+                //console.log(envelope.data);
+                if (envelope.data.assetPair=='BTC_LTC' && envelope.data.delta == '5000'){
+                    console.log(envelope.data);
+                    $scope.marketData.push(envelope.data);
+
+                    var change = $scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price
+                   
+                    console.log(change);
+
+                    $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
+                    
+                    $scope.marketGraphChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), change]);
+
+                    //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
+                    $scope.marketGraphDataRender = [$scope.marketGraphData]//, $scope.marketGraphChangeData];
+                    //$scope.marketGraphDataRender = [$scope.marketGraphChangeData];
+                    //$scope.updateMarketData();
+                }
+                if ($scope.marketData.length >= 300){
+                    $scope.marketData.shift();
+                    $scope.marketGraphData.values.shift()
+                    $scope.marketGraphDataRender = [$scope.marketGraphData]
+                }
+        }
+    });
+
+
+    //sails.sockets.join(req, 'ticker', function(err) {
+        //res.json({});
+    //});
+
+
+    /*
+    $sailsSocket.subscribe('ticker', function (envelope) {
+        //console.log(envelope);
+        $scope.pendingTransactions = envelope;
+        $scope.pendingTransactionsList.push(envelope);
+        if ($scope.pendingTransactionsList.length >= 100){
+            $scope.pendingTransactionsList.shift();
+        }
+    });
+    */
+
+
 
 }]);

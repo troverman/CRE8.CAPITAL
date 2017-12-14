@@ -150,6 +150,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<br><br><br>\n" +
     "	<div class=\"container\">\n" +
     "		<h1>Activity</h1>\n" +
+    "		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "		<div ng-repeat=\"someData in marketData\">\n" +
+    "			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}\n" +
+    "		</div>\n" +
     "		<h4>sound and transparent investments</h4>\n" +
     "	</div>\n" +
     "	<br><br><br>\n" +

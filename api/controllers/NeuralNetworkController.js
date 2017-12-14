@@ -1,6 +1,5 @@
 module.exports = {
 
-
 	getAll: function(req, res) {
 		NeuralNetwork.getAll()
 		.spread(function(models) {
@@ -34,8 +33,6 @@ module.exports = {
 	},
 
 	create: function (req, res) {
-	
-
 		NeuralNetwork.create(model)
 		.exec(function(err, model) {
 			if (err) {

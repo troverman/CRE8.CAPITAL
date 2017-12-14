@@ -79,7 +79,11 @@ module.exports = {
 					};
 					//console.log(model)
 					//console.log(data.currencyPair, data.percentChange);
-					Data.create(model).then(function(model){console.log(model)});
+					Data.create(model).then(function(model){
+						console.log(model);
+						//Data.publishCreate(model.toJSON());
+						Data.publishCreate(model);
+					});
 				}
 			}
 		});

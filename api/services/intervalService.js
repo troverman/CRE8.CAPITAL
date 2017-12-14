@@ -434,7 +434,7 @@ module.exports.intervalService = function(){
     		//var update = date - yesterday;
     		//if (update > 0){
 				//writer.write([update/1000, price]);
-				dataArray.push([update/1000, price]);
+				dataArray.push([date, price]);
 				//dataArray.push(price);
 
     		//}

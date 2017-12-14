@@ -119,6 +119,8 @@ module.exports = {
 		.where(JSON.parse(req.query.filter))
 		.then(function(predictionModel){
 			res.json(predictionModel);
+			Prediction.watch(req);
+			Prediction.subscribe(req, predictionModel);
 		});
 
 	},
@@ -130,13 +132,13 @@ module.exports = {
 			first_name: req.param('first_name')
 		};
 
-		User.create(model)
+		Prediction.create(model)
 		.exec(function(err, model) {
 			if (err) {
 				return console.log(err);
 			}
 			else {
-				User.publishCreate(model.toJSON());
+				Prediction.publishCreate(model.toJSON());
 				res.json(model);
 			}
 		});
