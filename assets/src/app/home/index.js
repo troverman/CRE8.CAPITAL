@@ -39,7 +39,7 @@ angular.module( 'investing.home', [
     $scope.seletetData = function (asset1, asset2, delta){
         $scope.selectedPair = [asset1, asset2];
         $scope.selectedDelta = delta;
-        DataModel.getData(100, 0, 'createdAt DESC', asset1,  asset2, delta).then((model)=>{
+        DataModel.getData(100, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
             $scope.marketData = model;
             $scope.updateMarketData();
         })

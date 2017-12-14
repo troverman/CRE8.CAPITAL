@@ -208,9 +208,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<br><br><br>\n" +
     "</div>-->\n" +
     "\n" +
-    "<div style=\"background-color:#FFF9FC;text-align:left\">\n" +
+    "<div style=\"text-align:left\">\n" +
     "	<br><br><br>\n" +
-    "	<div class=\"container\">\n" +
+    "	<div class=\"container\" style=\"max-height:500px;overflow:scroll\">\n" +
     "		<h4>decentralized network that works together to power financial simulations.</h4>\n" +
     "		<nvd3 options='options' data='data'></nvd3>\n" +
     "		<br><br>\n" +
@@ -247,7 +247,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "</div>\n" +
     "\n" +
     "\n" +
-    "<div style=\"background-color:#E1EFFF;text-align:left;\">\n" +
+    "<div style=\"text-align:left;\">\n" +
     "	<br><br><br>\n" +
     "	<div class=\"container\">\n" +
     "		<h1>Activity</h1>\n" +
