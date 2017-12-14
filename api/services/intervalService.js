@@ -339,8 +339,8 @@ function analyze(){
 
 module.exports.intervalService = function(){
 
-	//var dataService = {};
-	//sails.services.dataservice = dataService;
+	var dataService = {};
+	dataService = sails.services.dataservice;
 	//analyze();
 	//dataService.ticker();
 	//get the data
@@ -431,13 +431,13 @@ module.exports.intervalService = function(){
 
 			var price = models[x].price;
     		var date = Date.parse(models[x].createdAt);
-    		var update = date - yesterday;
-    		if (update > 0){
+    		//var update = date - yesterday;
+    		//if (update > 0){
 				//writer.write([update/1000, price]);
 				dataArray.push([update/1000, price]);
 				//dataArray.push(price);
 
-    		}
+    		//}
 
     	}
 
