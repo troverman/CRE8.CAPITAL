@@ -20,6 +20,17 @@ module.exports = {
             type: 'json'
             //required: true
         },
+        btcWalletAddress: {
+            type: 'json'
+            //required: true
+        },
+        ltcWalletAddress: {
+            type: 'json'
+            //required: true
+        },
+        poloniexApiKey: {
+            type: 'json'
+        },
         passports : { collection: 'Passport', via: 'user' }
     },
 

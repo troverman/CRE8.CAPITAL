@@ -25,9 +25,6 @@ angular.module( 'investing.market', [
                 return null;
             }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
-                console.log('hi');
-                //return null;
-                //{asset1:$stateParams.path1, asset2:$stateParams.path2, delta:'1800000'}
                 return DataModel.getData(500, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 1000);
             }]
         }

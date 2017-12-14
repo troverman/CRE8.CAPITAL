@@ -63,29 +63,60 @@
 	<br><br><br>
 </div>-->
 
-<div style="background-color:rgb(220,220,220);text-align:left">
+<div style="background-color:#FFF9FC;text-align:left">
 	<br><br><br>
 	<div class="container">
 		<h4>decentralized network that works together to power financial simulations.</h4>
 		<nvd3 options='options' data='data'></nvd3>
 		<br><br>
+		
 		<div ng-repeat="pair in tradingPairs">
-			<a href="market/{{pair[0]}}/{{pair[1]}}">{{pair[0]}}/{{pair[1]}}</a>
-			<br>
+			<div class="col-md-3">
+				<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+			</div>
 		</div>
+
+		<!--<div class="col-md-3">
+			<div ng-repeat="pair in tradingPairs">
+				<a ng-show="pair.split('/')[1] == 'BTC'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div ng-repeat="pair in tradingPairs">
+				<a ng-show="pair.split('/')[1] == 'USDT'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div ng-repeat="pair in tradingPairs">
+				<a ng-show="pair.split('/')[1] == 'ETH'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div ng-repeat="pair in tradingPairs">
+				<a ng-show="pair.split('/')[1] == 'XMR'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+			</div>
+		</div>-->
 
 	</div>
 	<br><br><br>
 </div>
 
 
-<div style="background-color:rgb(240,240,240);text-align:left;">
+<div style="background-color:#E1EFFF;text-align:left;">
 	<br><br><br>
 	<div class="container">
 		<h1>Activity</h1>
+
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '1000')">'BTC', 'LTC', '1000'</button>
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '5000')">'BTC', 'LTC', '5000'</button>
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '30000')">'BTC', 'LTC', '30000'</button>
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '60000')">'BTC', 'LTC', '60000'</button>
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '300000')">'BTC', 'LTC', '300000'</button>
+
+		<button class="btn btn-default" ng-click="seletetData('BTC', 'BCY', '1000')">'BTC', 'BCY', '1000'</button>
 		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 		<div ng-repeat="someData in marketData">
-			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}
+			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}
 		</div>
 		<h4>sound and transparent investments</h4>
 	</div>

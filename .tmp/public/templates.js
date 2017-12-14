@@ -45,10 +45,88 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
 angular.module("account/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("account/index.tpl.html",
     "<div class=\"container\">\n" +
-    "	\n" +
+    "	<h1>user info</h1>\n" +
+    "	<p>edit etc</p>\n" +
+    "	<h2>api key</h2>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "STR	Ste\n" +
+    "XEM	NEM\n" +
+    "NXT	NXT\n" +
+    "USDT\n" +
+    "ETH	Et\n" +
+    "LTC	Li\n" +
+    "BCH	Bit\n" +
+    "BTC	Bit\n" +
+    "AMP	Syn\n" +
+    "ARDR\n" +
+    "BCN	By\n" +
+    "BCY	Bit\n" +
+    "BEL\n" +
+    "BLK	Bla\n" +
+    "BTCD\n" +
+    "BTM	Bit\n" +
+    "Tempora\n" +
+    "BTS	Bit\n" +
+    "BURST\n" +
+    "CLAM\n" +
+    "CVC	C\n" +
+    "DAS\n" +
+    "DCR	De\n" +
+    "DGB	Di\n" +
+    "DOGE\n" +
+    "EMC2\n" +
+    "ETC	Ethw\n" +
+    "EXP	Exp\n" +
+    "FCT	Fa\n" +
+    "FLDC\n" +
+    "FLO	Flo\n" +
+    "GAME\n" +
+    "GAS	Gas\n" +
+    "GNO	Gn\n" +
+    "GNT	G\n" +
+    "GRC	Griw\n" +
+    "HUC	Hun\n" +
+    "LBC	LBR\n" +
+    "LSK	\n" +
+    "MAIDw\n" +
+    "NAV	NAV\n" +
+    "NEOS\n" +
+    "NMC	Na\n" +
+    "NXC	Ne\n" +
+    "OMG	Omi\n" +
+    "OMN\n" +
+    "PASC\n" +
+    "PINK\n" +
+    "POT\n" +
+    "PPC\n" +
+    "RADS\n" +
+    "REP\n" +
+    "RIC\n" +
+    "SBD\n" +
+    "SC\n" +
+    "STEEM\n" +
+    "STORJ\n" +
+    "STRAT\n" +
+    "SYS	Sys\n" +
+    "VIA	Via\n" +
+    "VRC	Ve\n" +
+    "VTC	Ve\n" +
+    "XBC	Bit\n" +
+    "XCP	Cou\n" +
+    "XMR	Mo\n" +
+    "XPM	Pri\n" +
+    "XRP	Ri\n" +
+    "XVC	V\n" +
+    "ZEC	Z\n" +
+    "ZRX	0x\n" +
+    "\n" +
     "\n" +
     "</div>\n" +
-    "<div style=\"height:100px;\"></div>\n" +
+    "<div st\n" +
     "");
 }]);
 
@@ -130,29 +208,60 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<br><br><br>\n" +
     "</div>-->\n" +
     "\n" +
-    "<div style=\"background-color:rgb(220,220,220);text-align:left\">\n" +
+    "<div style=\"background-color:#FFF9FC;text-align:left\">\n" +
     "	<br><br><br>\n" +
     "	<div class=\"container\">\n" +
     "		<h4>decentralized network that works together to power financial simulations.</h4>\n" +
     "		<nvd3 options='options' data='data'></nvd3>\n" +
     "		<br><br>\n" +
+    "		\n" +
     "		<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "			<a href=\"market/{{pair[0]}}/{{pair[1]}}\">{{pair[0]}}/{{pair[1]}}</a>\n" +
-    "			<br>\n" +
+    "			<div class=\"col-md-3\">\n" +
+    "				<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "			</div>\n" +
     "		</div>\n" +
+    "\n" +
+    "		<!--<div class=\"col-md-3\">\n" +
+    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "				<a ng-show=\"pair.split('/')[1] == 'BTC'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-md-3\">\n" +
+    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "				<a ng-show=\"pair.split('/')[1] == 'USDT'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-md-3\">\n" +
+    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "				<a ng-show=\"pair.split('/')[1] == 'ETH'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-md-3\">\n" +
+    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "				<a ng-show=\"pair.split('/')[1] == 'XMR'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "			</div>\n" +
+    "		</div>-->\n" +
     "\n" +
     "	</div>\n" +
     "	<br><br><br>\n" +
     "</div>\n" +
     "\n" +
     "\n" +
-    "<div style=\"background-color:rgb(240,240,240);text-align:left;\">\n" +
+    "<div style=\"background-color:#E1EFFF;text-align:left;\">\n" +
     "	<br><br><br>\n" +
     "	<div class=\"container\">\n" +
     "		<h1>Activity</h1>\n" +
+    "\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '1000')\">'BTC', 'LTC', '1000'</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '5000')\">'BTC', 'LTC', '5000'</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '30000')\">'BTC', 'LTC', '30000'</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '60000')\">'BTC', 'LTC', '60000'</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '300000')\">'BTC', 'LTC', '300000'</button>\n" +
+    "\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'BCY', '1000')\">'BTC', 'BCY', '1000'</button>\n" +
     "		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "		<div ng-repeat=\"someData in marketData\">\n" +
-    "			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}\n" +
+    "			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}\n" +
     "		</div>\n" +
     "		<h4>sound and transparent investments</h4>\n" +
     "	</div>\n" +

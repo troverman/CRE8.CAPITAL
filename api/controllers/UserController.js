@@ -19,6 +19,20 @@ module.exports = {
 		});
 	},
 
+	update: function (req, res) {
+	
+		User.update(model)
+		.exec(function(err, model) {
+			if (err) {
+				return console.log(err);
+			}
+			else {
+				User.publishCreate(model.toJSON());
+				res.json(model);
+			}
+		});
+	},
+
 	create: function (req, res) {
 		var model = {
 			username: req.param('username'),
