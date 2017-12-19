@@ -436,15 +436,60 @@ function analyze(){
 	});
 };
 
+function timer(callback, delay){
+    var self = this;
+    var counter = 0;
+    var start = new Date().getTime();
+    function delayed(){
+        callback(delay);
+        counter ++;
+        var diff = (new Date().getTime() - start) - counter * delay;
+        setTimeout(delayed, delay - diff);
+    }
+    delayed();
+    setTimeout(delayed, delay);
+};
+
 
 
 module.exports.intervalService = function(){
 
 	var dataService = {};
 	dataService = sails.services.dataservice;
-	//analyze();
-	//dataService.ticker();
-	//get the data
+	//timer(dataService.tickerREST.bind(null, 1000), 1000);
+	//timer(dataService.tickerREST, 1000);
+
+	timer(dataService.tickerREST.bind(null, 1000), 1000);//second
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6), 1000*5*12*5*6);//30min
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2), 1000*5*12*5*6*2);//1hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2), 1000*5*12*5*6*2*2);//2hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
+
+	//Data.find().limit(100).then((model)=>console.log(model))
+	//dataService.cullData('1000', 6*60*60*1000)
+
+	//cull the data.. 
+	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 7200000);//second
+	timer(dataService.cullData.bind(null, '5000', 6*60*60*1000), 7200000);//5 seconds
+	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 7200000);//30seconds
+	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 7200000);//60sec
+	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
+	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
+	timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
+	timer(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr
+	timer(dataService.cullData.bind(null, '14400000', 2*2*2*2*7*24*60*60*1000), 7200000);//4hr
+	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
+	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
+	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
+
+	/*
 	setInterval(dataService.tickerREST.bind(null, 1000), 1000);//second
 	setInterval(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	setInterval(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
@@ -474,6 +519,7 @@ module.exports.intervalService = function(){
 	setInterval(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	setInterval(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
 	setInterval(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
+	*/
 
 
 	//setInterval(dataService.dataService, 14400000);

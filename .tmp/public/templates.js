@@ -376,10 +376,27 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
   $templateCache.put("market/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<h1>{{stateParams.path1}} - {{stateParams.path2}}</h1>\n" +
+    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
+    "\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds'</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>\n" +
     "	\n" +
-    "	<br><br><br>\n" +
-    "	<h2>5 Min Prediction</h2>\n" +
+    "	<h2>Price Data</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "\n" +
+    "	<h2>Market Change</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
+    "\n" +
+    "\n" +
+    "	<h2>Market Change^2</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "	<!--<h2>5 Min Prediction</h2>\n" +
     "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
     "	<br><br><br>\n" +
     "\n" +
@@ -444,7 +461,10 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
     "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
     "	</div>\n" +
     "\n" +
-    "</div>\n" +
+    "</div>-->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "");
 }]);

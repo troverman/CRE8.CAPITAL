@@ -1,9 +1,26 @@
 <div class="container" style="text-align:left">
 
-	<h1>{{stateParams.path1}} - {{stateParams.path2}}</h1>
+	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
+
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '1000')">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '5000')">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '30000')">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds'</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '60000')">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '300000')">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>
 	
-	<br><br><br>
-	<h2>5 Min Prediction</h2>
+	<h2>Price Data</h2>
+	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
+
+	<h2>Market Change</h2>
+	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
+
+
+	<h2>Market Change^2</h2>
+	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>
+
+
+
+	<!--<h2>5 Min Prediction</h2>
 	<nvd3 options='options' data='fiveMinData'></nvd3>
 	<br><br><br>
 
@@ -68,5 +85,8 @@
 		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>
 	</div>
 
-</div>
+</div>-->
+
+
+
 <div style="height:100px;"></div>
