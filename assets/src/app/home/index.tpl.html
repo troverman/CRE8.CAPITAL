@@ -98,30 +98,24 @@
 		</div>-->
 
 	</div>
-	<br><br><br>
 </div>
 
+<br><br><br>
 
 <div style="text-align:left;">
 	<br><br><br>
 	<div class="container">
 		<h1>Activity</h1>
-
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '1000')">'BTC', 'LTC', '1000'</button>
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '5000')">'BTC', 'LTC', '5000'</button>
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '30000')">'BTC', 'LTC', '30000'</button>
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '60000')">'BTC', 'LTC', '60000'</button>
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'LTC', '300000')">'BTC', 'LTC', '300000'</button>
-
-		<button class="btn btn-default" ng-click="seletetData('BTC', 'BCY', '1000')">'BTC', 'BCY', '1000'</button>
 		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
-		<!--<div ng-repeat="someData in marketData">
-			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}
-		</div>-->
+		<br>
 		<h4>sound and transparent investments</h4>
+		<div ng-repeat="someData in marketData">
+			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.delta}}</p>
+		</div>
 	</div>
-	<br><br><br>
 </div>
+
+<br><br>
 
 <div ng-include="'register/index.tpl.html'"></div>
 <div ng-include="'footer/index.tpl.html'"></div>
