@@ -12,26 +12,29 @@ angular.module( 'investing.market', [
 		},
         resolve:{
             predictionDataFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'300000'});
+                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'300000'});
+                return null;
             }],
             predictionDataThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
+                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
+                return null;
             }],
             currentPredictionFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
+                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
+                return null;
             }],
             currentPredictionThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
                 //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 1800000);
                 return null;
             }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
-                return DataModel.getData(500, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 1000);
+                return DataModel.getData(100, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 5000);
             }]
         }
 	});
 }])
 
-.controller( 'MarketCtrl', ['$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
 	$scope.predictionDataFiveMin = predictionDataFiveMin;
     $scope.predictionDataThirtyMin = predictionDataThirtyMin;
@@ -41,11 +44,12 @@ angular.module( 'investing.market', [
     $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
 
     $scope.marketData = marketData;
+    $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
+    $scope.selectedDelta = '5000';
 
     console.log(marketData);
 
     $scope.currentData = null;
-    //console.log(currentPredictionFiveMin)
     PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000).then(function(model){
         console.log(model);
         $scope.currentData = model.currentData;
@@ -166,6 +170,35 @@ angular.module( 'investing.market', [
     $scope.thirtyMinData = [$scope.predictionThirtyMinAskData, $scope.predictionThirtyMinBidData, $scope.actualThirtyMinAskData, $scope.actualThirtyMinBidData]
 
 
+
+    $sailsSocket.subscribe('data', function (envelope) {
+        switch(envelope.verb) {
+            case 'created':
+                //console.log(envelope.data);
+                if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
+                    console.log(envelope.data);
+                    $scope.marketData.push(envelope.data);
+
+                    var change = $scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price
+                   
+                    console.log(change);
+
+                    $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
+                    
+                    $scope.marketGraphChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), change]);
+
+                    //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
+                    $scope.marketGraphDataRender = [$scope.marketGraphData]//, $scope.marketGraphChangeData];
+                    //$scope.marketGraphDataRender = [$scope.marketGraphChangeData];
+                    //$scope.updateMarketData();
+                }
+                if ($scope.marketData.length >= 300){
+                    $scope.marketData.shift();
+                    $scope.marketGraphData.values.shift()
+                    $scope.marketGraphDataRender = [$scope.marketGraphData]
+                }
+        }
+    });
 
 
 

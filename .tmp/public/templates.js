@@ -1,6 +1,6 @@
-angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html"]);
+angular.module('templates-app', ['about/index.tpl.html', 'account/index.tpl.html', 'footer/index.tpl.html', 'home/index.tpl.html', 'intro/index.tpl.html', 'login/index.tpl.html', 'market/index.tpl.html', 'member/index.tpl.html', 'nav/index.tpl.html', 'register/index.tpl.html']);
 
-angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("about/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("about/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "	<h2>investingfor</h2>\n" +
@@ -42,7 +42,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "");
 }]);
 
-angular.module("account/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("account/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("account/index.tpl.html",
     "<div class=\"container\">\n" +
     "	<h1>user info</h1>\n" +
@@ -130,7 +130,7 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
     "");
 }]);
 
-angular.module("footer/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("footer/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("footer/index.tpl.html",
     "<div class=\"footer\" ng-controller=\"FooterCtrl\">\n" +
     "  <div class=\"container\">\n" +
@@ -141,7 +141,7 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function($tem
     "</div>");
 }]);
 
-angular.module("home/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("home/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("home/index.tpl.html",
     "<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
     "<!--<nvd3 options='options' data='data'></nvd3>\n" +
@@ -210,7 +210,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "<div style=\"text-align:left\">\n" +
     "	<br><br><br>\n" +
-    "	<div class=\"container\" style=\"max-height:500px;overflow:scroll\">\n" +
+    "	<div class=\"container\" style=\"\">\n" +
     "		<h4>decentralized network that works together to power financial simulations.</h4>\n" +
     "		<nvd3 options='options' data='data'></nvd3>\n" +
     "		<br><br>\n" +
@@ -260,9 +260,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'BCY', '1000')\">'BTC', 'BCY', '1000'</button>\n" +
     "		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
-    "		<div ng-repeat=\"someData in marketData\">\n" +
+    "		<!--<div ng-repeat=\"someData in marketData\">\n" +
     "			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}\n" +
-    "		</div>\n" +
+    "		</div>-->\n" +
     "		<h4>sound and transparent investments</h4>\n" +
     "	</div>\n" +
     "	<br><br><br>\n" +
@@ -274,7 +274,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "");
 }]);
 
-angular.module("intro/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("intro/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("intro/index.tpl.html",
     "<div ng-controller=\"IntroCtrl\" class=\"intro-container\">\n" +
     "    <svg style=\"z-index:10\" class=\"intro\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1920 1080\" width=\"1920px\" height=\"1080px\" preserveAspectRatio=\"xMidYMid slice\">\n" +
@@ -322,7 +322,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "</div>");
 }]);
 
-angular.module("login/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("login/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("login/index.tpl.html",
     "<div class=\"intro-header\">\n" +
     "    <div class=\"container\">\n" +
@@ -372,7 +372,7 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
     "</div>");
 }]);
 
-angular.module("market/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("market/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("market/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
@@ -449,7 +449,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "");
 }]);
 
-angular.module("member/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("member/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("member/index.tpl.html",
     "<div class=\"container\">\n" +
     "	\n" +
@@ -468,7 +468,7 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
     "");
 }]);
 
-angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("nav/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("nav/index.tpl.html",
     "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
     "  <div class=\"container\">\n" +
@@ -502,7 +502,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "</div>");
 }]);
 
-angular.module("register/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("register/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("register/index.tpl.html",
     "<div class=\"intro-header\">\n" +
     "    <div class=\"container\">\n" +

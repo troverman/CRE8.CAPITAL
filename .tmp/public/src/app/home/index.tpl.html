@@ -65,7 +65,7 @@
 
 <div style="text-align:left">
 	<br><br><br>
-	<div class="container" style="max-height:500px;overflow:scroll">
+	<div class="container" style="">
 		<h4>decentralized network that works together to power financial simulations.</h4>
 		<nvd3 options='options' data='data'></nvd3>
 		<br><br>
@@ -115,9 +115,9 @@
 
 		<button class="btn btn-default" ng-click="seletetData('BTC', 'BCY', '1000')">'BTC', 'BCY', '1000'</button>
 		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
-		<div ng-repeat="someData in marketData">
+		<!--<div ng-repeat="someData in marketData">
 			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}
-		</div>
+		</div>-->
 		<h4>sound and transparent investments</h4>
 	</div>
 	<br><br><br>
