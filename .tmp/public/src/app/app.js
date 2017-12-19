@@ -10,6 +10,7 @@ angular.module( 'investing', [
     'services',
     'models',
     'nvd3',
+    'ngMaterial',
     'investing.about',
     'investing.account',
     'investing.footer',
@@ -41,4 +42,10 @@ angular.module( 'investing', [
 })
 .controller( 'AppCtrl', ['$rootScope', '$scope', 'config', function AppCtrl ( $rootScope, $scope, config) {
     config.currentUser = window.currentUser;
+    $rootScope.$on('$stateChangeStart',function(){
+        $rootScope.stateIsLoading = true;
+    });
+    $rootScope.$on('$stateChangeSuccess',function(){
+        $rootScope.stateIsLoading = false;
+    });
 }]);

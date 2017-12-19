@@ -16,7 +16,8 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   'styles/**/*.css',
-  'bower_components/nvd3/build/nv.d3.css'
+  'bower_components/nvd3/build/nv.d3.css',
+  'bower_components/angular-material/angular-material.css',
 ];
 
 
@@ -38,6 +39,9 @@ var jsFilesToInject = [
   'bower_components/d3/d3.js',
   'bower_components/nvd3/build/nv.d3.js',
   'bower_components/angular-nvd3/dist/angular-nvd3.js',
+  'bower_components/angular-animate/angular-animate.min.js',
+  'bower_components/angular-aria/angular-aria.min.js',
+  'bower_components/angular-material/angular-material.js',
 
 
   //

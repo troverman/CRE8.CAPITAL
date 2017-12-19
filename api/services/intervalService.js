@@ -472,9 +472,6 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
-	//Data.find().limit(100).then((model)=>console.log(model))
-	//dataService.cullData('1000', 6*60*60*1000)
-
 	//cull the data.. 
 	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 7200000);//second
 	timer(dataService.cullData.bind(null, '5000', 6*60*60*1000), 7200000);//5 seconds
@@ -488,39 +485,6 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
 	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
-
-	/*
-	setInterval(dataService.tickerREST.bind(null, 1000), 1000);//second
-	setInterval(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
-	setInterval(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6), 1000*5*12*5*6);//30min
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2), 1000*5*12*5*6*2);//1hr
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2), 1000*5*12*5*6*2*2);//2hr
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	setInterval(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
-
-	//Data.find().limit(100).then((model)=>console.log(model))
-	//dataService.cullData('1000', 6*60*60*1000)
-
-	//cull the data.. 
-	setInterval(dataService.cullData.bind(null, '1000', 30*60*1000), 7200000);//second
-	setInterval(dataService.cullData.bind(null, '5000', 6*60*60*1000), 7200000);//5 seconds
-	setInterval(dataService.cullData.bind(null, '30000', 24*60*60*1000), 7200000);//30seconds
-	setInterval(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 7200000);//60sec
-	setInterval(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
-	setInterval(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
-	setInterval(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
-	setInterval(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr
-	setInterval(dataService.cullData.bind(null, '14400000', 2*2*2*2*7*24*60*60*1000), 7200000);//4hr
-	setInterval(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
-	setInterval(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
-	setInterval(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
-	*/
-
 
 	//setInterval(dataService.dataService, 14400000);
 	//setInterval(ticker, 6000);

@@ -34,7 +34,7 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
 
 	$scope.predictionDataFiveMin = predictionDataFiveMin;
@@ -49,7 +49,7 @@ angular.module( 'investing.market', [
     $scope.selectedDelta = '5000';
 
     $scope.seletetData = function (asset1, asset2, delta){
-
+        $rootScope.stateIsLoading = true;
         $scope.selectedPair = [asset1, asset2];
         $scope.selectedDelta = delta;
         DataModel.getData(300, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
@@ -58,6 +58,7 @@ angular.module( 'investing.market', [
             $scope.marketGraphChangeChangeData.values = [];
             $scope.marketData = model;
             $scope.updateMarketData();
+            $rootScope.stateIsLoading = false;
         })
     };
 

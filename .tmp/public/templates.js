@@ -380,10 +380,17 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
     "\n" +
     "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds'</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>\n" +
-    "	\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24 hr</button>\n" +
+    "\n" +
     "	<h2>Price Data</h2>\n" +
     "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "\n" +
@@ -519,6 +526,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function ($templ
     "      </ul>\n" +
     "    </div>\n" +
     "  </div>\n" +
+    "  <md-progress-linear ng-if=\"stateIsLoading\" md-mode=\"indeterminate\"></md-progress-linear>\n" +
     "</div>");
 }]);
 
