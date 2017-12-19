@@ -109,8 +109,9 @@
 		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 		<br>
 		<h4>sound and transparent investments</h4>
+		<!--daily return vs index..-->
 		<div ng-repeat="someData in marketData">
-			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.delta}}</p>
+			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>
 		</div>
 	</div>
 </div>

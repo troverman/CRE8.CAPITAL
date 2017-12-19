@@ -28,7 +28,7 @@ angular.module( 'investing.market', [
                 return null;
             }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
-                return DataModel.getData(300, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 5000);
+                return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 5000);
             }]
         }
 	});
@@ -52,7 +52,7 @@ angular.module( 'investing.market', [
         $rootScope.stateIsLoading = true;
         $scope.selectedPair = [asset1, asset2];
         $scope.selectedDelta = delta;
-        DataModel.getData(300, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
+        DataModel.getData(1000, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
             $scope.marketGraphData.values = [];
             $scope.marketGraphChangeData.values = [];
             $scope.marketGraphChangeChangeData.values = [];
@@ -119,12 +119,16 @@ angular.module( 'investing.market', [
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             var change = 0;
             var changeChange = 0
-            if (index > 1){change = obj.price - $scope.marketData[index-1].price;}
+            if (index > 1){
+                change = obj.price - $scope.marketData[index-1].price;
+                //change = (obj.price - $scope.marketData[index-1].price)/obj.price;
+            }
 
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
 
             if ($scope.marketGraphChangeData.values.length > 1){
                 changeChange = $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1] - $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-2][1];
+                //changeChange = changeChange / $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1]
             }
 
             $scope.marketGraphChangeChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), changeChange]);
@@ -157,7 +161,7 @@ angular.module( 'investing.market', [
                     $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
 
                 }
-                if ($scope.marketData.length >= 300){
+                if ($scope.marketData.length >= 1000){
                     $scope.marketData.shift();
                     $scope.marketGraphData.values.shift()
                     $scope.marketGraphDataRender = [$scope.marketGraphData];

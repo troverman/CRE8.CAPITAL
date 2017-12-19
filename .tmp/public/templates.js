@@ -243,30 +243,25 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		</div>-->\n" +
     "\n" +
     "	</div>\n" +
-    "	<br><br><br>\n" +
     "</div>\n" +
     "\n" +
+    "<br><br><br>\n" +
     "\n" +
     "<div style=\"text-align:left;\">\n" +
     "	<br><br><br>\n" +
     "	<div class=\"container\">\n" +
     "		<h1>Activity</h1>\n" +
-    "\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '1000')\">'BTC', 'LTC', '1000'</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '5000')\">'BTC', 'LTC', '5000'</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '30000')\">'BTC', 'LTC', '30000'</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '60000')\">'BTC', 'LTC', '60000'</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'LTC', '300000')\">'BTC', 'LTC', '300000'</button>\n" +
-    "\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData('BTC', 'BCY', '1000')\">'BTC', 'BCY', '1000'</button>\n" +
     "		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
-    "		<!--<div ng-repeat=\"someData in marketData\">\n" +
-    "			{{someData.assetPair}}, {{someData.price}}, {{someData.currentBid}}, {{someData.currentAsk}}, {{someData.currentAsk - someData.currentBid}} {{someData.createdAt}}, {{someData.delta}}\n" +
-    "		</div>-->\n" +
+    "		<br>\n" +
     "		<h4>sound and transparent investments</h4>\n" +
+    "		<!--daily return vs index..-->\n" +
+    "		<div ng-repeat=\"someData in marketData\">\n" +
+    "			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>\n" +
+    "		</div>\n" +
     "	</div>\n" +
-    "	<br><br><br>\n" +
     "</div>\n" +
+    "\n" +
+    "<br><br>\n" +
     "\n" +
     "<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +

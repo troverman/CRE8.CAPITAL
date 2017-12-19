@@ -34,9 +34,9 @@ module.exports = {
         }
     },
 
-    //afterCreate: function (post, next) {
-        // set message.user = to appropriate user model
-        
+    //afterCreate: function (data, next) {
+        //update the appropiate asset .. for asset maps.
+        //exchange array
     //},
 
     getAll: function() {

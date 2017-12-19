@@ -428,6 +428,39 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 	});
 };
 
+function order(){
+
+	var assetMap = {'BTC':10, 'LTC':10, 'ETC':10, 'XMR':10};
+
+	//make 10 trades in 10 min
+
+	//10 BTC - a set of .... find in set equality.
+	//assetArrayLinearCombinationEquality()
+	//Asset.find()
+	console.log(Object.keys(assetMap))
+	Data.find({delta:'1000'})
+	.limit(100)
+	.then(function(models){
+
+		for (x in models){
+			//Object.keys(assetMap).includes(models[x].asset1);
+			//console.log(Object.keys(assetMap))
+			if (Object.keys(assetMap).includes(models[x].asset1)){
+				//if strategy.. make trade.. -->>>>>>>>> (y)
+				console.log(models[x], assetMap[models[x].asset1])
+				assetMap[models[x].asset1] = assetMap[models[x].asset1] - models[x].price*10;
+				assetMap[models[x].asset2] = 10;
+			}
+		}
+
+		console.log(assetMap)
+
+	});
+
+	//Asset.find()
+   
+};
+
 function analyze(){
 	Prediction.find({asset1:'ETH', asset2:'BTC'})
 	.sort('createdAt DESC')
@@ -456,6 +489,7 @@ module.exports.intervalService = function(){
 
 	var dataService = {};
 	dataService = sails.services.dataservice;
+	//order();
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);
 	//timer(dataService.tickerREST, 1000);
 
