@@ -1,32 +1,16 @@
-angular.module( 'investing.market', [
+angular.module( 'investing.markets', [
 ])
 
 .config(['$stateProvider', function config( $stateProvider ) {
-	$stateProvider.state( 'market', {
-		url: '/market/:path1/:path2',
+	$stateProvider.state( 'markets', {
+		url: '/markets',
 		views: {
 			"main": {
-				controller: 'MarketCtrl',
-				templateUrl: 'market/index.tpl.html'
+				controller: 'MarketsCtrl',
+				templateUrl: 'markets/index.tpl.html'
 			}
 		},
         resolve:{
-            predictionDataFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'300000'});
-                return null;
-            }],
-            predictionDataThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
-                return null;
-            }],
-            currentPredictionFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
-                return null;
-            }],
-            currentPredictionThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 1800000);
-                return null;
-            }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
                 return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 5000);
             }]
@@ -34,7 +18,7 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
 
 	$scope.predictionDataFiveMin = predictionDataFiveMin;
@@ -128,7 +112,7 @@ angular.module( 'investing.market', [
 
             if ($scope.marketGraphChangeData.values.length > 1){
                 changeChange = $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1] - $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-2][1];
-                //changeChange = changeChange / $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1]
+                changeChange = changeChange / $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1]
             }
 
             $scope.marketGraphChangeChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), changeChange]);

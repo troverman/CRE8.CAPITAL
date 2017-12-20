@@ -63,7 +63,6 @@ module.exports = {
 		poloniex.returnTicker((err, ticker) => {
 			if (err) {console.log(err.message)}
 			else {
-				//100 pairs
 				for (x in Object.keys(ticker)){
 					var data = ticker[Object.keys(ticker)[x]]
 					var model = {
@@ -73,16 +72,30 @@ module.exports = {
 						price:data.last,
 						currentBid:data.highestBid,
 						currentAsk:data.lowestAsk,
-						percentChange:data.percentChange,
+						//percentChange:data.percentChange,
 						delta:delta,
 
 					};
-					//console.log(model)
-					//console.log(data.currencyPair, data.percentChange);
 					Data.create(model).then(function(model){
-						console.log(model);
-						//Data.publishCreate(model.toJSON());
 						Data.publishCreate(model);
+
+						/*
+						 Data.find({assetPair:model.assetPair, delta: model.delta})
+				        .sort('createdAt DESC')
+				        .limit(2)
+				        .then(function (models) {
+				            var absoluteChange = model.price - models[1].price;
+				            var percentChange = absoluteChange/model.price;
+				            var absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
+
+				            console.log(absoluteChange,percentChange,absoluteChangeChange)
+
+				            Data.update({id:model.id}, {percentChange:percentChange, absoluteChange:absoluteChange})
+				            if (percentChange > 0.2){console.log('send email !!!')}
+				        });
+						*/
+						//console.log(model)
+						
 					});
 				}
 			}

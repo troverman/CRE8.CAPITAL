@@ -493,6 +493,13 @@ module.exports.intervalService = function(){
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);
 	//timer(dataService.tickerREST, 1000);
 
+	/*Data.find({delta:'1000'}).sort('createdAt ASC').limit(1000000)
+    .exec(function (err, data) {
+    	for (x in data){
+    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
+    	}
+    }); */
+
 	timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds

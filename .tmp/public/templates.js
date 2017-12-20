@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/index.tpl.html', 'account/index.tpl.html', 'footer/index.tpl.html', 'home/index.tpl.html', 'intro/index.tpl.html', 'login/index.tpl.html', 'market/index.tpl.html', 'member/index.tpl.html', 'nav/index.tpl.html', 'register/index.tpl.html']);
+angular.module('templates-app', ['about/index.tpl.html', 'account/index.tpl.html', 'footer/index.tpl.html', 'home/index.tpl.html', 'intro/index.tpl.html', 'login/index.tpl.html', 'market/index.tpl.html', 'markets/index.tpl.html', 'member/index.tpl.html', 'nav/index.tpl.html', 'register/index.tpl.html']);
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("about/index.tpl.html",
@@ -369,6 +369,110 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function ($tem
 
 angular.module("market/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("market/index.tpl.html",
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "\n" +
+    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
+    "\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24 hr</button>\n" +
+    "\n" +
+    "	<h2>Price Data</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "\n" +
+    "	<h2>Market Change</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
+    "\n" +
+    "\n" +
+    "	<h2>Market Change^2</h2>\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "	<!--<h2>5 Min Prediction</h2>\n" +
+    "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
+    "	<br><br><br>\n" +
+    "\n" +
+    "	<br><br><br>\n" +
+    "	<h2>Thirty Min Prediction</h2>\n" +
+    "	<nvd3 options='options' data='thirtyMinData'></nvd3>\n" +
+    "	<br><br><br>\n" +
+    "\n" +
+    "	<div >\n" +
+    "		<h3>Current</h3>\n" +
+    "		<h3>Price: {{currentData.last_price}}</h3>\n" +
+    "		<h3>Bid: {{currentData.bid}}</h3>\n" +
+    "		<h3>Ask: {{currentData.ask}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>1 Min Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: null</h3>\n" +
+    "		<h3>Ask: null</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>5 Min Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>30 Min Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionThirtyMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionThirtyMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>1 Hr Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>6 Hr Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>12 Hr Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "	<br><br>\n" +
+    "	<div>\n" +
+    "		<h3>24 Hr Prediction</h3>\n" +
+    "		<h3>Price: null</h3>\n" +
+    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
+    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
+    "	</div>\n" +
+    "\n" +
+    "</div>-->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div style=\"height:100px;\"></div>\n" +
+    "");
+}]);
+
+angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
+  $templateCache.put("markets/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +

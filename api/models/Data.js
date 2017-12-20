@@ -26,18 +26,47 @@ module.exports = {
         currentAsk:{
             type: 'string',
         },
-        percentChange:{
-            type: 'string',
-        },
         delta:{
             type: 'string',
+        },
+        percentChange:{
+            type: 'float',
+            defaultsTo:0
+        },
+        absoluteChange:{
+            type: 'float',
+            defaultsTo:0
+        },
+        absoluteChangeChange:{
+            type: 'float',
+            defaultsTo:0
         }
     },
 
-    //afterCreate: function (data, next) {
+    afterCreate: function (model, next) {
+
+        Data.find({assetPair:model.assetPair, delta: model.delta})
+        .sort('createdAt DESC')
+        .limit(2)
+        .then(function (models) {
+            var absoluteChange = model.price - models[1].price;
+            var percentChange = absoluteChange/model.price;
+            var absoluteChangeChange = absoluteChange - models[1].absoluteChange;
+            console.log(absoluteChange,percentChange,absoluteChangeChange)
+            Data.update({id:model.id}, {percentChange:percentChange, absoluteChange:absoluteChange})/*, absoluteChangeChange: absoluteChangeChange*/
+            if (percentChange > 0.2){console.log('send email !!!')}
+        });
+        return next(null, model);
+
+
         //update the appropiate asset .. for asset maps.
+        //update percent change (and change^2) here -- with respect to delta and pair - do the cal of the one before. :) 
+        //email if percent change is greater than 20%? 
+        //do a trade.. hmm..
+        //email trade execution confirm. 
         //exchange array
-    //},
+
+    },
 
     getAll: function() {
         return Data.find()
