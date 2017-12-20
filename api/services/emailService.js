@@ -1,8 +1,8 @@
 var fs = require("fs");
 var Handlebars = require("handlebars");
 var mailgun = require('mailgun-js')({
-	apiKey: 1,//sails.config.mailgun.key,
-	domain: 1})//sails.config.mailgun.domain})
+	apiKey: sails.config.mailgun.key,
+	domain: sails.config.mailgun.domain})
 	.messages();
 
 module.exports = {

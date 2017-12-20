@@ -16,8 +16,11 @@ module.exports = {
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-  hookTimeout: 10000000
-
+  hookTimeout: 10000000,
+  mailgun: {
+    key: 'key-b93391fa17454dc097c7b8418ff0c862',
+    domain: 'mail.voetr.com'
+  },
   // models: {
   //   connection: 'someMongodbServer'
   // }

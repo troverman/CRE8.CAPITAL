@@ -15,7 +15,7 @@ module.exports.bootstrap = function(cb) {
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   intervalService.intervalService();
   sails.services.passport.loadStrategies();
-  //sails.services.emailservice.loadTemplates().then(function(){
-  cb();
-  //});
+  sails.services.emailservice.loadTemplates().then(function(){
+  	cb();
+  });
 };
