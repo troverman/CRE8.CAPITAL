@@ -47,10 +47,9 @@ module.exports = {
 	cullData: function(delta, time){
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
-		Data.find().limit(10000)
+		Data.find()
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .exec(function (err, data) {
-	    	console.log(data)
 	    	for (x in data){
 	    		console.log(data[x]);
 	    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
@@ -89,7 +88,7 @@ module.exports = {
 				            if (percentChange > 0.2){console.log('send email !!!')}
 				        });
 						*/
-						//console.log(model)
+						console.log(model)
 					});
 				}
 			}

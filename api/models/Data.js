@@ -56,7 +56,7 @@ module.exports = {
                 console.log(model);
                 Data.update({id:model.id}, model);
                 if (model.percentChange > 0.15 || model.percentChange < -0.15){
-                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta , {data: model});
+                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta, {data: model});
                 }
             });
         }
