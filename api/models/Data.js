@@ -45,7 +45,7 @@ module.exports = {
 
     afterCreate: function (model, next) {
 
-        Data.find({assetPair:model.assetPair, delta: model.delta})
+        /*Data.find({assetPair:model.assetPair, delta: model.delta})
         .sort('createdAt DESC')
         .limit(2)
         .then(function (models) {
@@ -58,7 +58,7 @@ module.exports = {
                 emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta , {data: model});
             }
         });
-        return next(null, model);
+        return next(null, model);*/
 
 
         //update the appropiate asset .. for asset maps.
@@ -67,6 +67,7 @@ module.exports = {
         //do a trade.. hmm..
         //email trade execution confirm. 
         //exchange array
+
 
     },
 
