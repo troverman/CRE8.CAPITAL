@@ -45,7 +45,7 @@ module.exports = {
 
     afterCreate: function (model, next) {
 
-        if (delta >= 1800000){
+        if (model.delta >= 1800000){
             Data.find({assetPair:model.assetPair, delta: model.delta})
             .sort('createdAt DESC')
             .limit(2)
