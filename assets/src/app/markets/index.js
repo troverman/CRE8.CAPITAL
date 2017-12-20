@@ -18,18 +18,10 @@ angular.module( 'investing.markets', [
 	});
 }])
 
-.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, config, DataModel, marketData, titleService ) {
 	titleService.setTitle('Market - investingfor');
 
-	$scope.predictionDataFiveMin = predictionDataFiveMin;
-    $scope.predictionDataThirtyMin = predictionDataThirtyMin;
-    $scope.currentPredictionFiveMin = currentPredictionFiveMin;
-    $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
-
     $scope.marketData = marketData;
-
-    $scope.stateParams = $stateParams;
-    $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
     $scope.selectedDelta = '5000';
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -45,8 +37,6 @@ angular.module( 'investing.markets', [
             $rootScope.stateIsLoading = false;
         })
     };
-
-    console.log(marketData);
 
     $scope.marketOptions = {
         chart: {
@@ -87,17 +77,6 @@ angular.module( 'investing.markets', [
     $scope.marketGraphData.color = '#ff7f0e';
     $scope.marketGraphData.values = [];
 
-    $scope.marketGraphChangeData = {};
-    $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
-    $scope.marketGraphChangeData.color = '#a94442';
-    $scope.marketGraphChangeData.values = [];
-
-    $scope.marketGraphChangeChangeData = {};
-    $scope.marketGraphChangeChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change Change';
-    $scope.marketGraphChangeChangeData.color = '#f94442';
-    $scope.marketGraphChangeChangeData.values = [];
-
-
     $scope.updateMarketData = function (){
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
@@ -128,29 +107,15 @@ angular.module( 'investing.markets', [
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
-                //console.log(envelope.data);
                 if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
-                    
-                    $scope.marketData.push(envelope.data);
-                    var change = $scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price;
-                   
+                    $scope.marketData.push(envelope.data);                   
                     $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
-                    $scope.marketGraphChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), change]);
-
-                    var changeChange = $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-1][1] - $scope.marketGraphChangeData.values[$scope.marketGraphChangeData.values.length-2][1];
-                    $scope.marketGraphChangeChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), changeChange]);
-
                     $scope.marketGraphDataRender = [$scope.marketGraphData]
-                    $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData];
-                    $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
-
                 }
                 if ($scope.marketData.length >= 1000){
                     $scope.marketData.shift();
                     $scope.marketGraphData.values.shift()
                     $scope.marketGraphDataRender = [$scope.marketGraphData];
-                    $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData];
-                    $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
                 }
         }
     });

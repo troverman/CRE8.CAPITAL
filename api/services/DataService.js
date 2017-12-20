@@ -74,11 +74,9 @@ module.exports = {
 						currentAsk:data.lowestAsk,
 						//percentChange:data.percentChange,
 						delta:delta,
-
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
-
 						/*
 						 Data.find({assetPair:model.assetPair, delta: model.delta})
 				        .sort('createdAt DESC')
@@ -87,15 +85,11 @@ module.exports = {
 				            var absoluteChange = model.price - models[1].price;
 				            var percentChange = absoluteChange/model.price;
 				            var absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-
-				            console.log(absoluteChange,percentChange,absoluteChangeChange)
-
 				            Data.update({id:model.id}, {percentChange:percentChange, absoluteChange:absoluteChange})
 				            if (percentChange > 0.2){console.log('send email !!!')}
 				        });
 						*/
 						//console.log(model)
-						
 					});
 				}
 			}
