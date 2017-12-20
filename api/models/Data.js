@@ -45,20 +45,22 @@ module.exports = {
 
     afterCreate: function (model, next) {
 
-        /*Data.find({assetPair:model.assetPair, delta: model.delta})
-        .sort('createdAt DESC')
-        .limit(2)
-        .then(function (models) {
-            model.absoluteChange = model.price - models[1].price;
-            model.percentChange = model.absoluteChange/model.price;
-            model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-            console.log(model);
-            Data.update({id:model.id}, model);
-            if (model.percentChange > 0.15 || model.percentChange < -0.15){
-                emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta , {data: model});
-            }
-        });
-        return next(null, model);*/
+        if (delta >= 1800000){
+            Data.find({assetPair:model.assetPair, delta: model.delta})
+            .sort('createdAt DESC')
+            .limit(2)
+            .then(function (models) {
+                model.absoluteChange = model.price - models[1].price;
+                model.percentChange = model.absoluteChange/model.price;
+                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
+                console.log(model);
+                Data.update({id:model.id}, model);
+                if (model.percentChange > 0.15 || model.percentChange < -0.15){
+                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta , {data: model});
+                }
+            });
+        }
+        return next(null, model);
 
 
         //update the appropiate asset .. for asset maps.
