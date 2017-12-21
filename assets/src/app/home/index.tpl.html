@@ -1,123 +1,132 @@
-<div ng-include="'intro/index.tpl.html'"></div>
-<!--<nvd3 options='options' data='data'></nvd3>
-<nvd3 options='directedOptions' data='directedData'></nvd3>-->
-
-
-<div class="container" id="about">
-	<div style="height:50px;"></div>
-    <div style="text-align:left;" id="header-text-area">
-       <h1>empowered financial representation</h1>
-       <h3 style="">backed by sound, open, data</h3>
-    </div>
+<div ng-show="currentUser">
+	<h1>dashboard</h1>
+	<p>portfolio set</p>
+	<p>explore</p>
 </div>
 
-<div class="container" style="text-align:left">
-	<br>
-	<!--<h3 style="text-align:center;">a computational network designed to normalize risk and equalize investment returns.</h3>-->
-	<p>select financial representatives</p>
-	<br>
-	<div class="row">
-		<div class="col-lg-6 col-sm-6">
-			<h3><i class="fa fa-wrench"></i> financial representation </h3>
-			<p>a community of transparent analysts </p>
-		</div>
-		<div class="col-lg-6 col-sm-6">
-			<h3><i class="fa fa-github"></i> community collaboration and discussion</h3>
-			<p>contribute. collab. invest.</p>
-		</div>
+<div ng-show="!currentUser" >
+	<div ng-include="'intro/index.tpl.html'"></div>
+	<!--<nvd3 options='options' data='data'></nvd3>
+	<nvd3 options='directedOptions' data='directedData'></nvd3>-->
+
+
+	<div class="container" id="about">
+		<div style="height:50px;"></div>
+	    <div style="text-align:left;" id="header-text-area">
+	       <h1>empowered financial representation</h1>
+	       <h3 style="">backed by sound, open data</h3>
+	    </div>
+	    <div style="height:50px;"></div>
 	</div>
-	<div class="row">
-		<div class="col-lg-4 col-sm-6">
-			<h3><i class="fa fa-file-o"></i> open datasets</h3>
-			<p>data, we use. data we prouduce, together.</p>
-		</div>
-		<div class="col-lg-4 col-sm-6">
-			<h3><i class="fa fa-wrench"></i> view the analysis </h3>
-			<p>distributed networks working together to give you the cutting edge</p>
-		</div>
-		<div class="col-lg-4 col-sm-6">
-			<h3><i class="fa fa-cogs"></i> transparent finance </h3>
-			<p>data-backed and proven results</p>
-		</div>
-	</div>
-	<br>
-	<p class="lead">nice...</p>
-	<a href="/about">now let me see some numbers</a>
-	<br><br><br>
-</div>
 
-<!--<div style="background-color:rgb(220,220,220);">
-	<br><br><br>
-	<h1 style="text-align:center;">why you'll love investingfor</h1>
-	<br><br>
-	<p style="text-align:center;"><i style="font-size:256px;" class="fa fa-heart-o"></i></p>
-	<p class="lead" style="text-align:center;">the computing power around us is immense!</p>
-	<br>
-	<p class="lead" style="text-align:center;">investingfor uses the idle power of the computational potiental around us.</p>
-	<br>
-	<p class="lead" style="text-align:center;">what if our devices were working toward a common goal?</p>
-	<br>
-	<p class="lead" style="text-align:center;">extract value by earning <a href="http://www.epoint.me/market/investment-point">investment points</a>.</p>
-	<br>
-	<p class="lead" style="text-align:center;">investingfor us all.</p>
-	<br><br><br>
-</div>-->
-
-<div style="text-align:left">
-	<br><br><br>
-	<div class="container" style="">
-		<h4>decentralized network that works together to power financial simulations.</h4>
-		<nvd3 options='options' data='data'></nvd3>
-		<br><br>
-		
-		<div ng-repeat="pair in tradingPairs">
-			<div class="col-md-3">
-				<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-			</div>
-		</div>
-
-		<!--<div class="col-md-3">
-			<div ng-repeat="pair in tradingPairs">
-				<a ng-show="pair.split('/')[1] == 'BTC'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div ng-repeat="pair in tradingPairs">
-				<a ng-show="pair.split('/')[1] == 'USDT'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div ng-repeat="pair in tradingPairs">
-				<a ng-show="pair.split('/')[1] == 'ETH'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div ng-repeat="pair in tradingPairs">
-				<a ng-show="pair.split('/')[1] == 'XMR'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-			</div>
-		</div>-->
-
-	</div>
-</div>
-
-<br><br><br>
-
-<div style="text-align:left;">
-	<br><br><br>
-	<div class="container">
-		<h1>Activity</h1>
-		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
+	<div class="container" style="text-align:left">
 		<br>
-		<h4>sound and transparent investments</h4>
-		<!--daily return vs index..-->
-		<div ng-repeat="someData in marketData">
-			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>
+		<!--<h3 style="text-align:center;">a computational network designed to normalize risk and equalize investment returns.</h3>-->
+		<p>select financial representatives</p>
+		<br>
+		<div class="row">
+			<div class="col-sm-12">
+				<h3><i class="fa fa-wrench"></i> financial representation </h3>
+				<p>a community of transparent analysts </p>
+			</div>
+			<div class="col-sm-12">
+				<h3><i class="fa fa-github"></i> community collaboration and discussion</h3>
+				<p>contribute. collab. invest.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h3><i class="fa fa-file-o"></i> open datasets</h3>
+				<p>data, we use. data we prouduce, together.</p>
+			</div>
+			<div class="col-sm-12">
+				<h3><i class="fa fa-wrench"></i> view the analysis </h3>
+				<p>distributed networks working together to give you the cutting edge</p>
+			</div>
+			<div class="col-sm-12">
+				<h3><i class="fa fa-cogs"></i> transparent finance </h3>
+				<p>data-backed and proven results</p>
+			</div>
+		</div>
+		<br>
+		<p class="lead">nice...</p>
+		<a href="/about" class="btn btn-default">now let me see some numbers</a>
+		<br><br><br>
+	</div>
+
+	<!--<div style="background-color:rgb(220,220,220);">
+		<br><br><br>
+		<h1 style="text-align:center;">why you'll love investingfor</h1>
+		<br><br>
+		<p style="text-align:center;"><i style="font-size:256px;" class="fa fa-heart-o"></i></p>
+		<p class="lead" style="text-align:center;">the computing power around us is immense!</p>
+		<br>
+		<p class="lead" style="text-align:center;">investingfor uses the idle power of the computational potiental around us.</p>
+		<br>
+		<p class="lead" style="text-align:center;">what if our devices were working toward a common goal?</p>
+		<br>
+		<p class="lead" style="text-align:center;">extract value by earning <a href="http://www.epoint.me/market/investment-point">investment points</a>.</p>
+		<br>
+		<p class="lead" style="text-align:center;">investingfor us all.</p>
+		<br><br><br>
+	</div>-->
+
+	<div style="text-align:left">
+		<br><br><br>
+		<div class="container" style="">
+			<h4>decentralized network that works together to power financial simulations.</h4>
+			<nvd3 options='options' data='data'></nvd3>
+			<br><br>
+			
+			<div ng-repeat="pair in tradingPairs">
+				<div class="col-md-3">
+					<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>
+
+			<!--<div class="col-md-3">
+				<div ng-repeat="pair in tradingPairs">
+					<a ng-show="pair.split('/')[1] == 'BTC'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div ng-repeat="pair in tradingPairs">
+					<a ng-show="pair.split('/')[1] == 'USDT'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div ng-repeat="pair in tradingPairs">
+					<a ng-show="pair.split('/')[1] == 'ETH'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div ng-repeat="pair in tradingPairs">
+					<a ng-show="pair.split('/')[1] == 'XMR'" href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>-->
+
 		</div>
 	</div>
+
+	<br><br><br>
+
+	<div style="text-align:left;">
+		<br><br><br>
+		<div class="container">
+			<h1>Activity</h1>
+			<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
+			<br>
+			<h4>sound and transparent investments</h4>
+			<!--daily return vs index..-->
+			<div ng-repeat="someData in marketData">
+				<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>
+			</div>
+		</div>
+	</div>
+
+	<br><br>
+
+	<div ng-include="'register/index.tpl.html'"></div>
 </div>
-
-<br><br>
-
-<div ng-include="'register/index.tpl.html'"></div>
 <div ng-include="'footer/index.tpl.html'"></div>
 

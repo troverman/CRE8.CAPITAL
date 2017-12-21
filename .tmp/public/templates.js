@@ -143,127 +143,136 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function ($te
 
 angular.module("home/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("home/index.tpl.html",
-    "<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
-    "<!--<nvd3 options='options' data='data'></nvd3>\n" +
-    "<nvd3 options='directedOptions' data='directedData'></nvd3>-->\n" +
-    "\n" +
-    "\n" +
-    "<div class=\"container\" id=\"about\">\n" +
-    "	<div style=\"height:50px;\"></div>\n" +
-    "    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
-    "       <h1>empowered financial representation</h1>\n" +
-    "       <h3 style=\"\">backed by sound, open, data</h3>\n" +
-    "    </div>\n" +
+    "<div ng-show=\"currentUser\">\n" +
+    "	<h1>dashboard</h1>\n" +
+    "	<p>portfolio set</p>\n" +
+    "	<p>explore</p>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"container\" style=\"text-align:left\">\n" +
-    "	<br>\n" +
-    "	<!--<h3 style=\"text-align:center;\">a computational network designed to normalize risk and equalize investment returns.</h3>-->\n" +
-    "	<p>select financial representatives</p>\n" +
-    "	<br>\n" +
-    "	<div class=\"row\">\n" +
-    "		<div class=\"col-lg-6 col-sm-6\">\n" +
-    "			<h3><i class=\"fa fa-wrench\"></i> financial representation </h3>\n" +
-    "			<p>a community of transparent analysts </p>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-lg-6 col-sm-6\">\n" +
-    "			<h3><i class=\"fa fa-github\"></i> community collaboration and discussion</h3>\n" +
-    "			<p>contribute. collab. invest.</p>\n" +
-    "		</div>\n" +
+    "<div ng-show=\"!currentUser\" >\n" +
+    "	<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
+    "	<!--<nvd3 options='options' data='data'></nvd3>\n" +
+    "	<nvd3 options='directedOptions' data='directedData'></nvd3>-->\n" +
+    "\n" +
+    "\n" +
+    "	<div class=\"container\" id=\"about\">\n" +
+    "		<div style=\"height:50px;\"></div>\n" +
+    "	    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
+    "	       <h1>empowered financial representation</h1>\n" +
+    "	       <h3 style=\"\">backed by sound, open data</h3>\n" +
+    "	    </div>\n" +
+    "	    <div style=\"height:50px;\"></div>\n" +
     "	</div>\n" +
-    "	<div class=\"row\">\n" +
-    "		<div class=\"col-lg-4 col-sm-6\">\n" +
-    "			<h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "			<p>data, we use. data we prouduce, together.</p>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-lg-4 col-sm-6\">\n" +
-    "			<h3><i class=\"fa fa-wrench\"></i> view the analysis </h3>\n" +
-    "			<p>distributed networks working together to give you the cutting edge</p>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-lg-4 col-sm-6\">\n" +
-    "			<h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
-    "			<p>data-backed and proven results</p>\n" +
-    "		</div>\n" +
-    "	</div>\n" +
-    "	<br>\n" +
-    "	<p class=\"lead\">nice...</p>\n" +
-    "	<a href=\"/about\">now let me see some numbers</a>\n" +
-    "	<br><br><br>\n" +
-    "</div>\n" +
     "\n" +
-    "<!--<div style=\"background-color:rgb(220,220,220);\">\n" +
-    "	<br><br><br>\n" +
-    "	<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
-    "	<br><br>\n" +
-    "	<p style=\"text-align:center;\"><i style=\"font-size:256px;\" class=\"fa fa-heart-o\"></i></p>\n" +
-    "	<p class=\"lead\" style=\"text-align:center;\">the computing power around us is immense!</p>\n" +
-    "	<br>\n" +
-    "	<p class=\"lead\" style=\"text-align:center;\">investingfor uses the idle power of the computational potiental around us.</p>\n" +
-    "	<br>\n" +
-    "	<p class=\"lead\" style=\"text-align:center;\">what if our devices were working toward a common goal?</p>\n" +
-    "	<br>\n" +
-    "	<p class=\"lead\" style=\"text-align:center;\">extract value by earning <a href=\"http://www.epoint.me/market/investment-point\">investment points</a>.</p>\n" +
-    "	<br>\n" +
-    "	<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
-    "	<br><br><br>\n" +
-    "</div>-->\n" +
-    "\n" +
-    "<div style=\"text-align:left\">\n" +
-    "	<br><br><br>\n" +
-    "	<div class=\"container\" style=\"\">\n" +
-    "		<h4>decentralized network that works together to power financial simulations.</h4>\n" +
-    "		<nvd3 options='options' data='data'></nvd3>\n" +
-    "		<br><br>\n" +
-    "		\n" +
-    "		<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "			<div class=\"col-md-3\">\n" +
-    "				<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "\n" +
-    "		<!--<div class=\"col-md-3\">\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<a ng-show=\"pair.split('/')[1] == 'BTC'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-md-3\">\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<a ng-show=\"pair.split('/')[1] == 'USDT'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-md-3\">\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<a ng-show=\"pair.split('/')[1] == 'ETH'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-md-3\">\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<a ng-show=\"pair.split('/')[1] == 'XMR'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "			</div>\n" +
-    "		</div>-->\n" +
-    "\n" +
-    "	</div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<br><br><br>\n" +
-    "\n" +
-    "<div style=\"text-align:left;\">\n" +
-    "	<br><br><br>\n" +
-    "	<div class=\"container\">\n" +
-    "		<h1>Activity</h1>\n" +
-    "		<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "	<div class=\"container\" style=\"text-align:left\">\n" +
     "		<br>\n" +
-    "		<h4>sound and transparent investments</h4>\n" +
-    "		<!--daily return vs index..-->\n" +
-    "		<div ng-repeat=\"someData in marketData\">\n" +
-    "			<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>\n" +
+    "		<!--<h3 style=\"text-align:center;\">a computational network designed to normalize risk and equalize investment returns.</h3>-->\n" +
+    "		<p>select financial representatives</p>\n" +
+    "		<br>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<h3><i class=\"fa fa-wrench\"></i> financial representation </h3>\n" +
+    "				<p>a community of transparent analysts </p>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<h3><i class=\"fa fa-github\"></i> community collaboration and discussion</h3>\n" +
+    "				<p>contribute. collab. invest.</p>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
+    "				<p>data, we use. data we prouduce, together.</p>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<h3><i class=\"fa fa-wrench\"></i> view the analysis </h3>\n" +
+    "				<p>distributed networks working together to give you the cutting edge</p>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "				<p>data-backed and proven results</p>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<br>\n" +
+    "		<p class=\"lead\">nice...</p>\n" +
+    "		<a href=\"/about\" class=\"btn btn-default\">now let me see some numbers</a>\n" +
+    "		<br><br><br>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<!--<div style=\"background-color:rgb(220,220,220);\">\n" +
+    "		<br><br><br>\n" +
+    "		<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
+    "		<br><br>\n" +
+    "		<p style=\"text-align:center;\"><i style=\"font-size:256px;\" class=\"fa fa-heart-o\"></i></p>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">the computing power around us is immense!</p>\n" +
+    "		<br>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">investingfor uses the idle power of the computational potiental around us.</p>\n" +
+    "		<br>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">what if our devices were working toward a common goal?</p>\n" +
+    "		<br>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">extract value by earning <a href=\"http://www.epoint.me/market/investment-point\">investment points</a>.</p>\n" +
+    "		<br>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
+    "		<br><br><br>\n" +
+    "	</div>-->\n" +
+    "\n" +
+    "	<div style=\"text-align:left\">\n" +
+    "		<br><br><br>\n" +
+    "		<div class=\"container\" style=\"\">\n" +
+    "			<h4>decentralized network that works together to power financial simulations.</h4>\n" +
+    "			<nvd3 options='options' data='data'></nvd3>\n" +
+    "			<br><br>\n" +
+    "			\n" +
+    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "				<div class=\"col-md-3\">\n" +
+    "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<!--<div class=\"col-md-3\">\n" +
+    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "					<a ng-show=\"pair.split('/')[1] == 'BTC'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-md-3\">\n" +
+    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "					<a ng-show=\"pair.split('/')[1] == 'USDT'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-md-3\">\n" +
+    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "					<a ng-show=\"pair.split('/')[1] == 'ETH'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div class=\"col-md-3\">\n" +
+    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "					<a ng-show=\"pair.split('/')[1] == 'XMR'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>-->\n" +
+    "\n" +
     "		</div>\n" +
     "	</div>\n" +
+    "\n" +
+    "	<br><br><br>\n" +
+    "\n" +
+    "	<div style=\"text-align:left;\">\n" +
+    "		<br><br><br>\n" +
+    "		<div class=\"container\">\n" +
+    "			<h1>Activity</h1>\n" +
+    "			<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "			<br>\n" +
+    "			<h4>sound and transparent investments</h4>\n" +
+    "			<!--daily return vs index..-->\n" +
+    "			<div ng-repeat=\"someData in marketData\">\n" +
+    "				<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<br><br>\n" +
+    "\n" +
+    "	<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "</div>\n" +
-    "\n" +
-    "<br><br>\n" +
-    "\n" +
-    "<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +
     "");
@@ -475,102 +484,21 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
   $templateCache.put("markets/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
+    "	<h1>markets</h1>\n" +
     "\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24 hr</button>\n" +
+    "	<h5>overlay of percentage gain</h5>\n" +
     "\n" +
-    "	<h2>Price Data</h2>\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
-    "\n" +
-    "	<h2>Market Change</h2>\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
-    "\n" +
-    "\n" +
-    "	<h2>Market Change^2</h2>\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!--<h2>5 Min Prediction</h2>\n" +
-    "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
-    "	<br><br><br>\n" +
-    "\n" +
-    "	<br><br><br>\n" +
-    "	<h2>Thirty Min Prediction</h2>\n" +
-    "	<nvd3 options='options' data='thirtyMinData'></nvd3>\n" +
-    "	<br><br><br>\n" +
-    "\n" +
-    "	<div >\n" +
-    "		<h3>Current</h3>\n" +
-    "		<h3>Price: {{currentData.last_price}}</h3>\n" +
-    "		<h3>Bid: {{currentData.bid}}</h3>\n" +
-    "		<h3>Ask: {{currentData.ask}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>1 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: null</h3>\n" +
-    "		<h3>Ask: null</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>5 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>30 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionThirtyMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionThirtyMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>1 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>6 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>12 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>24 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "\n" +
-    "</div>-->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
+    "	<p>1 min</p>\n" +
+    "	<p>5 min</p>\n" +
+    "	<p>30 min</p>\n" +
+    "	<p>1hr</p>\n" +
+    "	<p>2hrs</p>\n" +
+    "	<p>4hrs</p>\n" +
+    "	<p>6 hrs</p>\n" +
+    "	<p>12 hrs</p>\n" +
+    "	<p>24 hrs</p>\n" +
+    "	\n" +
+    "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "");
 }]);

@@ -18,6 +18,7 @@ angular.module( 'investing', [
     'investing.intro',
     'investing.login',
     'investing.market',
+    //'investing.markets',
     'investing.member',
     'investing.nav',
     'investing.register',

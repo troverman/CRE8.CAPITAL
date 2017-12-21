@@ -47,7 +47,7 @@ module.exports = {
     //slows down the 1sec granularity..
     afterCreate: function (model, next) {
 
-        if (model.delta >= 1800000){
+        if (model.delta >= 300000){
             Data.find({assetPair:model.assetPair, delta: model.delta})
             .sort('createdAt DESC')
             .limit(2)
@@ -57,9 +57,20 @@ module.exports = {
                 model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
                 console.log(model);
                 Data.update({id:model.id}, model);
-                if (model.percentChange > 0.15 || model.percentChange < -0.15){
+
+                if (model.percentChange > 0.15){
+                    model.type = 'sell??';
+                    model.amount = 1;
+                    Order.create(model)
                     emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta, {data: model});
                 }
+                if (model.percentChange < -0.15){
+                    model.type = 'buy';
+                    model.amount = 1;
+                    Order.create(model)
+                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta, {data: model});
+                }
+
             });
         }
         return next(null, model);
