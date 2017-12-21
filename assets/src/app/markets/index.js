@@ -24,6 +24,8 @@ angular.module( 'investing.markets', [
     $scope.marketData = marketData;
     $scope.selectedDelta = '5000';
 
+    //do an analysis of % change...
+
     $scope.seletetData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
         $scope.selectedPair = [asset1, asset2];

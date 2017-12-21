@@ -9,6 +9,8 @@ module.exports.routes = {
   'get /': 'HomeController.index',
   'get /about': 'HomeController.index',
   'get /account': 'HomeController.index',
+  'get /markets': 'HomeController.index',
+  'get /market/:path1': 'HomeController.index',
   'get /market/:path1/:path2': 'HomeController.index',
   'get /member/:id': 'HomeController.index',
 
