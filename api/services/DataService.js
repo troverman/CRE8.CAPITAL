@@ -44,10 +44,91 @@ module.exports = {
 		});
 	},
 
+	predictiveModelPolynomial: function(assetPair, delta, dataCount, order, precision){
+
+		var regression = require('regression');
+		var dataArray = [];	
+	   	var predictions = [];
+
+		return Data.find({assetPair:assetPair, delta:delta})
+	    .sort('createdAt DESC')
+	    .limit(dataCount)
+	    .then(function(models){
+	    	for (x in models){
+				var price = models[x].price;
+	    		var date = Date.parse(models[x].createdAt);
+				dataArray.push([date, price]);
+	    	}
+
+			var result = regression.polynomial(dataArray, { order: order, precision: precision })
+	    	console.log(result);
+	    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
+	    	return result;
+	    	
+	    	//insert into db??
+	    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
+	    	//console.log(predict)
+	    	//console.log(models);
+	    });
+
+	},
+
+	predictiveModelFFT: function(){
+
+		var fft = require('fft-js').fft;
+		var forecast = require('nostradamus')
+	   	var dataArray = [];	
+	   	var predictions = [];
+	 
+		var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+		var yesterday = Date.parse(start);
+	    Data.find({assetPair:'BTC_LTC', delta:'1000'})
+	    .sort('createdAt ASC')
+	    .limit(32)
+	    .then(function(models){
+	    	for (x in models){
+
+				var price = models[x].price;
+	    		var date = Date.parse(models[x].createdAt);
+	    		//var update = date - yesterday;
+	    		//if (update > 0){
+					//writer.write([update/1000, price]);
+					dataArray.push([date, price]);
+					//dataArray.push(price);
+
+	    		//}
+
+	    	}
+			//var signal=ifft(dataArray);
+			//console.log(signal);
+			//console.log(dataArray);
+	    	var phasors=fft(dataArray);
+			//console.log(phasors);
+			var string = '';
+			//F ( x ) = a /2 + a 1 cos x + b 1 sin x + a 2 cos 2 x + b 2 sin 2 x + ... + a n cos nx + b n sin nx + ...
+			for (x in phasors){
+				var a = phasors[x][0];
+				var b = phasors[x][1];
+				if(x==0){string = a+'/2'+ a +'cos(x) + '+b+'sin(x) + ';}
+				else{
+					//ancos(nx) + bnsin(nx)
+					string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
+				}
+			}
+
+			//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
+			//console.log(string);
+			//console.log(phasors);
+			//store fft in db for time periods..
+		
+	    });
+		
+	},
+
 	cullData: function(delta, time){
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
-		Data.find()
+		Data.find().limit(10000)
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .exec(function (err, data) {
 	    	for (x in data){

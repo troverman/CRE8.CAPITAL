@@ -7,7 +7,6 @@ var Neuron = synaptic.Neuron,
 	Network = synaptic.Network,
 	Trainer = synaptic.Trainer,
 	Architect = synaptic.Architect;
-//import regression from 'regression';
 var regression = require('regression');
 var fs = require('fs');
 
@@ -514,10 +513,10 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
 	//cull the data.. 
-	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 7200000);//second
-	timer(dataService.cullData.bind(null, '5000', 6*60*60*1000), 7200000);//5 seconds
-	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 7200000);//30seconds
-	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 7200000);//60sec
+	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
+	timer(dataService.cullData.bind(null, '5000', 6*60*60*1000), 500000);//5 seconds
+	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
+	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
 	timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
@@ -562,73 +561,5 @@ module.exports.intervalService = function(){
 			//}
 		}
     });*/
-
-	
-
-	var fft = require('fft-js').fft;
-	var forecast = require('nostradamus')
-   	var dataArray = [];	
-   	var predictions = [];
- 
-    //var csvWriter = require('csv-write-stream');
-	//var writer = csvWriter({ headers: ["date", "price"]});
-    //writer.pipe(fs.createWriteStream('equation.csv'));
-	var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-	var yesterday = Date.parse(start);
-    Data.find({assetPair:'BTC_LTC', delta:'1000'})
-    .sort('createdAt ASC')
-    .limit(32)
-    .then(function(models){
-    	for (x in models){
-
-			var price = models[x].price;
-    		var date = Date.parse(models[x].createdAt);
-    		//var update = date - yesterday;
-    		//if (update > 0){
-				//writer.write([update/1000, price]);
-				dataArray.push([date, price]);
-				//dataArray.push(price);
-
-    		//}
-
-    	}
-
-		//var signal=ifft(dataArray);
-		//console.log(signal);
-		//console.log(dataArray);
-    	var phasors=fft(dataArray);
-		//console.log(phasors);
-		var string = '';
-		//F ( x ) = a /2 + a 1 cos x + b 1 sin x + a 2 cos 2 x + b 2 sin 2 x + ... + a n cos nx + b n sin nx + ...
-		for (x in phasors){
-			var a = phasors[x][0];
-			var b = phasors[x][1];
-			if(x==0){string = a+'/2'+ a +'cos(x) + '+b+'sin(x) + ';}
-			else{
-				//ancos(nx) + bnsin(nx)
-				string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
-			}
-		}
-
-		//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
-		//console.log(string);
-		//console.log(phasors);
-		//store fft in db for time periods..
-		//var stream = fs.createWriteStream("my_file.txt");
-		//stream.once('open', function(fd) {
-		//  stream.write(string);
-		//});
-
-		//predictions = forecast(dataArray, 0.5, 0.1, 0.1, 32, 4);
-		//console.log(predictions)
-
-    	var result = regression.polynomial(dataArray, { order: 100, precision: 200 })
-    	console.log(result);
-    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
-    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
-    	//console.log(predict)
-    	//console.log(models);
-
-    });
 
 };
