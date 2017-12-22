@@ -65,15 +65,15 @@ module.exports = {
                 orderModel.price = model.price;
 
                 if (model.percentChange > 0.15){
-                    model.type = 'sell??';
-                    model.amount = 1;
-                    Order.create(model);
+                    orderModel.type = 'sell??';
+                    orderModel.amount = 1;
+                    Order.create(orderModel);
                     emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
                 }
                 if (model.percentChange < -0.15){
-                    model.type = 'buy';
-                    model.amount = 1;
-                    Order.create(model);
+                    orderModel.type = 'buy';
+                    orderModel.amount = 1;
+                    Order.create(orderModel);
                     emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
                 }
 
