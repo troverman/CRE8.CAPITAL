@@ -21,6 +21,9 @@ angular.module( 'investing.home', [
             predictionData: ['PredictionModel', function(PredictionModel) {
                 return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
             }],
+            //orders: ['OrderModel', function(OrderModel) {
+            //    return OrderModel.getSome(25, 0, 'createdAt DESC');
+            //}],
         }
     });
 }])

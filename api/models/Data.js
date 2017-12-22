@@ -58,17 +58,23 @@ module.exports = {
                 console.log(model);
                 Data.update({id:model.id}, model);
 
+                var orderModel = {};
+                orderModel.assetPair = model.assetPair;
+                orderModel.asset1 = model.asset1;
+                orderModel.asset2 = model.asset2;
+                orderModel.price = model.price;
+
                 if (model.percentChange > 0.15){
                     model.type = 'sell??';
                     model.amount = 1;
-                    Order.create(model)
-                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta, {data: model});
+                    Order.create(model);
+                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
                 }
                 if (model.percentChange < -0.15){
                     model.type = 'buy';
                     model.amount = 1;
-                    Order.create(model)
-                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta, {data: model});
+                    Order.create(model);
+                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
                 }
 
             });

@@ -126,7 +126,12 @@ angular.module( 'investing.markets', [
 
 
     //do an analysis of % change...
-   /* $scope.dataMap = {}
+
+
+
+
+    /*
+    $scope.dataMap = {}
     $scope.seletetData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
         $scope.selectedPair = [asset1, asset2];
@@ -156,7 +161,10 @@ angular.module( 'investing.markets', [
                     $scope.marketGraphDataRender = [$scope.marketGraphData];
                 }
         }
-    });*/
+    });
+    */
+
+
 
 
 }]);
