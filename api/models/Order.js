@@ -24,11 +24,18 @@ module.exports = {
             type: 'string',
         },
         amount:{
-            type: 'string',
+            type: 'float',
         },
     },
 
     //AfterCreate --> tweet via investinfor perdictionBot --~~>
+
+     afterCreate: function (model, next) {
+
+        console.log('ORDER CREATE')
+        return next(null, model);
+
+    },
 
     getOne: function(id) {
         return Order.findOne(id)

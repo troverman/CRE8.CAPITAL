@@ -149,7 +149,7 @@ angular.module( 'investing.market', [
                     
                     $scope.marketData.push(envelope.data);
                     var change = $scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price;
-                   
+                    change = change/$scope.marketData[$scope.marketData.length-1].price
                     $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
                     $scope.marketGraphChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), change]);
 

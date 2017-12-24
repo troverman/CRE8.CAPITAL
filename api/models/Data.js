@@ -55,7 +55,7 @@ module.exports = {
                 model.absoluteChange = model.price - models[1].price;
                 model.percentChange = model.absoluteChange/model.price;
                 model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-                console.log(model);
+                //console.log(model);
                 Data.update({id:model.id}, model);
 
                 var orderModel = {};
@@ -67,20 +67,23 @@ module.exports = {
                 if (model.percentChange > 0.15){
                     orderModel.type = 'sell??';
                     orderModel.amount = 1;
-                    Order.create(orderModel);
                     emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+                    return Order.create(orderModel).then(function(orderModel){
+                        return next(null, model);
+                    });
                 }
                 if (model.percentChange < -0.15){
                     orderModel.type = 'buy';
                     orderModel.amount = 1;
-                    Order.create(orderModel);
                     emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+                    return Order.create(orderModel).then(function(orderModel){
+                        return next(null, model);
+                    });
                 }
 
             });
         }
-        return next(null, model);
-
+        else{return next(null, model)}
 
         //update the appropiate asset .. for asset maps.
         //update percent change (and change^2) here -- with respect to delta and pair - do the cal of the one before. :) 
@@ -88,7 +91,6 @@ module.exports = {
         //do a trade.. hmm..
         //email trade execution confirm. 
         //exchange array
-
 
     },
 
