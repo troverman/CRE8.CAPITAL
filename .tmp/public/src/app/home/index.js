@@ -21,14 +21,14 @@ angular.module( 'investing.home', [
             predictionData: ['PredictionModel', function(PredictionModel) {
                 return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
             }],
-            //orders: ['OrderModel', function(OrderModel) {
-            //    return OrderModel.getSome(25, 0, 'createdAt DESC');
-            //}],
+            orders: ['OrderModel', function(OrderModel) {
+                return OrderModel.getSome(25, 0, 'createdAt DESC');
+            }],
         }
     });
 }])
 
-.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'DataModel', 'marketData', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, DataModel, marketData, predictionData ) {
+.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'DataModel', 'marketData', 'orders', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, DataModel, marketData, orders, predictionData ) {
     titleService.setTitle('investingfor');
     $scope.currentUser = config.currentUser;
     $scope.predictionData = predictionData;
@@ -38,6 +38,8 @@ angular.module( 'investing.home', [
 
     $scope.selectedPair = ['BTC','LTC'];
     $scope.selectedDelta = '5000';
+
+    $scope.orders = orders;
 
     $scope.seletetData = function (asset1, asset2, delta){
         $scope.selectedPair = [asset1, asset2];

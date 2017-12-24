@@ -132,10 +132,12 @@ module.exports = {
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .then(function (data) {
 	    	if (data.length > 0){
-		    	for (x in data){
-		    		console.log(data[x]);
-		    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
-		    	}
+	    		var idArray = data.map(function(obj) {return obj.id;});
+	    		console.log(idArray)
+		    	//for (x in data){
+				Data.destroy(idArray);//.then(function(model){console.log(model)});
+		    	//Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
+		    	//}
 	    	}
 	    });  
 	},

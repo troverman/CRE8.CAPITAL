@@ -154,52 +154,76 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "	<!--<nvd3 options='options' data='data'></nvd3>\n" +
     "	<nvd3 options='directedOptions' data='directedData'></nvd3>-->\n" +
     "\n" +
-    "\n" +
     "	<div class=\"container\" id=\"about\">\n" +
     "		<div style=\"height:50px;\"></div>\n" +
-    "	    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
-    "	       <h1>empowered financial representation</h1>\n" +
-    "	       <h3 style=\"\">backed by sound, open data</h3>\n" +
-    "	    </div>\n" +
-    "	    <div style=\"height:50px;\"></div>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "			    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
+    "			       <h1>empowered financial representation</h1>\n" +
+    "			       <h3 style=\"\">backed by sound, open data</h3>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div style=\"height:50px;\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
-    "		<br>\n" +
-    "		<!--<h3 style=\"text-align:center;\">a computational network designed to normalize risk and equalize investment returns.</h3>-->\n" +
-    "		<p>select financial representatives</p>\n" +
-    "		<br>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-wrench\"></i> financial representation </h3>\n" +
+    "			<div class=\"col-sm-6\">\n" +
+    "				<h3><i class=\"fa fa-wrench\"></i> sound financial representation </h3>\n" +
     "				<p>a community of transparent analysts </p>\n" +
+    "				<p>select financial representatives</p>\n" +
     "			</div>\n" +
-    "			<div class=\"col-sm-12\">\n" +
+    "			<!--<div class=\"col-sm-6\">\n" +
+    "				<img src=\"images/tesseract-bg.png\">\n" +
+    "			</div>-->\n" +
+    "		</div>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-4\">\n" +
+    "				<img src=\"images/tesseract-bg.png\">\n" +
+    "			</div>\n" +
+    "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
     "				<h3><i class=\"fa fa-github\"></i> community collaboration and discussion</h3>\n" +
     "				<p>contribute. collab. invest.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "				<p>data, we use. data we prouduce, together.</p>\n" +
+    "				<h3><i class=\"fa fa-file-o\"></i> open transparent data</h3>\n" +
+    "				<p>data we use, data we prouduce, together.</p>\n" +
     "			</div>\n" +
-    "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-wrench\"></i> view the analysis </h3>\n" +
+    "		</div>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-12\" style=\"text-align:right\">\n" +
+    "				<h3><i class=\"fa fa-wrench\"></i> cutting edge analysis </h3>\n" +
     "				<p>distributed networks working together to give you the cutting edge</p>\n" +
+    "				<p>a computational network designed to normalize risk and equalize investment returns.</p>\n" +
+    "				<p>decentralized network that works together to power financial simulations.</p>\n" +
     "			</div>\n" +
+    "		</div>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "				<h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
     "				<p>data-backed and proven results</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<br>\n" +
-    "		<p class=\"lead\">nice...</p>\n" +
-    "		<a href=\"/about\" class=\"btn btn-default\">now let me see some numbers</a>\n" +
-    "		<br><br><br>\n" +
+    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-sm-12\">\n" +
+    "				<p class=\"lead\">nice...</p>\n" +
+    "				<a href=\"/about\" class=\"btn btn-default\">now let me see some numbers</a>\n" +
+    "				<br><br>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
-    "	<!--<div style=\"background-color:rgb(220,220,220);\">\n" +
+    "	<!--\n" +
+    "	<div style=\"background-color:rgb(220,220,220);\">\n" +
     "		<br><br><br>\n" +
     "		<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
     "		<br><br>\n" +
@@ -214,17 +238,18 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		<br>\n" +
     "		<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
     "		<br><br><br>\n" +
-    "	</div>-->\n" +
+    "	</div>\n" +
+    "	-->\n" +
     "\n" +
     "	<div style=\"text-align:left\">\n" +
     "		<br><br><br>\n" +
     "		<div class=\"container\" style=\"\">\n" +
-    "			<h4>decentralized network that works together to power financial simulations.</h4>\n" +
-    "			<nvd3 options='options' data='data'></nvd3>\n" +
+    "			<h1>Market Exposure</h1>\n" +
+    "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<br><br>\n" +
     "			\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<div class=\"col-md-3\">\n" +
+    "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
@@ -263,9 +288,12 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "			<br>\n" +
     "			<h4>sound and transparent investments</h4>\n" +
     "			<!--daily return vs index..-->\n" +
-    "			<div ng-repeat=\"someData in marketData\">\n" +
-    "				<p>traded {{someData.assetPair}} at {{someData.price}} at {{someData.createdAt}}</p>\n" +
+    "			<br><br>\n" +
+    "			<h1>order book</h1><br>\n" +
+    "			<div ng-repeat=\"order in orders\">\n" +
+    "				<p>{{order.assetPair}} <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
     "			</div>\n" +
+    "			<br><br>\n" +
     "		</div>\n" +
     "	</div>\n" +
     "\n" +
@@ -524,6 +552,9 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function ($te
 
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("nav/index.tpl.html",
+    "<style>\n" +
+    "  @import url('https://fonts.googleapis.com/css?family=Jura:300,400,600');\n" +
+    "</style>\n" +
     "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
     "  <div class=\"container\">\n" +
     "    <div class=\"navbar-header\">\n" +
