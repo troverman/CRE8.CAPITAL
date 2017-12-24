@@ -130,10 +130,12 @@ module.exports = {
 		console.log(delta, time)
 		Data.find().limit(1000)
 	    .where({createdAt: {'<': start}, delta:delta})
-	    .exec(function (err, data) {
-	    	for (x in data){
-	    		console.log(data[x]);
-	    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
+	    .then(function (data) {
+	    	if (data.length > 0){
+		    	for (x in data){
+		    		console.log(data[x]);
+		    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
+		    	}
 	    	}
 	    });  
 	},
