@@ -12,7 +12,8 @@ angular.module( 'investing.markets', [
 		},
         resolve:{
             marketData: ['$stateParams', 'DataModel', function(DataModel) {
-                return DataModel.getData(1000, 0, 'createdAt DESC', 5000);
+                return null;
+                //return DataModel.getData(100, 0, 'createdAt DESC', 60000);
             }]
         }
 	});
@@ -22,7 +23,7 @@ angular.module( 'investing.markets', [
 	titleService.setTitle('Markets - investingfor');
 
     $scope.marketData = marketData;
-    $scope.selectedDelta = '5000';
+    $scope.selectedDelta = '60000';
 
     $scope.tradingPairs = [
         'XRP/BTC',
@@ -124,30 +125,100 @@ angular.module( 'investing.markets', [
         'BLK/XMR'
     ];
 
+    $scope.marketOptions = {
+        chart: {
+            type: 'lineWithFocusChart',
+            height: 850,
+            margin : {
+                top: 20,
+                right: 0,
+                bottom: 20,
+                left: 30
+            },
+            x: function(d){ 
+                return d[0]; 
+            },
+            y: function(d){ 
+                return d[1]; 
+            },
+            color: d3.scale.category10().range(),
+            duration: 1500,
+            useInteractiveGuideline: true,
+            clipVoronoi: true,
+            xAxis: {
+                axisLabel: 'Time',
+                tickFormat: function(d) {
+                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                },
+                staggerLabels: true
+            },
+            yAxis: {
+                axisLabel: 'cre8', //$scope.selectedPair[0]+'_'+$scope.selectedPair[1],
+                axisLabelDistance: 50
+            }
+        }
+    };
+
+    //$scope.marketDataRender = {};
+    //$scope.marketDataRender.key = 'cre8';
+    //$scope.marketDataRender.color = '#f94442';
+    //$scope.marketDataRender.values = [];
+    $scope.marketDataRender = {};
+    $scope.marketDataRenderRender = [];
+
 
     //do an analysis of % change...
 
-
-
-
-    /*
+    
     $scope.dataMap = {}
-    $scope.seletetData = function (asset1, asset2, delta){
+    $scope.selectData = function (asset1, asset2, delta, iterator){
         $rootScope.stateIsLoading = true;
-        $scope.selectedPair = [asset1, asset2];
-        $scope.selectedDelta = delta;
-        DataModel.getData(10, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
-            dataMap[asset1+'_'asset2] = model;
-            $scope.marketData = model;
+
+        //$scope.selectedPair = [asset1, asset2];
+        //$scope.selectedDelta = delta;
+        DataModel.getData(60, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
+
+            $scope.marketDataRender[asset1+'_'+asset2] = {};
+            $scope.marketDataRender[asset1+'_'+asset2].values = [];
+            $scope.marketDataRender[asset1+'_'+asset2].key = asset1+'_'+asset2;
+            $scope.marketDataRender[asset1+'_'+asset2].color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
+            $scope.dataMap[asset1+'_'+asset2] = model;
+            var change = 0;
+            for (x in $scope.dataMap[asset1+'_'+asset2].reverse()){
+
+                if (x > 1){
+                    change = $scope.dataMap[asset1+'_'+asset2][x].price - $scope.dataMap[asset1+'_'+asset2][x-1].price;
+                    change = change/$scope.dataMap[asset1+'_'+asset2][x].price;
+                }
+
+                $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);//$scope.dataMap[asset1+'_'+asset2][x].percentChange]);
+            }
+
+            console.log(iterator, $scope.tradingPairs.length - 1)
+            if (iterator == $scope.tradingPairs.length - 1){
+                for (x in Object.keys($scope.marketDataRender)){
+                    console.log(Object.keys($scope.marketDataRender)[x]);
+                    $scope.marketDataRenderRender.push($scope.marketDataRender[Object.keys($scope.marketDataRender)[x]]);
+                }
+            }
+
             $rootScope.stateIsLoading = false;
+
         })
     };
 
-    for (x in $scope.tradingPairs){
-        $scope.seletetData($scope.tradingPairs[x].split('/')[0], $scope.tradingPairs[x].split('/')[1], 60000)
-    }
+    $scope.selectTime = function(time){
+        $scope.marketDataRender = {};
+        $scope.marketDataRenderRender = [];
+        for (x in $scope.tradingPairs){
+            $scope.selectData($scope.tradingPairs[x].split('/')[1], $scope.tradingPairs[x].split('/')[0], time, x);
+        }
+    };
 
-    $sailsSocket.subscribe('data', function (envelope) {
+    $scope.selectTime(60000);
+
+    /*$sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
                 if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
@@ -161,8 +232,8 @@ angular.module( 'investing.markets', [
                     $scope.marketGraphDataRender = [$scope.marketGraphData];
                 }
         }
-    });
-    */
+    });*/
+    
 
 
 

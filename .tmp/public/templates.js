@@ -209,7 +209,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "				<h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
-    "				<p>data-backed and proven results</p>\n" +
+    "				<p>data-backed with proven results</p>\n" +
+    "				<!--<p>powerful apis</p>-->\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
@@ -234,7 +235,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		<br>\n" +
     "		<p class=\"lead\" style=\"text-align:center;\">what if our devices were working toward a common goal?</p>\n" +
     "		<br>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">extract value by earning <a href=\"http://www.epoint.me/market/investment-point\">investment points</a>.</p>\n" +
+    "		<p class=\"lead\" style=\"text-align:center;\">extract value by earning crypto-backed <a href=\"http://www.epoint.me/market/investment-point\">investment points</a>.</p>\n" +
     "		<br>\n" +
     "		<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
     "		<br><br><br>\n" +
@@ -516,15 +517,17 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "\n" +
     "	<h5>overlay of percentage gain</h5>\n" +
     "\n" +
-    "	<p>1 min</p>\n" +
-    "	<p>5 min</p>\n" +
-    "	<p>30 min</p>\n" +
-    "	<p>1hr</p>\n" +
-    "	<p>2hrs</p>\n" +
-    "	<p>4hrs</p>\n" +
-    "	<p>6 hrs</p>\n" +
-    "	<p>12 hrs</p>\n" +
-    "	<p>24 hrs</p>\n" +
+    "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
+    "\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000)\">1 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000)\">5 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000)\">30 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(3600000)\">1hr</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(7200000)\">2hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(14400000)\">4hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000)\">6 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000)\">12 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000)\">24 hrs</p>\n" +
     "	\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +

@@ -4,15 +4,17 @@
 
 	<h5>overlay of percentage gain</h5>
 
-	<p>1 min</p>
-	<p>5 min</p>
-	<p>30 min</p>
-	<p>1hr</p>
-	<p>2hrs</p>
-	<p>4hrs</p>
-	<p>6 hrs</p>
-	<p>12 hrs</p>
-	<p>24 hrs</p>
+	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>
+
+	<p class="btn btn-default" ng-click="selectTime(60000)">1 min</p>
+	<p class="btn btn-default" ng-click="selectTime(300000)">5 min</p>
+	<p class="btn btn-default" ng-click="selectTime(1800000)">30 min</p>
+	<p class="btn btn-default" ng-click="selectTime(3600000)">1hr</p>
+	<p class="btn btn-default" ng-click="selectTime(7200000)">2hrs</p>
+	<p class="btn btn-default" ng-click="selectTime(14400000)">4hrs</p>
+	<p class="btn btn-default" ng-click="selectTime(21600000)">6 hrs</p>
+	<p class="btn btn-default" ng-click="selectTime(43200000)">12 hrs</p>
+	<p class="btn btn-default" ng-click="selectTime(86400000)">24 hrs</p>
 	
 </div>
 <div style="height:100px;"></div>
