@@ -128,7 +128,7 @@ module.exports = {
 	cullData: function(delta, time){
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
-		Data.find().limit(10000)
+		Data.find().limit(1000)
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .exec(function (err, data) {
 	    	for (x in data){

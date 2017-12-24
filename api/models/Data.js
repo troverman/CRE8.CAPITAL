@@ -86,7 +86,7 @@ module.exports = {
         else{return next(null, model)}
 
         //update the appropiate asset .. for asset maps.
-        //update percent change (and change^2) here -- with respect to delta and pair - do the cal of the one before. :) 
+        //update percent change (and change^2) here -- with respect to delta and pair - do the calc of the one before. :) 
         //email if percent change is greater than 20%? 
         //do a trade.. hmm..
         //email trade execution confirm. 
