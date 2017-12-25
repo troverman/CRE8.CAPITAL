@@ -190,9 +190,9 @@ angular.module( 'investing.markets', [
                 if (x > 1){
                     change = $scope.dataMap[asset1+'_'+asset2][x].price - $scope.dataMap[asset1+'_'+asset2][x-1].price;
                     change = change/$scope.dataMap[asset1+'_'+asset2][x].price;
+                    $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);//$scope.dataMap[asset1+'_'+asset2][x].percentChange]);
                 }
 
-                $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);//$scope.dataMap[asset1+'_'+asset2][x].percentChange]);
             }
 
             console.log(iterator, $scope.tradingPairs.length - 1)
