@@ -171,11 +171,13 @@ angular.module( 'investing.markets', [
 
     
     $scope.dataMap = {}
-    $scope.selectData = function (asset1, asset2, delta, iterator){
+    $scope.iterator = 0
+    $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
 
         //$scope.selectedPair = [asset1, asset2];
         //$scope.selectedDelta = delta;
+        //if (asset1 == 'BTC'){
         DataModel.getData(60, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
 
             $scope.marketDataRender[asset1+'_'+asset2] = {};
@@ -195,28 +197,42 @@ angular.module( 'investing.markets', [
 
             }
 
-            console.log(iterator, $scope.tradingPairs.length - 1)
-            if (iterator == $scope.tradingPairs.length - 1){
+            $scope.iterator++
+            console.log($scope.iterator, $scope.selectedPairs.length)
+            if ($scope.iterator == $scope.selectedPairs.length){
                 for (x in Object.keys($scope.marketDataRender)){
                     console.log(Object.keys($scope.marketDataRender)[x]);
                     $scope.marketDataRenderRender.push($scope.marketDataRender[Object.keys($scope.marketDataRender)[x]]);
+                    $rootScope.stateIsLoading = false;
+                    $scope.iterator = 0;
                 }
             }
 
-            $rootScope.stateIsLoading = false;
-
-        })
+        });
+        //}
     };
 
-    $scope.selectTime = function(time){
+    $scope.selectTime = function(delta, asset){
+
         $scope.marketDataRender = {};
         $scope.marketDataRenderRender = [];
-        for (x in $scope.tradingPairs){
-            $scope.selectData($scope.tradingPairs[x].split('/')[1], $scope.tradingPairs[x].split('/')[0], time, x);
+        //$scope.tradingPairs = $scope.tradingPairs.map(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
+        //console.log($scope.tradingPairs.map(function(obj){if (obj.split('/')[1]=='BTC'){return obj}}))
+
+        $scope.selectedPairs = $scope.tradingPairs.filter(function(obj){
+            if (obj.split('/')[1]==asset){return obj;}
+            else{if(asset == 'all'){return obj}}
+        });
+
+        console.log($scope.selectedPairs);
+
+        for (x in $scope.selectedPairs){
+            $scope.selectData($scope.selectedPairs[x].split('/')[1], $scope.selectedPairs[x].split('/')[0], delta);
         }
+        
     };
 
-    $scope.selectTime(60000);
+    $scope.selectTime(300000, 'BTC');
 
     /*$sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {

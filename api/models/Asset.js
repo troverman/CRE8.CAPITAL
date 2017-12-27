@@ -20,6 +20,9 @@ module.exports = {
         conversionArray: {
             type: 'json',
             required: true
+        },
+        user: {
+            model: 'user'
         }
     },
 

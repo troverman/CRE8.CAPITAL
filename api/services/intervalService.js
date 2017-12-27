@@ -514,7 +514,7 @@ module.exports.intervalService = function(){
 
 	//cull the data.. 
 	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 6*60*60*1000), 500000);//5 seconds
+	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
@@ -528,6 +528,7 @@ module.exports.intervalService = function(){
 
 	//setInterval(dataService.dataService, 14400000);
 	//setInterval(ticker, 6000);
+	//dataService.cullData('1000', 30*60*1000)
 
 	//gonna have to save the trainers to a db -- aka the weighted nodes
 	//meantime

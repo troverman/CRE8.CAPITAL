@@ -128,13 +128,19 @@ module.exports = {
 	cullData: function(delta, time){
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
-		Data.find().limit(100)
+		Data.find()//.limit(100)
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .then(function (data) {
 	    	if (data.length > 0){
-	    		var idArray = data.map(function(obj) {return obj.id;});
+	    		var idArray = data.map(function(obj) {return obj.id});
+
 	    		console.log(idArray);
-				Data.destroy(idArray);
+
+				Data.destroy(idArray, function(err, model) {
+					console.log(err,model);
+					console.log('deleted');
+				});
+
 	    	}
 	    });  
 	},

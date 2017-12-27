@@ -171,7 +171,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
-    "				<h3><i class=\"fa fa-wrench\"></i> sound financial representation </h3>\n" +
+    "				<h3>sound financial representation </h3>\n" +
     "				<p>a community of transparent analysts </p>\n" +
     "				<p>select financial representatives</p>\n" +
     "			</div>\n" +
@@ -185,21 +185,21 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "				<img src=\"images/tesseract-bg.png\">\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
-    "				<h3><i class=\"fa fa-github\"></i> community collaboration and discussion</h3>\n" +
+    "				<h3>community collaboration and contribution</h3>\n" +
     "				<p>contribute. collab. invest.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-file-o\"></i> open transparent data</h3>\n" +
+    "				<h3><i class=\"fa fa-file-o\"></i> open and transparent data</h3>\n" +
     "				<p>data we use, data we prouduce, together.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\" style=\"text-align:right\">\n" +
-    "				<h3><i class=\"fa fa-wrench\"></i> cutting edge analysis </h3>\n" +
+    "				<h3><i class=\"fa fa-wrench\"></i> cutting edge analysis at scale</h3>\n" +
     "				<p>distributed networks working together to give you the cutting edge</p>\n" +
     "				<p>a computational network designed to normalize risk and equalize investment returns.</p>\n" +
     "				<p>decentralized network that works together to power financial simulations.</p>\n" +
@@ -208,7 +208,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "				<h3><i class=\"fa fa-cogs\"></i> transparent financial results </h3>\n" +
     "				<p>data-backed with proven results</p>\n" +
     "				<!--<p>powerful apis</p>-->\n" +
     "			</div>\n" +
@@ -245,7 +245,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "	<div style=\"text-align:left\">\n" +
     "		<br><br><br>\n" +
     "		<div class=\"container\" style=\"\">\n" +
-    "			<h1>Market Exposure</h1>\n" +
+    "			<h1>market exposure</h1>\n" +
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<br><br>\n" +
     "			\n" +
@@ -284,7 +284,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "	<div style=\"text-align:left;\">\n" +
     "		<br><br><br>\n" +
     "		<div class=\"container\">\n" +
-    "			<h1>Activity</h1>\n" +
+    "			<h1>activity</h1>\n" +
     "			<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "			<br>\n" +
     "			<h4>sound and transparent investments</h4>\n" +
@@ -519,15 +519,15 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
     "\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000)\">1 min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000)\">5 min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000)\">30 min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(3600000)\">1hr</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(7200000)\">2hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(14400000)\">4hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000)\">6 hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000)\">12 hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000)\">24 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24 hrs</p>\n" +
     "	\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
