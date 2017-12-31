@@ -468,8 +468,9 @@ function portfolioBalance(model){
 	//var newPairs = tradingPairs.slice(10,20)
 
 	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		Data.find({delta:'60000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+		Data.find({delta:'30000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
 		.limit(1000)
+		.sort('createdAt DESC')
 		.then(function(models){
 			//console.log(models)
 			//var model = {}
@@ -495,11 +496,12 @@ function portfolioBalance(model){
 
 		for (x in exchangeMap){
 			for (y in exchangeMap[x]){
+				console.log(exchangeMap[x][y])
 				if (y > 1){
 					var percentChange = (exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price;
 					if (percentChange > 0){
 						totalChange+=percentChange;
-						console.log(totalChange);
+						//console.log(totalChange);
 					}
 					//console.log((exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price)
 				}

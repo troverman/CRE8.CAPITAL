@@ -56,7 +56,13 @@ module.exports = {
                 model.percentChange = model.absoluteChange/model.price;
                 model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
                 console.log(model);
-                Data.update({id:model.id}, model);
+
+
+                Data.update({id:model.id}, model).exec(function afterwards(err, updated){
+                    //Data.publishUpdate(model.id, updated);
+                    console.log(updated, 'UPDATED')
+                });
+
 
                 var orderModel = {};
                 orderModel.assetPair = model.assetPair;
