@@ -47,7 +47,7 @@ module.exports = {
     //slows down the 1sec granularity..
     afterCreate: function (model, next) {
 
-        if (model.delta >= 60000){
+        if (model.delta >= 30000){
             Data.find({assetPair:model.assetPair, delta: model.delta})
             .sort('createdAt DESC')
             .limit(2)
@@ -55,7 +55,7 @@ module.exports = {
                 model.absoluteChange = model.price - models[1].price;
                 model.percentChange = model.absoluteChange/model.price;
                 model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-                //console.log(model);
+                console.log(model);
                 Data.update({id:model.id}, model);
 
                 var orderModel = {};

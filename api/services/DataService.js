@@ -176,7 +176,7 @@ module.exports = {
 				            if (percentChange > 0.2){console.log('send email !!!')}
 				        });
 						*/
-						console.log(model)
+						//console.log(model)
 					});
 				}
 			}

@@ -465,11 +465,11 @@ function portfolioBalance(model){
 	var totalChange = 0;
 	var exchangeMap = [];
 
-	var newPairs = tradingPairs.slice(10,20)
+	//var newPairs = tradingPairs.slice(10,20)
 
-	async.eachSeries(newPairs, function (tradingPair, nextIteration){ 
-		Data.find({delta:'1800000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-		.limit(100)
+	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
+		Data.find({delta:'60000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+		.limit(1000)
 		.then(function(models){
 			//console.log(models)
 			//var model = {}
@@ -495,7 +495,14 @@ function portfolioBalance(model){
 
 		for (x in exchangeMap){
 			for (y in exchangeMap[x]){
-				console.log(exchangeMap[x][y].percentChange)
+				if (y > 1){
+					var percentChange = (exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price;
+					if (percentChange > 0){
+						totalChange+=percentChange;
+						console.log(totalChange);
+					}
+					//console.log((exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price)
+				}
 			}
 
 		}
@@ -585,7 +592,7 @@ module.exports.intervalService = function(){
     	}
     }); */
 
-	timer(dataService.tickerREST.bind(null, 1000), 1000);//second
+	/*timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
@@ -596,7 +603,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
 	//cull the data.. 
 	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
