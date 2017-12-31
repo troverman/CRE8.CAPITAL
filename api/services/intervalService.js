@@ -11,29 +11,6 @@ var regression = require('regression');
 var fs = require('fs');
 
 var tradingPairs = [
-	['BTC','USD'],
-	['ETH','USD'],
-	['ETH','BTC'],	
-	['ETC','USD'],
-	['ETC','BTC'],
-	['ZEC','USD'],	
-	['ZEC','BTC'],
-	['XMR','USD'],
-	['XMR','BTC'],
-	['LTC','USD'],
-	['LTC','BTC'],
-	/*['DASH','USD'],
-	['DASH','BTC'],
-	['RRT','USD'],
-	['RRT','BTC'],
-	['BCC','USD'],
-	['BCC','BTC'],
-	['BCU','USD'],
-	['BCU','BTC'],*/
-];
-
-
-var tradingPairsNew = [
     'XRP/BTC',
     'ETH/BTC',
     'BTC/USDT',
@@ -483,11 +460,120 @@ function timer(callback, delay){
 };
 
 
+function portfolioBalance(model){
+
+	var totalChange = 0;
+	var exchangeMap = [];
+
+	var newPairs = tradingPairs.slice(10,20)
+
+	async.eachSeries(newPairs, function (tradingPair, nextIteration){ 
+		Data.find({delta:'1800000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+		.limit(100)
+		.then(function(models){
+			//console.log(models)
+			//var model = {}
+			//model[tradingPair] = models;
+			//console.log(model)
+			exchangeMap.push(models);
+			process.nextTick(nextIteration);
+		});
+	}, 
+	function(err) {
+		//console.log(exchangeMap);
+
+		var currentPortfolio = {USD:0, LTC:0, ETH:0, BTC:10}
+		//limit to btc for now.. 
+
+		//gotta compare 
+
+		//exchangeMap[0][1]
+		//exchangeMap[1][1]
+		//exchangeMap[2][1]
+
+		//portfolioMap 
+
+		for (x in exchangeMap){
+			for (y in exchangeMap[x]){
+				console.log(exchangeMap[x][y].percentChange)
+			}
+
+		}
+
+		/**for (x in Object.keys(exchangeMap)){
+			var pairData = exchangeMap[Object.keys(exchangeMap)[x]]
+			for (y in pairData){
+				var data = pairData[y];
+
+				console.log(data);
+				console.log(data.precentChange);
+
+				
+				for (z in Object.keys(exchangeMap)){
+					var superLoop = exchangeMap[Object.keys(exchangeMap)[z]][y];
+					console.log(superLoop.percentChange);
+					//selected = highestet
+				}
+				
+
+				if (data.precentChange > 0){ 
+					//place order???!
+					//swap out current portfolio --
+					//currentPortfolio.BTC - 10;
+					//any other exchange - pair
+					totalChange += data.precentChange;
+					console.log(totalChange)
+				}
+				//exchangeMap[Object.keys(exchangeMap)[x]][y]
+			}
+
+		}*/
+
+		/*
+		exchangeMap.map(function(obj){
+			for (x in Object.keys(allocationWeight)){
+				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
+					console.log(Object.keys(allocationWeight)[x] + ' : ' + BTC*obj.price*allocationWeight[Object.keys(allocationWeight)[x]])
+					//allocationWeight[Object.keys(allocationWeight)[x]]
+				}
+			}
+		});
+		*/
+
+	});
+
+
+};
+
+
 
 module.exports.intervalService = function(){
 
 	var dataService = {};
 	dataService = sails.services.dataservice;
+
+	//portfolioBalance();
+
+	/*Data.find({delta:'30000'})
+	.limit(10)
+	.sort('createdAt DESC')
+	.then(function(models){
+		for (x in models){
+			(function(models, x) {
+				Data.find({createdAt: {'<': models[x].createdAt}, assetPair:models[x].assetPair, delta: models[x].delta})
+	            .sort('createdAt DESC')
+	            .limit(1)
+	            .then(function (dataModels) {
+	            	var model = {};
+					model.absoluteChange = models[x].price - dataModels[0].price;
+	                model.percentChange = model.absoluteChange/models[x].price;
+	                model.absoluteChangeChange = model.absoluteChange -  dataModels[0].absoluteChange;
+	                console.log(model)
+	                Data.update({id:models[x].id}, model);
+	            });
+			})(models, x);
+		}
+	})*/
 	//order();
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);
 	//timer(dataService.tickerREST, 1000);
@@ -499,7 +585,7 @@ module.exports.intervalService = function(){
     	}
     }); */
 
-	timer(dataService.tickerREST.bind(null, 1000), 1000);//second
+	/*timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
@@ -510,7 +596,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
 	//cull the data.. 
 	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
@@ -525,6 +611,7 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
 	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
+
 
 	//setInterval(dataService.dataService, 14400000);
 	//setInterval(ticker, 6000);

@@ -47,7 +47,7 @@ module.exports = {
     //slows down the 1sec granularity..
     afterCreate: function (model, next) {
 
-        if (model.delta >= 300000){
+        if (model.delta >= 60000){
             Data.find({assetPair:model.assetPair, delta: model.delta})
             .sort('createdAt DESC')
             .limit(2)
@@ -63,6 +63,7 @@ module.exports = {
                 orderModel.asset1 = model.asset1;
                 orderModel.asset2 = model.asset2;
                 orderModel.price = model.price;
+
 
                 if (model.percentChange > 0.15){
                     orderModel.type = 'SELL';
@@ -85,6 +86,7 @@ module.exports = {
         }
         else{return next(null, model)}
 
+        //if change goes from negative to zero..  to positive --> buy - sell
         //update the appropiate asset .. for asset maps.
         //update percent change (and change^2) here -- with respect to delta and pair - do the calc of the one before. :) 
         //email if percent change is greater than 20%? 
