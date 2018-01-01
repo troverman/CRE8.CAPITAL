@@ -17,7 +17,6 @@ var tradingPairs = [
     'LTC/BTC',
     'BCH/BTC',
     'XRP/USDT',
-    'XLM/BTC',
     'ETH/USDT',
     'BCH/USDT',
     'XMR/BTC',
@@ -460,19 +459,21 @@ function timer(callback, delay){
 };
 
 
-function portfolioBalance(model){
+function portfolioBalance(delta, limit){
 
 	var totalChange = 0;
+	var largestChange = 0;
+
 	var exchangeMap = [];
 
 	//var newPairs = tradingPairs.slice(10,20)
 
 	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		Data.find({delta:'30000', asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-		.limit(1000)
+		Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+		.limit(limit)
 		.sort('createdAt DESC')
 		.then(function(models){
-			//console.log(models)
+			console.log(models)
 			//var model = {}
 			//model[tradingPair] = models;
 			//console.log(model)
@@ -481,33 +482,57 @@ function portfolioBalance(model){
 		});
 	}, 
 	function(err) {
-		//console.log(exchangeMap);
-
 		var currentPortfolio = {USD:0, LTC:0, ETH:0, BTC:10}
 		//limit to btc for now.. 
-
 		//gotta compare 
-
 		//exchangeMap[0][1]
 		//exchangeMap[1][1]
 		//exchangeMap[2][1]
-
 		//portfolioMap 
 
-		for (x in exchangeMap){
-			for (y in exchangeMap[x]){
-				console.log(exchangeMap[x][y])
-				if (y > 1){
-					var percentChange = (exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price;
-					if (percentChange > 0){
-						totalChange+=percentChange;
-						//console.log(totalChange);
-					}
-					//console.log((exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price)
-				}
+		//TODO: efficencicy redux
+		for (y in exchangeMap[0]){
+			var timeArray = [];
+			for (x in exchangeMap){
+				//iterate though-- then iterate though.
+				timeArray.push(exchangeMap[x][y])
 			}
+			var largest = Math.max.apply(Math, timeArray.map(function(obj){return obj.percentChange}));
+			var largestIndex = timeArray.map(function(obj){return obj.percentChange}).indexOf(largest)
+			console.log(largestIndex);
+			
+			if (largestIndex != -1){console.log(timeArray[largestIndex])}
+
+			console.log(largest)
+			largestChange+=largest;
+			console.log(largestChange);
 
 		}
+
+		//exchangeMap[x][y];
+		//var largest = Math.max.apply(Math, exchangeMap[x].map(function(obj){return obj.percentChange}));
+		//if not -inifity, or infinity..
+
+		//\console.log(x, largest);
+		//largestChange+=largest;
+		//console.log(largestChange);
+
+		//for (y in exchangeMap[x]){
+
+			//console.log(exchangeMap[x][y]);
+			//if (exchangeMap[x][y].percentChange > 0){
+			//	totalChange+=exchangeMap[x][y].percentChange;
+			//	console.log(totalChange);
+			//}
+			//if (y > 1){
+			//	var percentChange = (exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price;
+			//	if (percentChange > 0){
+			//		totalChange+=percentChange;
+					//console.log(totalChange);
+			//	}
+				//console.log((exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price)
+			//}
+		//}
 
 		/**for (x in Object.keys(exchangeMap)){
 			var pairData = exchangeMap[Object.keys(exchangeMap)[x]]
@@ -517,14 +542,12 @@ function portfolioBalance(model){
 				console.log(data);
 				console.log(data.precentChange);
 
-				
 				for (z in Object.keys(exchangeMap)){
 					var superLoop = exchangeMap[Object.keys(exchangeMap)[z]][y];
 					console.log(superLoop.percentChange);
 					//selected = highestet
 				}
 				
-
 				if (data.precentChange > 0){ 
 					//place order???!
 					//swap out current portfolio --
@@ -538,19 +561,7 @@ function portfolioBalance(model){
 
 		}*/
 
-		/*
-		exchangeMap.map(function(obj){
-			for (x in Object.keys(allocationWeight)){
-				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
-					console.log(Object.keys(allocationWeight)[x] + ' : ' + BTC*obj.price*allocationWeight[Object.keys(allocationWeight)[x]])
-					//allocationWeight[Object.keys(allocationWeight)[x]]
-				}
-			}
-		});
-		*/
-
 	});
-
 
 };
 
@@ -561,7 +572,7 @@ module.exports.intervalService = function(){
 	var dataService = {};
 	dataService = sails.services.dataservice;
 
-	//portfolioBalance();
+	portfolioBalance('30000', 10);
 
 	/*Data.find({delta:'30000'})
 	.limit(10)
@@ -594,7 +605,7 @@ module.exports.intervalService = function(){
     	}
     }); */
 
-	timer(dataService.tickerREST.bind(null, 1000), 1000);//second
+	/*timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
@@ -605,7 +616,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
 	//cull the data.. 
 	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
