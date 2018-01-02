@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"heroku_b6qzwmjf.prediction"},{"v":2,"key":{"createdAt":-1,"asset1":1,"asset2":1,"predictionTime":1},"name":"createdAt_-1_asset1_1_asset2_1_predictionTime_1","ns":"heroku_b6qzwmjf.prediction","background":true}]}

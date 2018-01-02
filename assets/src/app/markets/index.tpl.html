@@ -18,7 +18,17 @@
 	<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
 </div>
 
-{{portfolioData}}
+<div class="container" style="text-align:left">
+
+	<div class="col-md-12">
+		<div ng-repeat="portfolio in portfolioData.portfolioSet">{{portfolio}}</div>
+	</div>
+
+	<div class="col-md-12">
+		<div ng-repeat="order in portfolioData.orderSet"> {{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</div>
+	</div>
+
+</div>
 
 <div style="height:100px;"></div>
 

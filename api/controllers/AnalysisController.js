@@ -121,6 +121,28 @@ function getData(limit, delta, tradingPair){
     return defered.promise;
 };
 
+function liveTrade(delta, asset1, asset2){
+
+	//getPredicted
+	//getLastestData..granularity.
+	Data.find({delta:delta})
+	.limit(1)
+	.then(function(model){
+		//model[0];
+		//sync with granularity? 
+		//yes
+		//var now = new Date();
+		//var createdAt = new Data(model[0].createAt);
+		//var syncDelay = parseInt(delta) - (now-createdAt)
+		//get lastest data
+		//get prediction w data
+		//wait delta - place trade
+
+	});
+
+
+};
+
 
 module.exports = {
 
@@ -226,7 +248,7 @@ module.exports = {
 						if (pairIndex != -1){
 							if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
 								//console.log('PLACE ORDER.. TRADE', currentPortfolio[Object.keys(currentPortfolio)[n]], timeArray[pairIndex].asset2, 'for', currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price), predictionArray[predictedLargestIndex].asset1)
-								orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]]})
+								orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]]})
 								currentPortfolio[predictionArray[predictedLargestIndex].asset1] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
 								currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
 								portfolioSet.push(clone(currentPortfolio));
@@ -247,6 +269,7 @@ module.exports = {
 						}
 					}
 					console.log(y, currentPortfolio);
+					console.log(orderSet)
 				}
 
 			}
@@ -260,6 +283,9 @@ module.exports = {
 
 
 	},
+
+
+
 
 
 	

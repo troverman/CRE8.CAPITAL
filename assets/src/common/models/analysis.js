@@ -6,6 +6,11 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url).then(success, error);
     };
 
+    this.getRegression = function() {
+        var url = utils.prepareUrl('analysis/regression');
+        return $sailsSocket.get(url).then(success, error);
+    };
+
     this.getPortfolioSolve = function(delta, limit) {
         var url = utils.prepareUrl('analysis/portfolioBalance');
         var query = {params:{limit: limit, delta: delta, btc:100}};

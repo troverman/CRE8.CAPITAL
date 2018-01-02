@@ -446,7 +446,17 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
     "</div>\n" +
     "\n" +
-    "{{portfolioData}}\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "\n" +
+    "	<div class=\"col-md-12\">\n" +
+    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">{{portfolio}}</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"col-md-12\">\n" +
+    "		<div ng-repeat=\"order in portfolioData.orderSet\"> {{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "</div>\n" +
     "\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "\n" +
