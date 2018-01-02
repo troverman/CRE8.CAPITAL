@@ -22,6 +22,14 @@ module.exports.routes = {
   'post /auth/local/:action': 'AuthController.callback',
 
   /**
+   * Analysis routes
+   */
+  'get /api/analysis/portfolioBalance': 'AnalysisController.portfolioBalance',
+  'get /api/analysis/fft': 'AnalysisController.fft',
+  'get /api/analysis/regression': 'AnalysisController.regression',
+
+
+  /**
    * Market routes
    */
   'get /api/market': 'DataController.getCurrency',

@@ -14,8 +14,13 @@
 	<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6 hrs</p>
 	<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12 hrs</p>
 	<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24 hrs</p>
-	
+	<div style="height:100px;"></div>
+	<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
 </div>
+
+{{portfolioData}}
+
 <div style="height:100px;"></div>
+
 <div ng-include="'footer/index.tpl.html'"></div>
 

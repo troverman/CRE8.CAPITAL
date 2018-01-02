@@ -19,7 +19,7 @@ angular.module( 'investing.markets', [
 	});
 }])
 
-.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, config, DataModel, marketData, titleService ) {
+.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
 	titleService.setTitle('Markets - investingfor');
 
     $scope.marketData = marketData;
@@ -232,7 +232,18 @@ angular.module( 'investing.markets', [
         
     };
 
-    $scope.selectTime(300000, 'BTC');
+    //$scope.selectTime(300000, 'BTC');
+
+    $scope.solvePortfolio = function(delta, limit){
+        AnalysisModel.getPortfolioSolve(delta, limit).then(function(data){
+            console.log(data);
+            $scope.portfolioData = data;
+        });
+    };
+
+    //AnalysisModel.getPortfolioSolve('30000', 100).then(function(data){
+    //    console.log(data);
+    //})
 
     /*$sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {

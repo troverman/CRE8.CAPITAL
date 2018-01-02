@@ -459,13 +459,14 @@ function timer(callback, delay){
 };
 
 function getData(limit, delta, tradingPair){
+	console.log(tradingPair);
     var defered = Q.defer();
     Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
 	.limit(limit)
 	.sort('createdAt DESC')
 	.then(function(models){
 		console.log(tradingPair);
-		defered.resolve(models);
+		defered.resolve(models.reverse());
 	});
     return defered.promise;
 };
@@ -484,7 +485,7 @@ function portfolioBalance(delta, limit){
 	var exchangeMap = [];
 	var promises = [];
 
-	var initPortfolio, currentPortfolio = {BTC:100}
+	var initPortfolio, currentPortfolio = {BTC:0.65}
 	
 	var selectedValues = [];
 	var portfolioSet = [];
@@ -498,29 +499,15 @@ function portfolioBalance(delta, limit){
         if (obj.split('/')[1]=='BTC'){return obj}
     });
 
-	/*tradingPairs.forEach(function(tradingPair, index){
+	tradingPairs.forEach(function(tradingPair, index){
 	    var promise = getData(limit, delta, tradingPair);
 	    promises.push(promise);
-	});*/
+	});
 
 	//TODO: faster git. --> init all data get at once.
-	//Q.all(promises)
-	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-		.limit(limit)
-		.sort('createdAt DESC')
-		.then(function(models){
-			console.log(tradingPair)
-			//var model = {}
-			//model[tradingPair] = models;
-			//console.log(model)
-			exchangeMap.push(models.reverse());
-			process.nextTick(nextIteration);
-		});
-	},
-	function(err) {
-	//.then(function(data){
-		//exchangeMap = data;
+	Q.all(promises)
+	.then(function(data){
+		exchangeMap = data;
 
 		//gotta compare 
 		//exchangeMap[0][1]
