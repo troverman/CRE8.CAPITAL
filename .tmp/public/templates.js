@@ -38,7 +38,6 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function ($tem
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
-    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "");
 }]);
 
@@ -48,85 +47,8 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function ($t
     "	<h1>user info</h1>\n" +
     "	<p>edit etc</p>\n" +
     "	<h2>api key</h2>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "STR	Ste\n" +
-    "XEM	NEM\n" +
-    "NXT	NXT\n" +
-    "USDT\n" +
-    "ETH	Et\n" +
-    "LTC	Li\n" +
-    "BCH	Bit\n" +
-    "BTC	Bit\n" +
-    "AMP	Syn\n" +
-    "ARDR\n" +
-    "BCN	By\n" +
-    "BCY	Bit\n" +
-    "BEL\n" +
-    "BLK	Bla\n" +
-    "BTCD\n" +
-    "BTM	Bit\n" +
-    "Tempora\n" +
-    "BTS	Bit\n" +
-    "BURST\n" +
-    "CLAM\n" +
-    "CVC	C\n" +
-    "DAS\n" +
-    "DCR	De\n" +
-    "DGB	Di\n" +
-    "DOGE\n" +
-    "EMC2\n" +
-    "ETC	Ethw\n" +
-    "EXP	Exp\n" +
-    "FCT	Fa\n" +
-    "FLDC\n" +
-    "FLO	Flo\n" +
-    "GAME\n" +
-    "GAS	Gas\n" +
-    "GNO	Gn\n" +
-    "GNT	G\n" +
-    "GRC	Griw\n" +
-    "HUC	Hun\n" +
-    "LBC	LBR\n" +
-    "LSK	\n" +
-    "MAIDw\n" +
-    "NAV	NAV\n" +
-    "NEOS\n" +
-    "NMC	Na\n" +
-    "NXC	Ne\n" +
-    "OMG	Omi\n" +
-    "OMN\n" +
-    "PASC\n" +
-    "PINK\n" +
-    "POT\n" +
-    "PPC\n" +
-    "RADS\n" +
-    "REP\n" +
-    "RIC\n" +
-    "SBD\n" +
-    "SC\n" +
-    "STEEM\n" +
-    "STORJ\n" +
-    "STRAT\n" +
-    "SYS	Sys\n" +
-    "VIA	Via\n" +
-    "VRC	Ve\n" +
-    "VTC	Ve\n" +
-    "XBC	Bit\n" +
-    "XCP	Cou\n" +
-    "XMR	Mo\n" +
-    "XPM	Pri\n" +
-    "XRP	Ri\n" +
-    "XVC	V\n" +
-    "ZEC	Z\n" +
-    "ZRX	0x\n" +
-    "\n" +
-    "\n" +
     "</div>\n" +
-    "<div st\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "");
 }]);
 
@@ -134,7 +56,7 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function ($te
   $templateCache.put("footer/index.tpl.html",
     "<div class=\"footer\" ng-controller=\"FooterCtrl\">\n" +
     "  <div class=\"container\">\n" +
-    "    {{date | date:'yyyy'}} <a href=\"/\">investingfor</a>\n" +
+    "    {{date | date:'yyyy'}} <a href=\"/\">collaborative.capital</a>\n" +
     "    <a href=\"/about\">about</a>\n" +
     "    <a href=\"#\">terms</a>\n" +
     "  </div>\n" +
@@ -298,11 +220,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function ($temp
     "		</div>\n" +
     "	</div>\n" +
     "\n" +
-    "	<br><br>\n" +
-    "\n" +
     "	<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "</div>\n" +
-    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +
     "");
 }]);
@@ -363,10 +282,6 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function ($tem
     "            <div class=\"col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1\">\n" +
     "                <div class=\"site-heading\">\n" +
     "                    <h1 class=\"blue-title\">Login</h1>\n" +
-    "                    <hr class=\"small\">\n" +
-    "                    <h2 class=\"post-title\">\n" +
-    "                        Welcome back!\n" +
-    "                    </h2>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -390,9 +305,9 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function ($tem
     "                    </div>\n" +
     "                    <br><br>\n" +
     "                    <div class=\"social-log\">\n" +
-    "                        <a class=\"btn btn-social btn-facebook\" href=\"\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
-    "                        <a class=\"btn btn-social btn-twitter\" href=\"\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
-    "                        <a class=\"btn btn-social btn-google\" href=\"\"><i class=\"fa fa-google\"></i> Google</a>\n" +
+    "                        <a class=\"btn btn-facebook\" href=\"#\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
+    "                        <a class=\"btn btn-twitter\" href=\"#\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
+    "                        <a class=\"btn btn-google\" href=\"#\"><i class=\"fa fa-google\"></i> Google</a>\n" +
     "                    </div>\n" +
     "                    <br><hr>\n" +
     "                    <div class=\"\">\n" +
@@ -402,7 +317,9 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function ($tem
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "");
 }]);
 
 angular.module("market/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
@@ -433,8 +350,6 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
     "\n" +
     "	<h2>Market Change^2</h2>\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
-    "\n" +
-    "\n" +
     "\n" +
     "	<!--<h2>5 Min Prediction</h2>\n" +
     "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
@@ -503,9 +418,9 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
     "\n" +
     "</div>-->\n" +
     "\n" +
-    "\n" +
-    "\n" +
     "<div style=\"height:100px;\"></div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "\n" +
     "");
 }]);
 
@@ -514,7 +429,6 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<h1>markets</h1>\n" +
-    "\n" +
     "	<h5>overlay of percentage gain</h5>\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
@@ -531,12 +445,14 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "	\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "\n" +
     "");
 }]);
 
 angular.module("member/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("member/index.tpl.html",
-    "<div class=\"container\">\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
     "	\n" +
     "	<h1>member</h1>\n" +
     "	<p>representing $1,000,000,000</p> \n" +
@@ -546,10 +462,13 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function ($te
     "	<p>portfolio</p>\n" +
     "	<p>positions</p>\n" +
     "	<p>trade history</p>\n" +
-    "	<p>select to represent</p><!--for x $$$$ or array etc-->\n" +
+    "	<p>select as representative</p><!--pay commission to copy trades-->\n" +
+    "	<!--for x $$$$ or array etc-->\n" +
     "\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "\n" +
     "");
 }]);
 
@@ -567,12 +486,12 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function ($templ
     "        <span class=\"icon-bar\"></span>\n" +
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
-    "      <a class=\"navbar-brand\" href=\"/\">investingfor</a>\n" +
+    "      <a class=\"navbar-brand\" href=\"/\">collaborative.capital</a>\n" +
     "    </div>\n" +
     "    <div class=\"collapse navbar-collapse\">\n" +
     "      <ul class=\"nav navbar-nav\">\n" +
     "        <li ng-show=\"!currentUser\"><a href=\"/about\">about</a></li>\n" +
-    "        <li><a href=\"#\">discover</a></li>\n" +
+    "        <li><a href=\"/markets\">markets</a></li>\n" +
     "        <form class=\"navbar-form pull-left\" role=\"search\" action=\"/search/\" onSubmit=\" location.href = 'search/' + document.getElementById('search-link').value; return false;\">\n" +
     "          <div class=\"form-group\">\n" +
     "            <input ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
@@ -596,13 +515,9 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function ($
     "<div class=\"intro-header\">\n" +
     "    <div class=\"container\">\n" +
     "        <div class=\"row\">\n" +
-    "            <div class=\"col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1\">\n" +
+    "            <div class=\"col-sm-12\">\n" +
     "                <div class=\"site-heading\">\n" +
-    "                    <h1 class=\"blue-title\">Create an Account</h1>\n" +
-    "                    <hr class=\"small\">\n" +
-    "                    <h2 class=\"post-title\">\n" +
-    "                        Welcome!\n" +
-    "                    </h2>\n" +
+    "                    <h1 class=\"post-title\">Create an Account</h1>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -630,9 +545,9 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function ($
     "                    </div>\n" +
     "                    <br><br>\n" +
     "                    <div class=\"social-log\">\n" +
-    "                        <a class=\"btn btn-social btn-facebook\" ng-click=\"\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
-    "                        <a class=\"btn btn-social btn-twitter\" ng-click=\"\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
-    "                        <a class=\"btn btn-social btn-google\" ng-click=\"\"><i class=\"fa fa-google\"></i> Google</a>\n" +
+    "                        <a class=\"btn btn-facebook\" ng-click=\"\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
+    "                        <a class=\"btn btn-twitter\" ng-click=\"\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
+    "                        <a class=\"btn btn-google\" ng-click=\"\"><i class=\"fa fa-google\"></i> Google</a>\n" +
     "                    </div>\n" +
     "                    <br><hr>\n" +
     "                    <div class=\"social-log\">\n" +
@@ -643,5 +558,7 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function ($
     "            <div class=\"selfClear\"></div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "");
 }]);

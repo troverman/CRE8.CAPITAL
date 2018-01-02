@@ -100,7 +100,7 @@ angular.module( 'investing.market', [
 
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
-    $scope.marketGraphData.color = '#ff7f0e';
+    $scope.marketGraphData.color = '#14b794';
     $scope.marketGraphData.values = [];
 
     $scope.marketGraphChangeData = {};

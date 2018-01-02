@@ -29,7 +29,7 @@ angular.module( 'investing.home', [
 }])
 
 .controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'DataModel', 'marketData', 'orders', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, DataModel, marketData, orders, predictionData ) {
-    titleService.setTitle('investingfor');
+    titleService.setTitle('collaborative.capital');
     $scope.currentUser = config.currentUser;
     $scope.predictionData = predictionData;
 
@@ -154,12 +154,12 @@ angular.module( 'investing.home', [
     $scope.options = {
         chart: {
             type: 'lineWithFocusChart',
-            height: 450,
+            height: 550,
             margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
+                top: 15,
+                right: 15,
+                bottom: 0,
+                left: 15
             },
             x: function(d){ 
                 return d[0]; 
@@ -268,12 +268,12 @@ angular.module( 'investing.home', [
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
-            height: 450,
+            height: 550,
             margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
+                top: 25,
+                right: 25,
+                bottom: 250,
+                left: 25
             },
             x: function(d){ 
                 return d[0]; 
@@ -294,19 +294,19 @@ angular.module( 'investing.home', [
             },
             yAxis: {
                 axisLabel: 'BTC/LTC',
-                axisLabelDistance: 50
+                axisLabelDistance: 200
             }
         }
     };
 
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
-    $scope.marketGraphData.color = '#ff7f0e';
+    $scope.marketGraphData.color = '#14b794';
     $scope.marketGraphData.values = [];
 
     $scope.marketGraphChangeData = {};
     $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
-    $scope.marketGraphChangeData.color = '#a94442';
+    $scope.marketGraphChangeData.color = '#ff7f0e';
     $scope.marketGraphChangeData.values = [];
 
 

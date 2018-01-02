@@ -10,12 +10,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">investingfor</a>
+      <a class="navbar-brand" href="/">collaborative.capital</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li ng-show="!currentUser"><a href="/about">about</a></li>
-        <li><a href="#">discover</a></li>
+        <li><a href="/markets">markets</a></li>
         <form class="navbar-form pull-left" role="search" action="/search/" onSubmit=" location.href = 'search/' + document.getElementById('search-link').value; return false;">
           <div class="form-group">
             <input ng-keyup="keyPress(searchValue)" ng-model="searchValue" id="search-link" size="40" type="text" placeholder="">

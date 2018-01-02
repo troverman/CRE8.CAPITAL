@@ -46,8 +46,12 @@ md-progress-linear .md-container {
 }
 
 md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
- background-color: #084b73!important;
+ background-color: #14b794!important;
+ //#14b794
+ //droid sans mono,monospace
 }
+
+.navbar-inverse{background-color:#000}
 
 .selfClear:after {
   content: "";
@@ -63,7 +67,7 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
     display: inline-block;
 }
 .social-log i {
-    color: #EF8D09;
+    color: #fff;
 }
 .login-form {
 
@@ -94,7 +98,7 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
     position: absolute;
     right: 15px;
     top: 17px;
-    color: #EF8D09;
+    color: #14b794;
 }
 .log-status.wrong-entry {
     -moz-animation: wrong-log 0.3s;
