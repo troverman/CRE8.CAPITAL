@@ -11,15 +11,8 @@ angular.module( 'investing.home', [
             }
         },
         resolve:{
-            currencyData: ['DataModel', function(DataModel) {
-                //return DataModel.getCurrency();
-                return null;
-            }],
             marketData: ['DataModel', function(DataModel) {
-                return DataModel.getData(100, 0, 'createdAt DESC', 'BTC', 'LTC', 5000);
-            }],
-            predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'USD', predictionTime:'300000'});
+                return DataModel.getData(100, 0, 'createdAt DESC', 'BTC', 'LTC', 30000);
             }],
             orders: ['OrderModel', function(OrderModel) {
                 return OrderModel.getSome(25, 0, 'createdAt DESC');
@@ -28,28 +21,13 @@ angular.module( 'investing.home', [
     });
 }])
 
-.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'currencyData', 'DataModel', 'marketData', 'orders', 'predictionData', function HomeController( $sailsSocket, $scope, titleService, config, currencyData, DataModel, marketData, orders, predictionData ) {
+.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', function HomeController($sailsSocket, $scope, titleService, config, DataModel, marketData, orders) {
     titleService.setTitle('collaborative.capital');
     $scope.currentUser = config.currentUser;
-    $scope.predictionData = predictionData;
-
     $scope.marketData = marketData;
-    console.log(marketData);
-
     $scope.selectedPair = ['BTC','LTC'];
-    $scope.selectedDelta = '5000';
-
+    $scope.selectedDelta = '30000';
     $scope.orders = orders;
-
-    $scope.seletetData = function (asset1, asset2, delta){
-        $scope.selectedPair = [asset1, asset2];
-        $scope.selectedDelta = delta;
-        DataModel.getData(100, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
-            $scope.marketData = model;
-            $scope.updateMarketData();
-        })
-    };
-
     $scope.tradingPairs = [
         'XRP/BTC',
         'ETH/BTC',
@@ -150,121 +128,6 @@ angular.module( 'investing.home', [
         'BLK/XMR'
     ];
 
-
-    $scope.options = {
-        chart: {
-            type: 'lineWithFocusChart',
-            height: 550,
-            margin : {
-                top: 15,
-                right: 15,
-                bottom: 0,
-                left: 15
-            },
-            x: function(d){ 
-                return d[0]; 
-            },
-            y: function(d){ 
-                return d[1]; 
-            },
-
-            color: d3.scale.category10().range(),
-            duration: 1500,
-            useInteractiveGuideline: true,
-            clipVoronoi: true,
-
-            xAxis: {
-                axisLabel: 'Time',
-                tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
-                },
-                staggerLabels: true
-            },
-
-            yAxis: {
-                axisLabel: 'USD/BTC',
-                axisLabelDistance: 50
-            }
-        }
-    };
-
-    $scope.predictionAskData = {};
-    $scope.predictionAskData.key = 'Prediction Ask';
-    $scope.predictionAskData.color = '#ff7f0e';
-    $scope.predictionAskData.values = [];
-
-    $scope.predictionBidData = {};
-    $scope.predictionBidData.key = 'Prediction Bid';
-    $scope.predictionBidData.color = '#2ab996';
-    $scope.predictionBidData.values = [];
-
-    $scope.actualAskData = {};
-    $scope.actualAskData.key = 'Actual Ask';
-    $scope.actualAskData.color = '#a94442';
-    $scope.actualAskData.values = [];
-
-    $scope.actualBidData = {};
-    $scope.actualBidData.key = 'Actual Bid';
-    $scope.actualBidData.color = '#2ca02c';
-    $scope.actualBidData.values = [];
-    $scope.updateData = function (){
-        $scope.predictionData.reverse().forEach(function(obj){ 
-
-            if (obj.actualAsk == 0){obj.actualAsk = null}
-            if (obj.actualBid == 0){obj.actualBid = null}
-            var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
-            var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
-            var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
-            var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
-
-            $scope.predictionAskData.values.push(predictionAskModel);
-            $scope.predictionBidData.values.push(predictionBidModel);
-            $scope.actualAskData.values.push(actualAskModel);
-            $scope.actualBidData.values.push(actualBidModel);
-
-        });
-
-        $scope.data = [$scope.predictionAskData, $scope.actualAskData, $scope.predictionBidData, $scope.actualBidData];
-        console.log($scope.data);
-    }
-    $scope.updateData();
-    
-    /*
-    var color = d3.scale.category20()
-    $scope.directedOptions = {
-        chart: {
-            type: 'forceDirectedGraph',
-            height:  (function(){ return nv.utils.windowSize().height })(),
-            width: (function(){ return nv.utils.windowSize().width })(),
-            margin:{top: 20, right: 20, bottom: 20, left: 20},
-            color: function(d){
-                return color(d.group)
-            },
-            nodeExtras: function(node) {
-                node && node
-                  .append("text")
-                  .attr("dx", 8)
-                  .attr("dy", ".35em")
-                  .text(function(d) { return d.name })
-                  .style('font-size', '10px');
-            },
-            linkExtras: function(link) {
-                link && link
-                  .append("text")
-                  .attr("dx", 8)
-                  .attr("dy", ".35em")
-                  .text(function(d) { return d.value })
-                  .style('font-size', '10px');
-            }
-        }
-    };
-
-    $scope.directedData = currencyData;
-    */
-
-
-
-
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -309,34 +172,34 @@ angular.module( 'investing.home', [
     $scope.marketGraphChangeData.color = '#ff7f0e';
     $scope.marketGraphChangeData.values = [];
 
+    $scope.seletetData = function (asset1, asset2, delta){
+        $scope.selectedPair = [asset1, asset2];
+        $scope.selectedDelta = delta;
+        DataModel.getData(100, 0, 'createdAt DESC', asset1,  asset2, delta).then(function(model){
+            $scope.marketData = model;
+            $scope.updateMarketData();
+        })
+    };
 
     $scope.updateMarketData = function (){
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             var change = 0;
-            if (index > 1){change = obj.price - $scope.marketData[index-1];}
+            if (index > 1){change = (obj.price - $scope.marketData[index-1])/obj.price;}
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
         });
-        //$scope.marketGraphDataRender = [$scope.marketGraphChangeData];
         $scope.marketGraphDataRender = [$scope.marketGraphData];
         //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
-
-    }
+    };
     $scope.updateMarketData();
-    
-    //$scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
-    //$scope.marketGraphDataRender = [$scope.marketGraphData];
 
-    $sailsSocket.subscribe('prediction', function (envelope) {
+    $sailsSocket.subscribe('order', function (envelope) {
         switch(envelope.verb) {
             case 'created':
-                $scope.predictionData.unshift(envelope.data);
-                $scope.updateData();
-            case 'updated':
-                $scope.updateData();
+                $scope.orders.push(envelope.data);
         }
     });
-
+    
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
@@ -344,19 +207,11 @@ angular.module( 'investing.home', [
                 if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
                     console.log(envelope.data);
                     $scope.marketData.push(envelope.data);
-
-                    var change = $scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price
-                   
-                    console.log(change);
-
+                    var change = ($scope.marketData[$scope.marketData.length-1].price - $scope.marketData[$scope.marketData.length-2].price)/$scope.marketData[$scope.marketData.length-1].price;
                     $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
-                    
                     $scope.marketGraphChangeData.values.push([parseInt(new Date($scope.marketData[$scope.marketData.length-1].createdAt).getTime()), change]);
-
-                    //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
-                    $scope.marketGraphDataRender = [$scope.marketGraphData]//, $scope.marketGraphChangeData];
+                    $scope.marketGraphDataRender = [$scope.marketGraphData];
                     //$scope.marketGraphDataRender = [$scope.marketGraphChangeData];
-                    //$scope.updateMarketData();
                 }
                 if ($scope.marketData.length >= 300){
                     $scope.marketData.shift();
@@ -366,11 +221,9 @@ angular.module( 'investing.home', [
         }
     });
 
-
     //sails.sockets.join(req, 'ticker', function(err) {
         //res.json({});
     //});
-
 
     /*
     $sailsSocket.subscribe('ticker', function (envelope) {
@@ -382,7 +235,5 @@ angular.module( 'investing.home', [
         }
     });
     */
-
-
 
 }]);

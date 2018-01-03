@@ -137,7 +137,7 @@ module.exports = {
 	    		console.log(idArray);
 
 				Data.destroy(idArray, function(err, model) {
-					console.log(err,model);
+					console.log(err, model);
 					console.log('deleted');
 				});
 
@@ -159,24 +159,50 @@ module.exports = {
 						price:data.last,
 						currentBid:data.highestBid,
 						currentAsk:data.lowestAsk,
-						//percentChange:data.percentChange,
 						delta:delta,
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
-						/*
-						 Data.find({assetPair:model.assetPair, delta: model.delta})
-				        .sort('createdAt DESC')
-				        .limit(2)
-				        .then(function (models) {
-				            var absoluteChange = model.price - models[1].price;
-				            var percentChange = absoluteChange/model.price;
-				            var absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-				            Data.update({id:model.id}, {percentChange:percentChange, absoluteChange:absoluteChange})
-				            if (percentChange > 0.2){console.log('send email !!!')}
-				        });
-						*/
-						//console.log(model)
+						//if (model.delta >= 30000){
+				            return Data.find({assetPair:model.assetPair, delta: model.delta})
+				            .sort('createdAt DESC')
+				            .limit(2)
+				            .then(function (models) {
+
+				                model.absoluteChange = model.price - models[1].price;
+				                model.percentChange = model.absoluteChange/model.price;
+				                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
+
+				                Data.update({id:model.id}, model).exec(function afterwards(err, updated){
+				                    console.log(updated[0]);
+				                });
+
+				                var orderModel = {};
+				                orderModel.assetPair = model.assetPair;
+				                orderModel.asset1 = model.asset1;
+				                orderModel.asset2 = model.asset2;
+				                orderModel.price = model.price;
+
+				                if (model.percentChange > 0.15){
+				                    orderModel.type = 'SELL';
+				                    orderModel.amount = 1;
+				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+				                    Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });
+				                }
+
+				                if (model.percentChange < -0.15){
+				                    orderModel.type = 'BUY';
+				                    orderModel.amount = 1;
+				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+				                    Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });
+				                }
+
+				            });
+				        //}
 					});
 				}
 			}

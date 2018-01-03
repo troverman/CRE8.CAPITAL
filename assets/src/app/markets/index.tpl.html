@@ -1,8 +1,14 @@
 <div class="container" style="text-align:left">
 
 	<h1>markets</h1>
-	<h5>overlay of percentage gain</h5>
 
+	<div ng-repeat="pair in tradingPairs">
+		<div class="col-md-3 col-sm-4 col-xs-6 ">
+			<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+		</div>
+	</div>
+
+	<h5>percentage change</h5>
 	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>
 
 	<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1 min</p>

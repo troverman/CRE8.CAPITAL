@@ -45,7 +45,7 @@ module.exports = {
 
 
     //slows down the 1sec granularity..
-    afterCreate: function (model, next) {
+   /* afterCreate: function (model, next) {
 
         if (model.delta >= 30000){
             Data.find({assetPair:model.assetPair, delta: model.delta})
@@ -97,7 +97,7 @@ module.exports = {
         //email trade execution confirm. 
         //exchange array
 
-    },
+    },*/
 
     getAll: function() {
         return Data.find()

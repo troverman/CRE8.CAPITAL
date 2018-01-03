@@ -43,10 +43,11 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function ($tem
 
 angular.module("account/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("account/index.tpl.html",
-    "<div class=\"container\">\n" +
-    "	<h1>user info</h1>\n" +
-    "	<p>edit etc</p>\n" +
-    "	<h2>api key</h2>\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "	<h1>Account info</h1>\n" +
+    "	<p>edit</p>\n" +
+    "	<p>notifications</p>\n" +
+    "	<h2>api keys</h2>\n" +
     "</div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "");
@@ -66,9 +67,11 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function ($te
 angular.module("home/index.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("home/index.tpl.html",
     "<div ng-show=\"currentUser\">\n" +
-    "	<h1>dashboard</h1>\n" +
-    "	<p>portfolio set</p>\n" +
-    "	<p>explore</p>\n" +
+    "	<div class=\"container\" style=\"text-align:left\">\n" +
+    "		<h1>dashboard</h1>\n" +
+    "		<p>portfolio set</p>\n" +
+    "		<p>link in wallets, connect api keys, fund account</p>\n" +
+    "	</div>\n" +
     "</div>\n" +
     "\n" +
     "<div ng-show=\"!currentUser\" >\n" +
@@ -429,8 +432,14 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<h1>markets</h1>\n" +
-    "	<h5>overlay of percentage gain</h5>\n" +
     "\n" +
+    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "			<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<h5>percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
     "\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1 min</p>\n" +
