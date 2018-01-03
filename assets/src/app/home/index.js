@@ -272,7 +272,7 @@ angular.module( 'investing.home', [
             margin : {
                 top: 25,
                 right: 25,
-                bottom: 250,
+                bottom: 25,
                 left: 25
             },
             x: function(d){ 
