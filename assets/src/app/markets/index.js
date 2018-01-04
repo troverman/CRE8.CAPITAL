@@ -21,10 +21,8 @@ angular.module( 'investing.markets', [
 
 .controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
 	titleService.setTitle('Markets - investingfor');
-
     $scope.marketData = marketData;
     $scope.selectedDelta = '60000';
-
     $scope.tradingPairs = [
         'XRP/BTC',
         'ETH/BTC',
@@ -166,37 +164,27 @@ angular.module( 'investing.markets', [
     $scope.marketDataRender = {};
     $scope.marketDataRenderRender = [];
 
-
     //do an analysis of % change...
-
-    
     $scope.dataMap = {}
     $scope.iterator = 0
     $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
-
         //$scope.selectedPair = [asset1, asset2];
-        //$scope.selectedDelta = delta;
-        //if (asset1 == 'BTC'){
+        $scope.selectedDelta = delta;
         DataModel.getData(60, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
-
             $scope.marketDataRender[asset1+'_'+asset2] = {};
             $scope.marketDataRender[asset1+'_'+asset2].values = [];
             $scope.marketDataRender[asset1+'_'+asset2].key = asset1+'_'+asset2;
             $scope.marketDataRender[asset1+'_'+asset2].color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-
             $scope.dataMap[asset1+'_'+asset2] = model;
             var change = 0;
             for (x in $scope.dataMap[asset1+'_'+asset2].reverse()){
-
                 if (x > 1){
                     change = $scope.dataMap[asset1+'_'+asset2][x].price - $scope.dataMap[asset1+'_'+asset2][x-1].price;
                     change = change/$scope.dataMap[asset1+'_'+asset2][x].price;
                     $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);//$scope.dataMap[asset1+'_'+asset2][x].percentChange]);
                 }
-
             }
-
             $scope.iterator++
             console.log($scope.iterator, $scope.selectedPairs.length)
             if ($scope.iterator == $scope.selectedPairs.length){
@@ -207,36 +195,29 @@ angular.module( 'investing.markets', [
                     $scope.iterator = 0;
                 }
             }
-
         });
-        //}
     };
 
     $scope.selectTime = function(delta, asset){
-
         $scope.marketDataRender = {};
         $scope.marketDataRenderRender = [];
-        //$scope.tradingPairs = $scope.tradingPairs.map(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
-        //console.log($scope.tradingPairs.map(function(obj){if (obj.split('/')[1]=='BTC'){return obj}}))
-
         $scope.selectedPairs = $scope.tradingPairs.filter(function(obj){
             if (obj.split('/')[1]==asset){return obj;}
             else{if(asset == 'all'){return obj}}
         });
-
         console.log($scope.selectedPairs);
-
         for (x in $scope.selectedPairs){
             $scope.selectData($scope.selectedPairs[x].split('/')[1], $scope.selectedPairs[x].split('/')[0], delta);
         }
-        
     };
 
-    //$scope.selectTime(300000, 'BTC');
+    $scope.selectTime('60000', 'BTC');
 
     $scope.solvePortfolio = function(delta, limit){
-        AnalysisModel.getPortfolioSolve(delta, limit).then(function(data){
-            console.log(data);
+        $scope.portfolioData = {};
+        $rootScope.stateIsLoading = true;
+        AnalysisModel.getPortfolioSolve($scope.selectedDelta, limit).then(function(data){
+            $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
         });
     };
@@ -261,8 +242,5 @@ angular.module( 'investing.markets', [
         }
     });*/
     
-
-
-
 
 }]);

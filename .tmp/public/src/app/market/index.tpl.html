@@ -2,25 +2,25 @@
 
 	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
 
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '1000')">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '5000')">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '30000')">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '60000')">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '300000')">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '1800000')">{{stateParams.path1}} / {{stateParams.path2}}: 30 min</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '3600000')">{{stateParams.path1}} / {{stateParams.path2}}: 1 hr</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '7200000')">{{stateParams.path1}} / {{stateParams.path2}}: 2 hr</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '14400000')">{{stateParams.path1}} / {{stateParams.path2}}: 4 hr</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '21600000')">{{stateParams.path1}} / {{stateParams.path2}}: 6 hr</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '43200000')">{{stateParams.path1}} / {{stateParams.path2}}: 12 hr</button>
-	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '86400000')">{{stateParams.path1}} / {{stateParams.path2}}: 24 hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '1000')">{{stateParams.path1}} / {{stateParams.path2}}: 1sec</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '5000')">{{stateParams.path1}} / {{stateParams.path2}}: 5sec</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '30000')">{{stateParams.path1}} / {{stateParams.path2}}: 30sec</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '60000')">{{stateParams.path1}} / {{stateParams.path2}}: 1min</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '300000')">{{stateParams.path1}} / {{stateParams.path2}}: 5min</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '1800000')">{{stateParams.path1}} / {{stateParams.path2}}: 30min</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '3600000')">{{stateParams.path1}} / {{stateParams.path2}}: 1hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '7200000')">{{stateParams.path1}} / {{stateParams.path2}}: 2hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '14400000')">{{stateParams.path1}} / {{stateParams.path2}}: 4hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '21600000')">{{stateParams.path1}} / {{stateParams.path2}}: 6hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '43200000')">{{stateParams.path1}} / {{stateParams.path2}}: 12hr</button>
+	<button class="btn btn-default" ng-click="seletetData(stateParams.path1, stateParams.path2, '86400000')">{{stateParams.path1}} / {{stateParams.path2}}: 24hr</button>
+
 
 	<h2>Price Data</h2>
 	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 
 	<h2>Market Change</h2>
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
-
 
 	<h2>Market Change^2</h2>
 	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>

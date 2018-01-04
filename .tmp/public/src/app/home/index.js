@@ -163,13 +163,13 @@ angular.module( 'investing.home', [
     };
 
     $scope.marketGraphData = {};
-    $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
+    $scope.marketGraphData.key = $scope.selectedPair[0]+'/'+$scope.selectedPair[1];
     $scope.marketGraphData.color = '#14b794';
     $scope.marketGraphData.values = [];
 
     $scope.marketGraphChangeData = {};
-    $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
-    $scope.marketGraphChangeData.color = '#ff7f0e';
+    $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'/'+$scope.selectedPair[1] +' Change';
+    $scope.marketGraphChangeData.color = '#14b794';//'#ff7f0e';
     $scope.marketGraphChangeData.values = [];
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -185,10 +185,14 @@ angular.module( 'investing.home', [
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             var change = 0;
-            if (index > 1){change = (obj.price - $scope.marketData[index-1])/obj.price;}
+            if (index > 1){
+                change = (obj.price - $scope.marketData[index-1].price)/obj.price;
+                console.log(change, obj.percentChange);
+            }
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
         });
-        $scope.marketGraphDataRender = [$scope.marketGraphData];
+        //$scope.marketGraphDataRender = [$scope.marketGraphData];
+        $scope.marketGraphDataRender = [$scope.marketGraphChangeData];
         //$scope.marketGraphDataRender = [$scope.marketGraphData, $scope.marketGraphChangeData];
     };
     $scope.updateMarketData();

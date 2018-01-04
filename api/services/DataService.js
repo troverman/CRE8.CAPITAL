@@ -8,48 +8,29 @@ module.exports = {
 
 	legacyStockTicker: function(){
 		var url = "http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json"
-		request({
-			    url: url,
-			    json: true
-			}, function (error, response, body) {
-
-			    if (!error && response.statusCode === 200) {
-			        var currencyData = body.list.resources;
-					for (var key in currencyData) {
-			        	var pairData = currencyData[key].resource.fields;
-						var name = pairData.name.split("/");
-						var price = pairData.price;
-						var symbol = pairData.symbol;
-						var timeStamp = pairData.ts;
-						var utctime = pairData.utctime;
-						sails.log(name);
-						if (name[0] == 'USD'){
-							//sails.log(name[1]);
-						}
-			    	}
-			    }
-		});
-	},
-
-	cexTicker: function(){
-	    var url = "https://cex.io/api/ticker/GHS/BTC";
-		request({
-			    url: url,
-			    json: true
-			}, function (error, response, body) {
-			    if (!error && response.statusCode === 200) {
-			        var tickerData = body;
-			        console.log(tickerData);
-			    }
+		request({url: url,json: true}, function (error, response, body) {
+		    if (!error && response.statusCode === 200) {
+		        var currencyData = body.list.resources;
+				for (var key in currencyData) {
+		        	var pairData = currencyData[key].resource.fields;
+					var name = pairData.name.split("/");
+					var price = pairData.price;
+					var symbol = pairData.symbol;
+					var timeStamp = pairData.ts;
+					var utctime = pairData.utctime;
+					console.log(name);
+					if (name[0] == 'USD'){
+						//sails.log(name[1]);
+					}
+		    	}
+		    }
 		});
 	},
 
 	predictiveModelPolynomial: function(assetPair, delta, dataCount, order, precision){
-
 		var regression = require('regression');
 		var dataArray = [];	
 	   	var predictions = [];
-
 		return Data.find({assetPair:assetPair, delta:delta})
 	    .sort('createdAt DESC')
 	    .limit(dataCount)
@@ -59,27 +40,22 @@ module.exports = {
 	    		var date = Date.parse(models[x].createdAt);
 				dataArray.push([date, price]);
 	    	}
-
 			var result = regression.polynomial(dataArray, { order: order, precision: precision })
 	    	console.log(result);
 	    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
 	    	return result;
-	    	
 	    	//insert into db??
 	    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
 	    	//console.log(predict)
 	    	//console.log(models);
 	    });
-
 	},
 
 	predictiveModelFFT: function(){
-
 		var fft = require('fft-js').fft;
 		var forecast = require('nostradamus')
 	   	var dataArray = [];	
 	   	var predictions = [];
-	 
 		var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 		var yesterday = Date.parse(start);
 	    Data.find({assetPair:'BTC_LTC', delta:'1000'})
@@ -87,7 +63,6 @@ module.exports = {
 	    .limit(32)
 	    .then(function(models){
 	    	for (x in models){
-
 				var price = models[x].price;
 	    		var date = Date.parse(models[x].createdAt);
 	    		//var update = date - yesterday;
@@ -95,9 +70,7 @@ module.exports = {
 					//writer.write([update/1000, price]);
 					dataArray.push([date, price]);
 					//dataArray.push(price);
-
 	    		//}
-
 	    	}
 			//var signal=ifft(dataArray);
 			//console.log(signal);
@@ -115,14 +88,11 @@ module.exports = {
 					string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
 				}
 			}
-
 			//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
 			//console.log(string);
 			//console.log(phasors);
 			//store fft in db for time periods..
-		
 	    });
-		
 	},
 
 	cullData: function(delta, time){
@@ -163,52 +133,49 @@ module.exports = {
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
-						//if (model.delta >= 30000){
-				            return Data.find({assetPair:model.assetPair, delta: model.delta})
-				            .sort('createdAt DESC')
-				            .limit(2)
-				            .then(function (models) {
+			            return Data.find({assetPair:model.assetPair, delta: model.delta})
+			            .sort('createdAt DESC')
+			            .limit(2)
+			            .then(function (models) {
 
-				                model.absoluteChange = model.price - models[1].price;
-				                model.percentChange = model.absoluteChange/model.price;
-				                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
+			                model.absoluteChange = model.price - models[1].price;
+			                model.percentChange = model.absoluteChange/model.price;
+			                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
 
-				                Data.update({id:model.id}, model).exec(function afterwards(err, updated){
-				                    console.log(updated[0]);
-				                });
+			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){
+			                    console.log(updated[0]);
+			                });
 
-				                var orderModel = {};
-				                orderModel.assetPair = model.assetPair;
-				                orderModel.asset1 = model.asset1;
-				                orderModel.asset2 = model.asset2;
-				                orderModel.price = model.price;
+			                var orderModel = {};
+			                orderModel.assetPair = model.assetPair;
+			                orderModel.asset1 = model.asset1;
+			                orderModel.asset2 = model.asset2;
+			                orderModel.price = model.price;
 
-				                if (model.percentChange > 0.15){
-				                    orderModel.type = 'SELL';
-				                    orderModel.amount = 1;
-				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-				                    Order.create(orderModel).then(function(orderModel){
-				                    	console.log(orderModel)
-				                    });
-				                }
+			                if (model.percentChange > 0.15){
+			                    orderModel.type = 'SELL';
+			                    orderModel.amount = 1;
+			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+			                    Order.create(orderModel).then(function(orderModel){
+			                    	console.log(orderModel)
+			                    });
+			                }
 
-				                if (model.percentChange < -0.15){
-				                    orderModel.type = 'BUY';
-				                    orderModel.amount = 1;
-				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-				                    Order.create(orderModel).then(function(orderModel){
-				                    	console.log(orderModel)
-				                    });
-				                }
+			                if (model.percentChange < -0.15){
+			                    orderModel.type = 'BUY';
+			                    orderModel.amount = 1;
+			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+			                    Order.create(orderModel).then(function(orderModel){
+			                    	console.log(orderModel)
+			                    });
+			                }
 
-				            });
-				        //}
+			            });
 					});
 				}
 			}
 		});
 	},
-
 
 	ticker: function(){
 	    var poloniex = new Poloniex();  
@@ -257,7 +224,6 @@ module.exports = {
 			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
 			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
 			//,1000);
-
 		});
 
 		poloniex.on('open', () => {
@@ -273,7 +239,6 @@ module.exports = {
 		});
 
 		poloniex.openWebSocket({ version: 2 });
-
 	}
 
 };

@@ -331,25 +331,25 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function ($te
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
     "\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 second</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 seconds</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 seconds</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30 min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12 hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24 hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1sec</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5sec</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30sec</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30min</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12hr</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24hr</button>\n" +
+    "\n" +
     "\n" +
     "	<h2>Price Data</h2>\n" +
     "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Market Change</h2>\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
-    "\n" +
     "\n" +
     "	<h2>Market Change^2</h2>\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
@@ -433,24 +433,24 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function ($t
     "\n" +
     "	<h1>markets</h1>\n" +
     "\n" +
-    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "	<!--<div ng-repeat=\"pair in tradingPairs\">\n" +
     "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "			<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "		</div>\n" +
-    "	</div>\n" +
+    "	</div>-->\n" +
     "\n" +
-    "	<h5>percentage change</h5>\n" +
+    "	<h5>overlay percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
     "\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1 min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5 min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30 min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6 hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12 hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24 hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
     "	<div style=\"height:100px;\"></div>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
     "</div>\n" +
