@@ -171,7 +171,7 @@ angular.module( 'investing.markets', [
         $rootScope.stateIsLoading = true;
         //$scope.selectedPair = [asset1, asset2];
         $scope.selectedDelta = delta;
-        DataModel.getData(60, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
+        DataModel.getData(100, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
             $scope.marketDataRender[asset1+'_'+asset2] = {};
             $scope.marketDataRender[asset1+'_'+asset2].values = [];
             $scope.marketDataRender[asset1+'_'+asset2].key = asset1+'_'+asset2;
