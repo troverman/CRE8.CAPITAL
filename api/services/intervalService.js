@@ -504,236 +504,81 @@ function portfolioBalance(delta, limit){
 	    promises.push(promise);
 	});
 
-	//TODO: faster git. --> init all data get at once.
 	Q.all(promises)
 	.then(function(data){
 		exchangeMap = data;
 
-		//gotta compare 
-		//exchangeMap[0][1]
-		//exchangeMap[1][1]
-		//exchangeMap[2][1]
-		//portfolioMap 
-
-		//exchangeMap.reverse();
-
-		//if something starts losing money.. sell to btc.
-		//if something is gaining, buy
-
 		//TODO: efficencicy redux
 		for (y in exchangeMap[0]){
-
 			var timeArray = [];
 			var predictionArray = [];
 
-			//if (y == 0){currentPortfolio = initPortfolio;}
-			//else{currentPortfolio = portfolioInstance;}
-
 			for (x in exchangeMap){
-				//iterate though-- then iterate though.
 				timeArray.push(exchangeMap[x][y]);
-				predictionArray.push(exchangeMap[x][parseInt(y)+1]);
+				predictionArray.push(exchangeMap[x][parseInt(y)+1]);//--> this is oh boi.
 				if (!hasUndefined(timeArray)){
-					//console.log(currentPortfolio)
 					if(!currentPortfolio[exchangeMap[x][y].asset1]){currentPortfolio[exchangeMap[x][y].asset1]=0}
 					if(!currentPortfolio[exchangeMap[x][y].asset2]){currentPortfolio[exchangeMap[x][y].asset2]=0}
 				}
-				//if holding assets. and it is depreciating.. sell
-				//if (exchangeMap[x][y].percentChange < 0){
-				//}
-				//console.log(parseInt(y)+1, y, exchangeMap[x].length)
-				//console.log(exchangeMap[x][parseInt(y)+1])
 			}
+
 			if (!hasUndefined(predictionArray)){
 
-				var currentSmallest = Math.min.apply(Math, timeArray.map(function(obj){return obj.percentChange}));
-				var currentLargest = Math.max.apply(Math, timeArray.map(function(obj){return obj.percentChange}));
+				timeArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
+				predictionArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 
-				var currentSmallestIndex = timeArray.map(function(obj){return obj.percentChange}).indexOf(currentSmallest);
-				var currentLargestIndex = timeArray.map(function(obj){return obj.percentChange}).indexOf(currentLargest);
+				var mostPositiveChange = predictionArray[0].percentChange;
+				var mostNegativeChange = predictionArray[predictionArray.length-1].percentChange;
 
-				var predictedSmallest = Math.min.apply(Math, predictionArray.map(function(obj){return obj.percentChange}));
-				var predictedLargest = Math.max.apply(Math, predictionArray.map(function(obj){return obj.percentChange}));
+				var totalPositiveChange = predictionArray.reduce(function (s, a) {
+					if (a.percentChange > 0){return s + a.percentChange;}
+					else{return s}
+				}, 0);
 
-				var predictedSmallestIndex = predictionArray.map(function(obj){return obj.percentChange}).indexOf(predictedSmallest);
-				var predictedLargestIndex = predictionArray.map(function(obj){return obj.percentChange}).indexOf(predictedLargest);
+				var totalNegativeChange = predictionArray.reduce(function (s, a) {
+					if (a.percentChange < 0){return s + a.percentChange;}
+					else{return s}
+				}, 0);
 
-				if (currentSmallestIndex != -1){
-					//set a marker? -> when change fxn = 0; buy
-					//console.log(timeArray[currentSmallestIndex]);
-					selectedValues.push(timeArray[currentSmallestIndex]);
-					//BUY SMALL ASSET
-					//currentPortfolio[timeArray[smallestIndex].asset2] = currentPortfolio[timeArray[smallestIndex].asset1]/timeArray[smallestIndex].price;
-				}
-
-				if (currentLargestIndex != -1){
-					//console.log(timeArray[currentLargestIndex]);
-					selectedValues.push(timeArray[currentLargestIndex])
-					//SELL LARGE ASSET
-					//currentPortfolio[timeArray[largestIndex].asset1] = currentPortfolio[timeArray[largestIndex].asset2]*timeArray[largestIndex].price;
-				}
-	 
-				//MAXIMIZE exosure to %gain
-				smallestChange+=currentSmallest;
-				largestChange+=currentLargest;
-				//console.log(smallestChange);
-				console.log(largestChange);
-
-				//calc portfolioChange.
-				//REDO / RELAX
-				//for (x in Object.keys(currentPortfolio)){
-					//var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[x]);
-					//if (pairIndex != -1){
-						//console.log(currentPortfolio[timeArray[pairIndex].asset2], pairIndex, timeArray[pairIndex], timeArray[pairIndex].asset2, timeArray[pairIndex].percentChange, parseFloat(timeArray[pairIndex].percentChange))
-						//scurrentPortfolio[timeArray[pairIndex].asset2] = currentPortfolio[timeArray[pairIndex].asset2] + currentPortfolio[timeArray[pairIndex].asset2]*parseFloat(timeArray[pairIndex].percentChange);
-						//console.log('portfolioChange', parseFloat(timeArray[pairIndex].percentChange), currentPortfolio[timeArray[pairIndex].asset2] + currentPortfolio[timeArray[pairIndex].asset2]*parseFloat(timeArray[pairIndex].percentChange));
-					//}
-				//}
-
+				var totalChange = predictionArray.reduce(function (s, a) {return s + a.percentChange;}, 0);
+			
 				//TODO: STRAT
-				//reset trade to btc :D
 				//go to btc
 				for (n in Object.keys(currentPortfolio)){
 					var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[n]);
 					if (pairIndex != -1){
 						if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
-
-							console.log('PLACE ORDER.. TRADE', currentPortfolio[Object.keys(currentPortfolio)[n]], timeArray[pairIndex].asset2, 'for', currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price), predictionArray[predictedLargestIndex].asset1)
-							orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]]})
-							//Order.create.
-
-							currentPortfolio[predictionArray[predictedLargestIndex].asset1] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
+							//console.log('PLACE ORDER.. TRADE', currentPortfolio[Object.keys(currentPortfolio)[n]], timeArray[pairIndex].asset2, 'for', currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price), predictionArray[0].asset1)
+							currentPortfolio[predictionArray[0].asset1] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
 							currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
-
-							//var portfolioInstance = currentPortfolio;
+							orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]]})
 							portfolioSet.push(clone(currentPortfolio));
-							console.log(currentPortfolio);
-
 						}
 					}
 				};
 
-				//all in on predicted (actual-->for solving) next highest 
-				if (predictedLargestIndex != -1){
-					//console.log(predictionArray[predictedLargestIndex]);
-					var currentIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(predictionArray[predictedLargestIndex].asset2);
-					if(predictionArray[predictedLargestIndex].percentChange != 0){
-
-						console.log('PLACE ORDER.. TRADE', currentPortfolio[predictionArray[predictedLargestIndex].asset1], predictionArray[predictedLargestIndex].asset1, 'for', currentPortfolio[predictionArray[predictedLargestIndex].asset1]/parseFloat(timeArray[currentIndex].price), predictionArray[predictedLargestIndex].asset2)
-						orderSet.push({asset1: predictionArray[predictedLargestIndex].asset1, asset2:predictionArray[predictedLargestIndex].asset2, price:parseFloat(timeArray[currentIndex].price), amount:currentPortfolio[predictionArray[predictedLargestIndex].asset1]})
-						//Order.create.
-
-						currentPortfolio[predictionArray[predictedLargestIndex].asset2] += currentPortfolio[predictionArray[predictedLargestIndex].asset1]/parseFloat(timeArray[currentIndex].price);
-						currentPortfolio[predictionArray[predictedLargestIndex].asset1] = 0;
-
-						//var portfolioInstance = currentPortfolio;
-						portfolioSet.push(clone(currentPortfolio));
-
-					}
+				//all in on PREDICTED NEXT HIGHEST
+				if(predictionArray[0].percentChange != 0){
+					var currentIndex = timeArray.map(function(obj){return obj.assetPair}).indexOf(predictionArray[0].assetPair);
+					//console.log('PLACE ORDER.. TRADE', currentPortfolio[predictionArray[0].asset1], predictionArray[0].asset1, 'for', currentPortfolio[predictionArray[0].asset1]/parseFloat(timeArray[currentIndex].price), predictionArray[0].asset2)
+					orderSet.push({asset1: predictionArray[0].asset1, asset2:predictionArray[0].asset2, price:parseFloat(timeArray[currentIndex].price), amount:currentPortfolio[predictionArray[0].asset1]})
+					currentPortfolio[predictionArray[0].asset2] += currentPortfolio[predictionArray[0].asset1]/parseFloat(timeArray[currentIndex].price);
+					currentPortfolio[predictionArray[0].asset1] = 0;
+					portfolioSet.push(clone(currentPortfolio));
 				}
-
+			
 				console.log(y, currentPortfolio);
-
 			}
-
 		}
 
-		//console.log(portfolioSet);
-		//console.log(orderSet);
-
-
-		//could loop though orderSet to get portfolioSet w/o clone. 
-		/*for (z in portfolioSet){
-
-			if(!currentPortfolio[portfolioSet[z].asset1]){currentPortfolio[portfolioSet[z].asset1]=0}
-			if(!currentPortfolio[portfolioSet[z].asset2]){currentPortfolio[portfolioSet[z].asset2]=0}
-		
-			if (portfolioSet.length > parseInt(z)+1){
-				//console.log(portfolioSet.length, parseInt(z)+1, parseInt(z));
-				//console.log(portfolioSet[parseInt(z)+1].percentChange)
-				if (portfolioSet[parseInt(z)+1].percentChange > 0){
-
-					//all in on next highest. 
-					currentPortfolio[portfolioSet[z].asset2] += currentPortfolio[portfolioSet[z].asset1]/portfolioSet[z].price;
-					currentPortfolio[portfolioSet[z].asset1] = 0;
-					currentPortfolio[portfolioSet[z].asset2] += 1*portfolioSet[parseInt(z)+1].percentChange;
-
-					totalChange+=1*portfolioSet[parseInt(z)+1].percentChange;
-					//console.log(totalChange);
-
-					//BUY THE FUTURE APPRECIATING VALUE..--> USING PREDICTIONS.. 
-					//-->realized for the interval. 
-					//currentPortfolio[portfolioSet[z].asset2] = currentPortfolio[portfolioSet[z].asset1]/portfolioSet[z].price;
-					//currentPortfolio[portfolioSet[z].asset2] += 1*portfolioSet[parseInt(z)+1].percentChange;
-					//portfolioSet[parseInt(z)+1].percentChange;
-
-					//console.log('SELL', portfolioSet[z].assetPair, portfolioSet[z].price);					
-					//currentPortfolio[portfolioSet[z].asset1] += 1*portfolioSet[parseInt(z)+1].percentChange;
-					//currentPortfolio[portfolioSet[z].asset1] += currentPortfolio[portfolioSet[z].asset2]*portfolioSet[z].price;
-
-
-				}
-				//if (portfolioSet[parseInt(z)+1].percentChange < 0){
-					//currentPortfolio[portfolioSet[z].asset1] += currentPortfolio[portfolioSet[z].asset2]*portfolioSet[z].price
-					//console.log('BUY', portfolioSet[z].assetPair, portfolioSet[z].price)
-					//currentPortfolio[portfolioSet[z].asset2] += currentPortfolio[portfolioSet[z].asset1]/portfolioSet[z].price;
-				//}
-			}
-			//console.log(currentPortfolio)
-
-		}*/
-
-		//exchangeMap[x][y];
-		//var largest = Math.max.apply(Math, exchangeMap[x].map(function(obj){return obj.percentChange}));
-		//if not -inifity, or infinity..
-
-		//\console.log(x, largest);
-		//largestChange+=largest;
-		//console.log(largestChange);
-
-		//for (y in exchangeMap[x]){
-			//console.log(exchangeMap[x][y]);
-			//if (exchangeMap[x][y].percentChange > 0){
-			//	totalChange+=exchangeMap[x][y].percentChange;
-			//	console.log(totalChange);
-			//}
-			//if (y > 1){
-			//	var percentChange = (exchangeMap[x][y].price - exchangeMap[x][y-1].price)/exchangeMap[x][y].price;
-			//	if (percentChange > 0){
-			//		totalChange+=percentChange;
-					//console.log(totalChange);
-			//	}
-			//}
-		//}
-
-		/**for (x in Object.keys(exchangeMap)){
-			var pairData = exchangeMap[Object.keys(exchangeMap)[x]]
-			for (y in pairData){
-				var data = pairData[y];
-				console.log(data);
-				console.log(data.percentChange);
-				for (z in Object.keys(exchangeMap)){
-					var superLoop = exchangeMap[Object.keys(exchangeMap)[z]][y];
-					console.log(superLoop.percentChange);
-					//selected = highestet
-				}
-				if (data.percentChange > 0){ 
-					//place order???!
-					//swap out current portfolio --
-					//currentPortfolio.BTC - 10;
-					//any other exchange - pair
-					totalChange += data.percentChange;
-					console.log(totalChange)
-				}
-				//exchangeMap[Object.keys(exchangeMap)[x]][y]
-			}
-		}*/
+		console.log(orderSet)
+		console.log(currentPortfolio)
 
 	});
 
 };
 
-function portfolioBalanceMulti(delta, limit){
+function portfolioBalanceMulti(delta, limit, strat){
 
 	//limit to btc for now.. 
 	var exchangeMap = [];
@@ -815,6 +660,7 @@ function portfolioBalanceMulti(delta, limit){
 
 				/*
 				//all in on PREDICTED NEXT HIGHEST
+				//IF STRAT == CLASSIC
 				if(predictionArray[0].percentChange != 0){
 					var currentIndex = timeArray.map(function(obj){return obj.assetPair}).indexOf(predictionArray[0].assetPair);
 					console.log('PLACE ORDER.. TRADE', currentPortfolio[predictionArray[0].asset1], predictionArray[0].asset1, 'for', currentPortfolio[predictionArray[0].asset1]/parseFloat(timeArray[currentIndex].price), predictionArray[0].asset2)
@@ -826,6 +672,7 @@ function portfolioBalanceMulti(delta, limit){
 				*/
 
 				//MULTIPICK
+				//IF STRAT == MULTIPICK, CAP
 				var asset1Amount = currentPortfolio[predictionArray[x].asset1];
 				for (x in predictionArray){
 					if (totalPositiveChange != 0 && predictionArray[x].percentChange > 0){
@@ -841,8 +688,8 @@ function portfolioBalanceMulti(delta, limit){
 					}
 				}
 
-				console.log(currentPortfolio.BTC)
-				//console.log(y, currentPortfolio);
+				//console.log(currentPortfolio.BTC)
+				console.log(y, currentPortfolio);
 
 			}
 		}
@@ -861,7 +708,7 @@ module.exports.intervalService = function(){
 	var dataService = {};
 	dataService = sails.services.dataservice;
 
-	portfolioBalanceMulti('30000', 100);
+	//portfolioBalanceMulti('30000', 100);
 
 	/*Data.find({delta:'30000'})
 	.limit(10)
@@ -893,6 +740,17 @@ module.exports.intervalService = function(){
     		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
     	}
     }); */
+
+	//get some training ---
+
+	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
+
+	//tradingPairs.forEach(function(tradingPair, index){
+		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
+	//});
+
+	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
+	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds

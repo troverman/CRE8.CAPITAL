@@ -7,10 +7,12 @@
   "dependencies": {
     "async": "^2.6.0",
     "bcryptjs": "^2.4.3",
+    "bollinger-bands": "^3.0.1",
     "coininfo": "^2.0.0",
     "coinkey": "^2.0.0",
     "csv-write-stream": "^2.0.0",
     "ejs": "^2.5.7",
+    "exponential-moving-average": "^1.0.0",
     "fft-js": "0.0.11",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "~0.5.0",
@@ -29,6 +31,7 @@
     "holtwinters": "0.0.1",
     "include-all": "^4.0.3",
     "mailgun-js": "^0.13.1",
+    "moving-averages": "^4.0.5",
     "nostradamus": "^0.1.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
@@ -42,6 +45,7 @@
     "sails": "^0.12.14",
     "sails-mongo": "^0.12.2",
     "synaptic": "^1.1.4",
+    "tulind": "^0.8.9",
     "validator": "^9.2.0",
     "ws": "^1.0.1"
   },

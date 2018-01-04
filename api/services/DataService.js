@@ -3,6 +3,10 @@ var request = require('request');
 	//Matrix = sylvester.Matrix,  
 	//Vector = sylvester.Vector;  
 var Poloniex = require('poloniex-api-node');
+var movingAverages = require('moving-averages');
+var bollingerBands = require('bollinger-bands').boll;
+var tulind = require('tulind');
+
 
 module.exports = {
 
@@ -27,23 +31,64 @@ module.exports = {
 		});
 	},
 
-	predictiveModelPolynomial: function(assetPair, delta, dataCount, order, precision){
+	//ema: function(asset1, asset2, delta, limit, order, precision){
+	//	var ema = require('exponential-moving-average');
+	//	ema()	
+	//}
+
+	predictiveModelPolynomial: function(asset1, asset2, delta, limit, order, precision){
 		var regression = require('regression');
+		var ema = require('exponential-moving-average');
 		var dataArray = [];	
 	   	var predictions = [];
-		return Data.find({assetPair:assetPair, delta:delta})
+	   	var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+		var yesterday = Date.parse(start);
+		return Data.find({asset1:asset1, asset2:asset2, delta:delta})
 	    .sort('createdAt DESC')
-	    .limit(dataCount)
+	    .limit(limit)
 	    .then(function(models){
 	    	for (x in models){
-				var price = models[x].price;
-	    		var date = Date.parse(models[x].createdAt);
-				dataArray.push([date, price]);
+				dataArray.push([Date.parse(models[x].createdAt), models[x].percentChange]);
 	    	}
-			var result = regression.polynomial(dataArray, { order: order, precision: precision })
+			var result = regression.polynomial(dataArray, { order: order, precision: precision });
 	    	console.log(result);
 	    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
+
+	    	//console.log(ema(models.map(function(obj){return obj.price})));
+			//console.log(dma.ma(models.map(function(obj){return obj.percentChange}),2))
+	    	//console.log(movingAverages.ma(models.map(function(obj){return obj.percentChange}),2))
+	    	//console.log(movingAverages.ma([1, 2, 3, 4, 5], 2));
+
+	    	var change = models.map(function(obj){return obj.percentChange})
+
+	    	tulind.indicators.sma.indicator([change], [3], function(err, results) {
+				console.log("Result of sma is:");
+				console.log(results[0]);
+			});  
+
+			//tulind.indicators.sma.start([change])
+			console.log(tulind.indicators.stoch.start([5,3,3]))
+			console.log(tulind.indicators.sma)
+			console.log(tulind.indicators.vidya)
+			console.log(tulind.indicators.vidya.indicator)
+
+			tulind.indicators.vidya.indicator([change], [3,7,0.5], function(err, results) {
+				console.log("Result of vidya is:");
+				console.log(results[0]);
+				//for (x in results[0]){
+				//	dataArray.push([Date.parse(models[x].createdAt), results[0][x]]);
+	    		//}
+				//var result = regression.polynomial(dataArray, { order: order, precision: precision });
+	    		//console.log(result);
+
+			});  
+
+
+			//console.log(models.map(function(obj){return obj.percentChange}))
+
 	    	return result;
+
+	    	//Analysis.create()
 	    	//insert into db??
 	    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
 	    	//console.log(predict)
@@ -51,32 +96,24 @@ module.exports = {
 	    });
 	},
 
-	predictiveModelFFT: function(){
+	predictiveModelFFT: function(asset1, asset2, delta, limit){
 		var fft = require('fft-js').fft;
 		var forecast = require('nostradamus')
 	   	var dataArray = [];	
 	   	var predictions = [];
 		var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 		var yesterday = Date.parse(start);
-	    Data.find({assetPair:'BTC_LTC', delta:'1000'})
+	    Data.find({asset1:asset1, asset2:asset2, delta:delta})
 	    .sort('createdAt ASC')
-	    .limit(32)
+	    .limit(limit)
 	    .then(function(models){
 	    	for (x in models){
 				var price = models[x].price;
 	    		var date = Date.parse(models[x].createdAt);
-	    		//var update = date - yesterday;
-	    		//if (update > 0){
-					//writer.write([update/1000, price]);
-					dataArray.push([date, price]);
-					//dataArray.push(price);
-	    		//}
+	    		var update = now - date// - yesterday;
+				dataArray.push([date, price]);
 	    	}
-			//var signal=ifft(dataArray);
-			//console.log(signal);
-			//console.log(dataArray);
 	    	var phasors=fft(dataArray);
-			//console.log(phasors);
 			var string = '';
 			//F ( x ) = a /2 + a 1 cos x + b 1 sin x + a 2 cos 2 x + b 2 sin 2 x + ... + a n cos nx + b n sin nx + ...
 			for (x in phasors){
@@ -89,8 +126,10 @@ module.exports = {
 				}
 			}
 			//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
+			console.log(phasors);
 			//console.log(string);
-			//console.log(phasors);
+			return phasors;
+			//Analysis.create()
 			//store fft in db for time periods..
 	    });
 	},
@@ -103,14 +142,11 @@ module.exports = {
 	    .then(function (data) {
 	    	if (data.length > 0){
 	    		var idArray = data.map(function(obj) {return obj.id});
-
 	    		console.log(idArray);
-
 				Data.destroy(idArray, function(err, model) {
 					console.log(err, model);
 					console.log('deleted');
 				});
-
 	    	}
 	    });  
 	},
