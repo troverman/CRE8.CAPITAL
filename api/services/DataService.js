@@ -76,8 +76,10 @@ module.exports = {
 	    		//console.log(result);
 
 			});  
+			tulind.indicators.bbands.indicator([change], [5,2], function(err, results) {
+				console.log(results)
+			});  
 
-			console.log(tulind.indicators.bbands)
 
 			//tulind.indicators.sma.start([change])
 			//console.log(tulind.indicators.stoch.start([5,3,3]))

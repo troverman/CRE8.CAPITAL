@@ -774,14 +774,14 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	//NeuralNetwork.find()
-    //.then(function (models) {
-	//	for (x in models){
-	//		if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-	//			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
-	//		}
-	//	}
-    //});
+	NeuralNetwork.find()
+    .then(function (models) {
+		for (x in models){
+			if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+				neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+			}
+		}
+    });
 
     
     //TODO:check
@@ -870,7 +870,7 @@ module.exports.intervalService = function(){
 
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
