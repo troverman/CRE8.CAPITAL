@@ -212,9 +212,8 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 	.sort('createdAt DESC')
 	.limit(limit)
 	.then(function(models){
-		console.log(models.length)
-		if (models.length >= 2){//limit){
 
+		if (models.length >= 2){//limit){
 			//the train index can be like delta something... using grandular data to larger shift
 			//delta, aka predictedDelta ~ 10x dataDelta
 			//var inputArray = models.reverse().slice(0, 10);
@@ -233,41 +232,69 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 			var maxBidInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentBid}));
 			var minAskInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
 			var maxAskInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
+			
 			var minPriceInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.price}));
 			var maxPriceInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.price}));
+			var minPercentChangeInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+			var maxPercentChangeInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+
+
 			var minBidOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
 			var maxBidOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
 			var minAskOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
 			var maxAskOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
+			
 			var minPriceOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.price}));
 			var maxPriceOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.price}));
+			var minPercentChangeOutput = Math.min.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+			var maxPercentChangeOutput = Math.max.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+
 
 			for (x in inputArray){
 				var normalizedBidInput = (inputArray[x].currentBid-minBidInput)/(maxBidInput-minBidInput);
 				if (isNaN(normalizedBidInput)){normalizedBidInput=0}
 				var normalizedAskInput = (inputArray[x].currentAsk-minAskInput)/(maxAskInput-minAskInput);
 				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-				var normalizedPriceInput = (inputArray[x].price-minAskInput)/(minPriceInput-minAskInput);
-				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+				var normalizedPriceInput = (inputArray[x].price-minPriceInput)/(maxPriceInput-minPriceInput);
+				if (isNaN(normalizedPriceInput)){normalizedPriceInput=0}
+				var normalizedPercentChangeInput = (inputArray[x].percentChange-minPercentChangeInput)/(maxPercentChangeInput-minPercentChangeInput);
+				if (isNaN(normalizedPercentChangeInput)){normalizedPercentChangeInput=0}
+
 				var normalizedBidOutput = (outputArray[x].currentBid-minBidOutput)/(maxBidOutput-minBidOutput);
 				if (isNaN(normalizedBidOutput)){normalizedBidOutput=0}
 				var normalizedAskOutput = (outputArray[x].currentAsk-minAskOutput)/(maxAskOutput-minAskOutput);
 				if (isNaN(normalizedAskOutput)){normalizedAskOutput=0}
-				var normalizedPriceOutput = (inputArray[x].price-minAskOutput)/(minPriceOutput-minAskInput);
-				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-				trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput], price:[normalizedPriceInput, normalizedPriceOutput]});
+				var normalizedPriceOutput = (inputArray[x].price-minPriceOutput)/(maxPriceOutput-minPriceOutput);
+				if (isNaN(normalizedPriceOutput)){normalizedPriceOutput=0}
+				var normalizedPercentChangeOutput = (inputArray[x].percentChange-minPercentChangeOutput)/(maxPercentChangeOutput-minPercentChangeOutput);
+				if (isNaN(normalizedPercentChangeOutput)){normalizedPercentChangeOutput=0}
+
+				trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
+				//trainingSet.push({input:[normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput], output:[normalizedBidOutput, normalizedAskOutput, normalizedPriceOutput, normalizedPercentChangeOutput]});
+
 			}
 
 			return {
-				trainingSet:trainingSet, 
+				trainingSet:trainingSet,
+
 				minBidInput:minBidInput,  
 				maxBidInput:maxBidInput,  
 				minAskInput:minAskInput,  
-				maxAskInput:maxAskInput,  
+				maxAskInput:maxAskInput,
+				minPriceInput:minPriceInput,  
+				maxPriceInput:maxPriceInput,  
+				minPercentChangeInput:minPercentChangeInput,  
+				maxPercentChangeInput:maxPercentChangeInput,
+
+				minBidInput:minBidOutput,  
+				maxBidInput:maxBidOutput, 
 				minAskOutput:minAskOutput,  
 				maxAskOutput:maxAskOutput, 
 				minPriceOutput:minPriceOutput,  
 				maxPriceOutput:maxPriceOutput,  
+				minPercentChangeOutput:minPercentChangeOutput,  
+				maxPercentChangeOutput:maxPercentChangeOutput,
+
 			};
 
 		}
@@ -280,12 +307,19 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 			var maxBidInput = dataSet.maxBidInput;
 			var minAskInput = dataSet.minAskInput;
 			var maxAskInput = dataSet.maxAskInput;
+			var minPriceInput = dataSet.minPriceInput;
+			var maxPriceInput = dataSet.maxPriceInput;
+			var minPercentChangeInput = dataSet.minPercentChangeInput;
+			var maxPercentChangeInput = dataSet.maxPercentChangeInput;
+
 			var minBidOutput = dataSet.minBidOutput;
 			var maxBidOutput = dataSet.maxBidOutput;
 			var minAskOutput = dataSet.minAskOutput;
 			var maxAskOutput = dataSet.maxAskOutput;
-			var minPriceOutput = minPriceOutput;
-			var maxPriceOutput = maxPriceOutput;
+			var minPriceOutput = dataSet.minPriceOutput;
+			var maxPriceOutput = dataSet.maxPriceOutput;
+			var minPercentChangeOutput = dataSet.minPercentChangeOutput;
+			var maxPercentChangeOutput = dataSet.maxPercentChangeOutput;
 
 			//TODO: tuneup
 			trainer.train(dataSet.trainingSet, {
@@ -298,7 +332,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 				schedule: {
 					every: 5000,
 					do: function(data) {
-						//console.log(data)
+						console.log(data)
 					}
 				}
 			})
@@ -329,13 +363,22 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 				var normalizedAskInput = (data[0].currentAsk-minAskInput)/(maxAskInput-minAskInput);
 				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
 
+				//TODO
+				var normalizedPriceInput = (data[0].price-minAskInput)/(maxPriceInput-minPriceInput);
+				if (isNaN(normalizedPriceInput)){normalizedPriceInput=0}
+				var normalizedPercentChangeInput = (data[0].percentChange-minPercentChangeInput)/(maxPercentChangeInput-minPercentChangeInput);
+				if (isNaN(normalizedPercentChangeInput)){normalizedPercentChangeInput=0}
+
 				var latestInput = [normalizedBidInput, normalizedAskInput];
+				//normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput]
 
 				var output = myNetwork.activate(latestInput);
 
 				var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 				var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-				var denormalizePrice = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+				
+				var denormalizePrice = minPriceInput*-1*output[1]+minPriceInput+output[1]*maxPriceInput;
+				var denormalizePercentChange = minPercentChangeInput*-1*output[1]+minPercentChangeInput+output[1]*maxPercentChangeInput;
 
 				var predictionModel = {
 					normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPrice:null, maxPrice:null, minPercentChange:null, maxPercentChange:null},
@@ -345,16 +388,19 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 					delta: delta,
 					currentBid: data[0].currentBid,
 					currentAsk: data[0].currentAsk,
+					currentPrice: data[0].price,
+					currentPercentChange: data[0].percentChange,
 					predictedBid: denormalizeBid,
 					predictedAsk: denormalizeAsk,
+					predictedPrice: null,
+					predictedPercentChange: null,
 					actualPercentChange:null,
 					actualPrice:null,
 					actualBid:null,
 					actualAsk:null,
-
 				};
 
-				console.log(output, asset1, asset2, delta, data[0], predictionModel);
+				//console.log(output, asset1, asset2, delta, data[0], predictionModel);
 
 				Prediction.create(predictionModel).then(function(predictionModel){
 					console.log(predictionModel)
@@ -368,8 +414,8 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 
 					//TODO: Update prediction in data create -- eg if there is a prediction in the previous interval. 
 					setTimeout(function () {
-
-						Data.find({asset1:asset1,asset2:asset2,delta:delta})
+						//find createdafter
+						Data.find({asset1:asset1,asset2:asset2,delta:delta})//, createdAt: {'>': Date.parse(data[0].createdAt)}})
 						.sort('createdAt DESC')
 						.limit(1)
 						.then(function(data){
