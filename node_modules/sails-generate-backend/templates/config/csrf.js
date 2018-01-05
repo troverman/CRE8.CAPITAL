@@ -38,27 +38,17 @@
  * http://en.wikipedia.org/wiki/Cross-site_request_forgery
  *
  * For more information on this configuration file, including info on CSRF + CORS, see:
- * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.csrf.html
+ * http://sailsjs.org/documentation/reference/configuration/sails-config-csrf
  *
  */
 
 /****************************************************************************
 *                                                                           *
-* Enabled CSRF protection for your site?                                    *
+* By default, Sails' built-in CSRF protection is disabled.                  *
+* To enable CSRF protection with usual settings, set this to `true`.        *
+* Or for more flexibility, specify a dictionary with any of the properties  *
+* described in the Sails reference documentation (see link above).          *
 *                                                                           *
 ****************************************************************************/
 
 // module.exports.csrf = false;
-
-/****************************************************************************
-*                                                                           *
-* You may also specify more fine-grained settings for CSRF, including the   *
-* domains which are allowed to request the CSRF token via AJAX. These       *
-* settings override the general CORS settings in your config/cors.js file.  *
-*                                                                           *
-****************************************************************************/
-
-// module.exports.csrf = {
-//    grantTokenViaAjax: true,
-//    origin: ''
-// }
