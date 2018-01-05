@@ -774,45 +774,16 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	NeuralNetwork.find({delta:'60000'})
+	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
-			//console.log(models[x]);
-			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+			if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+				neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+			}
 		}
-		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
     });
 
-    NeuralNetwork.find({delta:'300000'})
-    .then(function (models) {
-		for (x in models){
-			//console.log(models[x]);
-			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
-		}
-		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
-    });
-
-     NeuralNetwork.find({delta:'1800000'})
-    .then(function (models) {
-		for (x in models){
-			//console.log(models[x]);
-			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
-		}
-		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
-    });
-
-    NeuralNetwork.find({delta:'3600000'})
-    .then(function (models) {
-		for (x in models){
-			//console.log(models[x]);
-			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
-		}
-		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
-    });
-
-
-
-
+    
     //TODO:check
     //combined neural net? --> def
     //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
