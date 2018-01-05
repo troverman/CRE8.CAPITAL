@@ -861,7 +861,6 @@ module.exports.intervalService = function(){
 	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
 
 
-
 	//tradingPairs.forEach(function(tradingPair, index){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
 	//});
@@ -870,11 +869,8 @@ module.exports.intervalService = function(){
 	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
 
 
-
-
-
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
