@@ -414,7 +414,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 
 					//TODO: Update prediction in data create -- eg if there is a prediction in the previous interval. 
 					setTimeout(function () {
-						//find createdafter
+						//find created after
 						Data.find({asset1:asset1,asset2:asset2,delta:delta})//, createdAt: {'>': Date.parse(data[0].createdAt)}})
 						.sort('createdAt DESC')
 						.limit(1)
@@ -835,14 +835,14 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	NeuralNetwork.find()
+	/*NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10, 30);
 			}
 		}
-    });
+    });*/
 
     
     //TODO:check

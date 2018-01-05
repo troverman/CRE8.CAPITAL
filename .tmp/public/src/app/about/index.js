@@ -83,10 +83,10 @@ angular.module( 'investing.about', [
     $scope.predictionData.reverse().forEach(function(obj){ 
         if (obj.actualAsk == 0){obj.actualAsk = null}
         if (obj.actualBid == 0){obj.actualBid = null}
-        var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedAsk];
-        var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.predictedBid];
-        var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualAsk];
-        var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.predictionTime)), obj.actualBid];
+        var predictionAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.delta)), obj.predictedAsk];
+        var predictionBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.delta)), obj.predictedBid];
+        var actualAskModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.delta)), obj.actualAsk];
+        var actualBidModel = [ parseInt(new Date(obj.createdAt).getTime() + parseInt(obj.delta)), obj.actualBid];
 
         $scope.predictionAskData.values.push(predictionAskModel);
         $scope.predictionBidData.values.push(predictionBidModel);
