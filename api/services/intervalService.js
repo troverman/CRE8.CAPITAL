@@ -778,7 +778,7 @@ module.exports.intervalService = function(){
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-				timer(neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10);
+				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10);
 			}
 		}
     });
