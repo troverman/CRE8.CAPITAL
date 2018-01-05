@@ -182,6 +182,8 @@ module.exports = {
 			                    console.log(updated[0]);
 			                });
 
+			                //TODO: INSERT BUY if delta --
+
 			                var orderModel = {};
 			                orderModel.assetPair = model.assetPair;
 			                orderModel.asset1 = model.asset1;

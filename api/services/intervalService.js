@@ -459,7 +459,6 @@ function timer(callback, delay){
 };
 
 function getData(limit, delta, tradingPair){
-	console.log(tradingPair);
     var defered = Q.defer();
     Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
 	.limit(limit)
