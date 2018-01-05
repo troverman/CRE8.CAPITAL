@@ -777,8 +777,8 @@ module.exports.intervalService = function(){
 	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
-			if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-				neuralNet(models[0], models[0].asset1, models[x].asset2, models[0].delta);
+			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+				timer(neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10);
 			}
 		}
     });
