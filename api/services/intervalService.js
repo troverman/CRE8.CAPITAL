@@ -214,6 +214,8 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 	.then(function(models){
 
 		if (models.length >= 2){//limit){
+
+			//facilitate more granularity 
 			//the train index can be like delta something... using grandular data to larger shift
 			//delta, aka predictedDelta ~ 10x dataDelta
 			//var inputArray = models.reverse().slice(0, 10);
@@ -838,8 +840,8 @@ module.exports.intervalService = function(){
 	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
-			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10, 30);
+			if ((models[x].delta == '60000', models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
 			}
 		}
     });
