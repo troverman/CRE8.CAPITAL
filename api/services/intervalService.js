@@ -233,7 +233,7 @@ function neuralNet(networkModel, asset1, asset2, delta){
 		var maxPriceOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.price}));
 
 		for (x in inputArray){
-			var normalizedBidInput = (inputArray.currentBid-minBidInput)/(maxBidInput-minBidInput);
+			var normalizedBidInput = (inputArray[x].currentBid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
 			var normalizedAskInput = (inputArray[x].currentAsk-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
