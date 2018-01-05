@@ -381,7 +381,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 				var denormalizePercentChange = minPercentChangeInput*-1*output[1]+minPercentChangeInput+output[1]*maxPercentChangeInput;
 
 				var predictionModel = {
-					normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPrice:null, maxPrice:null, minPercentChange:null, maxPercentChange:null},
+					normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPriceInput:null, maxPriceInput:null, minPercentChangeInput:null, maxPercentChangeInput:null},
 					assetPair: asset1+'/'+asset2,
 					asset1: asset1,
 					asset2: asset2,
@@ -835,14 +835,14 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	/*NeuralNetwork.find()
+	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta)*10, 30);
 			}
 		}
-    });*/
+    });
 
     
     //TODO:check
