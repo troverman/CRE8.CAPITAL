@@ -362,7 +362,7 @@ function neuralNet(networkModel, asset1, asset2, delta){
 						Prediction.update({id:predictionModel.id}, {actualPrice: data[0].price, actualBid: data[0].currentBid, actualAsk: data[0].currentAsk }).then(function(predictionModel){
 							Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
 							console.log(predictionModel);
-							console.log(predictionModel[0].actualBid - predictionModel[0].predictedBid)/parseFloat(predictionModel[0].actualAsk))
+							console.log((predictionModel[0].actualBid - predictionModel[0].predictedBid)/parseFloat(predictionModel[0].actualAsk))
 						});
 					});
 
