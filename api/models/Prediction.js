@@ -7,7 +7,12 @@
 
 module.exports = {
 
-	attributes: {
+    attributes: {
+        //TODO: link to connect Data model. -- lotsa replication;
+        //TODO: investigate.
+        normalizeData: {
+            type: 'json',
+        },
         assetPair: {
             type: 'string',
         },
@@ -17,14 +22,25 @@ module.exports = {
         asset2: {
             type: 'string',
         },
-        predictionTime: {
+        delta: {
             type: 'string',
-            required: true
+        },
+        currentPercentChange:{
+            type: 'string',
+        },
+        currentPrice:{
+            type: 'string',
         },
         currentBid:{
             type: 'string',
         },
         currentAsk:{
+            type: 'string',
+        },
+        predictedPercentChange:{
+            type: 'string',
+        },
+        predictedPrice:{
             type: 'string',
         },
         predictedBid:{
@@ -36,6 +52,12 @@ module.exports = {
         timeStamp:{
             type: 'string',
         },
+        actualPercentChange:{
+            type: 'string',
+        },
+        actualPercentChange:{
+            type: 'string',
+        },
         actualBid:{
             type: 'string',
         },
@@ -43,6 +65,7 @@ module.exports = {
             type: 'string',
         },       
     },
+
 
     getOne: function(id) {
         return Asset.findOne(id)

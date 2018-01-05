@@ -47,12 +47,12 @@ module.exports = {
 	    .sort('createdAt DESC')
 	    .limit(limit)
 	    .then(function(models){
-	    	for (x in models){
-				dataArray.push([Date.parse(models[x].createdAt), models[x].percentChange]);
+	    	for (x in models.reverse()){
+				dataArray.push([Date.parse(models[x].createdAt) - Date.parse(models[0].createdAt), models[x].percentChange]);
 	    	}
 			var result = regression.polynomial(dataArray, { order: order, precision: precision });
-	    	console.log(result);
-	    	console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
+	    	//console.log(result);
+	    	//console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
 
 	    	//console.log(ema(models.map(function(obj){return obj.price})));
 			//console.log(dma.ma(models.map(function(obj){return obj.percentChange}),2))
@@ -62,27 +62,23 @@ module.exports = {
 	    	var change = models.map(function(obj){return obj.percentChange})
 
 	    	tulind.indicators.sma.indicator([change], [3], function(err, results) {
-				console.log("Result of sma is:");
-				console.log(results[0]);
+				//console.log("Result of sma is:");
+				//console.log(results[0]);
 			});  
 
-			//tulind.indicators.sma.start([change])
-			console.log(tulind.indicators.stoch.start([5,3,3]))
-			console.log(tulind.indicators.sma)
-			console.log(tulind.indicators.vidya)
-			console.log(tulind.indicators.vidya.indicator)
-
 			tulind.indicators.vidya.indicator([change], [3,7,0.5], function(err, results) {
-				console.log("Result of vidya is:");
-				console.log(results[0]);
+				//console.log("Result of vidya is:");
+				//console.log(results[0]);
 				//for (x in results[0]){
-				//	dataArray.push([Date.parse(models[x].createdAt), results[0][x]]);
+					//dataArray.push([Date.parse(models[x].createdAt) -  Date.parse(models[0].createdAt), results[0][x]]);
 	    		//}
 				//var result = regression.polynomial(dataArray, { order: order, precision: precision });
 	    		//console.log(result);
 
 			});  
 
+			//tulind.indicators.sma.start([change])
+			//console.log(tulind.indicators.stoch.start([5,3,3]))
 
 			//console.log(models.map(function(obj){return obj.percentChange}))
 
@@ -104,13 +100,13 @@ module.exports = {
 		var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 		var yesterday = Date.parse(start);
 	    Data.find({asset1:asset1, asset2:asset2, delta:delta})
-	    .sort('createdAt ASC')
+	    .sort('createdAt DESC')
 	    .limit(limit)
 	    .then(function(models){
 	    	for (x in models){
 				var price = models[x].price;
 	    		var date = Date.parse(models[x].createdAt);
-	    		var update = now - date// - yesterday;
+	    		var update = date - Date.parse(models[0].createdAt)// - yesterday;
 				dataArray.push([date, price]);
 	    	}
 	    	var phasors=fft(dataArray);
@@ -137,7 +133,8 @@ module.exports = {
 	cullData: function(delta, time){
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
-		Data.find()//.limit(100)
+		Data.find()
+		.limit(1000)
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .then(function (data) {
 	    	if (data.length > 0){

@@ -113,10 +113,7 @@ var tradingPairs = [
 	//Matrix = sylvester.Matrix,  
 	//Vector = sylvester.Vector;  
 
-
-
 function assetArrayLinearCombinationEquality(){
-
 	var exchangeMap = [];
 	console.log('assetArrayLinearCombinationEquality')
 	//for (x in tradingPairs){
@@ -128,9 +125,11 @@ function assetArrayLinearCombinationEquality(){
 	//		console.log(exchangeMap)
 	//	});
 	//}
-
 	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		getPairData(tradingPair[0], tradingPair[1]).then(function(currencyData){
+		//or instant ticker.. 
+		Data.find({asset1:tradingPair[1], asset2:tradingPair[1], delta: '5000'})
+		.limit(1)
+		.then(function(currencyData){
 			exchangeMap.push({asset1:tradingPair[0], asset2: tradingPair[1], price: currencyData.last_price})
 			exchangeMap.push({asset1:tradingPair[1], asset2: tradingPair[0], price: 1/currencyData.last_price})
 			process.nextTick(nextIteration);
@@ -202,117 +201,51 @@ function recursiveDecomposition(dataObj){
 	}
 };
 
-
-
-function ticker(){
-	var url = "http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json"
-	//https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dnl1d1t1%26s%3Dusdeur%3DX%22%3B&format=json&callback=
-	request({url: url,json: true}, function (error, response, body) {
-	    if (!error && response.statusCode === 200) {
-	        var currencyData = body.list.resources;
-			for (var key in currencyData) {
-	        	var pairData = currencyData[key].resource.fields;
-				var name = pairData.name.split("/");
-				var price = pairData.price;
-				var symbol = pairData.symbol;
-				var timeStamp = pairData.ts;
-				var utctime = pairData.utctime;
-				//sails.log(name);
-				if (name[0] == 'USD'){
-					sails.log(name[1]);
-				}
-				//sails.log(price);
-				//sails.log(timeStamp);
-	    	}
-	    }
-	});
-};
-
-function getPairData(asset1, asset2){
-	var deferred = Q.defer();
-	var url = "https://api.bitfinex.com/v1/pubticker/"+asset1+asset2;
-	request({url: url, json: true }, function (error, response, body) {
-	    if (!error && response.statusCode === 200) {
-	        deferred.resolve(body);
-	    }
-	    else{deferred.resolve(error)}
-	});
-	return deferred.promise;
-};
-
-function Loopin(intervalDelay, asset1, asset2){
-	var deferred = Q.defer();
-	var array = [];
-	var test = [1,2,3,4,5,6,7,8,9,10];
-	async.eachSeries(test, function (iterator, nextIteration){ 
-		getPairData(asset1, asset2).then(function(model){
-			setTimeout(function () {
-				array.push(model);
-				process.nextTick(nextIteration);
-			}, intervalDelay);
-		})
-	}, 
-	function(err) {
-		deferred.resolve(array);
-	});
-	return deferred.promise;
-};
-
-
-function ioGrab(intervalDelay, biggerDelay, asset1, asset2){
-	var trainingData = {};
-	var deferred = Q.defer();
-	Loopin(intervalDelay, asset1, asset2).then(function(inputData){
-		trainingData.input = inputData;
-		setTimeout(function () {
-			Loopin(intervalDelay, asset1, asset2).then(function(outputData){
-				trainingData.output = outputData;
-				deferred.resolve(trainingData);
-			});
-		}, biggerDelay);
-	});
-	return deferred.promise;
-};
-
-
-
 //experimental neural net where time is a variable'
 //experimental neural net where currency pair are variable arrays -- > abstract
-
-function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
+//TODO: multiNeuralNet
+function neuralNet(networkModel, asset1, asset2, delta){
 
 	var myNetwork = Network.fromJSON(networkModel.networkJson);
 	var trainer =  new Trainer(myNetwork);
 
-	ioGrab(intervalDelay, biggerDelay, asset1, asset2).then(function(trainingData){
-
+	Data.find({asset1:asset1,asset2:asset2, delta:delta})
+	.sort('createdAt DESC')
+	.limit(30)
+	.then(function(models){
+		var inputArray = models.reverse().slice(0, 10);
+		var outputArray = models.reverse().slice(20, 30);
 		var trainingSet = [];
 
-		var minBidInput = Math.min.apply(Math, trainingData.input.map(function(obj){return obj.bid}));
-		var maxBidInput = Math.max.apply(Math, trainingData.input.map(function(obj){return obj.bid}));
+		//TODO: should train for percentChange. 
+		//TODO: price
+		var minBidInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.currentBid}));
+		var maxBidInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentBid}));
+		var minAskInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
+		var maxAskInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
+		var minPriceInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.price}));
+		var maxPriceInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.price}));
+		var minBidOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
+		var maxBidOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
+		var minAskOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
+		var maxAskOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
+		var minPriceOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.price}));
+		var maxPriceOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.price}));
 
-		var minAskInput = Math.min.apply(Math, trainingData.input.map(function(obj){return obj.ask}));
-		var maxAskInput = Math.max.apply(Math, trainingData.input.map(function(obj){return obj.ask}));
-
-		var minBidOutput = Math.min.apply(Math, trainingData.output.map(function(obj){return obj.bid}));
-		var maxBidOutput = Math.max.apply(Math, trainingData.output.map(function(obj){return obj.bid}));
-
-		var minAskOutput = Math.min.apply(Math, trainingData.output.map(function(obj){return obj.ask}));
-		var maxAskOutput = Math.max.apply(Math, trainingData.output.map(function(obj){return obj.ask}));
-
-		for (x in trainingData.input){
-			//normalize to 0-1
-			var normalizedBidInput = (trainingData.input[x].bid-minBidInput)/(maxBidInput-minBidInput);
+		for (x in inputArray){
+			var normalizedBidInput = (inputArray.currentBid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-			var normalizedAskInput = (trainingData.input[x].ask-minAskInput)/(maxAskInput-minAskInput);
+			var normalizedAskInput = (inputArray[x].currentAsk-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-			var normalizedBidOutput = (trainingData.output[x].bid-minBidOutput)/(maxBidOutput-minBidOutput);
+			var normalizedPriceInput = (inputArray[x].price-minAskInput)/(minPriceInput-minAskInput);
+			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+			var normalizedBidOutput = (outputArray[x].currentBid-minBidOutput)/(maxBidOutput-minBidOutput);
 			if (isNaN(normalizedBidOutput)){normalizedBidOutput=0}
-			var normalizedAskOutput = (trainingData.output[x].ask-minAskOutput)/(maxAskOutput-minAskOutput);
+			var normalizedAskOutput = (outputArray[x].currentAsk-minAskOutput)/(maxAskOutput-minAskOutput);
 			if (isNaN(normalizedAskOutput)){normalizedAskOutput=0}
-
-			trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
-
+			var normalizedPriceOutput = (inputArray[x].price-minAskOutput)/(minPriceOutput-minAskInput);
+			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+			trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput], price:[normalizedPriceInput, normalizedPriceOutput]});
 		}
 
 		return {
@@ -322,9 +255,11 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 			minAskInput:minAskInput,  
 			maxAskInput:maxAskInput,  
 			minAskOutput:minAskOutput,  
-			maxAskOutput:maxAskOutput,  
+			maxAskOutput:maxAskOutput, 
+			minPriceOutput:minPriceOutput,  
+			maxPriceOutput:maxPriceOutput,  
 		};
-	
+
 	}).then(function(dataSet){
 
 		var minBidInput = dataSet.minBidInput;
@@ -335,10 +270,13 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 		var maxBidOutput = dataSet.maxBidOutput;
 		var minAskOutput = dataSet.minAskOutput;
 		var maxAskOutput = dataSet.maxAskOutput;
+		var minPriceOutput = minPriceOutput;
+		var maxPriceOutput = maxPriceOutput;
 
+		//TODO: tuneup
 		trainer.train(dataSet.trainingSet, {
 			rate: .1,
-			iterations: 2000000,
+			iterations: 500000,
 			error: -10000,
 			shuffle: false,
 			log: 1000000,
@@ -346,41 +284,64 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					//console.log(data)
+					console.log(data)
 				}
 			}
 		});
 
 		var networkJson = myNetwork.toJSON();
 
-		NeuralNetwork.update({id: networkModel.id}, {network:networkJson}).then(function(){console.log('HI')})
+		NeuralNetwork.update({id: networkModel.id}, {network:networkJson}).then(function(){
+			//console.log('HI');
+		});
 
-		getPairData(asset1, asset2).then(function(btcData){
+		//TODO: get in lockset with the time interval
+		//TODO: seperate trainig from perdicting. 
+		//make sure interval of delta
+		//var lockStepTime = Date.parse(new Date()) - Date.parse(data[0].createdAt);
+		//console.log(lockStepTime);
+		//console.log(Date.parse(data[0].createdAt));
+		//console.log(Date.parse(new Date()));
 
-			var normalizedBidInput = (btcData.bid-minBidInput)/(maxBidInput-minBidInput);
+		Data.find({asset1:asset1,asset2:asset2,delta:delta})
+		.sort('createdAt DESC')
+		.limit(1)
+		.then(function(data){
+
+			//lockstep by waiting til the next interval -- #toomuch rn
+
+			var normalizedBidInput = (data[0].currentBid-minBidInput)/(maxBidInput-minBidInput);
 			if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-			var normalizedAskInput = (btcData.ask-minAskInput)/(maxAskInput-minAskInput);
+			var normalizedAskInput = (data[0].currentAsk-minAskInput)/(maxAskInput-minAskInput);
 			if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+
 			var latestInput = [normalizedBidInput, normalizedAskInput];
+
 			var output = myNetwork.activate(latestInput);
+
 			var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 			var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-			
+			var denormalizePrice = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
+
 			var predictionModel = {
-				normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPrice:null, maxPrice:null},
-				assetPair: [asset1, asset2],
+				normalizeData: {minBidInput:minBidInput, maxBidInput:maxBidInput, minAskInput:minAskInput, maxAskInput:maxAskInput, minPrice:null, maxPrice:null, minPercentChange:null, maxPercentChange:null},
+				assetPair: asset1+'/'+asset2,
 				asset1: asset1,
 				asset2: asset2,
-				predictionTime: biggerDelay,
-				currentBid: btcData.bid,
-				currentAsk: btcData.ask,
+				delta: delta,
+				currentBid: data[0].currentBid,
+				currentAsk: data[0].currentAsk,
 				predictedBid: denormalizeBid,
 				predictedAsk: denormalizeAsk,
-				timeStamp: new Date(),
-				actualBid: null,
-				actualAsk: null,
+				actualPercentChange:null,
+				actualPrice:null,
+				actualBid:null,
+				actualAsk:null,
+
 			};
-			console.log(predictionModel)
+
+			console.log(output, asset1, asset2, delta, data[0], predictionModel);
+
 			Prediction.create(predictionModel).then(function(predictionModel){
 				console.log(predictionModel)
 				Prediction.publishCreate(predictionModel);
@@ -391,16 +352,28 @@ function neuralNet(intervalDelay, biggerDelay, networkModel, asset1, asset2){
 				//if prediction hits the highest in some time scale.... (and then go down)
 				//find actual pair time-->
 
+				//TODO: Update prediction in data create -- eg if there is a prediction in the previous interval. 
 				setTimeout(function () {
-					getPairData(asset1,asset2).then(function(btcData){
-						Prediction.update({id:predictionModel.id}, {actualBid: btcData.bid, actualAsk: btcData.ask }).then(function(predictionModel){
+
+					Data.find({asset1:asset1,asset2:asset2,delta:delta})
+					.sort('createdAt DESC')
+					.limit(1)
+					.then(function(data){
+						Prediction.update({id:predictionModel.id}, {actualPrice: data[0].price, actualBid: data[0].currentBid, actualAsk: data[0].currentAsk }).then(function(predictionModel){
 							Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
+							console.log(predictionModel);
+							console.log(predictionModel[0].actualBid - predictionModel[0].predictedBid)/parseFloat(predictionModel[0].actualAsk))
 						});
 					});
-				}, predictionModel.predictionTime);
+
+				}, delta);
+
 			});
+			
 		});
+
 	});
+
 };
 
 function order(){
@@ -700,12 +673,184 @@ function portfolioBalanceMulti(delta, limit, strat){
 
 };
 
+function createPrediction(limit, delta, order, precision){
+
+	var predictions = [];
+	var promises = [];
+	var exchangeMap = [];
+
+	tradingPairs = tradingPairs.filter(function(obj){
+        if (obj.split('/')[1]=='BTC'){return obj}
+    });
+
+	tradingPairs.forEach(function(tradingPair, index){
+	    var promise = getData(limit, delta, tradingPair);
+	    promises.push(promise);
+	});
+
+	Q.all(promises)
+	.then(function(data){
+		exchangeMap = data;
+
+		var predictionArray = [];
+		for (x in exchangeMap){
+			var dataArray = [];
+			var pairData = exchangeMap[x];
+			for (x in pairData){
+				dataArray.push([Date.parse(pairData[x].createdAt) - Date.parse(pairData[0].createdAt), pairData[x].percentChange]);
+			}
+
+			//14,160 -> highest r2, 4,60
+			var prediction = regression.polynomial(dataArray, { order:14, precision: 160 });
+			var predictionData = prediction.predict(prediction.points[prediction.points.length-1][0]+parseFloat(delta))
+			//console.log(prediction.r2, predictionData[1], pairData[0].asset1, pairData[0].asset2);
+			predictionArray.push({percentChange: predictionData[1], asset1:pairData[0].asset1, asset2:pairData[0].asset2});
+
+		}
+
+		console.log(predictionArray);
+
+
+		//TODO: efficencicy redux
+		/*
+		for (y in exchangeMap[0]){
+			var dataArray = [];
+			var predictionArray = [];
+			var pairData = exchangeMap[y];
+			console.log(pairData)
+			for (x in pairData){
+				dataArray.push([Date.parse(pairData[x].createdAt) - Date.parse(pairData[0].createdAt), pairData[x].percentChange]);
+			}
+
+			var prediction = regression.polynomial(dataArray, { order: order, precision: precision });
+			var predictionData = prediction.predict(prediction.points[prediction.points.length-1][0]+parseFloat(delta))
+			//console.log(prediction.string);
+
+			predictionArray.push({percentChange:predictionData, asset1:exchangeMap[y][0].asset1, asset2:exchangeMap[y][0].asset2})
+
+			//var timeArray = [];
+			//for (x in exchangeMap){
+				//timeArray.push(exchangeMap[x][y]);
+				//could train --> loop and push the next as prediction
+				//TODO: TRAIN
+				var dataArray = [];
+				for (z in pairData){
+					if (z<y){
+						dataArray.push([Date.parse(pairData[z].createdAt) - Date.parse(pairData[0].createdAt), pairData[z].percentChange]);
+					}
+				}
+				var prediction = regression.polynomial(dataArray, { order: order, precision: precision });
+				var predictionData = -1;
+				if(prediction.r2){predictionData = prediction.predict(prediction.points[prediction.points.length-1][0]+parseFloat(delta));}
+				predictionArray.push(predictionData[1]);//--> this is oh boi.
+				
+			//}
+		}
+		*/
+
+	});
+
+	/*
+	tradingPairs.forEach(function(tradingPair, index){
+		dataService.predictiveModelPolynomial(tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 4, 100).then(function(prediction){
+			predictions.push(prediction);
+			//console.log(prediction.r2)
+			//prediction.points[prediction.points.length-1][0]+60000
+			console.log(prediction.predict(prediction.points[prediction.points.length-1][0]+60000))
+		});
+
+	});	
+	*/
+
+};
+
 
 
 module.exports.intervalService = function(){
 
 	var dataService = {};
 	dataService = sails.services.dataservice;
+
+	//createPrediction(100, '60000', 4, 100);
+
+	//TOOMUCH
+	NeuralNetwork.find({delta:'60000'})
+    .then(function (models) {
+		for (x in models){
+			//console.log(models[x]);
+			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+		}
+		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
+    });
+
+    NeuralNetwork.find({delta:'300000'})
+    .then(function (models) {
+		for (x in models){
+			//console.log(models[x]);
+			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+		}
+		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
+    });
+
+     NeuralNetwork.find({delta:'1800000'})
+    .then(function (models) {
+		for (x in models){
+			//console.log(models[x]);
+			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+		}
+		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
+    });
+
+    NeuralNetwork.find({delta:'3600000'})
+    .then(function (models) {
+		for (x in models){
+			//console.log(models[x]);
+			neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
+		}
+		//neuralNet(models[0], models[0].asset1, models[0].asset2, models[0].delta);
+    });
+
+
+
+
+    //TODO:check
+    //combined neural net? --> def
+    //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+    //NeuralNetwork.create({title:'1 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'5 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'30 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'1 hr btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+
+    //NeuralNetwork.create({title:'1 hr market', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+
+    //combined neural net experiment? --> def
+    //NeuralNetwork.create({title:'experimental btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+
+    /*for (x in tradingPairs){
+
+		//for loop thru data if unique pair & delta create network. . . . 
+		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
+		var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
+		var trainer = new Trainer(initNetwork);
+		var trainerExperimental = new Trainer(experimentalNetwork)
+
+		var networkJson = initNetwork.toJSON();
+		var experimentalNetworkJson = initNetwork.toJSON();
+
+		NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'30 seconds ' + tradingPairs[x], delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], delta:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], delta:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], delta:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], delta:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'2 hr ' + tradingPairs[x], delta:'7200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'4 hr ' + tradingPairs[x], delta:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+
+	};*/
 
 	//portfolioBalanceMulti('30000', 100);
 
@@ -744,6 +889,8 @@ module.exports.intervalService = function(){
 
 	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
 
+
+
 	//tradingPairs.forEach(function(tradingPair, index){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
 	//});
@@ -751,8 +898,12 @@ module.exports.intervalService = function(){
 	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
 	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
 
+
+
+
+
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -762,11 +913,11 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
 	//cull the data.. 
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
+	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
@@ -776,7 +927,7 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '14400000', 2*2*2*2*7*24*60*60*1000), 7200000);//4hr
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
-	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr
+	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr*/
 
 
 	//setInterval(dataService.dataService, 14400000);

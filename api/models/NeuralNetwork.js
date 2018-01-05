@@ -17,8 +17,8 @@ module.exports = {
             type: 'json',
             required: true
         },
-        predictionTime: {
-            type: 'integer',
+        delta: {
+            type: 'string',
         },
         assetPair: {
             type: 'string',
@@ -29,7 +29,7 @@ module.exports = {
         asset2: {
             type: 'string',
         },
-    }
+    } 
     
 };
 
