@@ -276,7 +276,7 @@ function neuralNet(networkModel, asset1, asset2, delta){
 		//TODO: tuneup
 		trainer.train(dataSet.trainingSet, {
 			rate: .1,
-			iterations: 500000,
+			iterations: 20000,
 			error: -10000,
 			shuffle: false,
 			log: 1000000,
@@ -284,11 +284,11 @@ function neuralNet(networkModel, asset1, asset2, delta){
 			schedule: {
 				every: 5000,
 				do: function(data) {
-					console.log(data)
+					//console.log(data)
 				}
 			}
-		});
-
+		})
+		
 		var networkJson = myNetwork.toJSON();
 
 		NeuralNetwork.update({id: networkModel.id}, {network:networkJson}).then(function(){
@@ -774,14 +774,14 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	/*NeuralNetwork.find()
+	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				neuralNet(models[x], models[x].asset1, models[x].asset2, models[x].delta);
 			}
 		}
-    });*/
+    });
 
     
     //TODO:check
