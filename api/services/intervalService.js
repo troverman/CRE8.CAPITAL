@@ -840,7 +840,7 @@ module.exports.intervalService = function(){
 	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
-			if ((models[x].delta == '60000', models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+			if (models[x].delta == '60000' || models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
 			}
 		}
