@@ -394,7 +394,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 					currentPercentChange: data[0].percentChange,
 					predictedBid: denormalizeBid,
 					predictedAsk: denormalizeAsk,
-					//timeStamp: data[0].createdAt,
+					timeStamp: data[0].createdAt,
 					predictedPrice: null,
 					predictedPercentChange: null,
 					actualPercentChange:null,
