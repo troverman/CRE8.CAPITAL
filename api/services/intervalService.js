@@ -855,14 +855,14 @@ module.exports.intervalService = function(){
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
-	/*NeuralNetwork.find()
+	NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
 			}
 		}
-    });*/
+    });
 
     
     //TODO:check
@@ -951,7 +951,7 @@ module.exports.intervalService = function(){
 
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -965,7 +965,7 @@ module.exports.intervalService = function(){
 
 	//cull the data.. 
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
+	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
