@@ -835,6 +835,23 @@ module.exports.intervalService = function(){
 	var dataService = {};
 	dataService = sails.services.dataservice;
 
+	/*var cluster = require('cluster'),
+    numCPUs = require('os').cpus().length;
+	console.log('global '+numCPUs);
+	// create the server 
+	if (cluster.isMaster) {
+	    for (var i = 0; i < numCPUs; i++) {
+        	console.log('this is for CPU '+i);
+        	//portfolioBalanceMulti('30000', 100);
+	        //cluster.fork();
+	    }
+	}
+	else {
+	    console.log('This is a worker!');
+	    //addPoints();
+	    //portfolioBalanceMulti('30000', 100);
+	}*/
+
 	//createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
@@ -934,7 +951,7 @@ module.exports.intervalService = function(){
 
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -948,7 +965,7 @@ module.exports.intervalService = function(){
 
 	//cull the data.. 
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
+	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min

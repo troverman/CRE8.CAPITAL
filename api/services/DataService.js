@@ -183,6 +183,24 @@ module.exports = {
 			                    console.log(updated[0]);
 			                });
 
+
+			                /*
+			                if (model.delta >= 60000){
+				                Prediction.find({asset1:asset1,asset2:asset2,delta:delta})
+								.sort('createdAt DESC')
+								.limit(1)
+								.then(function(predictionModel){
+									if (predictionModel.actualPrice == null){
+										Prediction.update({id:predictionModel[0].id}, {actualPrice: data[0].price, actualBid: data[0].currentBid, actualAsk: data[0].currentAsk }).then(function(predictionModel){
+											Prediction.publishUpdate(predictionModel[0].id, predictionModel[0]);
+											console.log(predictionModel);
+											console.log((predictionModel[0].actualBid - predictionModel[0].predictedBid)/parseFloat(predictionModel[0].actualAsk))
+										});
+									}
+								});
+							}
+							*/
+
 			                //TODO: INSERT BUY if delta --
 
 			                var orderModel = {};
