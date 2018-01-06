@@ -222,6 +222,15 @@ angular.module( 'investing.markets', [
         });
     };
 
+     $scope.solvePortfolioMulti = function(delta, limit){
+        $scope.portfolioData = {};
+        $rootScope.stateIsLoading = true;
+        AnalysisModel.getPortfolioSolveMulti($scope.selectedDelta, limit).then(function(data){
+            $rootScope.stateIsLoading = false;
+            $scope.portfolioData = data;
+        });
+    };
+
     //AnalysisModel.getPortfolioSolve('30000', 100).then(function(data){
     //    console.log(data);
     //})

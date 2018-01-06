@@ -453,6 +453,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
     "	<div style=\"height:100px;\"></div>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">SolveMulti</p>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +

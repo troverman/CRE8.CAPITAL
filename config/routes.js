@@ -25,6 +25,7 @@ module.exports.routes = {
    * Analysis routes
    */
   'get /api/analysis/portfolioBalance': 'AnalysisController.portfolioBalance',
+  'get /api/analysis/portfolioBalanceMulti': 'AnalysisController.portfolioBalanceMulti',
   'get /api/analysis/fft': 'AnalysisController.fft',
   'get /api/analysis/regression': 'AnalysisController.regression',
 
