@@ -19,7 +19,7 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
 
     this.getPortfolioSolveMulti = function(delta, limit) {
         var url = utils.prepareUrl('analysis/portfolioBalanceMulti');
-        var query = {params:{limit: limit, delta: delta, btc:100}};
+        var query = {params:{limit: limit, delta: delta, btc:100, cap:4}};
         return $sailsSocket.get(url, query).then(success, error);
     };
 

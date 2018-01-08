@@ -206,7 +206,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	<br><br><br>\n" +
     "\n" +
-    "	<div style=\"text-align:left;\">\n" +
+    "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
+    "		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>\n" +
     "		<br><br><br>\n" +
     "		<div class=\"container\">\n" +
     "			<h1>activity</h1>\n" +
@@ -433,11 +434,13 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "	<h1>markets</h1>\n" +
     "\n" +
-    "	<!--<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "	<!--\n" +
+    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
     "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "			<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "		</div>\n" +
-    "	</div>-->\n" +
+    "	</div>\n" +
+    "	-->\n" +
     "\n" +
     "	<h5>overlay percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
@@ -453,17 +456,26 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
     "	<div style=\"height:100px;\"></div>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">SolveMulti</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "\n" +
     "</div>\n" +
+    "\n" +
+    "<div style=\"height:20px;\"></div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<div class=\"col-md-12\">\n" +
-    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">{{portfolio}}</div>\n" +
+    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
+    "			{{portfolio}}\n" +
+    "			<br><br>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"col-md-12\">\n" +
-    "		<div ng-repeat=\"order in portfolioData.orderSet\"> {{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</div>\n" +
+    "		<div style=\"height:20px;\"></div>\n" +
+    "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
+    "			<p>{{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</p>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
     "</div>\n" +
