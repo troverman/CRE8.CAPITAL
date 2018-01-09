@@ -883,9 +883,9 @@ module.exports.intervalService = function(){
 	var dataService = {};
 	dataService = sails.services.dataservice;
 
-	tradingPairs.forEach(function(tradingPair, index){
-		getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
-	});
+	//tradingPairs.forEach(function(tradingPair, index){
+	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
+	//});
 
 	/*var cluster = require('cluster'),
     numCPUs = require('os').cpus().length;
