@@ -24,7 +24,7 @@ module.exports = {
 
 	getCurrentPrediction: function(req, res) {
 
-		var predictionTime = req.query.predictionTime;
+		var predictionTime = req.query.delta;
 		var asset1 = req.query.asset1;
 		var asset2 = req.query.asset2;
 

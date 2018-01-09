@@ -219,17 +219,40 @@ angular.module( 'investing.markets', [
         AnalysisModel.getPortfolioSolve($scope.selectedDelta, limit).then(function(data){
             $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
+            //$scope.updatePortfolio(data.portfolioSet);
         });
     };
 
-     $scope.solvePortfolioMulti = function(delta, limit){
+    $scope.solvePortfolioMulti = function(delta, limit){
         $scope.portfolioData = {};
         $rootScope.stateIsLoading = true;
         AnalysisModel.getPortfolioSolveMulti($scope.selectedDelta, limit).then(function(data){
             $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
+            //$scope.updatePortfolio(data.portfolioSet);
         });
     };
+
+    /*
+    $scope.updatePortfolio = function(data){
+        for (y in data){
+            $scope.portfolioData.portfolioSet[y].data = [];
+            $scope.portfolioData.portfolioSet[y].labels = [];
+            for (x in Object.keys(data[y])){
+                $scope.portfolioData.portfolioSet[y].data.push(data[y][Object.keys(data[y])[x]])
+                $scope.portfolioData.portfolioSet[y].labels.push(Object.keys(data[y])[x])
+            }
+        }
+    };
+
+    $scope.selectedPortfolioIndex = 0;
+    $scope.selectedPortfolio = {};
+    $scope.selectPortfolioSet = function(number){
+        $scope.selectedPortfolioIndex ++//= parseInt(number);  
+        $selectedPortfolio = $scope.portfolioData.portfolioSet[$scope.selectedPortfolioIndex];
+        //console.log($selectedPortfolio)
+    }
+    */
 
     //AnalysisModel.getPortfolioSolve('30000', 100).then(function(data){
     //    console.log(data);

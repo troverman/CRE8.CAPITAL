@@ -71,6 +71,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<h1>dashboard</h1>\n" +
     "		<p>portfolio set</p>\n" +
     "		<p>link in wallets, connect api keys, fund account</p>\n" +
+    "		<canvas id=\"doughnut\" class=\"chart chart-doughnut\"\n" +
+    "		  chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\">\n" +
+    "		</canvas> \n" +
     "	</div>\n" +
     "</div>\n" +
     "\n" +
@@ -474,7 +477,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	<div class=\"col-md-12\">\n" +
     "		<div style=\"height:20px;\"></div>\n" +
     "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
-    "			<p>{{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</p>\n" +
+    "			<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
     "		</div>\n" +
     "	</div>\n" +
     "\n" +

@@ -42,7 +42,7 @@
 	<div class="col-md-12">
 		<div style="height:20px;"></div>
 		<div ng-repeat="order in portfolioData.orderSet">
-			<p>{{order.amount}} {{order.asset1}} --@{{order.price}}--> {{order.amount / order.price}} {{order.asset2}}</p>
+			<p style="color:grey">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>
 		</div>
 	</div>
 

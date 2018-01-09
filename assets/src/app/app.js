@@ -2,6 +2,7 @@ angular.module( 'investing', [
     'ui.router',
     'sails.io',
     'angularMoment',
+    'chart.js',
     'duScroll',
     'lodash',
     'ui.bootstrap',

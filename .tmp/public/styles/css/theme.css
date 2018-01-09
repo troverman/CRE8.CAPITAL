@@ -391,63 +391,10 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
   margin-top:32px;
 }
 
-#main {
-  background-color:#e9eaed;
-  padding-left:0;
-  padding-right:0;
-}
-
-#lg-menu {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 60px;
-    margin-bottom: 100px;
-    min-width: 175px;
-}
-
-#lg-menu img {
-    width: 175px;
-    min-width: 175px;
-}
-
-#sidenav {
-    margin-bottom: 150px;
-}
-
-#sidenav li {
-    margin-bottom: 20px;
-}
-
-#sidebar {
-  padding:0;
-  padding-top:15px;
-}
-
-#sidebar,#sidebar a,#sidebar-footer a {
-  color:#fff;
-  background-color:#000000;
-}
-
-#sidebar .nav li>a:hover {
-  background-color:#393939;
-}
-
-#sidebar-footer {
-  background-color:#000000;
-  bottom:5px;
-  padding:5px;
-}
-
 #social {
   background-color:#000;
   position:absolute;
   padding-top:75px;
-}
-
-#xs img {
-  padding-top:50px;
-  padding-right:0;
-  margin-left:0;
 }
 
 #xs-menu {
@@ -509,72 +456,5 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
 
 .col-sm-9.full {
   width:100%;
-}
-
-small.text-muted {
-  font-family:courier,courier-new,monospace;
-}
-
-@media (max-width: 768px) {
-  .column .padding {
-    padding:7px;
-  }
-
-  .full {
-    padding-top:20px;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .row-offcanvas {
-    position:relative;
-    -webkit-transition:all .25s ease-out;
-    -moz-transition:all .25s ease-out;
-    transition:all .25s ease-out;
-  }
-  #sidenav {
-      margin-bottom: 0px;
-  }
-}
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  #sidebar-footer {
-      display: none;
-  }
-  #sidenav {
-      margin-bottom: 0px;
-  }
-}
-@media screen and (min-width: 438px) and (max-width: 991px) {
-  #xs img {
-      width: 50px;
-  }
-  #social-sm {
-      display:block !important;
-      margin-top:50px;
-  }
-  #social-sm a {
-      margin-top:2.5px;
-      margin-bottom:2.5px;
-  }
-  #social {
-      display: none !important;
-  }
-}
-@media screen and (min-width: 438px) and (max-width: 767px) {
-  #xs-menu-2 {
-      display: block;
-      margin-top: 60px;
-  }
-  #xs-menu-2 a {
-      margin-bottom: 25px;
-  }
-  #xs-menu {
-      display: none !important;
-  }
-}
-@media screen and (max-width: 437px) {
-  #xs img {
-      width: 35px;
-  }
 }
 

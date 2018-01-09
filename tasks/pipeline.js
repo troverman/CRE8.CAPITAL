@@ -25,7 +25,6 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
-
   'bower_components/angular/angular.js',
   'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
   'bower_components/angular-ui-router/release/angular-ui-router.js',
@@ -39,6 +38,8 @@ var jsFilesToInject = [
   'bower_components/d3/d3.js',
   'bower_components/nvd3/build/nv.d3.js',
   'bower_components/angular-nvd3/dist/angular-nvd3.js',
+  'bower_components/Chart.js/Chart.min.js',
+  'bower_components/angular-chart.js/dist/angular-chart.js',
   'bower_components/angular-animate/angular-animate.min.js',
   'bower_components/angular-aria/angular-aria.min.js',
   'bower_components/angular-material/angular-material.js',
