@@ -28,7 +28,7 @@ angular.module( 'investing.market', [
                 return null;
             }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
-                return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 5000);
+                return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 300000);
             }]
         }
 	});
@@ -42,7 +42,9 @@ angular.module( 'investing.market', [
     $scope.currentPredictionFiveMin = currentPredictionFiveMin;
     $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
 
-    $scope.marketData = marketData;
+    //TODO:work on indicator api
+    $scope.marketData = marketData//.data;
+    console.log(marketData)
 
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
@@ -56,13 +58,18 @@ angular.module( 'investing.market', [
             $scope.marketGraphData.values = [];
             $scope.marketGraphChangeData.values = [];
             $scope.marketGraphChangeChangeData.values = [];
+            $scope.marketGraphEmaData.values = [];
+
+            //TODO:work on indicator api
+            $scope.marketGraphBandUpperData.values = [];
+            $scope.marketGraphBandMiddleData.values = [];
+            $scope.marketGraphBandLowerData.values = [];
+
             $scope.marketData = model;
             $scope.updateMarketData();
             $rootScope.stateIsLoading = false;
         })
     };
-
-    console.log(marketData);
 
     $scope.marketOptions = {
         chart: {
@@ -103,6 +110,28 @@ angular.module( 'investing.market', [
     $scope.marketGraphData.color = '#14b794';
     $scope.marketGraphData.values = [];
 
+    $scope.marketGraphEmaData = {};
+    $scope.marketGraphEmaData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' ema';
+    $scope.marketGraphEmaData.color = 'black';
+    $scope.marketGraphEmaData.values = [];
+
+    $scope.marketGraphBandUpperData = {};
+    $scope.marketGraphBandUpperData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' upper band';
+    $scope.marketGraphBandUpperData.color = 'orange';
+    $scope.marketGraphBandUpperData.values = [];
+
+    $scope.marketGraphBandMiddleData = {};
+    $scope.marketGraphBandMiddleData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' middle band';
+    $scope.marketGraphBandMiddleData.color = 'black';
+    $scope.marketGraphBandMiddleData.values = [];
+
+    $scope.marketGraphBandLowerData = {};
+    $scope.marketGraphBandLowerData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' lower band';
+    $scope.marketGraphBandLowerData.color = 'gray';
+    $scope.marketGraphBandLowerData.values = [];
+
+
+
     $scope.marketGraphChangeData = {};
     $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
     $scope.marketGraphChangeData.color = '#a94442';
@@ -117,6 +146,12 @@ angular.module( 'investing.market', [
     $scope.updateMarketData = function (){
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
+
+            //$scope.marketGraphEmaData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.ema]);
+            $scope.marketGraphBandUpperData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.upper]);
+            $scope.marketGraphBandMiddleData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.middle]);
+            $scope.marketGraphBandLowerData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.lower]);
+
             var change = 0;
             var changeChange = 0
             if (index > 1){
@@ -134,8 +169,11 @@ angular.module( 'investing.market', [
             $scope.marketGraphChangeChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), changeChange]);
 
         });
-        $scope.marketGraphDataRender = [$scope.marketGraphData];
-        $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData];
+
+        $scope.marketGraphDataRender = [$scope.marketGraphData]//, $scope.marketGraphBandUpperData, $scope.marketGraphBandMiddleData, $scope.marketGraphBandLowerData];
+        $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData, $scope.marketGraphBandUpperData, $scope.marketGraphBandMiddleData, $scope.marketGraphBandLowerData];
+
+        //$scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]//, $scope.marketGraphEmaData];
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
     };
 

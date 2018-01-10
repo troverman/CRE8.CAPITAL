@@ -468,7 +468,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<div class=\"col-md-12\">\n" +
-    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
+    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\"> 0\n" +
     "			{{portfolio}}\n" +
     "			<br><br>\n" +
     "		</div>\n" +

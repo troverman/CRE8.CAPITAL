@@ -9,6 +9,8 @@ var Neuron = synaptic.Neuron,
 	Architect = synaptic.Architect;
 var regression = require('regression');
 var fs = require('fs');
+var tulind = require('tulind');
+
 
 var tradingPairs = [
     'XRP/BTC',
@@ -747,8 +749,6 @@ function createPrediction(limit, delta, order, precision){
         if (obj.split('/')[1]=='BTC'){return obj}
     });
 
-
-
 	tradingPairs.forEach(function(tradingPair, index){
 	    var promise = getData(limit, delta, tradingPair);
 	    promises.push(promise);
@@ -766,17 +766,67 @@ function createPrediction(limit, delta, order, precision){
 			for (x in pairData){
 				dataArray.push([Date.parse(pairData[x].createdAt) - Date.parse(pairData[0].createdAt), pairData[x].percentChange]);
 			}
+			var change = pairData.map(function(obj){return obj.percentChange});
+
+			/*
+			tulind.indicators.bbands.indicator([change], [5,2], function(err, results) {
+				console.log(results);
+			}); 
+			tulind.indicators.sma.indicator([change], [3], function(err, results) {
+				console.log(results);
+			}); 
+			tulind.indicators.dema.indicator([change], [3], function(err, results) {
+				console.log(results);
+			});
+			*/
+
+			tulind.indicators.ema.indicator([change], [3], function(err, results) {
+				console.log(results[0]);
+			}); 
+
+			//tulind.indicators.adx.indicator([change], [3], function(err, results) {
+			//	console.log(results);
+			//}); 
+
+			/*tulind.indicators.stoch.indicator([change], [3], function(err, results) {
+				console.log(results);
+			}); 
+			tulind.indicators.kama.indicator([change], [3], function(err, results) {
+				console.log(results);
+			}); 
+			tulind.indicators.mass.indicator([change], [3], function(err, results) {
+				console.log(results);
+			});
+			tulind.indicators.tsf.indicator([change], [3], function(err, results) {
+				console.log(results);
+			});
+			tulind.indicators.macd.indicator([change], [3], function(err, results) {
+				console.log(results);
+			});*/
+
+			//tulind.indicators.rci.indicator([change], [3], function(err, results) {
+			//	console.log(results);
+			//});
+			//tulind.indicators.vwma.indicator([change], [3], function(err, results) {
+			//	console.log(results);
+			//});
 
 			//14,160 -> highest r2, 4,60
-			var prediction = regression.polynomial(dataArray, { order:14, precision: 160 });
-			var predictionData = prediction.predict(prediction.points[prediction.points.length-1][0]+parseFloat(delta))
+			//var prediction = regression.polynomial(dataArray, { order:14, precision:160 });
+			//var predictionData = prediction.predict(prediction.points[prediction.points.length-1][0]+parseFloat(delta));
+
+			//boilinger band
+			//var dataModel = {}
+			//datamodel.polynomial = prediction;
+			//datamodel.bbands = {};
+			//datamodel.sma = {};
+
 			//console.log(prediction.r2, predictionData[1], pairData[0].asset1, pairData[0].asset2);
-			predictionArray.push({percentChange: predictionData[1], asset1:pairData[0].asset1, asset2:pairData[0].asset2});
+			//predictionArray.push({percentChange: predictionData[1], asset1:pairData[0].asset1, asset2:pairData[0].asset2, });
 
 		}
 
-		console.log(predictionArray);
-
+		//console.log(predictionArray);
 
 		//TODO: efficencicy redux
 		/*
@@ -869,7 +919,7 @@ function getCurrentPrediction(delta, asset1, asset2) {
 
 				//TODO - catalog moving average of error in perdictions to generate confidence score for picks 
 
-				//console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
+				console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
 
 			});
 		});
@@ -904,7 +954,7 @@ module.exports.intervalService = function(){
 	    //portfolioBalanceMulti('30000', 100);
 	}*/
 
-	//createPrediction(100, '60000', 4, 100);
+	createPrediction(100, '60000', 4, 100);
 
 	//TOOMUCH
 	/*NeuralNetwork.find()

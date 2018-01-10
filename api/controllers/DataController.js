@@ -1,5 +1,6 @@
 var request = require('request');
 var Poloniex = require('poloniex-api-node');
+var tulind = require('tulind');
 
 module.exports = {
 
@@ -11,6 +12,9 @@ module.exports = {
 		var limit = req.query.limit;
 		var skip = req.query.skip;
 		var sort = 'createdAt DESC';//req.query.filter;
+		var indicator = req.query.indicator;
+		var indicatorOption = req.query.indicatorOption;
+
 		//var filter;
 
 		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2})
@@ -18,9 +22,32 @@ module.exports = {
 		.skip(skip)
 		.sort(sort)
 		.then(function(dataModel){
-			Data.subscribe(req, dataModel);
-			Data.watch(req);
-			res.json(dataModel);
+			//var dataModel = dataModel.reverse()
+			
+			//TODO:seperate api calls based on indicator..
+			var dataObject = {};
+			var change = dataModel.map(function(obj){return obj.percentChange});
+			var price = dataModel.map(function(obj){return obj.price});
+			//console.log(price)
+
+			//tulind.indicators.kama.indicator([price], [5], function(err, results) {
+			tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
+				console.log(results)
+				//dataObject.ema = results[0];
+				//dataObject.data = dataModel;
+				for (x in results[0]){
+					dataModel[x].lower = results[0][x];
+					dataModel[x].middle = results[1][x];
+					dataModel[x].upper = results[2][x];
+
+					dataModel[x].ema = results[0][x];
+				}
+				Data.subscribe(req, dataModel);
+				Data.watch(req);
+				res.json(dataModel);
+			});
+
+
 		});
 
 	},
