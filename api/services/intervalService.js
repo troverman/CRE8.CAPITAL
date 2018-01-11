@@ -11,7 +11,6 @@ var regression = require('regression');
 var fs = require('fs');
 var tulind = require('tulind');
 
-
 var tradingPairs = [
     'XRP/BTC',
     'ETH/BTC',
@@ -111,10 +110,6 @@ var tradingPairs = [
     'BLK/XMR'
 ];
 
-//var sylvester = require('sylvester'),  
-	//Matrix = sylvester.Matrix,  
-	//Vector = sylvester.Vector;  
-
 function assetArrayLinearCombinationEquality(){
 	var exchangeMap = [];
 	console.log('assetArrayLinearCombinationEquality')
@@ -159,12 +154,10 @@ function assetArrayLinearCombinationEquality(){
 		}
 
 		//console.log(BTC)
-
 		//remember the shortest path.. this method converts to btc
 		//render these as a graph? 
 		//as in this is [USD, LTC, ETH, BTC] --> [BTC] --> [USD, LTC, ETH, BTC] ^^^
 		//if we rep them as [], then we mult by each rate vvv
-
 		//resursiveDecomposition(exchangeMap);
 
 		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
@@ -175,9 +168,7 @@ function assetArrayLinearCombinationEquality(){
 					//allocationWeight[Object.keys(allocationWeight)[x]]
 				}
 			}
-
 		});
-
 	});
 
 	//1btc --> 
@@ -431,7 +422,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 							});
 						});
 
-					}, delta);
+					}, delta*3/2);
 
 				});		
 			});
@@ -442,6 +433,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 
 };
 
+//OLD
 function order(){
 
 	var assetMap = {'BTC':10, 'LTC':10, 'ETC':10, 'XMR':10};
@@ -475,6 +467,7 @@ function order(){
    
 };
 
+//OLD
 function analyze(){
 	Prediction.find({asset1:'ETH', asset2:'BTC'})
 	.sort('createdAt DESC')
@@ -758,7 +751,6 @@ function createPrediction(limit, delta, order, precision){
 	Q.all(promises)
 	.then(function(data){
 		exchangeMap = data;
-
 		var predictionArray = [];
 		for (x in exchangeMap){
 			var dataArray = [];
@@ -850,6 +842,7 @@ function createPrediction(limit, delta, order, precision){
 				//timeArray.push(exchangeMap[x][y]);
 				//could train --> loop and push the next as prediction
 				//TODO: TRAIN
+				//this is training error? --> get confidence in pick
 				var dataArray = [];
 				for (z in pairData){
 					if (z<y){
@@ -885,7 +878,6 @@ function getCurrentPrediction(delta, asset1, asset2) {
 	var delta = delta;
 	var asset1 = asset1;
 	var asset2 = asset2;
-	console.log('test')
 	NeuralNetwork.find({delta:delta, asset1: asset1, asset2:asset2})
 	.then(function(neuralNetworkModel) {
 		var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
@@ -918,6 +910,7 @@ function getCurrentPrediction(delta, asset1, asset2) {
 				model.output = [denormalizeBid, denormalizeAsk];
 
 				//TODO - catalog moving average of error in perdictions to generate confidence score for picks 
+				//Probability Density Functions ~ as a prediction?? 
 
 				console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
 
@@ -937,36 +930,22 @@ module.exports.intervalService = function(){
 	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
 	//});
 
-	/*var cluster = require('cluster'),
-    numCPUs = require('os').cpus().length;
-	console.log('global '+numCPUs);
-	// create the server 
-	if (cluster.isMaster) {
-	    for (var i = 0; i < numCPUs; i++) {
-        	console.log('this is for CPU '+i);
-        	//portfolioBalanceMulti('30000', 100);
-	        //cluster.fork();
-	    }
-	}
-	else {
-	    console.log('This is a worker!');
-	    //addPoints();
-	    //portfolioBalanceMulti('30000', 100);
-	}*/
+	//tradingPairs.forEach(function(tradingPair, index){
+		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
+	//});
 
-	createPrediction(100, '60000', 4, 100);
+	//createPrediction(100, '60000', 4, 100);
+	//portfolioBalanceMulti('30000', 100);
+	//get some training ---
+	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
 
-	//TOOMUCH
-	/*NeuralNetwork.find()
-    .then(function (models) {
-		for (x in models){
-			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
-			}
-		}
-    });*/
+	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
+	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
 
-    
+	//assetArrayLinearCombinationEquality();
+	//order();
+
+	//POPULATE NETWORKS
     //TODO:check
     //combined neural net? --> def
     //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
@@ -974,14 +953,13 @@ module.exports.intervalService = function(){
     //NeuralNetwork.create({title:'5 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
     //NeuralNetwork.create({title:'30 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
     //NeuralNetwork.create({title:'1 hr btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-
     //NeuralNetwork.create({title:'1 hr market', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
 
     //combined neural net experiment? --> def
-    //NeuralNetwork.create({title:'experimental btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-
-    /*for (x in tradingPairs){
-
+    //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+  
+      /*for (x in tradingPairs){
 		//for loop thru data if unique pair & delta create network. . . . 
 		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
 		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
@@ -1003,55 +981,20 @@ module.exports.intervalService = function(){
 		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-
 	};*/
 
-	//portfolioBalanceMulti('30000', 100);
-
-	/*Data.find({delta:'30000'})
-	.limit(10)
-	.sort('createdAt DESC')
-	.then(function(models){
+	//NETWORKTRAINER
+	NeuralNetwork.find()
+    .then(function (models) {
 		for (x in models){
-			(function(models, x) {
-				Data.find({createdAt: {'<': models[x].createdAt}, assetPair:models[x].assetPair, delta: models[x].delta})
-	            .sort('createdAt DESC')
-	            .limit(1)
-	            .then(function (dataModels) {
-	            	var model = {};
-					model.absoluteChange = models[x].price - dataModels[0].price;
-	                model.percentChange = model.absoluteChange/models[x].price;
-	                model.absoluteChangeChange = model.absoluteChange -  dataModels[0].absoluteChange;
-	                console.log(model)
-	                Data.update({id:models[x].id}, model);
-	            });
-			})(models, x);
+			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
+			}
 		}
-	})*/
-	//order();
-	//timer(dataService.tickerREST.bind(null, 1000), 1000);
-	//timer(dataService.tickerREST, 1000);
+    });
 
-	/*Data.find({delta:'1000'}).sort('createdAt ASC').limit(1000000)
-    .exec(function (err, data) {
-    	for (x in data){
-    		Data.destroy({id:data[x].id}).then(function(model){console.log(model)});
-    	}
-    }); */
-
-	//get some training ---
-
-	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
-
-
-	//tradingPairs.forEach(function(tradingPair, index){
-		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
-	//});
-
-	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
-	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
-
-
+	//CCUTL
+	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
@@ -1065,7 +1008,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
-	//cull the data.. 
+	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
 	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
@@ -1078,43 +1021,5 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
 	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr*/
-
-
-	//setInterval(dataService.dataService, 14400000);
-	//setInterval(ticker, 6000);
-	//dataService.cullData('1000', 30*60*1000)
-
-	//gonna have to save the trainers to a db -- aka the weighted nodes
-	//meantime
-
-	//populate Networks....---
-	/*for (x in tradingPairs){
-		var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
-		var trainer = new Trainer(initNetwork)
-		//console.log(initNetwork)
-		var networkJson = initNetwork.toJSON();
-		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], predictionTime:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], predictionTime:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], predictionTime:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], predictionTime:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], predictionTime:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], predictionTime:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], predictionTime:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x][0], asset2:tradingPairs[x][1], networkJson:networkJson }).then(function(){console.log('HI')})
-	};*/
-
-	//assetArrayLinearCombinationEquality();
-
-	/*NeuralNetwork.find()
-    .then(function (models) {
-
-    	//neuralNet(models[0].predictionTime/10, models[0].predictionTime, models[0],	models[0].asset1, models[0].asset2)
-		for (x in models){
-			//if (models[x].predictionTime==1800000){
-				//console.log(models[x].predictionTime)
-				setInterval(neuralNet.bind(null, models[x].predictionTime/10, models[x].predictionTime, models[x],	models[x].asset1, models[x].asset2), models[x].predictionTime);
-			//}
-		}
-    });*/
 
 };
