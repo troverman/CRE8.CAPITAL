@@ -11,22 +11,6 @@ angular.module( 'investing.market', [
 			}
 		},
         resolve:{
-            predictionDataFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'300000'});
-                return null;
-            }],
-            predictionDataThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:$stateParams.path1, asset2:$stateParams.path2, predictionTime:'1800000'});
-                return null;
-            }],
-            currentPredictionFiveMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 300000);
-                return null;
-            }],
-            currentPredictionThirtyMin: ['$stateParams', 'PredictionModel', function($stateParams, PredictionModel) {
-                //return PredictionModel.getCurrentPrediction($stateParams.path1, $stateParams.path2, 1800000);
-                return null;
-            }],
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
                 return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 300000);
             }]
@@ -34,13 +18,8 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'config', 'currentPredictionFiveMin', 'currentPredictionThirtyMin', 'DataModel', 'marketData', 'predictionDataFiveMin', 'predictionDataThirtyMin', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, config, currentPredictionFiveMin, currentPredictionThirtyMin, DataModel, marketData, predictionDataFiveMin, predictionDataThirtyMin, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, PredictionModel, titleService ) {
 	titleService.setTitle('Market - investingfor');
-
-	$scope.predictionDataFiveMin = predictionDataFiveMin;
-    $scope.predictionDataThirtyMin = predictionDataThirtyMin;
-    $scope.currentPredictionFiveMin = currentPredictionFiveMin;
-    $scope.currentPredictionThirtyMin = currentPredictionThirtyMin;
 
     //TODO:work on indicator api
     $scope.marketData = marketData//.data;
@@ -49,6 +28,28 @@ angular.module( 'investing.market', [
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
     $scope.selectedDelta = '5000';
+
+
+    $scope.getEma = function (data, period){
+        var periodArray = [3,5,10,20,40,80,160,320,640,1000];
+        for(x in periodArray){
+        //for (var x=1; x <= 100; x++){
+            (function(x, periodArray) {
+                AnalysisModel.getEma($scope.marketData.reverse(), periodArray[x]).then(function(emaData){
+                    console.log(emaData);
+                    var emaGraphData = {}
+                    emaGraphData.key = 'EMA_'+periodArray[x];
+                    //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
+                    emaGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    emaGraphData.values = emaData;
+                    $scope.marketGraphDataRender.push(emaGraphData);
+                    //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                });
+            })(x, periodArray);
+        }
+    };
+    $scope.getEma();
+
 
     $scope.seletetData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
@@ -67,6 +68,8 @@ angular.module( 'investing.market', [
 
             $scope.marketData = model;
             $scope.updateMarketData();
+            $scope.getEma();
+
             $rootScope.stateIsLoading = false;
         })
     };
@@ -74,12 +77,12 @@ angular.module( 'investing.market', [
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
-            height: 450,
+            height: 500,
             margin : {
                 top: 20,
                 right: 20,
-                bottom: 60,
-                left: 65
+                bottom: 40,
+                left: 40
             },
             x: function(d){ 
                 return d[0]; 

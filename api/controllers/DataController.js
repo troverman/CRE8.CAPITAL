@@ -22,9 +22,11 @@ module.exports = {
 		.skip(skip)
 		.sort(sort)
 		.then(function(dataModel){
+			
 			//var dataModel = dataModel.reverse()
 			
 			//TODO:seperate api calls based on indicator..
+			//dataService.ema(period, data)
 			var dataObject = {};
 			var change = dataModel.map(function(obj){return obj.percentChange});
 			var price = dataModel.map(function(obj){return obj.price});

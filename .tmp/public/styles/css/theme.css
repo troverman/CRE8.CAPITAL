@@ -8,6 +8,7 @@ html,body {
   text-align:center;
   margin:0;
   padding:0;
+  //font-weight:100;
 }
 
 html {
@@ -24,6 +25,7 @@ body {
     margin:0;
     padding-bottom:200px;
     min-height: 100%;
+    height: 100%;
     overflow-x:hidden!important;
 }
 
@@ -47,8 +49,30 @@ md-progress-linear .md-container {
 
 md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
  background-color: #14b794!important;
- //#14b794
+ //#14b794 // #12ab89 // 14b794
  //droid sans mono,monospace
+}
+input{
+  font-weight:bold;
+}
+input::-webkit-input-placeholder {
+  color: gray !important;
+  font-weight:bold;
+}
+ 
+input:-moz-placeholder { /* Firefox 18- */
+  color: gray !important;  
+  font-weight:bold;
+}
+ 
+input::-moz-placeholder {  /* Firefox 19+ */
+  color: gray !important;  
+  font-weight:bold;
+}
+ 
+input:-ms-input-placeholder {  
+  color: gray !important;  
+  font-weight:bold;
 }
 
 .navbar-inverse{background-color:#000}
@@ -314,28 +338,7 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
   }
 }
 
-.footer {
-    position: relative;
-    z-index: 50;
-  	width: 100%;
-  	height: auto;
-  	padding: 1%;
-  	background: url('/images/texture-bg.png') repeat;
-  	color: gray;
-  	font-size: 0.8em;
-  	opacity: 0.8;
-}
 
-.home-pad {
-    //margin-left: 67px;
-    //width: 100%;
-}
-
-@media screen and (max-width: 640px) {
-    .home-pad {
-        margin-left: 50px;
-    }
-}
 .nav {
   font-family:Jura;
   font-size:20px;
@@ -397,25 +400,6 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
   padding-top:75px;
 }
 
-#xs-menu {
-  margin-top:100px;
-}
-
-#xs-menu-2 {
-    display: none;
-}
-
-#lg-2 {
-    margin-top:75px;
-}
-#social-sm {
-    margin-top:0px;
-}
-
-#footer {
-  margin-bottom:20px;
-}
-
 .btn-primary,.label-primary,.list-group-item.active,.list-group-item.active:hover,.list-group-item.active:focus {
   background-color:#3B5999;
   color:#fffffe;
@@ -454,7 +438,14 @@ md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
   color:#555;
 }
 
-.col-sm-9.full {
-  width:100%;
+.footer {
+    position: relative;
+    z-index: 50;
+    width: 100%;
+    height: auto;
+    padding: 1%;
+    color: gray;
+    font-size: 0.8em;
+    opacity: 0.8;
 }
 

@@ -984,14 +984,14 @@ module.exports.intervalService = function(){
 	};*/
 
 	//NETWORKTRAINER
-	NeuralNetwork.find()
+	/*NeuralNetwork.find()
     .then(function (models) {
 		for (x in models){
 			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
 				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
 			}
 		}
-    });
+    });*/
 
 	//CCUTL
 	//POPULATE DATA
@@ -1010,8 +1010,8 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 500000);//5 seconds
-	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 2500000);//30seconds
+	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 2000);//5 seconds
+	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min

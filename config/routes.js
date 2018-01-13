@@ -28,6 +28,8 @@ module.exports.routes = {
   'get /api/analysis/portfolioBalanceMulti': 'AnalysisController.portfolioBalanceMulti',
   'get /api/analysis/fft': 'AnalysisController.fft',
   'get /api/analysis/regression': 'AnalysisController.regression',
+  'get /api/analysis/ema': 'AnalysisController.ema',
+  'get /api/analysis/bband': 'AnalysisController.bband',
 
 
   /**

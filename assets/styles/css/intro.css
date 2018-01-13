@@ -1,11 +1,3 @@
-html {
-    height: 100%;
-    font-weight:100;
-}
-body {
-    height: 100%;
-}
-
 /* Bob */
 @-webkit-keyframes hvr-bob {
   0% {

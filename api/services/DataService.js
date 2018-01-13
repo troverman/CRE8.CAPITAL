@@ -208,6 +208,8 @@ module.exports = {
 			                orderModel.asset1 = model.asset1;
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
+							orderModel.delta = delta;
+
 
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
@@ -225,6 +227,35 @@ module.exports = {
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
+			                }
+
+			                //5 MIN
+			                if (delta == '300000'){
+			                	//BUY LOW
+								if (model.percentChange < -0.3){
+
+				                	orderModel.type = 'BUY';
+				                    orderModel.amount = 1;
+				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+				                    Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });
+
+			                	}
+
+			                	//SELL HIGH
+								/*Order.find({delta:delta})
+								.sort('createdAt DESC')
+								.limit(1)
+								.then(function(orderModel){
+									orderModel.type = 'sell';
+				                    orderModel.amount = 1;
+				                    Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });
+								});*/
+
+
 			                }
 
 			            });

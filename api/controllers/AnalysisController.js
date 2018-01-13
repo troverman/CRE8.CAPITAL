@@ -1,4 +1,6 @@
 var Q = require('q');
+var tulind = require('tulind');
+var regression = require('regression');
 
 var tradingPairs = [
     'XRP/BTC',
@@ -143,12 +145,63 @@ function liveTrade(delta, asset1, asset2){
 
 module.exports = {
 
+	ema: function(req, res) {
+		
+		var data = JSON.parse(req.query.data);
+		var period = req.query.period;
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange})
+
+		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
+		//tulind.indicators.ema.indicator([data], [period], function(err, results) {
+		tulind.indicators.ema.indicator([price], [period], function(err, results) {
+
+			var returnData = [];
+			for (x in results[0]){
+				returnData.push([parseInt(new Date(data[x].createdAt).getTime()), results[0][x]])
+			}
+
+			var dataArray = []
+			for (x in results[0]){
+				dataArray.push([x, results[0][x]]);
+	    	}
+
+			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			console.log(result.r2, result.predict(1000), period, result.string);
+
+			res.json(returnData);
+			//res.json(results[0]);
+		});
+
+	},
+
+	bband: function(req, res) {
+
+		var data = req.query.data;
+		var period = req.query.period;
+		var std = req.query.std;
+
+		//for x in 100
+
+		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
+		//tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
+			//dataObject.data = dataModel;
+			//for (x in results[0]){
+			//	dataModel[x].lower = results[0][x];
+			//	dataModel[x].middle = results[1][x];
+			//	dataModel[x].upper = results[2][x];
+			//	dataModel[x].ema = results[0][x];
+			//}
+		//	console.log(results[0])
+		//	res.json(results[0]);
+		//});
+
+	},
+
 	prediction: function(req, res) {
 
 		dataService.predictiveModelPolynomial(req.query.asset1, req.query.asset2, req.query.delta, req.query.dataCount, req.query.order, req.query.precision).then(function(model){
-
 			console.log(model);
-
 		});
 
 	},

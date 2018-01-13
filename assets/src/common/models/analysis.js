@@ -1,6 +1,13 @@
 angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
 
 .service('AnalysisModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
+
+    this.getEma = function(data, period) {
+        var url = utils.prepareUrl('analysis/ema');
+        var query = {params:{data: [data], period: period}};
+        return $sailsSocket.get(url, query).then(success, error);
+    };
+
     this.getFFT = function() {
         var url = utils.prepareUrl('analysis/fft');
         return $sailsSocket.get(url).then(success, error);
