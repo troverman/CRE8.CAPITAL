@@ -12,7 +12,7 @@ angular.module( 'investing.about', [
 		},
         resolve:{
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'300000'});
+                return PredictionModel.getSome(1000, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'300000'});
             }],
         }
 	});

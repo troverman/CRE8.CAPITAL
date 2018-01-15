@@ -19,7 +19,9 @@ angular.module( 'investing.market', [
 }])
 
 .controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, PredictionModel, titleService ) {
-	titleService.setTitle('Market - investingfor');
+	titleService.setTitle($stateParams.path1+'/'+$stateParams.path2' - investingfor');
+
+    //TODO:live price.. ticker call -- socket. --> in title!
 
     //TODO:work on indicator api
     $scope.marketData = marketData//.data;
@@ -30,7 +32,7 @@ angular.module( 'investing.market', [
     $scope.selectedDelta = '5000';
 
 
-    $scope.getEma = function (data, period){
+    $scope.getEma = function (){
         var periodArray = [3,5,10,20,40,80,160,320,640,1000];
         for(x in periodArray){
         //for (var x=1; x <= 100; x++){

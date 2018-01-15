@@ -154,20 +154,34 @@ module.exports = {
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
 		//tulind.indicators.ema.indicator([data], [period], function(err, results) {
-		tulind.indicators.ema.indicator([price], [period], function(err, results) {
-
+		//tsf -- fosc (forecast occliator ~ error of tsf)
+		tulind.indicators.tsf.indicator([price], [period], function(err, results) {
 			var returnData = [];
 			for (x in results[0]){
-				returnData.push([parseInt(new Date(data[x].createdAt).getTime()), results[0][x]])
+				//console.log(x, parseInt(x)+parseInt(period))
+				//console.log(parseInt(x)+parseInt(period) < results[0].length)
+				if (parseInt(x)+parseInt(period) < data.length){
+					returnData.push([parseInt(new Date(data[parseInt(x)+parseInt(period)].createdAt).getTime()), results[0][x]])
+				}
+				if (parseInt(x)+parseInt(period) == data.length){
+					var delta = parseInt(parseInt(data[0].delta));
+					console.log('equal..');
+					console.log(delta);
+					console.log(new Date(data[data.length-1].createdAt) - new Date(data[data.length-2].createdAt))
+					console.log(new Date(data[data.length-1].createdAt));
+					console.log(new Date(data[data.length-1].createdAt).getTime() + delta);
+					returnData.push([new Date(data[data.length-1].createdAt).getTime() + delta, results[0][x]])
+				}
+				//returnData.push([parseInt(new Date(data[x].createdAt).getTime()), results[0][x]])
 			}
 
 			var dataArray = []
-			for (x in results[0]){
-				dataArray.push([x, results[0][x]]);
+			for (x in returnData){
+				dataArray.push([x, returnData[x]]);
 	    	}
 
 			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
-			console.log(result.r2, result.predict(1000), period, result.string);
+			console.log(result, result.r2, result.predict(1000), period, result.string);
 
 			res.json(returnData);
 			//res.json(results[0]);
@@ -180,8 +194,6 @@ module.exports = {
 		var data = req.query.data;
 		var period = req.query.period;
 		var std = req.query.std;
-
-		//for x in 100
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
 		//tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {

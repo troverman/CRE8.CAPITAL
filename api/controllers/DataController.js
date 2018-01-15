@@ -32,6 +32,8 @@ module.exports = {
 			var price = dataModel.map(function(obj){return obj.price});
 			//console.log(price)
 
+			//get data by indicator
+
 			//tulind.indicators.kama.indicator([price], [5], function(err, results) {
 			tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
 				console.log(results)
@@ -41,7 +43,6 @@ module.exports = {
 					dataModel[x].lower = results[0][x];
 					dataModel[x].middle = results[1][x];
 					dataModel[x].upper = results[2][x];
-
 					dataModel[x].ema = results[0][x];
 				}
 				Data.subscribe(req, dataModel);

@@ -8,7 +8,6 @@ html,body {
   text-align:center;
   margin:0;
   padding:0;
-  //font-weight:100;
 }
 
 html {
@@ -40,7 +39,6 @@ a:hover {
 }
 
 h1,h2,h3 {
-  font-weight:800;
 }
 
 md-progress-linear .md-container {
@@ -92,9 +90,6 @@ input:-ms-input-placeholder {
 }
 .social-log i {
     color: #fff;
-}
-.login-form {
-
 }
 .form-group {
     position: relative;
@@ -337,8 +332,6 @@ input:-ms-input-placeholder {
     opacity: .7 !important;
   }
 }
-
-
 .nav {
   font-family:Jura;
   font-size:20px;
@@ -375,10 +368,6 @@ input:-ms-input-placeholder {
 
 .column .padding {
   padding:20px;
-}
-
-.full {
-  padding-top:70px;
 }
 
 .box {

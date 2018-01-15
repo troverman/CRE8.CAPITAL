@@ -6,6 +6,7 @@ var Poloniex = require('poloniex-api-node');
 var movingAverages = require('moving-averages');
 var bollingerBands = require('bollinger-bands').boll;
 var tulind = require('tulind');
+var Q = require('q');
 
 
 module.exports = {
@@ -31,10 +32,33 @@ module.exports = {
 		});
 	},
 
-	//ema: function(asset1, asset2, delta, limit, order, precision){
-	//	var ema = require('exponential-moving-average');
-	//	ema()	
-	//}
+
+	//TODO: -- get list of TSF - w periods - for pairs
+	//USE IN SOLVER!
+	//wanna get the pick(s) for next time delta. :~)
+	//wanna start by doing this for the next hour time delta.. start making manual bets..
+	getTSF: function(data, period, type){
+		var deferred = Q.defer();
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.tsf.indicator([price], [period], function(err, results) {
+			//console.log(period)
+			//deferred.resolve(results[0]);
+			deferred.resolve(results[0][results[0].length-1])
+
+			//return results[0];
+		});
+		return deferred.promise;
+
+	},
+
+	getEMA: function(data, period, type){
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.ema.indicator([price], [period], function(err, results) {
+			return results[0];
+		});
+	},
 
 	predictiveModelPolynomial: function(asset1, asset2, delta, limit, order, precision){
 		var regression = require('regression');

@@ -334,96 +334,59 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
-    "\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1sec</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5sec</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30sec</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">{{stateParams.path1}} / {{stateParams.path2}}: 5min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">{{stateParams.path1}} / {{stateParams.path2}}: 30min</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 1hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 2hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 4hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">{{stateParams.path1}} / {{stateParams.path2}}: 6hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">{{stateParams.path1}} / {{stateParams.path2}}: 12hr</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">{{stateParams.path1}} / {{stateParams.path2}}: 24hr</button>\n" +
-    "\n" +
+    "	<div class=\"row\">\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">5min </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">30min</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button>\n" +
+    "	</div>\n" +
+    "	<!--how much data..?-->\n" +
+    "	<!--zoom out ability.. a lot-->\n" +
     "\n" +
     "	<h2>Price Data</h2>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getEma('price')\">ema</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getTsf('price')\">tsf</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBbands('price')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button><!--;)-->\n" +
+    "\n" +
+    "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Market Change</h2>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getEma('change')\">ema</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getTsf('change')\">tsf</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBbands('change')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">pdf</button><!--;)-->\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Market Change^2</h2>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getEma('changeChange')\">ema</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getTsf('changeChange')\">tsf</button><!--select periods..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBbands('changeChange')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getNn('changeChange')\">nn</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button><!--;)-->\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
-    "	<!--<h2>5 Min Prediction</h2>\n" +
+    "	<!--\n" +
+    "	<h2>5 Min Prediction</h2>\n" +
     "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
-    "	<br><br><br>\n" +
-    "\n" +
-    "	<br><br><br>\n" +
     "	<h2>Thirty Min Prediction</h2>\n" +
     "	<nvd3 options='options' data='thirtyMinData'></nvd3>\n" +
-    "	<br><br><br>\n" +
-    "\n" +
-    "	<div >\n" +
-    "		<h3>Current</h3>\n" +
-    "		<h3>Price: {{currentData.last_price}}</h3>\n" +
-    "		<h3>Bid: {{currentData.bid}}</h3>\n" +
-    "		<h3>Ask: {{currentData.ask}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>1 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: null</h3>\n" +
-    "		<h3>Ask: null</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>5 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>30 Min Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionThirtyMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionThirtyMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>1 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>6 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>12 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "	<br><br>\n" +
-    "	<div>\n" +
-    "		<h3>24 Hr Prediction</h3>\n" +
-    "		<h3>Price: null</h3>\n" +
-    "		<h3>Bid: {{currentPredictionFiveMin[0]}}</h3>\n" +
-    "		<h3>Ask: {{currentPredictionFiveMin[1]}}</h3>\n" +
-    "	</div>\n" +
-    "\n" +
-    "</div>-->\n" +
+    "	<h3>Current</h3>\n" +
+    "	<h3>Price: {{currentData.last_price}}</h3>\n" +
+    "	<h3>Bid: {{currentData.bid}}</h3>\n" +
+    "	<h3>Ask: {{currentData.ask}}</h3>\n" +
+    "	-->\n" +
     "\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
