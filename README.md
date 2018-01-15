@@ -1,7 +1,7 @@
 # investment analysis
 ## 8
 
-![alt text](https://www.collaborative.capitalimages/tesseract-bg.png "collaborative.capital")
+![alt text](https://www.collaborative.capital/images/tesseract-bg.png "collaborative.capital")
 
 # collaborative.capital
 
