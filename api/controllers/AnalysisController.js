@@ -170,7 +170,6 @@ module.exports = {
 	},
 
 	tsf: function(req, res) {
-		
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
 		var price = data.map(function(obj){return obj.price});
@@ -191,10 +190,12 @@ module.exports = {
 					returnData.push([new Date(data[data.length-1].createdAt).getTime() + delta, results[0][x]])
 				}
 			}
-			var dataArray = [];
-			for (x in returnData){
-				dataArray.push([x, returnData[x]]);
-	    	}
+			//var dataArray = [];
+			//for (x in returnData){
+			//	dataArray.push([x, returnData[x]]);
+	    	//}
+	    	//var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			//console.log(result, result.r2, result.predict(1000), period, result.string);
 			res.json(returnData);
 		});
 	},
