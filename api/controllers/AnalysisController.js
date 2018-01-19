@@ -153,13 +153,31 @@ module.exports = {
 		var change = data.map(function(obj){return obj.percentChange})
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
-		//tulind.indicators.ema.indicator([data], [period], function(err, results) {
-		//tsf -- fosc (forecast occliator ~ error of tsf)
+		tulind.indicators.ema.indicator([price], [period], function(err, results) {
+			var returnData = [];
+			for (x in results[0]){
+				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x]])
+			}
+			//var dataArray = []
+			//for (x in returnData){
+			//	dataArray.push([x, returnData[x]]);
+	    	//}
+			//var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			//console.log(result, result.r2, result.predict(1000), period, result.string);
+			res.json(returnData);
+		});
+
+	},
+
+	tsf: function(req, res) {
+		
+		var data = JSON.parse(req.query.data);
+		var period = req.query.period;
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange})
 		tulind.indicators.tsf.indicator([price], [period], function(err, results) {
 			var returnData = [];
 			for (x in results[0]){
-				//console.log(x, parseInt(x)+parseInt(period))
-				//console.log(parseInt(x)+parseInt(period) < results[0].length)
 				if (parseInt(x)+parseInt(period) < data.length){
 					returnData.push([parseInt(new Date(data[parseInt(x)+parseInt(period)].createdAt).getTime()), results[0][x]])
 				}
@@ -172,21 +190,13 @@ module.exports = {
 					console.log(new Date(data[data.length-1].createdAt).getTime() + delta);
 					returnData.push([new Date(data[data.length-1].createdAt).getTime() + delta, results[0][x]])
 				}
-				//returnData.push([parseInt(new Date(data[x].createdAt).getTime()), results[0][x]])
 			}
-
-			var dataArray = []
+			var dataArray = [];
 			for (x in returnData){
 				dataArray.push([x, returnData[x]]);
 	    	}
-
-			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
-			console.log(result, result.r2, result.predict(1000), period, result.string);
-
 			res.json(returnData);
-			//res.json(results[0]);
 		});
-
 	},
 
 	bband: function(req, res) {
