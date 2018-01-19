@@ -733,7 +733,7 @@ function portfolioBalanceMulti(delta, limit, strat){
 };
 
 function createPrediction(limit, delta){
-
+	console.log(limit, delta)
 	var predictions = [];
 	var promises = [];
 	var exchangeMap = [];
@@ -756,40 +756,58 @@ function createPrediction(limit, delta){
 			var dataArray = [];
 			var pairData = exchangeMap[x];
 
-			var periodArray = [3,5,10,20,40,80,160,320,640,1000];
-			var tsfPerdictionData = [];
+			//var periodArray = [3,5,10,20,40,80,160,320,640,1000];
+			var periodArray = [3,5,10,20,40,80];
+			//var periodArray = [];
+			//for (var i=-0; i < limit; i++){
+			//	periodArray.push(i);
+			//}
+
+			var tsfPredictionData = [];
 
 			//may have to structure as promises..
 
 			//TODO: use tsf occlicator to find error with tsf --> build prob / confidence score / range
 			for (y in periodArray){
 			//for (y = 0; y <= 1000; y+=5) { 
-				tsfPerdictionData.push(dataService.getTSF(pairData, periodArray[y]));//get last element.. 
+				tsfPredictionData.push(dataService.getTSF(pairData, periodArray[y]));//get last element.. 
 			}
 			(function(pairData){
-				Q.all(tsfPerdictionData)
+				Q.all(tsfPredictionData)
 				.then(function(data){
+					//console.log(data);
 
 					//gotta fire at the delta to lock in the price.. -- perhaps fire a slights cheaper.. eg market maker.... --> market make at a guess of high. ~> take if over estimate --> dont wanna under!  
-
-					var sortedData = data.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
-					var low = sortedData[sortedData.length-1]
-					var high = sortedData[0]
+					
+					var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
+			
+					var low = sortedData[sortedData.length-1];
+					var high = sortedData[0];
 					var range = high - low;
 					var lastPrice = pairData[pairData.length-1].price;
 
 					var changeHigh = (high - lastPrice)/high;
 					var changeLow = (low - lastPrice)/low;
 
-					console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
-					console.log(sortedData);
-					console.log(lastPrice, high, low, range);
-					console.log(changeHigh, changeLow);
+					//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
+					//console.log(sortedData);
+					//console.log(lastPrice, high, low, range);
+					//console.log(changeHigh, changeLow);
 
-					if (changeHigh > 0 && changeLow > 0){console.log('PICK', pairData[0].asset1, pairData[0].asset2)}
-
-
-
+					if (changeHigh > 0 && changeLow > 0){
+						console.log('PICK', pairData[0].asset1, pairData[0].asset2);
+						var orderModel = {};
+						orderModel.assetPair = pairData[pairData.length-1].assetPair;
+						orderModel.asset1 = pairData[pairData.length-1].asset1;
+						orderModel.asset2 = pairData[pairData.length-1].asset2;
+						orderModel.price = pairData[pairData.length-1].price;
+						orderModel.delta = pairData[pairData.length-1].delta;
+						orderModel.type = 'BUY';
+						orderModel.amount = 1;
+						Order.create(orderModel);
+						console.log(orderModel)
+					}
+					//console.log(data)
 					//TODO.. heatmap, in data.. have period?
 					//need to translate predictions into PDF
 					//FINAL -- map %change to %
@@ -799,6 +817,29 @@ function createPrediction(limit, delta){
 					//	if (data[x]){console.log(data[x]);}
 					//}
 
+					//INIT PDF
+					//might need to save pdfs as prediction db
+					//populate oppropiately ~ normal dist around 0? liner relation..
+					var pdfMap = {};
+					for (var i=-1000; i <=1000; i++){
+						//all values sum to 1
+						//pdfMap[i/1000] = 2.4455/Math.abs(i);
+						pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
+
+					}
+
+					//TEST
+					var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
+					//console.log(sortedData, testData);
+
+					for (x in testData){
+						//console.log(testData[x].toFixed(3))
+						pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
+						pdfMap[parseFloat(testData[x].toFixed(3))+parseFloat(.01)] += 0.05
+						pdfMap[parseFloat(testData[x].toFixed(3))-parseFloat(.01)] += 0.05
+					}
+
+					console.log(pdfMap);
 
 				});
 			})(pairData)
@@ -806,11 +847,10 @@ function createPrediction(limit, delta){
 			//for (z in tsfPerdictionData){
 			//	console.log(tsfPerdictionData[z].state,tsfPerdictionData[z].value);
 			//	console.log(tsfPerdictionData[z]);
-
 			//}
+
 			//console.log('length', tsfPerdictionData);
 
-			
 			//get the last element in each period prediction..
 			//var predictionSet = [];
 			//for (z in tsfPerdictionData){
@@ -852,11 +892,9 @@ function createPrediction(limit, delta){
 			//tulind.indicators.ema.indicator([change], [3], function(err, results) {
 			//	console.log(results[0]);
 			//}); 
-
 			//tulind.indicators.adx.indicator([change], [3], function(err, results) {
 			//	console.log(results);
 			//}); 
-
 			/*tulind.indicators.stoch.indicator([change], [3], function(err, results) {
 				console.log(results);
 			}); 
@@ -878,7 +916,6 @@ function createPrediction(limit, delta){
 			//tulind.indicators.vwma.indicator([change], [3], function(err, results) {
 			//	console.log(results);
 			//});
-
 			//boilinger band
 			//var dataModel = {}
 			//datamodel.polynomial = prediction;
@@ -1007,7 +1044,8 @@ module.exports.intervalService = function(){
 	//60000
 	//1800000
 	//3600000
-	//createPrediction(1000, '3600000');
+
+	createPrediction(100, '1800000');
 
 	//portfolioBalanceMulti('30000', 100);
 	//get some training ---
@@ -1084,10 +1122,10 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 2000);//5 seconds
-	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
-	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 5000000);//60sec
-	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
+	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 5000);//5 seconds
+	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
+	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 4000);//60sec
+	/*timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
 	timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
 	timer(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr

@@ -100,7 +100,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
     "				<h3>sound financial representation </h3>\n" +
-    "				<p>a community of transparent analysts </p>\n" +
+    "				<p>intellligence; continually learning</p>\n" +
+    "				<p>a community of transparent analysts</p>\n" +
     "				<p>select financial representatives</p>\n" +
     "			</div>\n" +
     "			<!--<div class=\"col-sm-6\">\n" +
@@ -113,7 +114,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "				<img src=\"images/tesseract-bg.png\">\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
-    "				<h3>community collaboration and contribution</h3>\n" +
+    "				<h3>collaboration and contribution</h3>\n" +
     "				<p>contribute. collab. invest.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
@@ -128,9 +129,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\" style=\"text-align:right\">\n" +
     "				<h3><i class=\"fa fa-wrench\"></i> cutting edge analysis at scale</h3>\n" +
-    "				<p>distributed networks working together to give you the cutting edge</p>\n" +
+    "				<p>distributed networks working together to give you the cutting edge.</p>\n" +
     "				<p>a computational network designed to normalize risk and equalize investment returns.</p>\n" +
-    "				<p>decentralized network that works together to power financial simulations.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +

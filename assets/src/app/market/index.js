@@ -19,7 +19,7 @@ angular.module( 'investing.market', [
 }])
 
 .controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, PredictionModel, titleService ) {
-	titleService.setTitle($stateParams.path1+'/'+$stateParams.path2' - investingfor');
+	titleService.setTitle($stateParams.path1+'/'+$stateParams.path2+' - investingfor');
 
     //TODO:live price.. ticker call -- socket. --> in title!
 

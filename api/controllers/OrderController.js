@@ -25,8 +25,8 @@ module.exports = {
 		var model = {
 			asset1: req.param('asset1'),
 			asset2: req.param('asset2'),
-			price: req.param('asset2'),
-			amount: req.param('asset2'),
+			price: req.param('price'),
+			amount: req.param('price'),
 		};
 
 		Order.create(model)

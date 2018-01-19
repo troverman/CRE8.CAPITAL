@@ -5,13 +5,9 @@
 
 # collaborative.capital
 
-> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
+> distributed networks working together to give you the cutting edge. a computational network designed to normalize risk and equalize investment returns. decentralized network that works together to power financial simulations. open and transparent data.
 
 # hedgefund
-
-```
-cool
-```
 
 ## create
 [collaborative.capital](https://www.collaborative.capital)

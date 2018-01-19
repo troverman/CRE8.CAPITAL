@@ -60,6 +60,11 @@ module.exports = {
 		});
 	},
 
+	getMACD: function(data, period, type){
+
+	},
+
+
 	predictiveModelPolynomial: function(asset1, asset2, delta, limit, order, precision){
 		var regression = require('regression');
 		var ema = require('exponential-moving-average');
@@ -162,7 +167,7 @@ module.exports = {
 		var now = new Date(), start = new Date(now.getTime() - (time));
 		console.log(delta, time)
 		Data.find()
-		.limit(1000)
+		.limit(10000)
 	    .where({createdAt: {'<': start}, delta:delta})
 	    .then(function (data) {
 	    	if (data.length > 0){
