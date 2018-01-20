@@ -178,6 +178,8 @@ angular.module( 'investing.market', [
         }
     };
 
+
+    //TODO: REFACTOR FOR INDICATORS>>>~ BACKEND
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
     $scope.marketGraphData.color = '#14b794';
@@ -202,8 +204,6 @@ angular.module( 'investing.market', [
     $scope.marketGraphBandLowerData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' lower band';
     $scope.marketGraphBandLowerData.color = 'gray';
     $scope.marketGraphBandLowerData.values = [];
-
-
 
     $scope.marketGraphChangeData = {};
     $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
