@@ -780,15 +780,12 @@ function createPrediction(limit, delta){
 					//gotta fire at the delta to lock in the price.. -- perhaps fire a slights cheaper.. eg market maker.... --> market make at a guess of high. ~> take if over estimate --> dont wanna under!  
 					
 					var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
-			
 					var low = sortedData[sortedData.length-1];
 					var high = sortedData[0];
 					var range = high - low;
 					var lastPrice = pairData[pairData.length-1].price;
-
 					var changeHigh = (high - lastPrice)/high;
 					var changeLow = (low - lastPrice)/low;
-
 					//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
 					//console.log(sortedData);
 					//console.log(lastPrice, high, low, range);
@@ -807,6 +804,7 @@ function createPrediction(limit, delta){
 						Order.create(orderModel);
 						console.log(orderModel)
 					}
+					
 					//console.log(data)
 					//TODO.. heatmap, in data.. have period?
 					//need to translate predictions into PDF
@@ -835,11 +833,11 @@ function createPrediction(limit, delta){
 					for (x in testData){
 						//console.log(testData[x].toFixed(3))
 						pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
-						pdfMap[parseFloat(testData[x].toFixed(3))+parseFloat(.01)] += 0.05
-						pdfMap[parseFloat(testData[x].toFixed(3))-parseFloat(.01)] += 0.05
+						//pdfMap[parseFloat(testData[x].toFixed(3)+0.001)] += 0.05
+						//pdfMap[parseFloat(testData[x].toFixed(3)-0.001)] += 0.05
 					}
 
-					console.log(pdfMap);
+					//console.log(pdfMap);
 
 				});
 			})(pairData)
@@ -1045,7 +1043,7 @@ module.exports.intervalService = function(){
 	//1800000
 	//3600000
 
-	createPrediction(100, '1800000');
+	//createPrediction(100, '1800000');
 
 	//portfolioBalanceMulti('30000', 100);
 	//get some training ---
@@ -1122,8 +1120,8 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 5000);//5 seconds
-	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
+	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 5000);//5 seconds
+	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
 	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 4000);//60sec
 	/*timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min

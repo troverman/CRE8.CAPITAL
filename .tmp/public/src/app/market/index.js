@@ -13,6 +13,7 @@ angular.module( 'investing.market', [
         resolve:{
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
                 return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1, $stateParams.path2, 300000);
+                //return null
             }]
         }
 	});
@@ -25,7 +26,74 @@ angular.module( 'investing.market', [
 
     //TODO:work on indicator api
     $scope.marketData = marketData//.data;
-    console.log(marketData)
+    //console.log(marketData);
+
+    //HEATMAP
+    /*
+    function generateRandomData(len) {
+        var max = 100;
+        var min = 1;
+        var maxX = document.body.clientWidth;
+        var maxY = document.body.clientHeight;
+        var data = [];
+        while (len--) {
+            data.push({
+            x: ((Math.random() * maxX) >> 0),
+            y: ((Math.random() * maxY) >> 0),
+            value: ((Math.random() * max + min) >> 0),
+            radius: ((Math.random() * 50 + min) >> 0)
+            });
+        }
+        return {
+            max: max,
+            min: min,
+            data: data
+        }
+    };
+    // data can be set manually with the heatmap data attribute
+    $scope.heatmapData = generateRandomData(1000);
+    // the config attribute will configure the heatmap directive instance
+    $scope.heatmapConfig = {
+        blur: .9,
+        opacity:.5
+    };
+    */
+
+    var heatmapData = {};
+    heatmapData.labels = [];
+    heatmapData.labels = ['Time1','Time2','Time3','Time4','Time5','Time6','Time7','Time8','Time9','Time10','Time11','Time12','Time13','Time14','Time15','Time16','Time17','Time18','Time19','Time20','Time21','Time22','Time23','Time24','Time25', 'Time26'],
+    //for(var i = 0; i<=100; i++){
+    //   heatmapData.labels.push('Time'+i);
+    //}
+    heatmapData.datasets = [];
+    $scope.clientWidth = document.body.clientWidth;
+    for(var i = 25; i>=-25; i--){
+        var dataInsert = 0;
+        if (i == 0){dataInsert = 100}
+        else if (i == 1 || i == -1){dataInsert = 75}
+        else{dataInsert = Math.abs(parseInt( 1/i * 100 ))}
+        //var dataSet = [];
+        //for(var i = 0; i<=100; i++){
+        //    dataSet.push(dataInsert);
+        //}
+        //heatmapData.datasets.push({label:(1*i).toString(), data:[dataSet]})
+        heatmapData.datasets.push({label:(1*i).toString(), data:[dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert]})
+    }
+
+    //var heatmapData = {
+    //  labels: ['-100','-90','-80','-70','-60','-50','-40','-30','-20','-10','0','10','20','30','40','50','60','70','80','90','100'],
+    //  datasets: [
+    //    {
+    //      label: '-100',
+    //      data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    //    }
+    //  ]
+    //};
+
+    var ctx = document.getElementById('tableHeatmap').getContext('2d');
+    var heatmapOptions = {rounded: false, showLabels: false};
+    var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
+
 
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
@@ -50,7 +118,7 @@ angular.module( 'investing.market', [
             })(x, periodArray);
         }
     };
-    $scope.getEma();
+    //$scope.getEma();
 
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -181,8 +249,12 @@ angular.module( 'investing.market', [
         //$scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]//, $scope.marketGraphEmaData];
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
     };
+    //$scope.updateMarketData();
 
-    $scope.updateMarketData();
+    //$sailsSocket.subscribe('ticker', function (envelope) {
+    //    $scope.currentPrice = envelope.data
+    //});
+
 
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {

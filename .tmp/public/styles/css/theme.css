@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Jura:300,400,600');
-@import "http://fonts.googleapis.com/css?family=Cantarell";
-@import "http://fonts.googleapis.com/css?family=Josefin+Sans";
-@import "http://fonts.googleapis.com/css?family=Catamaran";
-@import "http://fonts.googleapis.com/css?family=Barlow";
+@import url('https://fonts.googleapis.com/css?family=Cantarell:300,400,600');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600');
+@import url('https://fonts.googleapis.com/css?family=Catamaran:300,400,600');
+@import url('https://fonts.googleapis.com/css?family=Barlow:300,400,600');
 
 
 html,body {
@@ -43,9 +43,9 @@ a:hover {
 }
 
 h1,h2,h3 {
-  font-family: 'Josefin Sans';
-    //font-family: 'Catamaran';
-    font-family: 'Barlow';
+  //font-family: 'Josefin Sans';
+  //font-family: 'Catamaran';
+  font-family: 'Barlow';
 
 }
 

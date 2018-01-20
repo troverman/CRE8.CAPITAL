@@ -43,7 +43,9 @@ var jsFilesToInject = [
   'bower_components/angular-animate/angular-animate.min.js',
   'bower_components/angular-aria/angular-aria.min.js',
   'bower_components/angular-material/angular-material.js',
-
+  'bower_components/heatmap.js/build/heatmap.js',
+  'bower_components/heatmap.js/plugins/angular-heatmap/angular-heatmap.js',
+  'bower_components/Chart.HeatMap/dst/Chart.HeatMap.S.js',
 
   //
   // *->    you might put other dependencies like jQuery or Angular here   <-*
