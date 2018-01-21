@@ -149,7 +149,7 @@ angular.module( 'investing.market', [
             height: 500,
             margin : {
                 top: 20,
-                right: 20,
+                right: 0,
                 bottom: 40,
                 left: 40
             },

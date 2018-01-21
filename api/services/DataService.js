@@ -242,6 +242,7 @@ module.exports = {
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
 			                    orderModel.amount = 1;
+								//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -251,6 +252,7 @@ module.exports = {
 			                if (model.percentChange < -0.15){
 			                    orderModel.type = 'BUY';
 			                    orderModel.amount = 1;
+								//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -264,6 +266,7 @@ module.exports = {
 
 				                	orderModel.type = 'BUY';
 				                    orderModel.amount = 1;
+									//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
@@ -283,6 +286,12 @@ module.exports = {
 				                    });
 								});*/
 
+
+			                }
+
+			                //FLASH CRASH LOGIC
+			                // DO THIS LOL IT HAPPENS LIKE ONCE A DAY
+			                if (delta == '30000'){
 
 			                }
 

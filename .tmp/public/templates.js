@@ -378,7 +378,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
-    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"625\"></canvas>\n" +
+    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"500\"></canvas>\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
     "	<!--\n" +
@@ -481,13 +481,6 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
 
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("nav/index.tpl.html",
-    "<style>\n" +
-    "  @import url('https://fonts.googleapis.com/css?family=Jura:300,400,600');\n" +
-    "  @import url('https://fonts.googleapis.com/css?family=Cantarell:300,400,600');\n" +
-    "  @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600');\n" +
-    "  @import url('https://fonts.googleapis.com/css?family=Catamaran:300,400,600');\n" +
-    "  @import url('https://fonts.googleapis.com/css?family=Barlow:300,400,600');\n" +
-    "</style>\n" +
     "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
     "  <div class=\"container\">\n" +
     "    <div class=\"navbar-header\">\n" +
