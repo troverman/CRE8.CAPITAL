@@ -12,7 +12,7 @@ angular.module( 'investing', [
     'models',
     'nvd3',
     'ngMaterial',
-    'heatmap',
+    //'heatmap',
     'investing.about',
     'investing.account',
     'investing.footer',

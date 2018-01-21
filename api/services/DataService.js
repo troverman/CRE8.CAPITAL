@@ -32,7 +32,6 @@ module.exports = {
 		});
 	},
 
-
 	//TODO: -- get list of TSF - w periods - for pairs
 	//USE IN SOLVER!
 	//wanna get the pick(s) for next time delta. :~)

@@ -5,7 +5,7 @@ var tulind = require('tulind');
 module.exports = {
 
 	getData: function(req, res){
-
+		console.log('what the fuck')
 		var delta = req.query.delta;
 		var asset1 = req.query.asset1;
 		var asset2 = req.query.asset2;
@@ -15,8 +15,10 @@ module.exports = {
 		var indicator = req.query.indicator;
 		var indicatorOption = req.query.indicatorOption;
 
-		//var filter;
+		console.log(req.query)
 
+		//var filter;
+		//TODO: max limit query size DDOS
 		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2})
 		.limit(limit)
 		.skip(skip)

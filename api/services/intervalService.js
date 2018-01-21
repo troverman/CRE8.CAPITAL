@@ -1120,8 +1120,8 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 5000);//5 seconds
-	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 4000);//30seconds
+	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 10000);//5 seconds
+	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 8000);//30seconds
 	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 4000);//60sec
 	/*timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min

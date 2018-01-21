@@ -377,11 +377,9 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button><!--;)-->\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
-    "\n" +
-    "	<div style=\"height:100px;\"></div>\n" +
-    "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "	<h2>Probability Density</h2>\n" +
     "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"625\"></canvas>\n" +
+    "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
     "	<!--\n" +
     "	<h2>5 Min Prediction</h2>\n" +

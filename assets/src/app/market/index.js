@@ -25,10 +25,9 @@ angular.module( 'investing.market', [
     //TODO:live price.. ticker call -- socket. --> in title!
 
     //TODO:work on indicator api
-    $scope.marketData = marketData//.data;
-    //console.log(marketData);
+    $scope.marketData = marketData
 
-    //HEATMAP
+    //HEATMAP OLD
     /*
     function generateRandomData(len) {
         var max = 100;
@@ -118,7 +117,7 @@ angular.module( 'investing.market', [
             })(x, periodArray);
         }
     };
-    //$scope.getEma();
+    $scope.getEma();
 
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -249,8 +248,11 @@ angular.module( 'investing.market', [
         //$scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]//, $scope.marketGraphEmaData];
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
     };
-    //$scope.updateMarketData();
+    $scope.updateMarketData();
 
+
+    //TODO: LIVE PRICE
+    //TODO: DECENTRALIZE
     //$sailsSocket.subscribe('ticker', function (envelope) {
     //    $scope.currentPrice = envelope.data
     //});

@@ -1,6 +1,6 @@
-angular.module('models.data', ['lodash', 'services', 'sails.io',])
+angular.module('models.portfolio', ['lodash', 'services', 'sails.io',])
 
-.service('DataModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
+.service('PortfolioModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
     this.getAll = function() {
         var url = utils.prepareUrl('data');
         return $sailsSocket.get(url).then(success, error);
