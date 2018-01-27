@@ -30,7 +30,7 @@ module.exports.routes = {
   'get /api/analysis/regression': 'AnalysisController.regression',
   'get /api/analysis/ema': 'AnalysisController.ema',
   'get /api/analysis/bband': 'AnalysisController.bband',
-
+  'get /api/analysis/pdf': 'AnalysisController.pdf',
 
   /**
    * Market routes
@@ -54,7 +54,6 @@ module.exports.routes = {
    */
   'get /api/prediction': 'PredictionController.getSome',
   'get /api/prediction/current': 'PredictionController.getCurrentPrediction',
-
 
   /**
    * User routes

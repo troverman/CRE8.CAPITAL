@@ -180,6 +180,26 @@ module.exports = {
 	    });  
 	},
 
+	createOrder: function(asset1, asset2, price, amount){
+
+
+		//poloniex.buy('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel, function(model){
+
+		//});
+
+		//poloniex.sell('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel,){
+		//});
+
+		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
+
+
+		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
+		//sell(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
+		//cancelOrder(orderNumber [, callback])
+
+
+	},
+
 	tickerREST: function(delta){
 	    var poloniex = new Poloniex();  
 		poloniex.returnTicker((err, ticker) => {
@@ -242,7 +262,7 @@ module.exports = {
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
 			                    orderModel.amount = 1;
-								//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+								emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -252,7 +272,7 @@ module.exports = {
 			                if (model.percentChange < -0.15){
 			                    orderModel.type = 'BUY';
 			                    orderModel.amount = 1;
-								//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+								emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -266,7 +286,7 @@ module.exports = {
 
 				                	orderModel.type = 'BUY';
 				                    orderModel.amount = 1;
-									//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
 				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)

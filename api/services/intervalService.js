@@ -776,9 +776,8 @@ function createPrediction(limit, delta){
 				Q.all(tsfPredictionData)
 				.then(function(data){
 					//console.log(data);
-
 					//gotta fire at the delta to lock in the price.. -- perhaps fire a slights cheaper.. eg market maker.... --> market make at a guess of high. ~> take if over estimate --> dont wanna under!  
-					
+
 					var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
 					var low = sortedData[sortedData.length-1];
 					var high = sortedData[0];
@@ -786,6 +785,7 @@ function createPrediction(limit, delta){
 					var lastPrice = pairData[pairData.length-1].price;
 					var changeHigh = (high - lastPrice)/high;
 					var changeLow = (low - lastPrice)/low;
+
 					//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
 					//console.log(sortedData);
 					//console.log(lastPrice, high, low, range);
@@ -802,7 +802,7 @@ function createPrediction(limit, delta){
 						orderModel.type = 'BUY';
 						orderModel.amount = 1;
 						Order.create(orderModel);
-						console.log(orderModel)
+						console.log(orderModel);
 					}
 					
 					//console.log(data)
@@ -978,6 +978,39 @@ function createPrediction(limit, delta){
 
 };
 
+//TODO:DO THIS WHEN I WANT $
+//MB I should build the pdf solve 1st. . . . .. . . . . . .
+//wanna start the $
+//nap time
+function createPredictionSolve(){
+	var exchangeMap = data;
+	var predictionArray = [];
+	for (x in exchangeMap){
+		var dataArray = [];
+		var pairData = exchangeMap[x];
+		var periodArray = [3,5,10,20,40,80];
+		var tsfPredictionData = [];
+		for (y in periodArray){
+			tsfPredictionData.push(dataService.getTSF(pairData, periodArray[y]));
+		}
+		(function(pairData){
+			Q.all(tsfPredictionData)
+			.then(function(data){
+				var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
+				var low = sortedData[sortedData.length-1];
+				var high = sortedData[0];
+				var range = high - low;
+				var lastPrice = pairData[pairData.length-1].price;
+				var changeHigh = (high - lastPrice)/high;
+				var changeLow = (low - lastPrice)/low;
+				if (changeHigh > 0 && changeLow > 0){
+					
+				}
+			});
+		})(pairData)
+	}
+};
+
 function getCurrentPrediction(delta, asset1, asset2) {
 	var delta = delta;
 	var asset1 = asset1;
@@ -1106,7 +1139,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1120,8 +1153,8 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 10000);//5 seconds
-	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 8000);//30seconds
+	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 15000);//5 seconds
+	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 16000);//30seconds
 	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 4000);//60sec
 	/*timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
 	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min

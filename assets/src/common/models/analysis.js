@@ -2,13 +2,17 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
 
 .service('AnalysisModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
 
+    this.getPdf = function(data, period) {
+        var url = utils.prepareUrl('analysis/pdf');
+        var query = {params:{data: [data]}};
+        return $sailsSocket.get(url, query).then(success, error);
+    };
 
     this.getTsf = function(data, period) {
         var url = utils.prepareUrl('analysis/tsf');
         var query = {params:{data: [data], period: period}};
         return $sailsSocket.get(url, query).then(success, error);
     };
-
 
     this.getEma = function(data, period) {
         var url = utils.prepareUrl('analysis/ema');

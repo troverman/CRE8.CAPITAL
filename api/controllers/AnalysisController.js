@@ -1,6 +1,7 @@
 var Q = require('q');
 var tulind = require('tulind');
 var regression = require('regression');
+var async = require('async');
 
 var tradingPairs = [
     'XRP/BTC',
@@ -158,12 +159,12 @@ module.exports = {
 			for (x in results[0]){
 				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x]])
 			}
-			//var dataArray = []
-			//for (x in returnData){
-			//	dataArray.push([x, returnData[x]]);
-	    	//}
-			//var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
-			//console.log(result, result.r2, result.predict(1000), period, result.string);
+			var dataArray = [];
+			for (x in returnData){
+				dataArray.push([x, returnData[x]]);
+	    	}
+			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			console.log(result, result.r2, result.predict(1000), period, result.string);
 			res.json(returnData);
 		});
 
@@ -190,12 +191,12 @@ module.exports = {
 					returnData.push([new Date(data[data.length-1].createdAt).getTime() + delta, results[0][x]])
 				}
 			}
-			//var dataArray = [];
-			//for (x in returnData){
-			//	dataArray.push([x, returnData[x]]);
-	    	//}
-	    	//var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
-			//console.log(result, result.r2, result.predict(1000), period, result.string);
+			var dataArray = [];
+			for (x in returnData){
+				dataArray.push([x, returnData[x]]);
+	    	}
+	    	var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			console.log(result, result.r2, result.predict(1000), period, result.string);
 			res.json(returnData);
 		});
 	},
@@ -207,7 +208,7 @@ module.exports = {
 		var std = req.query.std;
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
-		//tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
+		tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
 			//dataObject.data = dataModel;
 			//for (x in results[0]){
 			//	dataModel[x].lower = results[0][x];
@@ -215,10 +216,73 @@ module.exports = {
 			//	dataModel[x].upper = results[2][x];
 			//	dataModel[x].ema = results[0][x];
 			//}
-		//	console.log(results[0])
-		//	res.json(results[0]);
-		//});
+			res.json(results[0]);
+		});
 
+	},
+
+	//TODO:THIS WILL BE A DB LOL OVER ENG
+	pdf: function(req, res) {
+		console.log('PDF!!')
+		var heatMap = []
+		var promises = [];
+		var data = JSON.parse(req.query.data);
+		var predictionArray = [];
+		async.eachSeries(data, function (dataData, nextTime){
+		//for (x in data){
+			var dataArray = [];
+			//hack
+			var index = data.map(function(obj){return obj.id}).indexOf(dataData.id);
+			if (index>0){
+				console.log(index);
+				var pairData = data.slice(0, index);
+				//console.log(pairData);
+				var periodArray = [3,5,10,20,40,80];
+				var tsfPredictionData = [];
+				//for (y in periodArray){
+				for (var y = 1; y <= index; y++) { 
+					tsfPredictionData.push(dataService.getTSF(pairData, y));
+				}
+				(function(pairData){
+					Q.all(tsfPredictionData)
+					.then(function(predictionData){
+						var sortedData = predictionData.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
+						var low = sortedData[sortedData.length-1];
+						var high = sortedData[0];
+						var range = high - low;
+						var lastPrice = pairData[pairData.length-1].price;
+						var changeHigh = (high - lastPrice)/high;
+						var changeLow = (low - lastPrice)/low;
+
+						console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
+						console.log(sortedData);
+						console.log(lastPrice, high, low, range);
+						console.log(changeHigh, changeLow);
+					
+						//INIT PDF
+						//might need to save pdfs as prediction db
+						//populate oppropiately ~ normal dist around 0? liner relation..
+						var pdfMap = {};
+						for (var i=1000; i>=-1000; i--){
+							pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
+						}
+						pdfMap[0] = pdfMap[0.001];
+
+						//TEST
+						var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
+						for (x in testData){
+							pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
+						}
+						heatMap.push(pdfMap);
+						process.nextTick(nextTime);
+
+					});
+				})(pairData)
+			}
+			else{process.nextTick(nextTime);}
+		},function(){
+			res.json({heatMap:heatMap})
+		});
 	},
 
 	prediction: function(req, res) {
@@ -478,6 +542,12 @@ module.exports = {
 			res.json({portfolioSet:portfolioSet, orderSet:orderSet})
 
 		});
+
+	},
+
+	//TODO: DO THIS L88R
+	//IF THIS IS PROFITABLE.. TURN IT ON!
+	portfolioSolvePDF: function(req, res) {
 
 	},
 

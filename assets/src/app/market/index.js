@@ -25,38 +25,7 @@ angular.module( 'investing.market', [
     //TODO:live price.. ticker call -- socket. --> in title!
 
     //TODO:work on indicator api
-    $scope.marketData = marketData
-
-    //HEATMAP OLD
-    /*
-    function generateRandomData(len) {
-        var max = 100;
-        var min = 1;
-        var maxX = document.body.clientWidth;
-        var maxY = document.body.clientHeight;
-        var data = [];
-        while (len--) {
-            data.push({
-            x: ((Math.random() * maxX) >> 0),
-            y: ((Math.random() * maxY) >> 0),
-            value: ((Math.random() * max + min) >> 0),
-            radius: ((Math.random() * 50 + min) >> 0)
-            });
-        }
-        return {
-            max: max,
-            min: min,
-            data: data
-        }
-    };
-    // data can be set manually with the heatmap data attribute
-    $scope.heatmapData = generateRandomData(1000);
-    // the config attribute will configure the heatmap directive instance
-    $scope.heatmapConfig = {
-        blur: .9,
-        opacity:.5
-    };
-    */
+    $scope.marketData = marketData;
 
     var heatmapData = {};
     heatmapData.labels = [];
@@ -79,25 +48,49 @@ angular.module( 'investing.market', [
         heatmapData.datasets.push({label:(1*i).toString(), data:[dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert]})
     }
 
-    //var heatmapData = {
-    //  labels: ['-100','-90','-80','-70','-60','-50','-40','-30','-20','-10','0','10','20','30','40','50','60','70','80','90','100'],
-    //  datasets: [
-    //    {
-    //      label: '-100',
-    //      data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-    //    }
-    //  ]
-    //};
-
     var ctx = document.getElementById('tableHeatmap').getContext('2d');
     var heatmapOptions = {rounded: false, showLabels: false};
     var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
-
 
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
     $scope.selectedDelta = '5000';
 
+    $scope.getPdf = function (){
+        //TODO: LOL
+        AnalysisModel.getPdf($scope.marketData.reverse().slice($scope.marketData.length-350, $scope.marketData.length)).then(function(returnData){
+            
+            //console.log(returnData);
+
+            var heatmapData = {};
+            var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
+            heatmapData.labels = [];
+            heatmapData.datasets = [];
+
+            for(x in pdfData){
+                heatmapData.labels.push(x);//$scope.marketData[x].createdAt);
+            }
+            var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return b - a})
+            for (x in sortedKeys){ 
+                var dataArray = [];
+                var key = sortedKeys[x];
+                if (key < 0.20 && key > -0.20){
+                    for (z in pdfData){
+                        dataArray.push(pdfData[z][key]*1000);
+                    }
+                    heatmapData.datasets.push({label:key, data:dataArray})
+                }
+            }
+
+            console.log(heatmapData);
+
+            var ctx = document.getElementById('tableHeatmap').getContext('2d');
+            var heatmapOptions = {rounded: false, showLabels: false};
+            var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
+
+        });
+    };
+    //$scope.getPdf();
 
     $scope.getEma = function (){
         var periodArray = [3,5,10,20,40,80,160,320,640,1000];
@@ -138,6 +131,7 @@ angular.module( 'investing.market', [
             $scope.marketData = model;
             $scope.updateMarketData();
             $scope.getEma();
+            $scope.getPdf();
 
             $rootScope.stateIsLoading = false;
         })

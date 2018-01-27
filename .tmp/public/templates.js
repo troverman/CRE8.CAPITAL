@@ -46,8 +46,42 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "	<h1>Account info</h1>\n" +
     "	<p>edit</p>\n" +
+    "	\n" +
+    "	<form role=\"form\">\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"userName\" placeholder=\"username\" title=\"username\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"firstName\" placeholder=\"first name\" title=\"first name\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"align-right\">\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Save</button>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
+    "\n" +
+    "	<h2>settings</h2>\n" +
     "	<p>notifications</p>\n" +
+    "	<p>email settings</p>\n" +
+    "\n" +
     "	<h2>api keys</h2>\n" +
+    "\n" +
+    "	<!--poloniex-->\n" +
+    "    <form role=\"form\">\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api key\" title=\"api key\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api key\" title=\"api secret\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"align-right\">\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Save</button>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
+    "\n" +
     "</div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "");
@@ -378,7 +412,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
-    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"500\"></canvas>\n" +
+    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"2500\"></canvas>\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
     "	<!--\n" +
@@ -481,6 +515,13 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
 
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("nav/index.tpl.html",
+    "<style>\n" +
+    "  .navbar-inverse .navbar-brand:focus{color:#424242}\n" +
+    "  .navbar-inverse .navbar-toggle {border-color: black;}\n" +
+    "  .navbar-inverse .navbar-toggle .icon-bar{background-color:#424242;}\n" +
+    "  .navbar-inverse .navbar-toggle:hover .icon-bar{background-color:#fff;}\n" +
+    "  .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:black }\n" +
+    "</style>\n" +
     "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
     "  <div class=\"container\">\n" +
     "    <div class=\"navbar-header\">\n" +
