@@ -461,6 +461,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	<div style=\"height:100px;\"></div>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>\n" +
     "\n" +
     "</div>\n" +
     "\n" +

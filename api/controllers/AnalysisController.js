@@ -144,6 +144,8 @@ function liveTrade(delta, asset1, asset2){
 };
 
 
+//save pdf --> delta, pair, timestamp, data
+
 module.exports = {
 
 	ema: function(req, res) {
@@ -167,7 +169,6 @@ module.exports = {
 			console.log(result, result.r2, result.predict(1000), period, result.string);
 			res.json(returnData);
 		});
-
 	},
 
 	tsf: function(req, res) {
@@ -218,7 +219,6 @@ module.exports = {
 			//}
 			res.json(results[0]);
 		});
-
 	},
 
 	//TODO:THIS WILL BE A DB LOL OVER ENG
@@ -518,8 +518,10 @@ module.exports = {
 					//MULTIPICK
 					//IF STRAT == MULTIPICK, CAP
 					var sum = 0;
-					var asset1Amount = currentPortfolio[predictionArray[x].asset1];
+					//what is x here vv
+					//var asset1Amount = currentPortfolio['BTC'];
 					for (x in predictionArray){
+						var asset1Amount = currentPortfolio[predictionArray[x].asset1];
 						if (totalPositiveChange != 0 && predictionArray[x].percentChange > 0){
 							//if (cap != 'none' && x < cap){
 								var currentIndex = timeArray.map(function(obj){return obj.assetPair}).indexOf(predictionArray[x].assetPair);
@@ -548,58 +550,74 @@ module.exports = {
 	//only using TSF atm
 	//IF THIS IS PROFITABLE.. TURN IT ON!
 	//TODO: restructure to object strcutre vs. reliying on indexing 
+	//TODO: this a mess lol
 	portfolioSolvePDF: function(req, res) {
 
-		function getPdf(pairData){
-			for (y in pairData){
+		function getPdf(pairData, callback){
+			//TODO: restructure to object strcutre vs. reliying on indexing 
+			//pairData[0].asset1 ~ {}
+			var pdfMapArray = [];
+			async.eachSeries(pairData, function (data, nextPair){
+				var index = pairData.map(function(obj){return obj.id}).indexOf(data.id);
 				//build prediction array.
-				if (y > 0){
-					var predictionData = pairData.slice(0, y);
+				if (index > 0){
+					var predictionData = pairData.slice(0, index);
 					var tsfPredictionData = [];
-					for (var z; z<=y; y++){
-						tsfPredictionData.push(dataService.getTSF(predictionData, periodArray[z]));
+					for (var z = 1; z <= index; z++){
+						tsfPredictionData.push(dataService.getTSF(predictionData, z));
 					}
 					Q.all(tsfPredictionData)
 					.then(function(data){
 						//large list of predictions.. (not pdf yet.)
 						//theoretitically pdf will have +8.8 indicators +1 complexity
-
 						//return obj here for predictions 
 						//at each time at each pair
-			
 						var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
 						var lastPrice = pairData[pairData.length-1].price;
-					
-						//INIT PDF: might need to save pdfs as prediction db
-						//populate appropiately ~ normal dist around 0? liner relation..
+
+						//INIT PDF
 						var pdfMap = {};
+						var pdfSum = 0;
 						for (var i=1000; i>=-1000; i--){
 							pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
 						}
 						pdfMap[0] = pdfMap[0.001];
-
+						
 						var pdfData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
 						for (x in pdfData){
-							pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
+							if (!isNaN(pdfData[x])){
+								pdfMap[parseFloat(pdfData[x].toFixed(3))] += 0.25
+							}
 						}
 
-						//console.log(data);
-						//return data;
-						return pdfMap
+						//PDF ANALYSIS HERE!
+						//pdfSum+=0.60811/Math.pow(i, 2);
+						//pdfMap.stats = {}
+						//pdfMap.sum = pdfSum;
+						//pdfMap.totalPositiveProbability = 0;
+						//pdfMap.totalNegativeProbability = 0;
+						//pdfMap.allPostiveProbability = true;
 
+						pdfMapArray.push(pdfMap);
+						process.nextTick(nextPair);
 					});
 
 				}
-			}
+				else{process.nextTick(nextPair);}
+			},
+			function(){
+				callback(pdfMapArray);
+			});
 		};
 
 		var exchangeMap = [];
 		var promises = [];
 		var currentPortfolio = {BTC:req.query.btc}
-		var limit = req.query.limit;
-		var delta = req.query.delta;
+		var limit = 20//req.query.limit;
+		var delta = '60000'//req.query.delta;
 		var portfolioSet = [];
 		var orderSet = [];
+		var sum = 0;
 		tradingPairs = tradingPairs.filter(function(obj){
 	        if (obj.split('/')[1]=='BTC'){return obj}
 	    });
@@ -610,17 +628,14 @@ module.exports = {
 		Q.all(promises)
 		.then(function(data){
 			exchangeMap = data;
-
-			//async
 			var pdfArray = [];
 			async.eachSeries(exchangeMap, function (pairData, nextPair){
-				getPdf(pairData).then(function(pdfMap){
-					pdfArray.push(pdfMap)
+				getPdf(pairData, function(pdfMap){
+					pdfArray.push(pdfMap);
 					process.nextTick(nextPair);
 				});
 			},
 			function(){
-
 				for (y in exchangeMap[0]){
 					var timeArray = [];
 					var predictionArray = [];
@@ -633,94 +648,124 @@ module.exports = {
 						}
 					}
 
-					var pdfAnalysis = [];
-					for (x in predictionArray){
+					//TODO:fix lag ~ length probs.
+					if (!hasUndefined(predictionArray)){
 
-						//find most 'attractive' pdf
-						//pdf analysis
-						var pdfMap = predictionArray[x];
-						var pdfSum = 0;
-						var totalPositiveProbability = 0;
-						var totalNegativeProbability = 0;
-						var allPostiveProbability = true;
-
-						for (z in Object.keys(pdfMap)){
-							var key = Object.keys(pdfMap)[z];
-							pdfSum += pdfMap[key];
-							if (pdfMap[key] > 0){totalPositiveProbability += pdfMap[key];}
-							if (pdfMap[key] < 0){totalNegativeProbability += pdfMap[key];allPostiveProbability=false}
+						var pdfAnalysis = [];
+						//TODO REDUX. STORE IN PDF ARRAY :analyis
+						//TO) MUCH CALC
+						for (x in predictionArray){
+							//find most 'attractive' pdf
+							//pdf analysis
+							var pdfMap = predictionArray[x];
+							var pdfSum = 0;
+							var totalPositiveProbability = 0;
+							var totalNegativeProbability = 0;
+							var allPostiveProbability = true;
+							sum++;
+							for (z in Object.keys(pdfMap)){
+								var key = Object.keys(pdfMap)[z];
+								pdfSum += pdfMap[key];
+								//in analysis... amount * percentage -
+								//so key*pdfMap[key] to weight
+								if (key > 0){totalPositiveProbability += key*pdfMap[key];}
+								if (key < 0){
+									totalNegativeProbability += key*pdfMap[key];
+									if (pdfMap[key] > 0.1){
+										allPostiveProbability = false
+									}
+								}
+							}
+							console.log(totalPositiveProbability, totalNegativeProbability, allPostiveProbability, totalPositiveProbability + totalNegativeProbability, sum);
+							pdfAnalysis.push({totalPositiveProbability:totalPositiveProbability, totalNegativeProbability:totalNegativeProbability, allPostiveProbability:allPostiveProbability});
 						}
-						pdfAnalysis.push({pdfSum:pdfSum, totalPositiveProbability:totalPositiveProbability, totalNegativeProbability:totalNegativeProbability, allPostiveProbability:allPostiveProbability});
-
-					}
-
-					//find index of most 'attractive'
-					//sort by probability score ~ for multipick 
-					var positiveProbabilityIndex = pdfAnalysis.map(function(obj){return obj.allPostiveProbability}).indexOf(true);
-
-					//sort by totalPositiveProbability - totalNegativeProbability
-					//need to find index..
-					//var sortMap = pdfAnalysis.map(function(obj){return obj.totalPositiveProbability + obj.totalNegativeProbability});
-					//this may be redundant vs relativity +1 start complexity
-					var sortMap = pdfAnalysis.sort(function(a,b) {
-						return (a.totalPositiveProbability + a.totalNegativeProbability < b.totalPositiveProbability + b.totalNegativeProbability) ? 1 : ((b.totalPositiveProbability + b.totalNegativeProbability < a.totalPositiveProbability + a.totalNegativeProbability) ? -1 : 0);
-					}); 
-
-					//TODO: move away from index.
-					var pickOrderIndex = [];
-					for (x in sortMap){
-						//totalPositiveProbability is not neccesarily unique 
-						pickOrderIndex.push(pdfAnalysis.map(function(obj){return obj.totalPositiveProbability}).indexOf(sortMap[x].totalPositiveProbability));
-					}
-
-					//TODO: add positiveProbabilityIndex to pickOrderIndex, reduce.
-
-					//MULTIPICK -- prob best to cap from 3-7
-					var cap = 4;
-					var cappedPickIndex = pickOrderIndex.slice(0, cap);
-
-					//TODO: relativity? 
-					var totalPositiveChange = 0;
-					for (x in pdfAnalysis){
-						totalPositiveChange += pdfAnalysis[x].totalPositiveProbability;
-					}
 
 
-					//STRAT
-					//go to btc
-					for (n in Object.keys(currentPortfolio)){
-						var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[n]);
-						if (pairIndex != -1){
-							if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
+						//find index of most 'attractive'
+						//sort by probability score ~ for multipick 
+						//if not -1
+						var positiveProbabilityIndex = pdfAnalysis.map(function(obj){return obj.allPostiveProbability}).indexOf(true);
+						//console.log(positiveProbabilityIndex);
 
-								currentPortfolio['BTC'] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
-								orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]], createdAt:timeArray[pairIndex].createdAt})
-								currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
-								portfolioSet.push(clone(currentPortfolio));
+						//sort by totalPositiveProbability - totalNegativeProbability
+						//need to find index..
+						//var sortMap = pdfAnalysis.map(function(obj){return obj.totalPositiveProbability + obj.totalNegativeProbability});
+						//this may be redundant vs relativity +1 start complexity
+						var sortMap = pdfAnalysis.sort(function(a,b) {
+							return (a.totalPositiveProbability + a.totalNegativeProbability < b.totalPositiveProbability + b.totalNegativeProbability) ? 1 : ((b.totalPositiveProbability + b.totalNegativeProbability < a.totalPositiveProbability + a.totalNegativeProbability) ? -1 : 0);
+						}); 
 
+						//TODO: move away from index.
+						var pickOrderIndex = [];
+						for (x in sortMap){
+							//totalPositiveProbability is not neccesarily unique 
+							pickOrderIndex.push(pdfAnalysis.map(function(obj){return obj.totalPositiveProbability}).indexOf(sortMap[x].totalPositiveProbability));
+						}
+
+						//TODO: add positiveProbabilityIndex to pickOrderIndex, reduce.
+
+						//MULTIPICK -- prob best to cap from 3-7
+						var cap = 4;
+						var cappedPickIndex = pickOrderIndex.slice(0, cap);
+
+						//TODO: relativity? 
+						var totalPositiveChange = 0;
+						for (x in pdfAnalysis){
+							totalPositiveChange += pdfAnalysis[x].totalPositiveProbability;
+						}
+
+						//STRAT
+						//go to btc
+						for (n in Object.keys(currentPortfolio)){
+							var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[n]);
+							if (pairIndex != -1){
+								if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
+									currentPortfolio['BTC'] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
+									orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]], createdAt:timeArray[pairIndex].createdAt})
+									currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
+									portfolioSet.push(clone(currentPortfolio));
+								}
 							}
 						}
-					};
 
-					//MULTIPICK
-					for (n in cappedPickIndex){
-						
-						var asset1Amount = currentPortfolio[timeArray[cappedPickIndex[n]].asset1];
-						var relativeAmount = asset1Amount*pdfAnalysis[cappedPickIndex[n]].totalPositiveProbability/totalPositiveChange;
+						//MULTIPICK
+						for (n in cappedPickIndex){
+							var asset1Amount = currentPortfolio[timeArray[cappedPickIndex[n]].asset1];
+							var relativeAmount = asset1Amount*pdfAnalysis[cappedPickIndex[n]].totalPositiveProbability/totalPositiveChange;
+							currentPortfolio[timeArray[cappedPickIndex[n]].asset2] += relativeAmount/timeArray[cappedPickIndex[n]].price;
+							currentPortfolio['BTC'] = currentPortfolio['BTC'] - relativeAmount;
+							orderSet.push({asset1: timeArray[cappedPickIndex[n]].asset1, asset2:timeArray[cappedPickIndex[n]].asset2, price:parseFloat(timeArray[cappedPickIndex[n]].price), amount:relativeAmount, createdAt:timeArray[cappedPickIndex[n]].createdAt})
+							portfolioSet.push(clone(currentPortfolio));
+						}
 
-						currentPortfolio[timeArray[cappedPickIndex[n]].asset2] += relativeAmount/timeArray[cappedPickIndex[n]].price;
-						currentPortfolio['BTC'] = currentPortfolio['BTC'] - relativeAmount;
-						
-						orderSet.push({asset1: timeArray[cappedPickIndex[n]].asset1, asset2:timeArray[cappedPickIndex[n]].asset2, price:parseFloat(timeArray[cappedPickIndex[n]].price), amount:relativeAmount, createdAt:timeArray[cappedPickIndex[n]].createdAt})
-						
-						portfolioSet.push(clone(currentPortfolio));
+						//to see roi
+						console.log(y, exchangeMap[0].length-2)
+						if (y == exchangeMap[0].length-2){
+							for (n in Object.keys(currentPortfolio)){
+								var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[n]);
+								if (pairIndex != -1){
+									if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
+										//console.log(Object.keys(currentPortfolio)[n])
+										currentPortfolio['BTC'] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
+										orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]], createdAt:timeArray[pairIndex].createdAt})
+										currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
+										portfolioSet.push(clone(currentPortfolio));
+									}
+								}
+							}
+						}
 
 					}
-
 				}
+
+				console.log(portfolioSet);
+				//console.log(orderSet);
+
+				res.json({portfolioSet:portfolioSet, orderSet:orderSet})
 
 			});
 		});
 	},
+
 	
 };

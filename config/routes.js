@@ -26,9 +26,11 @@ module.exports.routes = {
    */
   'get /api/analysis/portfolioBalance': 'AnalysisController.portfolioBalance',
   'get /api/analysis/portfolioBalanceMulti': 'AnalysisController.portfolioBalanceMulti',
+  'get /api/analysis/portfolioSolvePDF': 'AnalysisController.portfolioSolvePDF',
   'get /api/analysis/fft': 'AnalysisController.fft',
   'get /api/analysis/regression': 'AnalysisController.regression',
   'get /api/analysis/ema': 'AnalysisController.ema',
+  'get /api/analysis/tsf': 'AnalysisController.tsf',
   'get /api/analysis/bband': 'AnalysisController.bband',
   'get /api/analysis/pdf': 'AnalysisController.pdf',
 

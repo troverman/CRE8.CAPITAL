@@ -42,6 +42,12 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
+    this.getPortfolioSolvePDF = function(delta, limit) {
+        var url = utils.prepareUrl('analysis/portfolioSolvePDF');
+        var query = {params:{limit: limit, delta: delta, btc:100, cap:4}};
+        return $sailsSocket.get(url, query).then(success, error);
+    }
+
     var success = function(response) {
         return response.data;
     };

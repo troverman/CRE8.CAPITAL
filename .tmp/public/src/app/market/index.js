@@ -110,7 +110,48 @@ angular.module( 'investing.market', [
             })(x, periodArray);
         }
     };
-    $scope.getEma();
+    //$scope.getEma();
+
+    $scope.getTsf = function (){
+        var periodArray = [3,5,10,20,40,80,160,320,640,1000];
+        for(x in periodArray){
+        //for (var x=1; x <= 100; x++){
+            (function(x, periodArray) {
+                AnalysisModel.getTsf($scope.marketData.reverse(), periodArray[x]).then(function(tsfData){
+                    console.log(tsfData);
+                    var tsfGraphData = {}
+                    tsfGraphData.key = 'TSF_'+periodArray[x];
+                    //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
+                    tsfGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    tsfGraphData.values = tsfData;
+                    $scope.marketGraphDataRender.push(tsfGraphData);
+                    //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                });
+            })(x, periodArray);
+        }
+    };
+    //$scope.getTsf();
+
+    $scope.getBband = function (periodArray, sdArray){
+        var periodArray = periodArray;//[3,5,10,20,40,80,160,320,640,1000];
+        for(x in periodArray){
+        //for (var x=1; x <= 100; x++){
+            (function(x, periodArray) {
+                AnalysisModel.getTsf($scope.marketData.reverse(), periodArray[x]).then(function(tsfData){
+                    console.log(tsfData);
+                    var tsfGraphData = {}
+                    tsfGraphData.key = 'TSF_'+periodArray[x];
+                    //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
+                    tsfGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    tsfGraphData.values = tsfData;
+                    $scope.marketGraphDataRender.push(tsfGraphData);
+                    //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                });
+            })(x, periodArray);
+        }
+    };
+    //$scope.getBband();
+
 
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -244,13 +285,11 @@ angular.module( 'investing.market', [
     };
     $scope.updateMarketData();
 
-
     //TODO: LIVE PRICE
     //TODO: DECENTRALIZE
     //$sailsSocket.subscribe('ticker', function (envelope) {
     //    $scope.currentPrice = envelope.data
     //});
-
 
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {

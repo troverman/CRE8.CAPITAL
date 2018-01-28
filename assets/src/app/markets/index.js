@@ -233,6 +233,15 @@ angular.module( 'investing.markets', [
         });
     };
 
+    $scope.solvePortfolioPDF = function(delta, limit){
+        $scope.portfolioData = {};
+        $rootScope.stateIsLoading = true;
+        AnalysisModel.getPortfolioSolvePDF($scope.selectedDelta, limit).then(function(data){
+            $rootScope.stateIsLoading = false;
+            $scope.portfolioData = data;
+        });
+    };
+
     /*
     $scope.updatePortfolio = function(data){
         for (y in data){

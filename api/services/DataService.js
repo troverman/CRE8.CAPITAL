@@ -43,9 +43,8 @@ module.exports = {
 		tulind.indicators.tsf.indicator([price], [period], function(err, results) {
 			//console.log(period)
 			//deferred.resolve(results[0]);
+			//console.log(results[0][results[0].length-1])
 			deferred.resolve(results[0][results[0].length-1])
-
-			//return results[0];
 		});
 		return deferred.promise;
 
@@ -257,14 +256,16 @@ module.exports = {
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
 							orderModel.delta = delta;
+			                var emailList = ['vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
 
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
 			                    orderModel.amount = 1;
-								emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-			                    Order.create(orderModel).then(function(orderModel){
+			                    for (x in emailList){
+									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+			                    }
+						        Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
 			                }
@@ -272,8 +273,9 @@ module.exports = {
 			                if (model.percentChange < -0.15){
 			                    orderModel.type = 'BUY';
 			                    orderModel.amount = 1;
-								emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-			                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+								for (x in emailList){
+									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+			                    }
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
@@ -286,8 +288,9 @@ module.exports = {
 
 				                	orderModel.type = 'BUY';
 				                    orderModel.amount = 1;
-									emailService.sendTemplate('marketUpdate', 'lahari.ganti.19@gmail.com', 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
-				                    emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									for (x in emailList){
+										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+				                    }
 				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
 				                    });
@@ -312,7 +315,12 @@ module.exports = {
 			                //FLASH CRASH LOGIC
 			                // DO THIS LOL IT HAPPENS LIKE ONCE A DAY
 			                if (delta == '30000'){
-
+								if (model.percentChange < -0.05){
+									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+								}
+								if (model.percentChange < -0.10){
+									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+								}
 			                }
 
 			            });
