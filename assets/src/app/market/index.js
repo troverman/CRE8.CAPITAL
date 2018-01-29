@@ -116,7 +116,7 @@ angular.module( 'investing.market', [
             })(x, periodArray);
         }
     };
-    //$scope.getEma([3,5,10,20,40,80,160,320,640,1000]);
+    $scope.getEma([3,5,10,20,40,80,160,320,640,1000]);
 
     $scope.getTsf = function (periodArray){
         $rootScope.stateIsLoading = true;
