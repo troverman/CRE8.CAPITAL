@@ -369,18 +369,18 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
     "	<div class=\"row\">\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">5min </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">30min</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button>\n" +
+    "		<button ng-class=\"selectedClass('1000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>\n" +
+    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
+    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
+    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
+    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '300000')\">5min </button>\n" +
+    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '1800000')\">30min</button>\n" +
+    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button>\n" +
+    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button>\n" +
+    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button>\n" +
+    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button>\n" +
+    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button>\n" +
+    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"seletetData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button>\n" +
     "	</div>\n" +
     "	<!--how much data..?-->\n" +
     "	<!--zoom out ability.. a lot-->\n" +
@@ -412,7 +412,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
-    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"2500\"></canvas>\n" +
+    "	<canvas id=\"tableHeatmap\" width=\"1250\" height=\"500\"></canvas>\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
     "	<!--\n" +

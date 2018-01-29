@@ -20,13 +20,21 @@ angular.module( 'investing.market', [
 }])
 
 .controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, PredictionModel, titleService ) {
-	titleService.setTitle($stateParams.path1+'/'+$stateParams.path2+' - investingfor');
+	
+    //TODO: live price.. ticker call -- socket. --> in title!
+    titleService.setTitle($stateParams.path1+'/'+$stateParams.path2+' - investingfor');
 
-    //TODO:live price.. ticker call -- socket. --> in title!
-
-    //TODO:work on indicator api
     $scope.marketData = marketData;
+    $scope.stateParams = $stateParams;
+    $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
+    $scope.selectedDelta = '5000';
 
+    $scope.selectedClass= function(delta){
+        if($scope.selectedDelta==delta){return 'btn btn-primary'}
+        else{return 'btn btn-default'}
+    }
+
+    //TODO: REFACTOR
     var heatmapData = {};
     heatmapData.labels = [];
     heatmapData.labels = ['Time1','Time2','Time3','Time4','Time5','Time6','Time7','Time8','Time9','Time10','Time11','Time12','Time13','Time14','Time15','Time16','Time17','Time18','Time19','Time20','Time21','Time22','Time23','Time24','Time25', 'Time26'],
@@ -52,16 +60,12 @@ angular.module( 'investing.market', [
     var heatmapOptions = {rounded: false, showLabels: false};
     var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
 
-    $scope.stateParams = $stateParams;
-    $scope.selectedPair = [$stateParams.path1,$stateParams.path2];
-    $scope.selectedDelta = '5000';
-
+    //TODO: LOL
     $scope.getPdf = function (){
-        //TODO: LOL
+        $rootScope.stateIsLoading = true;
         AnalysisModel.getPdf($scope.marketData.reverse().slice($scope.marketData.length-350, $scope.marketData.length)).then(function(returnData){
             
             //console.log(returnData);
-
             var heatmapData = {};
             var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
             heatmapData.labels = [];
@@ -83,75 +87,129 @@ angular.module( 'investing.market', [
             }
 
             console.log(heatmapData);
-
             var ctx = document.getElementById('tableHeatmap').getContext('2d');
             var heatmapOptions = {rounded: false, showLabels: false};
             var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
+            $rootScope.stateIsLoading = false;
 
         });
     };
     //$scope.getPdf();
 
-    $scope.getEma = function (){
+    $scope.getEma = function (periodArray){
+        $rootScope.stateIsLoading = true;
         var periodArray = [3,5,10,20,40,80,160,320,640,1000];
         for(x in periodArray){
-        //for (var x=1; x <= 100; x++){
+        //for (var x=1; x <= 1000; x++){
             (function(x, periodArray) {
                 AnalysisModel.getEma($scope.marketData.reverse(), periodArray[x]).then(function(emaData){
                     console.log(emaData);
                     var emaGraphData = {}
                     emaGraphData.key = 'EMA_'+periodArray[x];
-                    //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
                     emaGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
                     emaGraphData.values = emaData;
                     $scope.marketGraphDataRender.push(emaGraphData);
                     //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                    //$scope.marketGraphChangeChangeDataRender.push(emaGraphData);
+                    $rootScope.stateIsLoading = false;
                 });
             })(x, periodArray);
         }
     };
-    //$scope.getEma();
+    //$scope.getEma([3,5,10,20,40,80,160,320,640,1000]);
 
-    $scope.getTsf = function (){
+    $scope.getTsf = function (periodArray){
+        $rootScope.stateIsLoading = true;
         var periodArray = [3,5,10,20,40,80,160,320,640,1000];
         for(x in periodArray){
         //for (var x=1; x <= 100; x++){
             (function(x, periodArray) {
+                //AnalysisModel.getTsf($scope.marketData.reverse(), x).then(function(tsfData){
                 AnalysisModel.getTsf($scope.marketData.reverse(), periodArray[x]).then(function(tsfData){
                     console.log(tsfData);
                     var tsfGraphData = {}
+                    //tsfGraphData.key = 'TSF_'+x;
                     tsfGraphData.key = 'TSF_'+periodArray[x];
-                    //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
                     tsfGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
                     tsfGraphData.values = tsfData;
                     $scope.marketGraphDataRender.push(tsfGraphData);
-                    //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                    //$scope.marketGraphChangeDataRender.push(tsfGraphData);
+                    //$scope.marketGraphChangeChangeDataRender.push(tsfGraphData);
+                    $rootScope.stateIsLoading = false;
                 });
             })(x, periodArray);
         }
     };
-    //$scope.getTsf();
+    //$scope.getTsf([3,5,10,20,40,80,160,320,640,1000]);
 
+    //TODO:BACKEND
     $scope.getBband = function (periodArray, sdArray){
         var periodArray = periodArray;//[3,5,10,20,40,80,160,320,640,1000];
         for(x in periodArray){
         //for (var x=1; x <= 100; x++){
             (function(x, periodArray) {
-                AnalysisModel.getTsf($scope.marketData.reverse(), periodArray[x]).then(function(tsfData){
+                AnalysisModel.getTsf($scope.marketData.reverse(), periodArray[x]).then(function(bbandData){
                     console.log(tsfData);
-                    var tsfGraphData = {}
-                    tsfGraphData.key = 'TSF_'+periodArray[x];
+                    var bbandUpperGraphData = {};
+                    var bbandMiddleGraphData = {}
+                    var bbandLowerGraphData = {}
+
+                    bbandUpperGraphData.key = 'bband_upper_'+periodArray[x];
+                    bbandMiddleGraphData.key = 'bband_middle_'+periodArray[x];
+                    bbandLowerGraphData.key = 'bband_lower_'+periodArray[x];
+
                     //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
-                    tsfGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-                    tsfGraphData.values = tsfData;
-                    $scope.marketGraphDataRender.push(tsfGraphData);
-                    //$scope.marketGraphChangeDataRender.push(emaGraphData);
+                    bbandUpperGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    bbandMiddleGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    bbandLowerGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
+                    bbandUpperGraphData.values = bbandData.upper;
+                    bbandMiddleGraphData.values = bbandData.middle;
+                    bbandLowerGraphData.values = bbandData.lower;
+
+                    $scope.marketGraphDataRender.push(bbandUpperGraphData);
+                    $scope.marketGraphDataRender.push(bbandMiddleGraphData);
+                    $scope.marketGraphDataRender.push(bbandLowerGraphData);
+
+                    //or 
+                    //$scope.marketGraphChangeDataRender.push(bbandUpperGraphData);
+                    //$scope.marketGraphChangeDataRender.push(bbandMiddleGraphData);
+                    //$scope.marketGraphChangeDataRender.push(bbandLowerGraphData);
+
+                    //or
+                    //$scope.marketGraphChangeChangeDataRender.push(bbandUpperGraphData);
+                    //$scope.marketGraphChangeChangeDataRender.push(bbandMiddleGraphData);
+                    //$scope.marketGraphChangeChangeDataRender.push(bbandLowerGraphData);
+
                 });
             })(x, periodArray);
         }
     };
     //$scope.getBband();
 
+    //TODO: DO IT
+    $scope.getNn = function (periodArray, sdArray){}
+    //$scope.getNn();
+
+    //$scope.getNnPdf = function (periodArray, sdArray){}
+    //$scope.getNnPdf();
+
+
+    //TODO:DELETE
+    $scope.marketGraphBandUpperData = {};
+    $scope.marketGraphBandUpperData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' upper band';
+    $scope.marketGraphBandUpperData.color = 'orange';
+    $scope.marketGraphBandUpperData.values = [];
+
+    $scope.marketGraphBandMiddleData = {};
+    $scope.marketGraphBandMiddleData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' middle band';
+    $scope.marketGraphBandMiddleData.color = 'black';
+    $scope.marketGraphBandMiddleData.values = [];
+
+    $scope.marketGraphBandLowerData = {};
+    $scope.marketGraphBandLowerData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' lower band';
+    $scope.marketGraphBandLowerData.color = 'gray';
+    $scope.marketGraphBandLowerData.values = [];
 
 
     $scope.seletetData = function (asset1, asset2, delta){
@@ -162,22 +220,23 @@ angular.module( 'investing.market', [
             $scope.marketGraphData.values = [];
             $scope.marketGraphChangeData.values = [];
             $scope.marketGraphChangeChangeData.values = [];
-            $scope.marketGraphEmaData.values = [];
 
             //TODO:work on indicator api
             $scope.marketGraphBandUpperData.values = [];
             $scope.marketGraphBandMiddleData.values = [];
             $scope.marketGraphBandLowerData.values = [];
 
+            //TODO: reverse prob.
             $scope.marketData = model;
             $scope.updateMarketData();
             $scope.getEma();
-            $scope.getPdf();
+            //$scope.getPdf();
 
             $rootScope.stateIsLoading = false;
         })
     };
 
+    //TODO: HIGH CHARTS
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -212,32 +271,10 @@ angular.module( 'investing.market', [
         }
     };
 
-
-    //TODO: REFACTOR FOR INDICATORS>>>~ BACKEND
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
     $scope.marketGraphData.color = '#14b794';
     $scope.marketGraphData.values = [];
-
-    $scope.marketGraphEmaData = {};
-    $scope.marketGraphEmaData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' ema';
-    $scope.marketGraphEmaData.color = 'black';
-    $scope.marketGraphEmaData.values = [];
-
-    $scope.marketGraphBandUpperData = {};
-    $scope.marketGraphBandUpperData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' upper band';
-    $scope.marketGraphBandUpperData.color = 'orange';
-    $scope.marketGraphBandUpperData.values = [];
-
-    $scope.marketGraphBandMiddleData = {};
-    $scope.marketGraphBandMiddleData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' middle band';
-    $scope.marketGraphBandMiddleData.color = 'black';
-    $scope.marketGraphBandMiddleData.values = [];
-
-    $scope.marketGraphBandLowerData = {};
-    $scope.marketGraphBandLowerData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] + ' lower band';
-    $scope.marketGraphBandLowerData.color = 'gray';
-    $scope.marketGraphBandLowerData.values = [];
 
     $scope.marketGraphChangeData = {};
     $scope.marketGraphChangeData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1] +' Change';
@@ -250,6 +287,7 @@ angular.module( 'investing.market', [
     $scope.marketGraphChangeChangeData.values = [];
 
 
+    //TODO: REFACTOR
     $scope.updateMarketData = function (){
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
@@ -291,6 +329,7 @@ angular.module( 'investing.market', [
     //    $scope.currentPrice = envelope.data
     //});
 
+    //TODO: REFACTOR
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':

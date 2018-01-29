@@ -8,6 +8,12 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
+    this.getNn = function(data, period) {
+        var url = utils.prepareUrl('analysis/nn');
+        var query = {params:{data: [data]}};
+        return $sailsSocket.get(url, query).then(success, error);
+    };
+
     this.getTsf = function(data, period) {
         var url = utils.prepareUrl('analysis/tsf');
         var query = {params:{data: [data], period: period}};
@@ -20,7 +26,7 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
-    this.getFFT = function() {
+    this.getFft = function() {
         var url = utils.prepareUrl('analysis/fft');
         return $sailsSocket.get(url).then(success, error);
     };

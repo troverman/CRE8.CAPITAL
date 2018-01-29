@@ -1139,7 +1139,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1154,12 +1154,12 @@ module.exports.intervalService = function(){
 	//CULL DATA
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
 	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 15000);//5 seconds
-	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 16000);//30seconds
-	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 4000);//60sec
-	/*timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 7200000);//5min
-	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
-	timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
-	timer(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr
+	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 15000);//30seconds
+	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 15000);//60sec
+	//timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 4000);//5min
+	//timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
+	//timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
+	/*timer(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr
 	timer(dataService.cullData.bind(null, '14400000', 2*2*2*2*7*24*60*60*1000), 7200000);//4hr
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
