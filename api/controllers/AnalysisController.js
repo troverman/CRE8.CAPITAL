@@ -149,7 +149,6 @@ function liveTrade(delta, asset1, asset2){
 module.exports = {
 
 	ema: function(req, res) {
-		
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
 		var price = data.map(function(obj){return obj.price});
@@ -203,21 +202,32 @@ module.exports = {
 	},
 
 	bband: function(req, res) {
-
-		var data = req.query.data;
+		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
-		var std = req.query.std;
+		var sD = req.query.sD;
+		var type = req.query.type;
+		var analysisData = [];
+		if (type == 'price'){analysisData = data.map(function(obj){return obj.price});}
+		if (type == 'change'){analysisData = data.map(function(obj){return obj.percentChange});}
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
-		tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
-			//dataObject.data = dataModel;
-			//for (x in results[0]){
-			//	dataModel[x].lower = results[0][x];
-			//	dataModel[x].middle = results[1][x];
-			//	dataModel[x].upper = results[2][x];
-			//	dataModel[x].ema = results[0][x];
-			//}
-			res.json(results[0]);
+		tulind.indicators.bbands.indicator([analysisData], [period, sD], function(err, results) {
+			//console.log(results);
+			//TODO:meh~
+			//too structured
+			var lowerData = [];
+			var middleData = [];
+			var uppderData = [];
+			for (x in data){
+				//shift.
+				if (x >= parseInt(period)){
+					lowerData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x-parseInt(period)]]);
+					middleData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[1][x-parseInt(period)]]);
+					uppderData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[2][x-parseInt(period)]]);
+				}
+			}
+			console.log(lowerData.length, results[0].length, parseInt(period));
+			res.json({lower:lowerData, middle:middleData, upper:uppderData});
 		});
 	},
 
@@ -263,6 +273,24 @@ module.exports = {
 						//might need to save pdfs as prediction db
 						//populate oppropiately ~ normal dist around 0? liner relation..
 						var pdfMap = {};
+						var bbandData = [];
+						for (var y = 1; y <= 50; y++) { 
+							var sD =y/10;
+							bbandData.push(dataService.getBband(pairData, 10, y));
+						}
+						Q.all(bbandData)
+						.then(function(bbandData){
+							console.log(bbandData);
+							for (x in bbandData){
+								var lastElement = bbandData[x].length-1;
+								bbandData[x][lastElement];
+							}
+							//INIT pdfMap w bbandData!
+
+
+
+						});
+
 						for (var i=1000; i>=-1000; i--){
 							pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
 						}

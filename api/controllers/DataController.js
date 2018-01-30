@@ -38,7 +38,7 @@ module.exports = {
 
 			//tulind.indicators.kama.indicator([price], [5], function(err, results) {
 			tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
-				console.log(results)
+				//console.log(results)
 				//dataObject.ema = results[0];
 				//dataObject.data = dataModel;
 				for (x in results[0]){
@@ -47,9 +47,11 @@ module.exports = {
 					dataModel[x].upper = results[2][x];
 					dataModel[x].ema = results[0][x];
 				}
+				console.log(results[0].length)
 				Data.subscribe(req, dataModel);
 				Data.watch(req);
 				res.json(dataModel);
+
 			});
 
 

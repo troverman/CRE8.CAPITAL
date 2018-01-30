@@ -8,6 +8,12 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
+    this.getBband = function(data, period, sD, type) {
+        var url = utils.prepareUrl('analysis/bband');
+        var query = {params:{data: [data], period: period, sD:sD, type:type}};
+        return $sailsSocket.get(url, query).then(success, error);
+    };
+
     this.getNn = function(data, period) {
         var url = utils.prepareUrl('analysis/nn');
         var query = {params:{data: [data]}};

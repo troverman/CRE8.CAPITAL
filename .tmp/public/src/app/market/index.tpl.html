@@ -21,7 +21,7 @@
 	<h2>Price Data</h2>
 	<button class="btn btn-default" ng-click="getEma('price')">ema</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getTsf('price')">tsf</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getBbands('price')">bbands</button><!--select periods / std..?-->
+	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'price')">bband</button><!--select periods / stD.?-->
 	<button class="btn btn-default" ng-click="getNn('price')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('price')">pdf</button><!--;)-->
 
@@ -31,7 +31,7 @@
 	<h2>Market Change</h2>
 	<button class="btn btn-default" ng-click="getEma('change')">ema</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getTsf('change')">tsf</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getBbands('change')">bbands</button><!--select periods / std..?-->
+	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">bband</button><!--select periods / sD..?-->
 	<button class="btn btn-default" ng-click="getNn('change')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('change')">pdf</button><!--;)-->
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
@@ -39,7 +39,7 @@
 	<h2>Market Change^2</h2>
 	<button class="btn btn-default" ng-click="getEma('changeChange')">ema</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getTsf('changeChange')">tsf</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getBbands('changeChange')">bbands</button><!--select periods / std..?-->
+	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'changeChange')">bband</button><!--select periods / sD..?-->
 	<button class="btn btn-default" ng-click="getNn('changeChange')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('changeChange')">pdf</button><!--;)-->
 	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>

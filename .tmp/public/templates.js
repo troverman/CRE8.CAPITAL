@@ -388,7 +388,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<h2>Price Data</h2>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getEma('price')\">ema</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getTsf('price')\">tsf</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBbands('price')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">bband</button><!--select periods / stD.?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button><!--;)-->\n" +
     "\n" +
@@ -398,7 +398,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<h2>Market Change</h2>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getEma('change')\">ema</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getTsf('change')\">tsf</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBbands('change')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">bband</button><!--select periods / sD..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">pdf</button><!--;)-->\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
@@ -406,7 +406,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<h2>Market Change^2</h2>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getEma('changeChange')\">ema</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getTsf('changeChange')\">tsf</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBbands('changeChange')\">bbands</button><!--select periods / std..?-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'changeChange')\">bband</button><!--select periods / sD..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getNn('changeChange')\">nn</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button><!--;)-->\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
@@ -533,11 +533,12 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
     "      <a class=\"navbar-brand\" href=\"/\">collaborative.capital</a>\n" +
+    "      <!--cre8.capital-->\n" +
     "    </div>\n" +
     "    <div class=\"collapse navbar-collapse\">\n" +
     "      <ul class=\"nav navbar-nav\">\n" +
-    "        <li ng-show=\"!currentUser\"><a href=\"/about\">about</a></li>\n" +
-    "        <li><a href=\"/markets\">markets</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/about')}\" ng-show=\"!currentUser\"><a href=\"/about\">about</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/markets')}\"><a href=\"/markets\">markets</a></li>\n" +
     "        <form class=\"navbar-form pull-left\" role=\"search\" action=\"/search/\" onSubmit=\" location.href = 'search/' + document.getElementById('search-link').value; return false;\">\n" +
     "          <div class=\"form-group\">\n" +
     "            <input ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
@@ -545,10 +546,10 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        </form>\n" +
     "      </ul>\n" +
     "      <ul class=\"nav navbar-nav navbar-right\">\n" +
-    "        <li ng-show=\"currentUser\"><a href=\"/account\">{{currentUser.username}}</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/account')}\" ng-show=\"currentUser\"><a href=\"/account\">{{currentUser.username}}</a></li>\n" +
     "        <li ng-show=\"currentUser\"><a href=\"/logout\">signout</a></li>\n" +
-    "        <li ng-show=\"!currentUser\"><a href=\"/register\">register</a></li>\n" +
-    "        <li ng-show=\"!currentUser\"><a href=\"/login\">login</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/register')}\" ng-show=\"!currentUser\"><a href=\"/register\">register</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/login')}\" ng-show=\"!currentUser\"><a href=\"/login\">login</a></li>\n" +
     "      </ul>\n" +
     "    </div>\n" +
     "  </div>\n" +

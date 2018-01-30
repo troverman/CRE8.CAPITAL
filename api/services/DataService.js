@@ -47,7 +47,15 @@ module.exports = {
 			deferred.resolve(results[0][results[0].length-1])
 		});
 		return deferred.promise;
+	},
 
+	getBband: function(data, period, sD){
+		var deferred = Q.defer();
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.bbands.indicator([change], [period, sD], function(err, results) {
+			deferred.resolve({lower:results[0], middle:results[1], upper:results[2]})
+		});
+		return deferred.promise;
 	},
 
 	getEMA: function(data, period, type){
@@ -59,7 +67,6 @@ module.exports = {
 	},
 
 	getMACD: function(data, period, type){
-
 	},
 
 
