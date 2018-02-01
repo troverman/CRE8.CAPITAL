@@ -1035,22 +1035,24 @@ function getCurrentPrediction(delta, asset1, asset2) {
 			.limit(1)
 			.sort('createdAt DESC')
 			.then(function(lastestPrediction){
-				//console.log(lastestPrediction[0]);
-				var normalizedBidInput = (model.data.currentBid - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
-				if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-				var normalizedAskInput = (model.data.currentAsk - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
-				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-				var latestInput = [normalizedBidInput, normalizedAskInput];
-				var output = myNetwork.activate(latestInput);
-				var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
-				var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
-				model.output = [denormalizeBid, denormalizeAsk];
+				if (lastestPrediction.length > 0){
+					//console.log(lastestPrediction[0]);
+					var normalizedBidInput = (model.data.currentBid - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
+					if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+					var normalizedAskInput = (model.data.currentAsk - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
+					if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+					var latestInput = [normalizedBidInput, normalizedAskInput];
+					var output = myNetwork.activate(latestInput);
+					var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
+					var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
+					model.output = [denormalizeBid, denormalizeAsk];
 
-				//TODO - catalog moving average of error in perdictions to generate confidence score for picks 
-				//Probability Density Functions ~ as a prediction?? 
+					//TODO - catalog moving average of error in perdictions to generate confidence score for picks 
+					//Probability Density Functions ~ as a prediction?? 
 
-				console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
+					console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
 
+				}
 			});
 		});
 
@@ -1063,9 +1065,9 @@ module.exports.intervalService = function(){
 	var dataService = {};
 	dataService = sails.services.dataservice;
 
-	//tradingPairs.forEach(function(tradingPair, index){
-	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
-	//});
+	tradingPairs.forEach(function(tradingPair, index){
+		getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
+	});
 
 	//tradingPairs.forEach(function(tradingPair, index){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds

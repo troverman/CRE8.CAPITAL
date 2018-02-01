@@ -2,38 +2,38 @@
 
 	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
 	<div class="row">
-		<button ng-class="selectedClass('1000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '1000')">1sec </button>
-		<button ng-class="selectedClass('5000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '5000')">5sec </button>
-		<button ng-class="selectedClass('30000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '30000')">30sec</button>
-		<button ng-class="selectedClass('60000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '60000')">1min </button>
-		<button ng-class="selectedClass('300000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '300000')">5min </button>
-		<button ng-class="selectedClass('1800000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '1800000')">30min</button>
-		<button ng-class="selectedClass('3600000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '3600000')">1hr  </button>
-		<button ng-class="selectedClass('7200000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '7200000')">2hr  </button>
-		<button ng-class="selectedClass('14400000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '14400000')">4hr  </button>
-		<button ng-class="selectedClass('21600000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '21600000')">6hr  </button>
-		<button ng-class="selectedClass('43200000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '43200000')">12hr </button>
-		<button ng-class="selectedClass('86400000')" ng-click="seletetData(stateParams.path1, stateParams.path2, '86400000')">24hr </button>
+		<button ng-class="selectedClass('1000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1000')">1sec </button>
+		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5sec </button>
+		<button ng-class="selectedClass('30000')" ng-click="selectData(stateParams.path1, stateParams.path2, '30000')">30sec</button>
+		<button ng-class="selectedClass('60000')" ng-click="selectData(stateParams.path1, stateParams.path2, '60000')">1min </button>
+		<button ng-class="selectedClass('300000')" ng-click="selectData(stateParams.path1, stateParams.path2, '300000')">5min </button>
+		<button ng-class="selectedClass('1800000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1800000')">30min</button>
+		<button ng-class="selectedClass('3600000')" ng-click="selectData(stateParams.path1, stateParams.path2, '3600000')">1hr  </button>
+		<button ng-class="selectedClass('7200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '7200000')">2hr  </button>
+		<button ng-class="selectedClass('14400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '14400000')">4hr  </button>
+		<button ng-class="selectedClass('21600000')" ng-click="selectData(stateParams.path1, stateParams.path2, '21600000')">6hr  </button>
+		<button ng-class="selectedClass('43200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '43200000')">12hr </button>
+		<button ng-class="selectedClass('86400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '86400000')">24hr </button>
 	</div>
 	<!--how much data..?-->
 	<!--zoom out ability.. a lot-->
 
 	<h2>Price Data</h2>
-	<button class="btn btn-default" ng-click="getEma('price')">ema</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getTsf('price')">tsf</button><!--select periods..?-->
+	<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'price')">ema</button><!--select periods..?-->
+	<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'price')">tsf</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'price')">bband</button><!--select periods / stD.?-->
 	<button class="btn btn-default" ng-click="getNn('price')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('price')">pdf</button><!--;)-->
 
-
 	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 
 	<h2>Market Change</h2>
-	<button class="btn btn-default" ng-click="getEma('change')">ema</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getTsf('change')">tsf</button><!--select periods..?-->
+	<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button><!--select periods..?-->
+	<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">bband</button><!--select periods / sD..?-->
 	<button class="btn btn-default" ng-click="getNn('change')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('change')">pdf</button><!--;)-->
+
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
 
 	<h2>Market Change^2</h2>
@@ -42,10 +42,13 @@
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'changeChange')">bband</button><!--select periods / sD..?-->
 	<button class="btn btn-default" ng-click="getNn('changeChange')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('changeChange')">pdf</button><!--;)-->
+
 	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>
 
 	<h2>Probability Density</h2>
-	<canvas id="tableHeatmap" width="1250" height="500"></canvas>
+	<div style="max-height:500px;overflow:scroll">
+		<canvas id="tableHeatmap" width="1250" height="3500"></canvas>
+	</div>
 	<!--<heatmap id="heatmap-1" data="heatmapData" config="heatmapConfig" width="834" height="400" class="ng-isolate-scope"></heatmap>-->
 
 	<!--

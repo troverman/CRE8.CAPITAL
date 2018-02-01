@@ -51,6 +51,7 @@ module.exports = {
 
 	getBband: function(data, period, sD){
 		var deferred = Q.defer();
+		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange});
 		tulind.indicators.bbands.indicator([change], [period, sD], function(err, results) {
 			deferred.resolve({lower:results[0], middle:results[1], upper:results[2]})

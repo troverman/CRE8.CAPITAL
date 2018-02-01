@@ -264,45 +264,62 @@ module.exports = {
 						var changeHigh = (high - lastPrice)/high;
 						var changeLow = (low - lastPrice)/low;
 
-						console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
-						console.log(sortedData);
-						console.log(lastPrice, high, low, range);
-						console.log(changeHigh, changeLow);
+						//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
+						//console.log(sortedData);
+						//console.log(lastPrice, high, low, range);
+						//console.log(changeHigh, changeLow);
 					
 						//INIT PDF
 						//might need to save pdfs as prediction db
 						//populate oppropiately ~ normal dist around 0? liner relation..
 						var pdfMap = {};
 						var bbandData = [];
-						for (var y = 1; y <= 50; y++) { 
+						for (var y = 1; y <= 30; y++) { 
 							var sD =y/10;
 							bbandData.push(dataService.getBband(pairData, 10, y));
 						}
 						Q.all(bbandData)
 						.then(function(bbandData){
-							console.log(bbandData);
+							var bbandIndicator = [];
 							for (x in bbandData){
-								var lastElement = bbandData[x].length-1;
-								bbandData[x][lastElement];
+								//console.log(bbandData[x].upper)
+								//console.log(bbandData[x].upper[bbandData[x].upper.length-1]);
+								var upperLastElement = bbandData[x].upper[bbandData[x].upper.length-1];
+								var lowerLastElement = bbandData[x].lower[bbandData[x].lower.length-1];
+								bbandIndicator.push({upper:upperLastElement, lower:lowerLastElement});
 							}
+
+							for (var i=1000; i>=-1000; i--){
+								pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
+							}
+							pdfMap[0] = pdfMap[0.001];
+
 							//INIT pdfMap w bbandData!
+							//w bband --> fill in area between bands.. --> layer it 
+							for (x in bbandIndicator){
+								//var upperBandPercent = (bbandIndicator[x].upper-lastPrice) / lastPrice;
+								//var lowerBandPercent = (bbandIndicator[x].lower-lastPrice) / lastPrice;
+								//console.log(upperBandPercent,lowerBandPercent);
+								console.log(bbandIndicator[x].upper, lastPrice, bbandIndicator[x].lower)
+								for (var i=1000; i>=-1000; i--){
+									if (i/1000 > bbandIndicator[x].lower && i/1000 < bbandIndicator[x].upper){
+										pdfMap[i/1000] += 0.001//map better by sD %
+									}
+								}
+							}
 
+							//TEST
+							var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
+							for (x in testData){
+								pdfMap[parseFloat(testData[x].toFixed(3))] += 0.35
+							}
 
+							//console.log(pdfMap);
+							heatMap.push(pdfMap);
+							process.nextTick(nextTime);
 
 						});
 
-						for (var i=1000; i>=-1000; i--){
-							pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
-						}
-						pdfMap[0] = pdfMap[0.001];
-
-						//TEST
-						var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
-						for (x in testData){
-							pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
-						}
-						heatMap.push(pdfMap);
-						process.nextTick(nextTime);
 
 					});
 				})(pairData)
