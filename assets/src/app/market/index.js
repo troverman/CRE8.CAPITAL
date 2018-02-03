@@ -46,12 +46,13 @@ angular.module( 'investing.market', [
             y: function(d){ 
                 return d[1]; 
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20b().range(),
             duration: 1500,
             useInteractiveGuideline: true,
-            clipVoronoi: true,
+            clipVoronoi: false,
+            //interpolate: 'cardinal-open',
             xAxis: {
-                axisLabel: 'Time',
+                //axisLabel: 'Time',
                 tickFormat: function(d) {
                     return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
                 },
@@ -257,7 +258,6 @@ angular.module( 'investing.market', [
 
     //TODO: REFACTOR
     $scope.updateMarketData = function (callback){
-        $rootScope.stateIsLoading = true;
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.percentChange]);
@@ -280,7 +280,6 @@ angular.module( 'investing.market', [
         $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
         //RENDER INDICATORS~~
-        $rootScope.stateIsLoading = false;
         callback();
     };
 

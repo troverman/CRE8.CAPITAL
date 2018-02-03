@@ -123,6 +123,8 @@ angular.module( 'investing.markets', [
         'BLK/XMR'
     ];
 
+    console.log(d3)
+
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -139,8 +141,9 @@ angular.module( 'investing.markets', [
             y: function(d){ 
                 return d[1]; 
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20b().range(),
             duration: 1500,
+            interpolate: 'monotone',
             useInteractiveGuideline: true,
             clipVoronoi: true,
             xAxis: {

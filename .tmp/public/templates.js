@@ -255,8 +255,26 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<br><br>\n" +
     "			<h1>order book</h1><br>\n" +
     "			<div ng-repeat=\"order in orders\">\n" +
-    "				<p>{{order.assetPair}} <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
+    "				<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
     "			</div>\n" +
+    "			<!--\n" +
+    "			<div ng-repeat=\"order in orders\">\n" +
+    "				<tr>\n" +
+    "					<td>\n" +
+    "						<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></p>\n" +
+    "					</td>\n" +
+    "					<td>\n" +
+    "						<p>{{order.amount}} {{order.asset1}}</p>\n" +
+    "					</td>\n" +
+    "					<td>\n" +
+    "						<p>{{order.amount/order.price}} {{order.asset2}}\n" +
+    "					</td>\n" +
+    "					<td>\n" +
+    "						<p>{{order.price}} : {{order.createdAt}}</p>\n" +
+    "					</td>\n" +
+    "				</tr>\n" +
+    "			</div>\n" +
+    "			-->\n" +
     "			<br><br>\n" +
     "		</div>\n" +
     "	</div>\n" +

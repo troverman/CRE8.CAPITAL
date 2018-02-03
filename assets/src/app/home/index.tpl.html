@@ -153,8 +153,26 @@
 			<br><br>
 			<h1>order book</h1><br>
 			<div ng-repeat="order in orders">
-				<p>{{order.assetPair}} <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>
+				<p><a style="color:gray" href="market/{{order.asset1}}/{{order.asset2}}">{{order.asset1}}/{{order.asset2}}</a> <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>
 			</div>
+			<!--
+			<div ng-repeat="order in orders">
+				<tr>
+					<td>
+						<p><a style="color:gray" href="market/{{order.asset1}}/{{order.asset2}}">{{order.asset1}}/{{order.asset2}}</a></p>
+					</td>
+					<td>
+						<p>{{order.amount}} {{order.asset1}}</p>
+					</td>
+					<td>
+						<p>{{order.amount/order.price}} {{order.asset2}}
+					</td>
+					<td>
+						<p>{{order.price}} : {{order.createdAt}}</p>
+					</td>
+				</tr>
+			</div>
+			-->
 			<br><br>
 		</div>
 	</div>
