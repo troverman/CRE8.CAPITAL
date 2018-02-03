@@ -189,6 +189,25 @@ module.exports = {
 		});
 	},
 
+	macd: function(req, res) {
+		var data = JSON.parse(req.query.data);
+		var shortPeriod = req.query.shortPeriod;
+		var longPeriod = req.query.longPeriod;
+		var signalPeriod = req.query.signalPeriod;
+		var type = req.query.type;
+
+		dataService.getMACD(data, shortPeriod, longPeriod, signalPeriod, type).then(function(macdData){
+			var returnData = [];
+			for (x in data){
+				if (x >= parseInt(longPeriod)){
+					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), macdData[0][x-parseInt(longPeriod)]]);
+				}
+			}
+			res.json(returnData);
+		});
+	},
+
+
 	tsf: function(req, res) {
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
@@ -219,6 +238,23 @@ module.exports = {
 			res.json(returnData);
 		});
 	},
+	
+
+	fosc: function(req, res) {
+		var data = JSON.parse(req.query.data);
+		var period = req.query.period;
+		var type = req.query.type;
+		dataService.getFOSC(data, period, type).then(function(foscData){
+			var returnData = [];
+			for (x in data){
+				if (x >= parseInt(period)){
+					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), foscData[0][x-parseInt(period)]]);
+				}
+			}
+			res.json(returnData);
+		});
+	},
+
 
 	bband: function(req, res) {
 		var data = JSON.parse(req.query.data);

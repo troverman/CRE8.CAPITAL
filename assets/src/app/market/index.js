@@ -156,7 +156,7 @@ angular.module( 'investing.market', [
             (function(x, periodArray) {
                 AnalysisModel.getEma($scope.marketData, periodArray[x], type).then(function(emaData){
                     console.log(emaData);
-                    var emaGraphData = {}
+                    var emaGraphData = {};
                     emaGraphData.key = 'EMA_'+periodArray[x];
                     emaGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
                     emaGraphData.values = emaData;
@@ -169,6 +169,29 @@ angular.module( 'investing.market', [
         }
     };
     //$scope.getEma([3,5,10,20,40,80,160,320,640,1000], 'price');
+
+    $scope.marketGraphOscillatorDataRender = [];
+    $scope.getMacd = function (shortPeriod, longPeriod, signalPeriod, type){
+        $rootScope.stateIsLoading = true;
+        var periodArray = [3,5,10,20,40,80];
+        for(x in periodArray){
+            //for (y in periodArray){
+                (function(x, periodArray) {
+                    AnalysisModel.getMacd($scope.marketData, periodArray[x], 2*periodArray[x], 3*periodArray[x]).then(function(macdData){
+                        console.log(macdData);
+                        var macdGraphData = {};
+                        macdGraphData.key = 'MACD_'+periodArray[x]+'_'+2*periodArray[x]+'_'+3*periodArray[x];
+                        macdGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        macdGraphData.values = macdData;
+                        $scope.marketGraphOscillatorDataRender.push(macdGraphData);
+                        $rootScope.stateIsLoading = false;
+                    });
+                })(x, periodArray);
+            //}
+        }
+    };
+    $scope.getMacd();
+
 
     $scope.getTsf = function (periodArray){
         $rootScope.stateIsLoading = true;
@@ -193,6 +216,26 @@ angular.module( 'investing.market', [
         }
     };
     //$scope.getTsf([3,5,10,20,40,80,160,320,640,1000]);
+
+    $scope.getFosc = function (periodArray, type){
+        $rootScope.stateIsLoading = true;
+        var periodArray = [3,5,10,20,40,80];
+        for(x in periodArray){
+            (function(x, periodArray) {
+                AnalysisModel.getFosc($scope.marketData, periodArray[x]).then(function(foscData){
+                    console.log(foscData);
+                    var foscGraphData = {};
+                    foscGraphData.key = 'FOSC_'+periodArray[x];
+                    foscGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    foscGraphData.values = foscData;
+                    $scope.marketGraphOscillatorDataRender.push(foscGraphData);
+                    $rootScope.stateIsLoading = false;
+                });
+            })(x, periodArray);
+        }
+    };
+    //$scope.getFosc();
+
 
     //TODO:BACKEND
     //TODO: WTF THE SHIFT?????

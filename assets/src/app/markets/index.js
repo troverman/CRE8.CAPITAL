@@ -123,7 +123,7 @@ angular.module( 'investing.markets', [
         'BLK/XMR'
     ];
 
-    console.log(d3)
+    //console.log(d3)
 
     $scope.marketOptions = {
         chart: {

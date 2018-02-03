@@ -421,13 +421,22 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Market Change^2</h2>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getEma('changeChange')\">ema</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getTsf('changeChange')\">tsf</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'changeChange')\">bband</button><!--select periods / sD..?-->\n" +
+    "	<!--\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getEma('changeChange')\">ema</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getTsf('changeChange')\">tsf</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'changeChange')\">bband</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getNn('changeChange')\">nn</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button><!--;)-->\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button>\n" +
+    "	-->\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
+    "\n" +
+    "	<h2>Oscillator</h2>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">macd</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">fosc</button>\n" +
+    "\n" +
+    "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
+    "\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
     "	<div style=\"max-height:500px;overflow:scroll\">\n" +

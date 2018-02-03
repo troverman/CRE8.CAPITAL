@@ -1062,17 +1062,14 @@ function getCurrentPrediction(delta, asset1, asset2) {
 
 module.exports.intervalService = function(){
 
-	var dataService = {};
-	dataService = sails.services.dataservice;
 
-	tradingPairs.forEach(function(tradingPair, index){
-		getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
-	});
+	//tradingPairs.forEach(function(tradingPair, index){
+	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
+	//});
 
 	//tradingPairs.forEach(function(tradingPair, index){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
 	//});
-
 
 	//60000
 	//1800000

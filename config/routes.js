@@ -33,6 +33,8 @@ module.exports.routes = {
   'get /api/analysis/tsf': 'AnalysisController.tsf',
   'get /api/analysis/bband': 'AnalysisController.bband',
   'get /api/analysis/pdf': 'AnalysisController.pdf',
+  'get /api/analysis/macd': 'AnalysisController.macd',
+  'get /api/analysis/fosc': 'AnalysisController.fosc',
 
   /**
    * Market routes

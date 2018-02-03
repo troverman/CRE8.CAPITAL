@@ -37,13 +37,22 @@
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
 
 	<h2>Market Change^2</h2>
-	<button class="btn btn-default" ng-click="getEma('changeChange')">ema</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getTsf('changeChange')">tsf</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'changeChange')">bband</button><!--select periods / sD..?-->
+	<!--
+	<button class="btn btn-default" ng-click="getEma('changeChange')">ema</button>
+	<button class="btn btn-default" ng-click="getTsf('changeChange')">tsf</button>
+	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'changeChange')">bband</button>
 	<button class="btn btn-default" ng-click="getNn('changeChange')">nn</button>
-	<button class="btn btn-default" ng-click="getPdf('changeChange')">pdf</button><!--;)-->
+	<button class="btn btn-default" ng-click="getPdf('changeChange')">pdf</button>
+	-->
 
 	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>
+
+	<h2>Oscillator</h2>
+	<button class="btn btn-default" ng-click="getMacd([20,40,80,160,320,640],'change')">macd</button>
+	<button class="btn btn-default" ng-click="getFosc([20,40,80,160,320,640],'change')">fosc</button>
+
+	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>
+
 
 	<h2>Probability Density</h2>
 	<div style="max-height:500px;overflow:scroll">

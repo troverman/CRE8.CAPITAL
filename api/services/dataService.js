@@ -54,7 +54,7 @@ module.exports = {
 		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange});
 		tulind.indicators.fosc.indicator([price], [period], function(err, results) {
-			deferred.resolve(results[0])
+			deferred.resolve(results)
 		});
 		return deferred.promise;
 	},
