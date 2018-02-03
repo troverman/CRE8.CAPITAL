@@ -1154,13 +1154,13 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
 
 	//CULL DATA
-	timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 100000);//5 seconds
-	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 100000);//30seconds
-	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 100000);//60sec
-	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 100000);//5min
-	timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
-	timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
+	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
+	//timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 100000);//5 seconds
+	//timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 100000);//30seconds
+	//timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 100000);//60sec
+	//timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 100000);//5min
+	//timer(dataService.cullData.bind(null, '1800000', 2*2*7*24*60*60*1000), 7200000);//30min
+	//timer(dataService.cullData.bind(null, '3600000', 2*2*7*24*60*60*1000), 7200000);//1hr
 	/*timer(dataService.cullData.bind(null, '7200000', 2*2*2*7*24*60*60*1000), 7200000);//2hr
 	timer(dataService.cullData.bind(null, '14400000', 2*2*2*2*7*24*60*60*1000), 7200000);//4hr
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr

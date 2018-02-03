@@ -114,7 +114,8 @@ angular.module( 'investing.market', [
     //TODO: LOL
     $scope.getPdf = function (){
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPdf($scope.marketData.reverse().slice($scope.marketData.length-350, $scope.marketData.length)).then(function(returnData){
+        //$scope.marketData.reverse().slice($scope.marketData.length-350, $scope.marketData.length)
+        AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
             
             //console.log(returnData);
             var heatmapData = {};
@@ -256,6 +257,7 @@ angular.module( 'investing.market', [
 
     //TODO: REFACTOR
     $scope.updateMarketData = function (callback){
+        $rootScope.stateIsLoading = true;
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.percentChange]);
@@ -278,6 +280,7 @@ angular.module( 'investing.market', [
         $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
         //RENDER INDICATORS~~
+        $rootScope.stateIsLoading = false;
         callback();
     };
 

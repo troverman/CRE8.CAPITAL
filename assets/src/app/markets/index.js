@@ -216,7 +216,7 @@ angular.module( 'investing.markets', [
     $scope.solvePortfolio = function(delta, limit){
         $scope.portfolioData = {};
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPortfolioSolve($scope.selectedDelta, limit).then(function(data){
+        AnalysisModel.getPortfolioSolve($scope.selectedDelta, 100).then(function(data){
             $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
             //$scope.updatePortfolio(data.portfolioSet);
@@ -226,7 +226,7 @@ angular.module( 'investing.markets', [
     $scope.solvePortfolioMulti = function(delta, limit){
         $scope.portfolioData = {};
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPortfolioSolveMulti($scope.selectedDelta, limit).then(function(data){
+        AnalysisModel.getPortfolioSolveMulti($scope.selectedDelta, 100).then(function(data){
             $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
             //$scope.updatePortfolio(data.portfolioSet);

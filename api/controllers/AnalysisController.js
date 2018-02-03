@@ -155,6 +155,7 @@ module.exports = {
 		var change = data.map(function(obj){return obj.percentChange})
 
 		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
+		//zlema
 		tulind.indicators.ema.indicator([price], [period], function(err, results) {
 			var returnData = [];
 			for (x in results[0]){
@@ -166,6 +167,24 @@ module.exports = {
 	    	}
 			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
 			console.log(result, result.r2, result.predict(1000), period, result.string);
+			res.json(returnData);
+		});
+	},
+
+	zelma: function(req, res) {
+		var data = JSON.parse(req.query.data);
+		var period = req.query.period;
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange})
+		//wma, kama, dema, tema
+		tulind.indicators.kama.indicator([price], [period], function(err, results) {
+			var returnData = [];
+			//reverse though data for ex, dema, tema
+			for (x in data){
+				if (x >= parseInt(period)){
+					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x-parseInt(period)]]);
+				}
+			}
 			res.json(returnData);
 		});
 	},
@@ -311,7 +330,7 @@ module.exports = {
 							//TEST
 							var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
 							for (x in testData){
-								pdfMap[parseFloat(testData[x].toFixed(3))] += 0.35
+								pdfMap[parseFloat(testData[x].toFixed(3))] += 0.50
 							}
 
 							//console.log(pdfMap);
@@ -581,6 +600,23 @@ module.exports = {
 							//}
 						}
 					}
+
+					console.log(y, exchangeMap[0].length-2)
+					if (y == exchangeMap[0].length-2){
+						for (n in Object.keys(currentPortfolio)){
+							var pairIndex = timeArray.map(function(obj){return obj.asset2}).indexOf(Object.keys(currentPortfolio)[n]);
+							if (pairIndex != -1){
+								if (Object.keys(currentPortfolio)[n] != 'BTC' && currentPortfolio[Object.keys(currentPortfolio)[n]] != 0){
+									//console.log(Object.keys(currentPortfolio)[n])
+									currentPortfolio['BTC'] += currentPortfolio[Object.keys(currentPortfolio)[n]]*parseFloat(timeArray[pairIndex].price);
+									orderSet.push({asset1: timeArray[pairIndex].asset2, asset2:timeArray[pairIndex].asset1, price:1/parseFloat(timeArray[pairIndex].price), amount:currentPortfolio[Object.keys(currentPortfolio)[n]], createdAt:timeArray[pairIndex].createdAt})
+									currentPortfolio[Object.keys(currentPortfolio)[n]] = 0;
+									portfolioSet.push(clone(currentPortfolio));
+								}
+							}
+						}
+					}
+
 				}
 			}
 
@@ -598,6 +634,7 @@ module.exports = {
 	//TODO: this a mess lol
 	portfolioSolvePDF: function(req, res) {
 
+		//TODO: THIS IS IT
 		function getPdf(pairData, callback){
 			//TODO: restructure to object strcutre vs. reliying on indexing 
 			//pairData[0].asset1 ~ {}
@@ -608,6 +645,7 @@ module.exports = {
 				if (index > 0){
 					var predictionData = pairData.slice(0, index);
 					var tsfPredictionData = [];
+					//TODO: period vs prediction delta..?
 					for (var z = 1; z <= index; z++){
 						tsfPredictionData.push(dataService.getTSF(predictionData, z));
 					}
@@ -621,7 +659,7 @@ module.exports = {
 						var lastPrice = pairData[pairData.length-1].price;
 
 						//INIT PDF
-						var pdfMap = {};
+						/*var pdfMap = {};
 						var pdfSum = 0;
 						for (var i=1000; i>=-1000; i--){
 							pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
@@ -633,7 +671,7 @@ module.exports = {
 							if (!isNaN(pdfData[x])){
 								pdfMap[parseFloat(pdfData[x].toFixed(3))] += 0.25
 							}
-						}
+						}*/
 
 						//PDF ANALYSIS HERE!
 						//pdfSum+=0.60811/Math.pow(i, 2);
@@ -643,8 +681,112 @@ module.exports = {
 						//pdfMap.totalNegativeProbability = 0;
 						//pdfMap.allPostiveProbability = true;
 
-						pdfMapArray.push(pdfMap);
-						process.nextTick(nextPair);
+						//INIT PDF
+						//might need to save pdfs as prediction db
+						//populate oppropiately ~ normal dist around 0? liner relation..
+						var pdfMap = {};
+						var bbandData = [];
+						for (var y = 1; y <= 30; y++) { 
+							var sD =y/10;
+							bbandData.push(dataService.getBband(pairData, 10, y));
+							//for (var z = 2; z <= 20; z++) { 
+							//	bbandData.push(dataService.getBband(pairData, z, y));
+							//}
+						}
+						Q.all(bbandData)
+						.then(function(bbandData){
+							var bbandIndicator = [];
+							for (x in bbandData){
+								//console.log(bbandData[x].upper)
+								//console.log(bbandData[x].upper[bbandData[x].upper.length-1]);
+								//TODO: this is lagged. it is last 'element', but behind. -~> if price is hitting the bband?? --> work with the probability fxn then
+								//-->touch bottom band, will go up, tough top band, will go down
+								var upperLastElement = bbandData[x].upper[bbandData[x].upper.length-1];
+								var lowerLastElement = bbandData[x].lower[bbandData[x].lower.length-1];
+								bbandIndicator.push({upper:upperLastElement, lower:lowerLastElement});
+							}
+
+							for (var i=1000; i>=-1000; i--){
+								pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
+							}
+							pdfMap[0] = pdfMap[0.001];
+
+							//INIT pdfMap w bbandData!
+							//w bband --> fill in area between bands.. --> layer it 
+							for (x in bbandIndicator){
+								//var upperBandPercent = (bbandIndicator[x].upper-lastPrice) / lastPrice;
+								//var lowerBandPercent = (bbandIndicator[x].lower-lastPrice) / lastPrice;
+								//console.log(upperBandPercent,lowerBandPercent);
+								console.log(bbandIndicator[x].upper, pairData[pairData.length-1].percentChange, bbandIndicator[x].lower)
+								for (var i=1000; i>=-1000; i--){
+									if (i/1000 > bbandIndicator[x].lower && i/1000 < bbandIndicator[x].upper){
+										pdfMap[i/1000] += 0.001//map better by sD %
+									}
+								}
+							}
+
+							//TEST
+							var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
+							for (x in testData){
+								pdfMap[parseFloat(testData[x].toFixed(3))] += 0.50
+							}
+
+							//TODO EMA PDF,
+							//dataService.getEMA(pairData, 10).then(function(data){
+								//console.log(data);
+							//});
+
+							//MACD PDF....~~~
+							//TODO OSC PDF
+							//dataService.getFOSC(pairData, 10).then(function(data){
+							//	console.log(data);
+							//});
+
+							//MACD PDF....~~~
+							//dataService.getMACD(pairData, 2, 5, 9).then(function(data){
+								//console.log(data);
+							//});
+
+							//NN PDF
+							//TODO:LOL
+							/*console.log('SUP!');
+							NeuralNetwork.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2})
+							.then(function(neuralNetworkModel) {
+								var synaptic = require('synaptic');
+								var Neuron = synaptic.Neuron,
+									Layer = synaptic.Layer,
+									Network = synaptic.Network,
+									Trainer = synaptic.Trainer,
+									Architect = synaptic.Architect;
+								var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
+								Prediction
+								.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2})
+								.limit(1)
+								.sort('createdAt DESC')
+								.then(function(lastestPrediction){
+									console.log(lastestPrediction)
+									if (lastestPrediction.length > 0){
+										var model = {};
+										var normalizedBidInput = (lastPrice - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
+										if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+										var normalizedAskInput = (lastPrice - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
+										if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+										var latestInput = [normalizedBidInput, normalizedAskInput];
+										var output = myNetwork.activate(latestInput);
+										var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
+										var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
+										model.output = [denormalizeBid, denormalizeAsk];
+										console.log(model.output[0], model.output[1], (lastPrice - model.output[0])/lastPrice, (lastPrice - model.output[1])/lastPrice);
+										
+									}
+								});
+							});*/
+
+							pdfMapArray.push(pdfMap);
+							process.nextTick(nextPair);
+							
+						});
+
 					});
 
 				}
@@ -659,7 +801,7 @@ module.exports = {
 		var promises = [];
 		var currentPortfolio = {BTC:req.query.btc}
 		var limit = 20//req.query.limit;
-		var delta = '60000'//req.query.delta;
+		var delta = '7200000'//req.query.delta;
 		var portfolioSet = [];
 		var orderSet = [];
 		var sum = 0;
@@ -684,8 +826,10 @@ module.exports = {
 				for (y in exchangeMap[0]){
 					var timeArray = [];
 					var predictionArray = [];
+					var trainArray = [];
 					for (x in exchangeMap){
 						timeArray.push(exchangeMap[x][y]);
+						trainArray.push(exchangeMap[x][parseInt(y)+1]);//--> this is oh boi.
 						predictionArray.push(pdfArray[x][y]);
 						if (!hasUndefined(timeArray)){
 							if(!currentPortfolio[exchangeMap[x][y].asset1]){currentPortfolio[exchangeMap[x][y].asset1]=0}
@@ -698,7 +842,7 @@ module.exports = {
 
 						var pdfAnalysis = [];
 						//TODO REDUX. STORE IN PDF ARRAY :analyis
-						//TO) MUCH CALC
+						//TOO MUCH CALC
 						for (x in predictionArray){
 							//find most 'attractive' pdf
 							//pdf analysis
@@ -721,37 +865,46 @@ module.exports = {
 									}
 								}
 							}
-							console.log(totalPositiveProbability, totalNegativeProbability, allPostiveProbability, totalPositiveProbability + totalNegativeProbability, sum);
+							//console.log(totalPositiveProbability, totalNegativeProbability, allPostiveProbability, totalPositiveProbability + totalNegativeProbability, sum);
 							pdfAnalysis.push({totalPositiveProbability:totalPositiveProbability, totalNegativeProbability:totalNegativeProbability, allPostiveProbability:allPostiveProbability});
 						}
-
 
 						//find index of most 'attractive'
 						//sort by probability score ~ for multipick 
 						//if not -1
-						var positiveProbabilityIndex = pdfAnalysis.map(function(obj){return obj.allPostiveProbability}).indexOf(true);
 						//console.log(positiveProbabilityIndex);
-
 						//sort by totalPositiveProbability - totalNegativeProbability
 						//need to find index..
-						//var sortMap = pdfAnalysis.map(function(obj){return obj.totalPositiveProbability + obj.totalNegativeProbability});
 						//this may be redundant vs relativity +1 start complexity
-						var sortMap = pdfAnalysis.sort(function(a,b) {
+						//var positiveProbabilityIndex = pdfAnalysis.map(function(obj){return obj.allPostiveProbability}).indexOf(true);
+						
+						var sortMap = pdfAnalysis.concat().sort(function(a,b) {
 							return (a.totalPositiveProbability + a.totalNegativeProbability < b.totalPositiveProbability + b.totalNegativeProbability) ? 1 : ((b.totalPositiveProbability + b.totalNegativeProbability < a.totalPositiveProbability + a.totalNegativeProbability) ? -1 : 0);
 						}); 
+					
 
 						//TODO: move away from index.
 						var pickOrderIndex = [];
+						//console.log(pdfAnalysis);
 						for (x in sortMap){
 							//totalPositiveProbability is not neccesarily unique 
+							//console.log(sortMap[x].totalPositiveProbability + sortMap[x].totalNegativeProbability)
 							pickOrderIndex.push(pdfAnalysis.map(function(obj){return obj.totalPositiveProbability}).indexOf(sortMap[x].totalPositiveProbability));
 						}
 
 						//TODO: add positiveProbabilityIndex to pickOrderIndex, reduce.
 
 						//MULTIPICK -- prob best to cap from 3-7
-						var cap = 4;
+						var cap = 3;
 						var cappedPickIndex = pickOrderIndex.slice(0, cap);
+						//console.log(cappedPickIndex);
+
+						var trainSort = trainArray.concat().sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
+						console.log('BEST PICK', trainSort[0].asset2, trainSort[0].percentChange)
+						for (x in cappedPickIndex){
+							if (trainArray[cappedPickIndex[x]].percentChange > 0){console.log(trainArray[cappedPickIndex[x]].asset2, trainArray[cappedPickIndex[x]].percentChange, 'GOOD PICK')}
+							if (trainArray[cappedPickIndex[x]].percentChange < 0){console.log(trainArray[cappedPickIndex[x]].asset2, trainArray[cappedPickIndex[x]].percentChange, 'BAD PICK')}
+						}
 
 						//TODO: relativity? 
 						var totalPositiveChange = 0;
@@ -803,9 +956,9 @@ module.exports = {
 					}
 				}
 
-				console.log(portfolioSet);
-				//console.log(orderSet);
-
+				//console.log(portfolioSet);
+				console.log(orderSet);
+				console.log(portfolioSet[portfolioSet.length-1]);
 				res.json({portfolioSet:portfolioSet, orderSet:orderSet})
 
 			});

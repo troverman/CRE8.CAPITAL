@@ -49,6 +49,16 @@ module.exports = {
 		return deferred.promise;
 	},
 
+	getFOSC: function(data, period, type){
+		var deferred = Q.defer();
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.fosc.indicator([price], [period], function(err, results) {
+			deferred.resolve(results[0])
+		});
+		return deferred.promise;
+	},
+
 	getBband: function(data, period, sD){
 		var deferred = Q.defer();
 		var price = data.map(function(obj){return obj.price});
@@ -60,16 +70,24 @@ module.exports = {
 	},
 
 	getEMA: function(data, period, type){
+		var deferred = Q.defer();
 		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange});
 		tulind.indicators.ema.indicator([price], [period], function(err, results) {
-			return results[0];
+			deferred.resolve(results[0]);
 		});
+		return deferred.promise;
 	},
 
-	getMACD: function(data, period, type){
+	getMACD: function(data, shortPeriod, longPeriod, signalPeriod, type){
+		var deferred = Q.defer();
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.macd.indicator([price], [shortPeriod, longPeriod, signalPeriod], function(err, results) {
+			deferred.resolve(results);
+		});
+		return deferred.promise;
 	},
-
 
 	predictiveModelPolynomial: function(asset1, asset2, delta, limit, order, precision){
 		var regression = require('regression');
