@@ -89,6 +89,16 @@ module.exports = {
 		return deferred.promise;
 	},
 
+	getRSI: function(data, period, type){
+		var deferred = Q.defer();
+		var price = data.map(function(obj){return obj.price});
+		var change = data.map(function(obj){return obj.percentChange});
+		tulind.indicators.rsi.indicator([price], [period], function(err, results) {
+			deferred.resolve(results);
+		});
+		return deferred.promise;
+	},
+
 	predictiveModelPolynomial: function(asset1, asset2, delta, limit, order, precision){
 		var regression = require('regression');
 		var ema = require('exponential-moving-average');
@@ -206,23 +216,15 @@ module.exports = {
 	},
 
 	createOrder: function(asset1, asset2, price, amount){
-
-
 		//poloniex.buy('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel, function(model){
 
 		//});
-
 		//poloniex.sell('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel,){
 		//});
-
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
-
-
 		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//sell(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//cancelOrder(orderNumber [, callback])
-
-
 	},
 
 	tickerREST: function(delta){
@@ -256,7 +258,6 @@ module.exports = {
 			                    console.log(updated[0]);
 			                });
 
-
 			                /*
 			                if (model.delta >= 60000){
 				                Prediction.find({asset1:asset1,asset2:asset2,delta:delta})
@@ -274,7 +275,11 @@ module.exports = {
 							}
 							*/
 
-			                //TODO: INSERT BUY if delta --
+							//TODO: WORK ON ORDER....
+							//TODO: FLASH CRASH LOGIC!
+							//TODO: INJECT SOME INDICATORS?? ANALYIS ~ PDF? --> if saved..
+							//THIS IS THE HEARTBEAT.. EVERY DELTA
+							//IF STRONG CONFIDENCE
 
 			                var orderModel = {};
 			                orderModel.assetPair = model.assetPair;
@@ -284,12 +289,11 @@ module.exports = {
 							orderModel.delta = delta;
 			                var emailList = ['vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
-
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
 			                    orderModel.amount = 1;
 			                    for (x in emailList){
-									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
 						        Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -300,7 +304,7 @@ module.exports = {
 			                    orderModel.type = 'BUY';
 			                    orderModel.amount = 1;
 								for (x in emailList){
-									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
 			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
@@ -315,7 +319,7 @@ module.exports = {
 				                	orderModel.type = 'BUY';
 				                    orderModel.amount = 1;
 									for (x in emailList){
-										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
 				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
@@ -323,6 +327,8 @@ module.exports = {
 
 			                	}
 
+
+			                	//TODO: THIS IS THE START FOR REAL $ :)
 			                	//SELL HIGH
 								/*Order.find({delta:delta})
 								.sort('createdAt DESC')
@@ -339,15 +345,50 @@ module.exports = {
 			                }
 
 			                //FLASH CRASH LOGIC
-			                // DO THIS LOL IT HAPPENS LIKE ONCE A DAY
+			                //DO THIS LOL IT HAPPENS LIKE ONCE A DAY
+			                //30 SEC
 			                if (delta == '30000'){
+
 								if (model.percentChange < -0.05){
-									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 								}
+
 								if (model.percentChange < -0.10){
-									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange+' percent in '+model.delta/1000+' seconds', {data: model});
+									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 								}
+
+								orderModel.type = 'BUY';
+			                    orderModel.amount = 1;
+								Order.create(orderModel).then(function(orderModel){
+			                    	console.log(orderModel)
+			                    });			                   
 			                }
+
+
+			                //TODO: IMPROVE ~ MAKE IT LIVE ~ TURN ON THE CASH! 
+			                //if last time was a flash crash?
+			                //if there was an order..?
+			                //this is faster than finding the last order.. but want to make sure we 'bought' b4 selling. 
+			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
+
+			                if (models[1].percentChange < -0.05){
+
+								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){
+
+									if (model.percentChange > 0){
+										orderModel.type = 'SELL';
+					                    orderModel.amount = 1;
+										Order.create(orderModel).then(function(orderModel){
+					                    	console.log(orderModel)
+					                    });	
+										emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK' + model.percentChange +'% profit', {data: model});
+										
+									}
+	
+								}
+
+			                }
+			               
 
 			            });
 					});

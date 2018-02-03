@@ -198,8 +198,11 @@ module.exports = {
 
 		dataService.getMACD(data, shortPeriod, longPeriod, signalPeriod, type).then(function(macdData){
 			var returnData = [];
+			//var macdSignal = [];
+			//var macdHistogram = [];
 			for (x in data){
 				if (x >= parseInt(longPeriod)){
+					//TODO: macd[1], macd[2]
 					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), macdData[0][x-parseInt(longPeriod)]]);
 				}
 			}
@@ -249,6 +252,21 @@ module.exports = {
 			for (x in data){
 				if (x >= parseInt(period)){
 					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), foscData[0][x-parseInt(period)]]);
+				}
+			}
+			res.json(returnData);
+		});
+	},
+
+	rsi: function(req, res) {
+		var data = JSON.parse(req.query.data);
+		var period = req.query.period;
+		var type = req.query.type;
+		dataService.getRSI(data, period, type).then(function(rsiData){
+			var returnData = [];
+			for (x in data){
+				if (x >= parseInt(period)){
+					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), rsiData[0][x-parseInt(period)]]);
 				}
 			}
 			res.json(returnData);

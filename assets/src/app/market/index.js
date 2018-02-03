@@ -14,12 +14,15 @@ angular.module( 'investing.market', [
             marketData: ['$stateParams', 'DataModel', function($stateParams, DataModel) {
                 return DataModel.getData(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase(), 300000);
                 //return null
-            }]
+            }],
+            orders: ['$stateParams', 'OrderModel', function($stateParams, OrderModel) {
+                return OrderModel.getSome(25, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(),  $stateParams.path2.toUpperCase());
+            }],
         }
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, PredictionModel, titleService ) {
 	
     //TODO: live price.. ticker call -- socket. --> in title!
     titleService.setTitle($stateParams.path1.toUpperCase()+'/'+$stateParams.path2.toUpperCase()+' - investingfor');
@@ -28,6 +31,7 @@ angular.module( 'investing.market', [
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1.toUpperCase(),$stateParams.path2.toUpperCase()];
     $scope.selectedDelta = '300000';
+    $scope.orders = orders;
 
     //TODO: HIGH CHARTS
     $scope.marketOptions = {
@@ -80,6 +84,7 @@ angular.module( 'investing.market', [
     $scope.marketGraphChangeChangeData.color = '#f94442';
     $scope.marketGraphChangeChangeData.values = [];
 
+    $scope.marketGraphOscillatorDataRender = [];
 
     $scope.selectedClass= function(delta){
         if($scope.selectedDelta==delta){return 'btn btn-primary'}
@@ -168,11 +173,12 @@ angular.module( 'investing.market', [
             })(x, periodArray);
         }
     };
-    //$scope.getEma([3,5,10,20,40,80,160,320,640,1000], 'price');
+    //$scope.getEma([10,20,40,80,160,320], 'price');
+    $scope.getEma([40, 80, 160, 320], 'price');
 
-    $scope.marketGraphOscillatorDataRender = [];
     $scope.getMacd = function (shortPeriod, longPeriod, signalPeriod, type){
         $rootScope.stateIsLoading = true;
+        $scope.marketGraphOscillatorDataRender = [];
         var periodArray = [3,5,10,20,40,80];
         for(x in periodArray){
             //for (y in periodArray){
@@ -191,7 +197,6 @@ angular.module( 'investing.market', [
         }
     };
     $scope.getMacd();
-
 
     $scope.getTsf = function (periodArray){
         $rootScope.stateIsLoading = true;
@@ -219,6 +224,7 @@ angular.module( 'investing.market', [
 
     $scope.getFosc = function (periodArray, type){
         $rootScope.stateIsLoading = true;
+        $scope.marketGraphOscillatorDataRender = [];
         var periodArray = [3,5,10,20,40,80];
         for(x in periodArray){
             (function(x, periodArray) {
@@ -236,6 +242,25 @@ angular.module( 'investing.market', [
     };
     //$scope.getFosc();
 
+    $scope.getRsi = function (periodArray, type){
+        $rootScope.stateIsLoading = true;
+        $scope.marketGraphOscillatorDataRender = [];
+        var periodArray = [3,5,10,20,40,80,160,320,640];
+        for(x in periodArray){
+            (function(x, periodArray) {
+                AnalysisModel.getRsi($scope.marketData, periodArray[x]).then(function(rsiData){
+                    console.log(rsiData);
+                    var rsiGraphData = {};
+                    rsiGraphData.key = 'RSI_'+periodArray[x];
+                    rsiGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    rsiGraphData.values = rsiData;
+                    $scope.marketGraphOscillatorDataRender.push(rsiGraphData);
+                    $rootScope.stateIsLoading = false;
+                });
+            })(x, periodArray);
+        }
+    };
+    //$scope.getRsi();
 
     //TODO:BACKEND
     //TODO: WTF THE SHIFT?????
@@ -291,6 +316,8 @@ angular.module( 'investing.market', [
     //$scope.getBband([5,10,15], [0.5,1,1.5,2,2.5,3,3.5], 'price');
     //$scope.getBband([2,4,6,8,10,12,14,16,18,20], [2], 'price');
     //$scope.getBband([5,10,15], [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7], 'price');
+    //$scope.getBband([50, 100], [2], 'change');
+    $scope.getBband([10], [2], 'change');
 
 
     //TODO: DO IT
@@ -328,11 +355,10 @@ angular.module( 'investing.market', [
 
     $scope.updateMarketData(function(){
         //$scope.getBband([500, 750], [0.5, 1, 2, 4, 6, 8], 'price');
-        $scope.getBband([50, 100], [2], 'change');
-        $scope.getEma([160, 320], 'price');
-        $scope.getBband([10], [2], 'change');
+        //$scope.getBband([50, 100], [2], 'change');
+        //$scope.getEma([160, 320], 'price');
+        //$scope.getBband([10], [2], 'change');
     });
-
 
     $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
@@ -343,13 +369,14 @@ angular.module( 'investing.market', [
             $scope.marketGraphData.values = [];
             $scope.marketGraphChangeData.values = [];
             $scope.marketGraphChangeChangeData.values = [];
+            //TODO
+            $scope.marketGraphOscillatorDataRender = [];
             //TODO: reverse prob.
             $scope.marketData = model;
-            $scope.updateMarketData();
             $rootScope.stateIsLoading = false;
+            $scope.updateMarketData(function(){});
         })
     };
-
 
     //TODO: LIVE PRICE
     //TODO: DECENTRALIZE

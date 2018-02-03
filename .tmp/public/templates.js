@@ -386,7 +386,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
     "	<div class=\"row\">\n" +
-    "		<button ng-class=\"selectedClass('1000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>\n" +
+    "		<!--<button ng-class=\"selectedClass('1000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>-->\n" +
     "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
     "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
     "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
@@ -434,6 +434,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<h2>Oscillator</h2>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">macd</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">fosc</button>\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">rsi</button>\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
     "\n" +
@@ -443,6 +444,12 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<canvas id=\"tableHeatmap\" width=\"1250\" height=\"3500\"></canvas>\n" +
     "	</div>\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
+    "\n" +
+    "	<h2>Market Orders</h2>\n" +
+    "\n" +
+    "	<div ng-repeat=\"order in orders\">\n" +
+    "		<p>{{order.type}} {{order.amount}} {{order.price}} {{order.createdAt}}</p>\n" +
+    "	</div>\n" +
     "\n" +
     "	<!--\n" +
     "	<h2>5 Min Prediction</h2>\n" +

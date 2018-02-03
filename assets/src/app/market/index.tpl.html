@@ -2,7 +2,7 @@
 
 	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
 	<div class="row">
-		<button ng-class="selectedClass('1000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1000')">1sec </button>
+		<!--<button ng-class="selectedClass('1000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1000')">1sec </button>-->
 		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5sec </button>
 		<button ng-class="selectedClass('30000')" ng-click="selectData(stateParams.path1, stateParams.path2, '30000')">30sec</button>
 		<button ng-class="selectedClass('60000')" ng-click="selectData(stateParams.path1, stateParams.path2, '60000')">1min </button>
@@ -50,6 +50,7 @@
 	<h2>Oscillator</h2>
 	<button class="btn btn-default" ng-click="getMacd([20,40,80,160,320,640],'change')">macd</button>
 	<button class="btn btn-default" ng-click="getFosc([20,40,80,160,320,640],'change')">fosc</button>
+	<button class="btn btn-default" ng-click="getRsi([20,40,80,160,320,640],'change')">rsi</button>
 
 	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>
 
@@ -59,6 +60,12 @@
 		<canvas id="tableHeatmap" width="1250" height="3500"></canvas>
 	</div>
 	<!--<heatmap id="heatmap-1" data="heatmapData" config="heatmapConfig" width="834" height="400" class="ng-isolate-scope"></heatmap>-->
+
+	<h2>Market Orders</h2>
+
+	<div ng-repeat="order in orders">
+		<p>{{order.type}} {{order.amount}} {{order.price}} {{order.createdAt}}</p>
+	</div>
 
 	<!--
 	<h2>5 Min Prediction</h2>

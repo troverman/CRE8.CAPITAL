@@ -10,15 +10,30 @@ module.exports = {
 		var skip = req.query.skip;
 		var sort = 'createdAt DESC';//req.query.filter;
 
-		Order.find({})
-		.limit(limit)
-		.skip(skip)
-		.sort(sort)
-		.then(function(model) {
-			res.json(model);
-		})
-		.fail(function(err) {
-		});
+		//hak --> clean up if we want #cre8
+		if (asset1){
+			Order.find()
+			.where({asset1:asset1, asset2:asset2})
+			.limit(limit)
+			.skip(skip)
+			.sort(sort)
+			.then(function(model) {
+				res.json(model);
+			})
+			.fail(function(err) {
+			});
+		}
+		else{
+			Order.find()
+			.limit(limit)
+			.skip(skip)
+			.sort(sort)
+			.then(function(model) {
+				res.json(model);
+			})
+			.fail(function(err) {
+			});
+		}
 	},
 
 	create: function (req, res) {

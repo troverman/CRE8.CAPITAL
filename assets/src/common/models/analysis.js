@@ -26,9 +26,15 @@ angular.module('models.analysis', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url, query).then(success, error);
     };
 
-    this.getFosc = function(data, period) {
+    this.getFosc = function(data, period, type) {
         var url = utils.prepareUrl('analysis/fosc');
         var query = {params:{data: [data], period: period}};
+        return $sailsSocket.get(url, query).then(success, error);
+    };
+
+    this.getRsi = function(data, period, type) {
+        var url = utils.prepareUrl('analysis/rsi');
+        var query = {params:{data: [data], period: period, type:type}};
         return $sailsSocket.get(url, query).then(success, error);
     };
 
