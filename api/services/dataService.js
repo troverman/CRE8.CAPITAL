@@ -295,7 +295,7 @@ module.exports = {
 			                    for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-						        Order.create(orderModel).then(function(orderModel){
+						        return Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
 			                }
@@ -306,7 +306,7 @@ module.exports = {
 								for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-			                    Order.create(orderModel).then(function(orderModel){
+			                    return Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
 			                }
@@ -321,13 +321,11 @@ module.exports = {
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
-				                    Order.create(orderModel).then(function(orderModel){
+				                    return Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
 				                    });
 
 			                	}
-
-
 			                	//TODO: THIS IS THE START FOR REAL $ :)
 			                	//SELL HIGH
 								/*Order.find({delta:delta})
@@ -340,8 +338,6 @@ module.exports = {
 				                    	console.log(orderModel)
 				                    });
 								});*/
-
-
 			                }
 
 			                //FLASH CRASH LOGIC
@@ -351,19 +347,27 @@ module.exports = {
 
 								if (model.percentChange < -0.05){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
+
+									orderModel.type = 'BUY';
+				                    orderModel.amount = 1;
+									return Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });	
+
 								}
 
 								if (model.percentChange < -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
+
+									orderModel.type = 'BUY';
+				                    orderModel.amount = 1;
+									return Order.create(orderModel).then(function(orderModel){
+				                    	console.log(orderModel)
+				                    });	
+
 								}
-
-								orderModel.type = 'BUY';
-			                    orderModel.amount = 1;
-								Order.create(orderModel).then(function(orderModel){
-			                    	console.log(orderModel)
-			                    });			                   
+		                   
 			                }
-
 
 			                //TODO: IMPROVE ~ MAKE IT LIVE ~ TURN ON THE CASH! 
 			                //if last time was a flash crash?
@@ -375,14 +379,19 @@ module.exports = {
 
 								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){
 
+									//if multiple intervals --> create profit taking logic 
+									//
+									//GET PROTFOLIO.. SAMPLE. to make trading logic.
+
 									if (model.percentChange > 0){
 										orderModel.type = 'SELL';
 					                    orderModel.amount = 1;
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel)
+
+										emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
+										return Order.create(orderModel).then(function(orderModel){
+					                    	console.log(orderModel);
 					                    });	
-										emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK' + model.percentChange +'% profit', {data: model});
-										
+					                    
 									}
 	
 								}
