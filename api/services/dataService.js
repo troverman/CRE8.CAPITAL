@@ -358,12 +358,30 @@ module.exports = {
 
 								if (model.percentChange < -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
+					               	orderModel.type = 'BUY';
 
-									orderModel.type = 'BUY';
-				                    orderModel.amount = 1;
-									return Order.create(orderModel).then(function(orderModel){
-				                    	console.log(orderModel)
-				                    });	
+
+									//TODO: IMPROVE.. MB SLOW
+					                Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
+
+					                	//ALL IN -- do... 88%
+					                    //do % by model.percentChange..:D
+					                    orderModel.amount = (asset[0].amount*0.5)/orderModel.price;
+					                    var asset1Amount = asset[0].amount*0.5;
+
+					                    //TODO:ORDER USERID
+										return Order.create(orderModel).then(function(orderModel){
+					                    	console.log(orderModel)
+					                    });	
+
+										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1, amount:asset1Amount});
+										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
+											var updateAmount = asset[0].amount + orderModel.amount;
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2, amount:updateAmount});
+											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
+					                    });	
+
+					                });
 
 								}
 		                   
@@ -374,6 +392,8 @@ module.exports = {
 			                //if there was an order..?
 			                //this is faster than finding the last order.. but want to make sure we 'bought' b4 selling. 
 			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
+			                //TODO: LOGIC.. CANT SELL IF DIDNT BUY OR HAVE THE ASSET. 
+			                //TODO: REAL $
 
 			                if (models[1].percentChange < -0.05){
 
@@ -384,21 +404,38 @@ module.exports = {
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 
 									if (model.percentChange > 0){
+										//mb hold hold -- 50/50 if 5000-> for more gain
 										orderModel.type = 'SELL';
-					                    orderModel.amount = 1;
 
-										emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
-										return Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel);
-					                    });	
+					                    //TODO: SYSTEM WIDE?? PERCENT
+					                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
+
+					                    	//ALL IN -- do... 88%
+					                    	//do % by model.percentChange..:D
+					                    	orderModel.amount = asset[0].amount*0.88;
+
+					                    	var asset1Amount = orderModel.amount*orderModel.price;
+
+					                    	emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
+											//TODO: FOR REAL MONEY.. CHECK IF PRICE IS WITHIN RANGE STILL (there will be a few (s) change -- and take the market.. factor in fees, make the market? + .00001 or -.00001; not good for fast tho. so take
+											return Order.create(orderModel).then(function(orderModel){
+						                    	console.log(orderModel);
+						                    });	
+
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2, amount:orderModel.amount});
+											Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
+												var updateAmount = asset[0].amount + asset1Amount;
+												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1, amount:updateAmount});
+												emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
+						                    });	
+
+					                    });
 					                    
 									}
 	
 								}
 
 			                }
-			               
-
 			            });
 					});
 				}

@@ -745,7 +745,6 @@ function createPrediction(limit, delta){
 	tradingPairs.forEach(function(tradingPair, index){
 	    var promise = getData(limit, delta, tradingPair);
 	    promises.push(promise);
-
 	});
 
 	Q.all(promises)
@@ -1059,9 +1058,46 @@ function getCurrentPrediction(delta, asset1, asset2) {
 	});
 };
 
+function initPortfolio(){
+
+	//1 btc and 1btc of all assets
+	/*var promises = [];
+	tradingPairs = tradingPairs.filter(function(obj){
+        if (obj.split('/')[1]=='BTC'){return obj}
+    });
+
+	tradingPairs.forEach(function(tradingPair, index){
+	    var promise = getData(1, '5000', tradingPair);
+	    promises.push(promise);
+	});
+
+	Q.all(promises)
+	.then(function(data){
+		for (x in data){
+			var assetModel = {
+				user: '591a95d935ab691100c584ce',
+				symbol: data[x][0].asset2,
+				amount: 1/data[x][0].price,
+				//conversionArray: data,
+			};
+			Asset.create(assetModel).then(function(model){
+				console.log(model)
+			});
+			console.log(1/data[x][0].price, data[x][0].asset2);
+		}
+	});*/
+
+	Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
+		console.log(model)
+	})
+
+};
+
 
 module.exports.intervalService = function(){
 
+
+	//initPortfolio();
 
 	//tradingPairs.forEach(function(tradingPair, index){
 	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);

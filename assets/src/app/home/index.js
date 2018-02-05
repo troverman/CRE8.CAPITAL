@@ -21,7 +21,7 @@ angular.module( 'investing.home', [
     });
 }])
 
-.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', function HomeController($sailsSocket, $scope, titleService, config, DataModel, marketData, orders) {
+.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', 'PortfolioModel', function HomeController($sailsSocket, $scope, titleService, config, DataModel, marketData, orders, PortfolioModel) {
     titleService.setTitle('collaborative.capital');
     $scope.currentUser = config.currentUser;
     $scope.marketData = marketData;
@@ -30,11 +30,33 @@ angular.module( 'investing.home', [
     $scope.orders = orders;
     $scope.portfolioData = [];
     $scope.portfolioLabels = [];
+    $scope.btcValue = 0;
 
-    $scope.portfolio = {"BTC":11.060538745890252,"XRP":0,"ETH":0,"LTC":0,"BCH":0,"XMR":0,"ZEC":0,"DASH":0,"ETC":0,"XEM":0,"FCT":0,"BTS":0,"LSK":0,"DGB":263591.5069943809,"EMC2":38176.577348262574,"NXT":0,"SC":1325411.3022239534,"POT":0,"STRAT":0,"DOGE":0,"ZRX":0,"ARDR":14560.05055129148,"VTC":0,"BTM":0,"OMG":0,"MAID":0,"VRC":0,"GNT":71252.02154826501,"GAME":272.12899820401367,"CVC":47150.833566708905,"REP":3814.1648113849833,"STEEM":0,"SYS":0,"BCN":0,"LBC":0,"DCR":0,"RIC":0,"GNO":0,"PPC":0,"GAS":0,"BURST":0,"PASC":0,"VIA":0,"FLO":62574.26509878051,"FLDC":0,"NEOS":0,"STORJ":0,"CLAM":9020.714522223534,"NAV":0,"XCP":51.04647785638911,"XBC":0,"AMP":97677.8501493588,"OMNI":0,"EXP":551.6313274360972,"GRC":667483.999663664,"BLK":0,"SBD":0,"PINK":0,"NMC":0,"RADS":0,"NXC":576399.0160247518,"XVC":0,"BELA":33664.128196055455,"XPM":0,"BTCD":992.928621698872,"BCY":0,"HUC":0}
-    for (x in Object.keys($scope.portfolio)){
-        $scope.portfolioData.push($scope.portfolio[Object.keys($scope.portfolio)[x]]);
-        $scope.portfolioLabels.push(Object.keys($scope.portfolio)[x]);
+    //TODO: normalize to btc price
+    //TODO: update to ticker.. 
+    //aka total 
+    if($scope.currentUser){
+        DataModel.getLatestData().then(function(data){
+
+            PortfolioModel.getAssets($scope.currentUser.id).then(function(assets){
+
+                for (x in assets){
+                    var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                    var btcValue = assets[x].amount*data[index][0].price;
+                    $scope.btcValue += btcValue;
+                }
+
+                //TODO: IMPROVE
+                for (x in assets){
+                    var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                    var btcValue = assets[x].amount*data[index][0].price;
+                    $scope.portfolioData.push(btcValue/$scope.btcValue)
+                    $scope.portfolioLabels.push(assets[x].symbol);
+                }  
+
+            });
+
+        });
     }
 
     $scope.tradingPairs = [

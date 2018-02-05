@@ -6,9 +6,9 @@ angular.module('models.portfolio', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url).then(success, error);
     };
 
-    this.getData = function(limit, skip, sort, asset1, asset2, delta) {
-        var query = {params:{limit: limit, skip: skip, sort: sort, asset1: asset1, asset2: asset2, delta: delta}};
-        var url = utils.prepareUrl('data');
+    this.getAssets = function(user) {
+        var query = {params:{user: user}};
+        var url = utils.prepareUrl('asset');
         return $sailsSocket.get(url, query).then(success, error);
     };
 

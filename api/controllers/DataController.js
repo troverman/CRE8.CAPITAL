@@ -1,6 +1,119 @@
 var request = require('request');
 var Poloniex = require('poloniex-api-node');
 var tulind = require('tulind');
+var Q = require('q');
+
+var tradingPairs = [
+    'XRP/BTC',
+    'ETH/BTC',
+    'BTC/USDT',
+    'LTC/BTC',
+    'BCH/BTC',
+    'XRP/USDT',
+    'ETH/USDT',
+    'BCH/USDT',
+    'XMR/BTC',
+    'ZEC/BTC',
+    'LTC/USDT',
+    'DASH/BTC',
+    'ETC/BTC',
+    'XEM/BTC',
+    'ZEC/USDT',
+    'FCT/BTC',
+    'ETC/USDT',
+    'BTS/BTC',
+    'LSK/BTC',
+    'DGB/BTC',  
+    'EMC2/BTC',
+    'NXT/BTC',
+    'SC/BTC',
+    'POT/BTC',  
+    'STRAT/BTC',
+    'NXT/USDT',
+    'DOGE/BTC',
+    'DASH/USDT',
+    'XMR/USDT',
+    'BCH/ETH',
+    'ZRX/BTC',  
+    'ARDR/BTC',
+    'VTC/BTC',
+    'BTM/BTC',  
+    'OMG/BTC',
+    'MAID/BTC',
+    'VRC/BTC',  
+    'GNT/BTC',  
+    'GAME/BTC',
+    'CVC/BTC',  
+    'REP/BTC',
+    'STEEM/BTC',
+    'SYS/BTC',
+    'BCN/BTC',
+    'LBC/BTC',
+    'DCR/BTC',
+    'ZEC/ETH',
+    'REP/USDT',
+    'ETC/ETH',
+    'LTC/XMR',
+    'ZRX/ETH',
+    'RIC/BTC',
+    'GNO/BTC',
+    'PPC/BTC',
+    'GAS/BTC',
+    'BURST/BTC',
+    'PASC/BTC', 
+    'VIA/BTC',
+    'FLO/BTC',
+    'FLDC/BTC',
+    'NEOS/BTC', 
+    'OMG/ETH',
+    'STORJ/BTC',
+    'GNT/ETH',
+    'CLAM/BTC', 
+    'NAV/BTC',
+    'XCP/BTC',
+    'LSK/ETH',
+    'XBC/BTC',
+    'AMP/BTC',
+    'OMNI/BTC', 
+    'EXP/BTC',
+    'GRC/BTC',
+    'BLK/BTC',  
+    'SBD/BTC',
+    'PINK/BTC',
+    'NMC/BTC',
+    'RADS/BTC', 
+    'GNO/ETH',
+    'NXC/BTC',
+    'XVC/BTC',
+    'CVC/ETH',
+    'BELA/BTC',
+    'NXT/XMR',
+    'ZEC/XMR',
+    'XPM/BTC',
+    'BTCD/BTC', 
+    'REP/ETH',
+    'BCY/BTC',
+    'MAID/XMR', 
+    'DASH/XMR', 
+    'HUC/BTC',
+    'STEEM/ETH',
+    'BCN/XMR',
+    'BTCD/XMR', 
+    'BLK/XMR'
+];
+
+function getData(limit, delta, tradingPair){
+    var defered = Q.defer();
+    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+	.limit(limit)
+	.sort('createdAt DESC')
+	.then(function(models){
+		console.log(tradingPair);
+		defered.resolve(models.reverse());
+	});
+    return defered.promise;
+};
+
 
 module.exports = {
 
@@ -24,37 +137,28 @@ module.exports = {
 		.skip(skip)
 		.sort(sort)
 		.then(function(dataModel){
-			
-			//var dataModel = dataModel.reverse()
-			
-			//TODO:seperate api calls based on indicator..
-			//dataService.ema(period, data)
-			var dataObject = {};
-			var change = dataModel.map(function(obj){return obj.percentChange});
-			var price = dataModel.map(function(obj){return obj.price});
-			//console.log(price)
+			Data.subscribe(req, dataModel);
+			Data.watch(req);
+			res.json(dataModel);
+		});
 
-			//get data by indicator
+	},
 
-			//tulind.indicators.kama.indicator([price], [5], function(err, results) {
-			tulind.indicators.bbands.indicator([change], [10,2], function(err, results) {
-				//console.log(results)
-				//dataObject.ema = results[0];
-				//dataObject.data = dataModel;
-				for (x in results[0]){
-					dataModel[x].lower = results[0][x];
-					dataModel[x].middle = results[1][x];
-					dataModel[x].upper = results[2][x];
-					dataModel[x].ema = results[0][x];
-				}
-				console.log(results[0].length)
-				Data.subscribe(req, dataModel);
-				Data.watch(req);
-				res.json(dataModel);
+	getLatestData: function(req, res){
 
-			});
+		var promises = [];
+		tradingPairs = tradingPairs.filter(function(obj){
+	        if (obj.split('/')[1]=='BTC'){return obj}
+	    });
 
+		tradingPairs.forEach(function(tradingPair, index){
+		    var promise = getData(1, '5000', tradingPair);
+		    promises.push(promise);
+		});
 
+		Q.all(promises)
+		.then(function(data){
+			res.json(data);
 		});
 
 	},

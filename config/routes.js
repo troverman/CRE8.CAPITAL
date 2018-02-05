@@ -37,6 +37,12 @@ module.exports.routes = {
   'get /api/analysis/fosc': 'AnalysisController.fosc',
   'get /api/analysis/rsi': 'AnalysisController.rsi',
 
+   /**
+   * Asset routes
+   */
+  'get /api/asset': 'AssetController.getSome',
+
+
   /**
    * Market routes
    */
@@ -46,6 +52,7 @@ module.exports.routes = {
    * Data routes
    */
   'get /api/data': 'DataController.getData',
+  'get /api/data/latest': 'DataController.getLatestData',
   'get /api/data/currency': 'DataController.getCurrency',
   'get /api/data/ticker': 'DataController.getTicker',
 
