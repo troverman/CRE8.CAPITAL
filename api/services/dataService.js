@@ -245,7 +245,7 @@ module.exports = {
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
-			            return Data.find({assetPair:model.assetPair, delta: model.delta})
+			            Data.find({assetPair:model.assetPair, delta: model.delta})
 			            .sort('createdAt DESC')
 			            .limit(2)
 			            .then(function (models) {
@@ -295,7 +295,7 @@ module.exports = {
 			                    for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-						        return Order.create(orderModel).then(function(orderModel){
+						        Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
 			                }
@@ -306,7 +306,7 @@ module.exports = {
 								for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-			                    return Order.create(orderModel).then(function(orderModel){
+			                    Order.create(orderModel).then(function(orderModel){
 			                    	console.log(orderModel)
 			                    });
 			                }
@@ -321,7 +321,7 @@ module.exports = {
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
-				                    return Order.create(orderModel).then(function(orderModel){
+				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
 				                    });
 
@@ -350,7 +350,7 @@ module.exports = {
 
 									orderModel.type = 'BUY';
 				                    orderModel.amount = 1;
-									return Order.create(orderModel).then(function(orderModel){
+									Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
 				                    });	
 
@@ -370,7 +370,7 @@ module.exports = {
 					                    var asset1Amount = asset[0].amount*0.5;
 
 					                    //TODO:ORDER USERID
-										return Order.create(orderModel).then(function(orderModel){
+										Order.create(orderModel).then(function(orderModel){
 					                    	console.log(orderModel)
 					                    });	
 
@@ -418,7 +418,7 @@ module.exports = {
 
 					                    	emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
 											//TODO: FOR REAL MONEY.. CHECK IF PRICE IS WITHIN RANGE STILL (there will be a few (s) change -- and take the market.. factor in fees, make the market? + .00001 or -.00001; not good for fast tho. so take
-											return Order.create(orderModel).then(function(orderModel){
+											Order.create(orderModel).then(function(orderModel){
 						                    	console.log(orderModel);
 						                    });	
 
