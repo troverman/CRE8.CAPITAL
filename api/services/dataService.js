@@ -321,6 +321,7 @@ module.exports = {
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
+
 				                    Order.create(orderModel).then(function(orderModel){
 				                    	console.log(orderModel)
 				                    });
@@ -360,7 +361,6 @@ module.exports = {
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 					               	orderModel.type = 'BUY';
 
-
 									//TODO: IMPROVE.. MB SLOW
 					                Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
 
@@ -374,10 +374,10 @@ module.exports = {
 					                    	console.log(orderModel)
 					                    });	
 
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1, amount:asset1Amount});
+										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount});
 										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
 											var updateAmount = asset[0].amount + orderModel.amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2, amount:updateAmount});
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount});
 											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
 					                    });	
 
@@ -413,7 +413,6 @@ module.exports = {
 					                    	//ALL IN -- do... 88%
 					                    	//do % by model.percentChange..:D
 					                    	orderModel.amount = asset[0].amount*0.88;
-
 					                    	var asset1Amount = orderModel.amount*orderModel.price;
 
 					                    	emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
@@ -422,10 +421,10 @@ module.exports = {
 						                    	console.log(orderModel);
 						                    });	
 
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2, amount:orderModel.amount});
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount});
 											Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
 												var updateAmount = asset[0].amount + asset1Amount;
-												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1, amount:updateAmount});
+												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount});
 												emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
 						                    });	
 

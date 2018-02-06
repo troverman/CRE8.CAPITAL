@@ -1096,7 +1096,6 @@ function initPortfolio(){
 
 module.exports.intervalService = function(){
 
-
 	//initPortfolio();
 
 	//tradingPairs.forEach(function(tradingPair, index){

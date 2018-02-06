@@ -8,7 +8,7 @@ var mailgun = require('mailgun-js')({
 module.exports = {
 	loadTemplates: function(){
 		var that = this;
-		var templateFileNames
+		var templateFileNames;
 		return utilsService.promisify(fs.readdir, "./views/email/")
 			.then(function(fileNames){
 				templateFileNames = fileNames.map(function(fileName){return fileName.split(".").shift()});
@@ -23,7 +23,7 @@ module.exports = {
 					that.templates[name] = Handlebars.compile(files[i].toString())
 				})
 				return true;
-			})
+			});
 	},
 
 	templates: {},
