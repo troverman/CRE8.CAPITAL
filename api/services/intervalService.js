@@ -1087,6 +1087,10 @@ function initPortfolio(){
 		}
 	});*/
 
+	//Asset.create({user: '591a95d935ab691100c584ce', symbol:'BTC', amount:1}).then(function(model){
+	//	console.log(model)
+	//});
+
 	Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
 		console.log(model)
 	})
@@ -1173,7 +1177,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min

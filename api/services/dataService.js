@@ -242,6 +242,7 @@ module.exports = {
 						currentBid:data.highestBid,
 						currentAsk:data.lowestAsk,
 						delta:delta,
+						//volume
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
@@ -384,7 +385,6 @@ module.exports = {
 					                });
 
 								}
-		                   
 			                }
 
 			                //TODO: IMPROVE ~ MAKE IT LIVE ~ TURN ON THE CASH! 
@@ -433,8 +433,8 @@ module.exports = {
 									}
 	
 								}
-
 			                }
+
 			            });
 					});
 				}

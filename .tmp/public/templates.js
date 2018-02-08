@@ -1,4 +1,4 @@
-angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html"]);
+angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html", "search/index.tpl.html"]);
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
@@ -104,25 +104,24 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div class=\"container\" style=\"text-align:left\">\n" +
     "		<h1>dashboard</h1>\n" +
     "		<p><a href=\"account\">link in wallets, connect api keys, fund account</a></p>\n" +
+    "		\n" +
     "		<canvas id=\"doughnut\" class=\"chart chart-doughnut\"\n" +
     "		  chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\">\n" +
     "		</canvas> \n" +
+    "		<div style=\"max-height:250px;overflow:scroll\"><div ng-repeat=\"asset in assets\">{{asset.symbol}}, {{asset.amount}}, {{asset.updatedAt}}</div></div>\n" +
     "		{{btcValue}}\n" +
     "		<h1>order book</h1><br>\n" +
     "		<div ng-repeat=\"order in orders\">\n" +
     "			<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
     "		</div>\n" +
-    "\n" +
-    "		<div class=\"container\" style=\"\">\n" +
-    "			<h1>markets</h1>\n" +
-    "			\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "				</div>\n" +
+    "	</div>\n" +
+    "	<div class=\"container\" style=\"text-align:left\">\n" +
+    "		<h1>markets</h1>\n" +
+    "		<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "				<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "\n" +
     "	</div>\n" +
     "	<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "</div>\n" +
@@ -657,6 +656,20 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function($t
     "            <div class=\"selfClear\"></div>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "");
+}]);
+
+angular.module("search/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("search/index.tpl.html",
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "	<h1>{{stateParams}}</h1>\n" +
+    "	\n" +
+    "\n" +
+    "</div>\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "	\n" +
     "</div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "");

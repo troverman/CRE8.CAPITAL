@@ -35,25 +35,34 @@ angular.module( 'investing.home', [
     //TODO: normalize to btc price
     //TODO: update to ticker.. 
     //aka total 
+    $scope.assets = [];
     if($scope.currentUser){
         DataModel.getLatestData().then(function(data){
 
             PortfolioModel.getAssets($scope.currentUser.id).then(function(assets){
-
+                $scope.assets = assets;
                 for (x in assets){
-                    var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
-                    var btcValue = assets[x].amount*data[index][0].price;
-                    $scope.btcValue += btcValue;
+                    if (assets[x].symbol!='BTC'){
+                        var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                        var btcValue = assets[x].amount*data[index][0].price;
+                        $scope.btcValue += btcValue;
+                    }
+                    else{$scope.btcValue++}
                 }
 
                 //TODO: IMPROVE
                 for (x in assets){
-                    var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
-                    var btcValue = assets[x].amount*data[index][0].price;
-                    $scope.portfolioData.push(btcValue/$scope.btcValue)
-                    $scope.portfolioLabels.push(assets[x].symbol);
+                    if (assets[x].symbol!='BTC'){
+                        var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                        var btcValue = assets[x].amount*data[index][0].price;
+                        $scope.portfolioData.push(btcValue/$scope.btcValue)
+                        $scope.portfolioLabels.push(assets[x].symbol);
+                    }
+                    else{
+                        $scope.portfolioData.push(1/$scope.btcValue)
+                        $scope.portfolioLabels.push(assets[x].symbol);
+                    }
                 }  
-
             });
 
         });

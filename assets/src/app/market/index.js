@@ -187,7 +187,7 @@ angular.module( 'investing.market', [
                         console.log(macdData);
                         var macdGraphData = {};
                         macdGraphData.key = 'MACD_'+periodArray[x]+'_'+2*periodArray[x]+'_'+3*periodArray[x];
-                        macdGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        macdGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                         macdGraphData.values = macdData;
                         $scope.marketGraphOscillatorDataRender.push(macdGraphData);
                         $rootScope.stateIsLoading = false;
@@ -210,7 +210,7 @@ angular.module( 'investing.market', [
                     var tsfGraphData = {}
                     //tsfGraphData.key = 'TSF_'+x;
                     tsfGraphData.key = 'TSF_'+periodArray[x];
-                    tsfGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    tsfGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                     tsfGraphData.values = tsfData;
                     $scope.marketGraphDataRender.push(tsfGraphData);
                     //$scope.marketGraphChangeDataRender.push(tsfGraphData);
@@ -232,7 +232,7 @@ angular.module( 'investing.market', [
                     console.log(foscData);
                     var foscGraphData = {};
                     foscGraphData.key = 'FOSC_'+periodArray[x];
-                    foscGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    foscGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                     foscGraphData.values = foscData;
                     $scope.marketGraphOscillatorDataRender.push(foscGraphData);
                     $rootScope.stateIsLoading = false;
@@ -252,7 +252,7 @@ angular.module( 'investing.market', [
                     console.log(rsiData);
                     var rsiGraphData = {};
                     rsiGraphData.key = 'RSI_'+periodArray[x];
-                    rsiGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    rsiGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                     rsiGraphData.values = rsiData;
                     $scope.marketGraphOscillatorDataRender.push(rsiGraphData);
                     $rootScope.stateIsLoading = false;
@@ -283,9 +283,9 @@ angular.module( 'investing.market', [
                         //bbandMiddleGraphData.key = 'bband_middle_'+x/10//periodArray[x];
                         bbandLowerGraphData.key = 'LB_'+periodArray[x]+'_'+sdArray[y];
                         //emaGraphData.color = ('#14b79'+x.toString()).toString(16);
-                        bbandUpperGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        bbandUpperGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                         //bbandMiddleGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-                        bbandLowerGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        bbandLowerGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                         bbandUpperGraphData.values = bbandData.upper;
                         //bbandMiddleGraphData.values = bbandData.middle;
                         bbandLowerGraphData.values = bbandData.lower;

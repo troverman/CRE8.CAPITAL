@@ -24,6 +24,7 @@ angular.module( 'investing', [
     'investing.member',
     'investing.nav',
     'investing.register',
+    'investing.search',
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function myAppConfig ( $stateProvider, $urlRouterProvider, $locationProvider ) {
     $urlRouterProvider.rule(function($injector, $location) {
