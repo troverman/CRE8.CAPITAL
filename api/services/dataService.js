@@ -375,10 +375,10 @@ module.exports = {
 					                    	console.log(orderModel)
 					                    });	
 
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount});
+										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
 										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
 											var updateAmount = asset[0].amount + orderModel.amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount});
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
 											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
 					                    });	
 
@@ -421,10 +421,10 @@ module.exports = {
 						                    	console.log(orderModel);
 						                    });	
 
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount});
+											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
 											Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
 												var updateAmount = asset[0].amount + asset1Amount;
-												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount});
+												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
 												emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER', {data: orderModel});
 						                    });	
 

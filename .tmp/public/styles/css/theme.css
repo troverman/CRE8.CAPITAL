@@ -455,7 +455,7 @@ input:-ms-input-placeholder {
     opacity: 0.8;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1200px) {
     .navbar-header {
         float: none;
     }
