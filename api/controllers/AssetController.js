@@ -12,6 +12,7 @@ module.exports = {
 
 	getSome: function(req, res) {
 		Asset.find({user: req.query.user})
+		.sort('updatedAt DESC')
 		.then(function(model){
 			res.json(model);
 		});

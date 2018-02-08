@@ -13,7 +13,7 @@ module.exports.routes = {
   'get /market/:path1': 'HomeController.index',
   'get /market/:path1/:path2': 'HomeController.index',
   'get /member/:id': 'HomeController.index',
-  'get /search/:id': 'HomeController.index',
+  'get /search/:path': 'HomeController.index',
 
   'get /login': 'HomeController.index',
   'get /logout': 'AuthController.logout',

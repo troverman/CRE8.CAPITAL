@@ -62,10 +62,24 @@
 	<!--<heatmap id="heatmap-1" data="heatmapData" config="heatmapConfig" width="834" height="400" class="ng-isolate-scope"></heatmap>-->
 
 	<h2>Market Orders</h2>
-
-	<div ng-repeat="order in orders">
-		<p>{{order.type}} {{order.amount}} {{order.price}} {{order.createdAt}}</p>
-	</div>
+	<table class="table table-inverse table-hover">
+	    <thead>
+			<tr>
+				<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->
+				<th></th>
+				<th></th>
+				<th>Date</th>
+			</tr>
+	    </thead>
+	    <tbody>
+			<tr ng-repeat="order in orders">
+				<td>{{order.type}}</td>
+				<td>{{order.amount}} {{order.asset2}}</td>
+				<td>{{order.price}} {{order.asset1}}</td>
+				<td>{{order.createdAt | date :  "y MM-dd hh:mm.ss a"}}</td>
+			</tr>
+	    </tbody>
+	</table>
 
 	<!--
 	<h2>5 Min Prediction</h2>

@@ -104,18 +104,64 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div class=\"container\" style=\"text-align:left\">\n" +
     "		<h1>dashboard</h1>\n" +
     "		<p><a href=\"account\">link in wallets, connect api keys, fund account</a></p>\n" +
-    "		\n" +
-    "		<canvas id=\"doughnut\" class=\"chart chart-doughnut\"\n" +
-    "		  chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\">\n" +
-    "		</canvas> \n" +
-    "		<div style=\"max-height:250px;overflow:scroll\"><div ng-repeat=\"asset in assets\">{{asset.symbol}}, {{asset.amount}}, {{asset.updatedAt}}</div></div>\n" +
-    "		{{btcValue}}\n" +
-    "		<h1>order book</h1><br>\n" +
-    "		<div ng-repeat=\"order in orders\">\n" +
-    "			<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
+    "\n" +
+    "\n" +
+    "		<!--<div style=\"float:right;text-align:right\" class=\"col-sm-12\">-->\n" +
+    "			<canvas id=\"doughnut\" class=\"chart chart-doughnut\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>\n" +
+    "			<!--<canvas id=\"doughnut\" class=\"chart chart-radar\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>-->\n" +
+    "			<!--<canvas id=\"doughnut\" class=\"chart chart-polar-area\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>-->\n" +
+    "		<!--</div>-->\n" +
+    "\n" +
+    "\n" +
+    "		<p>{{btcValue}}</p>\n" +
+    "		<br><br>\n" +
+    "		<div style=\"max-height:250px;overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "			    <thead>\n" +
+    "					<tr>\n" +
+    "						<th>Asset</th>\n" +
+    "						<th>Amount</th>\n" +
+    "						<!--<th>Wallet</th>-->\n" +
+    "						<th>UpdatedAt</th>\n" +
+    "					</tr>\n" +
+    "			    </thead>\n" +
+    "			    <tbody>\n" +
+    "					<tr ng-repeat=\"asset in assets\">\n" +
+    "						<td>{{asset.symbol}}</td>\n" +
+    "						<td>{{asset.amount}}</td>\n" +
+    "						<!--<td>Wallet</td>-->\n" +
+    "						<td>{{asset.updatedAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "					</tr>\n" +
+    "			    </tbody>\n" +
+    "			</table>\n" +
     "		</div>\n" +
-    "	</div>\n" +
-    "	<div class=\"container\" style=\"text-align:left\">\n" +
+    "\n" +
+    "		<br><br>\n" +
+    "		<h1>order book</h1>\n" +
+    "		<div style=\"max-height:250px;overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "			    <thead>\n" +
+    "					<tr>\n" +
+    "						<th>Market</th>\n" +
+    "						<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "						<th></th>\n" +
+    "						<th></th>\n" +
+    "						<th>Date</th>\n" +
+    "					</tr>\n" +
+    "			    </thead>\n" +
+    "			    <tbody>\n" +
+    "					<tr ng-repeat=\"order in orders\">\n" +
+    "						<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
+    "						<td>{{order.type}}</td>\n" +
+    "						<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "						<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "						<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "					</tr>\n" +
+    "			    </tbody>\n" +
+    "			</table>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<br><br>\n" +
     "		<h1>markets</h1>\n" +
     "		<div ng-repeat=\"pair in tradingPairs\">\n" +
     "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
@@ -225,34 +271,11 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<h1>market exposure</h1>\n" +
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<br><br>\n" +
-    "			\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
     "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "\n" +
-    "			<!--<div class=\"col-md-3\">\n" +
-    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "					<a ng-show=\"pair.split('/')[1] == 'BTC'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"col-md-3\">\n" +
-    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "					<a ng-show=\"pair.split('/')[1] == 'USDT'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"col-md-3\">\n" +
-    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "					<a ng-show=\"pair.split('/')[1] == 'ETH'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"col-md-3\">\n" +
-    "				<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "					<a ng-show=\"pair.split('/')[1] == 'XMR'\" href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "				</div>\n" +
-    "			</div>-->\n" +
-    "\n" +
     "		</div>\n" +
     "	</div>\n" +
     "\n" +
@@ -265,33 +288,44 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<h1>activity</h1>\n" +
     "			<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "			<br>\n" +
-    "			<h4>sound and transparent investments</h4>\n" +
     "			<!--daily return vs index..-->\n" +
-    "			<br><br>\n" +
-    "			<h1>order book</h1><br>\n" +
-    "			<div ng-repeat=\"order in orders\">\n" +
-    "				<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> <!--{{order.type}}--> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
-    "			</div>\n" +
-    "			<!--\n" +
-    "			<div ng-repeat=\"order in orders\">\n" +
-    "				<tr>\n" +
-    "					<td>\n" +
-    "						<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></p>\n" +
-    "					</td>\n" +
-    "					<td>\n" +
-    "						<p>{{order.amount}} {{order.asset1}}</p>\n" +
-    "					</td>\n" +
-    "					<td>\n" +
-    "						<p>{{order.amount/order.price}} {{order.asset2}}\n" +
-    "					</td>\n" +
-    "					<td>\n" +
-    "						<p>{{order.price}} : {{order.createdAt}}</p>\n" +
-    "					</td>\n" +
-    "				</tr>\n" +
-    "			</div>\n" +
-    "			-->\n" +
-    "			<br><br>\n" +
+    "			<!--<h4>sound and transparent investments</h4>-->\n" +
+    "			<!--<h1>order book</h1><br>-->\n" +
+    "			<!--<div ng-repeat=\"order in orders\">\n" +
+    "				<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
+    "			</div>-->\n" +
     "		</div>\n" +
+    "	</div>\n" +
+    "	<div style=\"text-align:left;\" class=\"container\">\n" +
+    "		<br><br>\n" +
+    "		<h1>order book</h1>\n" +
+    "		<h4>sound and transparent investments</h4>\n" +
+    "		<br><br>\n" +
+    "		<table class=\"table table-inverse table-hover\">\n" +
+    "		    <thead>\n" +
+    "				<tr>\n" +
+    "					<th>Market</th>\n" +
+    "					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "					<th></th>\n" +
+    "					<th></th>\n" +
+    "					<th>Date</th>\n" +
+    "				</tr>\n" +
+    "		    </thead>\n" +
+    "		    <tbody>\n" +
+    "				<tr ng-repeat=\"order in orders\">\n" +
+    "					<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
+    "					<td>{{order.type}}</td>\n" +
+    "					<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "					<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "					<!--<td>{{order.createdAt | date :  \"s.m.h.dd.MM.y\"}}</td>-->\n" +
+    "					<!--<td>{{order.createdAt | date :  \"medium\"}}</td>-->\n" +
+    "\n" +
+    "				</tr>\n" +
+    "		    </tbody>\n" +
+    "		</table>\n" +
+    "		\n" +
+    "		<br><br>\n" +
     "	</div>\n" +
     "\n" +
     "	<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
@@ -349,12 +383,12 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
 
 angular.module("login/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("login/index.tpl.html",
-    "<div class=\"intro-header\">\n" +
+    "<div class=\"intro-header\" style=\"background-color:black\">\n" +
     "    <div class=\"container\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1\">\n" +
     "                <div class=\"site-heading\">\n" +
-    "                    <h1 class=\"blue-title\">Login</h1>\n" +
+    "                    <h1 class=\"blue-title\" style=\"color:white\">Login</h1>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -461,10 +495,24 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
     "	<h2>Market Orders</h2>\n" +
-    "\n" +
-    "	<div ng-repeat=\"order in orders\">\n" +
-    "		<p>{{order.type}} {{order.amount}} {{order.price}} {{order.createdAt}}</p>\n" +
-    "	</div>\n" +
+    "	<table class=\"table table-inverse table-hover\">\n" +
+    "	    <thead>\n" +
+    "			<tr>\n" +
+    "				<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "				<th></th>\n" +
+    "				<th></th>\n" +
+    "				<th>Date</th>\n" +
+    "			</tr>\n" +
+    "	    </thead>\n" +
+    "	    <tbody>\n" +
+    "			<tr ng-repeat=\"order in orders\">\n" +
+    "				<td>{{order.type}}</td>\n" +
+    "				<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "				<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "				<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "			</tr>\n" +
+    "	    </tbody>\n" +
+    "	</table>\n" +
     "\n" +
     "	<!--\n" +
     "	<h2>5 Min Prediction</h2>\n" +
@@ -610,12 +658,12 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("register/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("register/index.tpl.html",
-    "<div class=\"intro-header\">\n" +
+    "<div class=\"intro-header\" style=\"background-color:black\">\n" +
     "    <div class=\"container\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-12\">\n" +
     "                <div class=\"site-heading\">\n" +
-    "                    <h1 class=\"post-title\">Create an Account</h1>\n" +
+    "                    <h1 class=\"post-title\" style=\"color:white\">Create an Account</h1>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +

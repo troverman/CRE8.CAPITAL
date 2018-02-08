@@ -403,7 +403,7 @@ module.exports = {
 									//
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 
-									if (model.percentChange > 0){
+									if (model.percentChange > 0.1){//|| or totoal price incease is some amount of profit
 										//mb hold hold -- 50/50 if 5000-> for more gain
 										orderModel.type = 'SELL';
 
