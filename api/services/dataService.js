@@ -288,7 +288,7 @@ module.exports = {
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
 							orderModel.delta = delta;
-			                var emailList = ['vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
+			                var emailList = ['jawestguard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
