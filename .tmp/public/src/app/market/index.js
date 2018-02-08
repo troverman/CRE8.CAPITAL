@@ -42,7 +42,7 @@ angular.module( 'investing.market', [
                 top: 20,
                 right: 0,
                 bottom: 40,
-                left: 40
+                left: 70
             },
             x: function(d){ 
                 return d[0]; 

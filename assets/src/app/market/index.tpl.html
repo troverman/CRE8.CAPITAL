@@ -27,6 +27,8 @@
 
 	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 
+	<!--<h2>Market Depth, volume</h2>-->
+
 	<h2>Market Change</h2>
 	<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button><!--select periods..?-->
@@ -54,13 +56,13 @@
 
 	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>
 
-
 	<h2>Probability Density</h2>
 	<div style="max-height:500px;overflow:scroll">
-		<canvas id="tableHeatmap" width="1250" height="3500"></canvas>
+		<canvas id="tableHeatmap" width="1200" height="1500"></canvas>
 	</div>
 	<!--<heatmap id="heatmap-1" data="heatmapData" config="heatmapConfig" width="834" height="400" class="ng-isolate-scope"></heatmap>-->
 
+	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOTO YET EXECUTED-->
 	<h2>Market Orders</h2>
 	<table class="table table-inverse table-hover">
 	    <thead>
@@ -81,17 +83,38 @@
 	    </tbody>
 	</table>
 
-	<!--
-	<h2>5 Min Prediction</h2>
-	<nvd3 options='options' data='fiveMinData'></nvd3>
-	<h2>Thirty Min Prediction</h2>
-	<nvd3 options='options' data='thirtyMinData'></nvd3>
-	<h3>Current</h3>
-	<h3>Price: {{currentData.last_price}}</h3>
-	<h3>Bid: {{currentData.bid}}</h3>
-	<h3>Ask: {{currentData.ask}}</h3>
-	-->
+	<!--EXCHANGE-->
+	
+	<!--<h2>Ask</h2>
+	<form role="form">
+        <div class="form-group">
+            <input class="form-control" name="amount" placeholder="Amount" title="Amount" type="text"> 
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="price" placeholder="Price" title="Price" type="text"> 
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="align-right">
+            <button class="btn btn-default log-btn" type="submit" value="submit">Create Order</button>
+        </div>
+    </form>
 
+	<h2>Bid</h2>
+    <form role="form">
+        <div class="form-group">
+            <input class="form-control" name="amount" placeholder="Amount" title="Amount" type="text"> 
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="price" placeholder="Price" title="Price" type="text"> 
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="align-right">
+            <button class="btn btn-default log-btn" type="submit" value="submit">Create Order</button>
+        </div>
+    </form>-->
+	
 <div style="height:100px;"></div>
 <div ng-include="'footer/index.tpl.html'"></div>
 

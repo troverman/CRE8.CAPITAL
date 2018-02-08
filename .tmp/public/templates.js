@@ -3,37 +3,43 @@ angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
-    "	<h2>investingfor</h2>\n" +
-    "	<p>our network of advisors, consisting of hunderds of companies spanning the globe.</p> \n" +
+    "    <h2>investingfor</h2>\n" +
+    "    <p>our network of advisors, consisting of hunderds of companies spanning the globe.</p> \n" +
     "\n" +
-    "	<br><br><br>\n" +
-    "	<nvd3 options='options' data='data'></nvd3>\n" +
-    "	<br><br><br>\n" +
+    "    <br><br><br>\n" +
+    "    <nvd3 options='options' data='data'></nvd3>\n" +
+    "    <br><br><br>\n" +
     "\n" +
-    "  <div class=\"row\">\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "      <p>data, we use. data we prouduce, together.</p>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
+    "            <p>data, we use. data we prouduce, together.</p>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
+    "            <p>contribute. collab. invest.</p>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-wrench\"></i>view our results </h3>\n" +
+    "            <p>(y)our machines are continuously running and producing valuable investment information. it's <a href=\"#\">it's transparent</a></p>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
+    "            <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
+    "            <!--<canvas id=\"base\" class=\"chart chart-polar-area\" chart-data=\"chartData\" chart-labels=\"labels\" chart-options=\"options\"></canvas>-->\n" +
+    "        </div>\n" +
+    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
+    "        </div>\n" +
+    "        <!--<div class=\"col-sm-12\">\n" +
+    "            <canvas id=\"base\" class=\"chart chart-polar-area\" chart-data=\"chartData\" chart-labels=\"labels\" chart-options=\"options\"></canvas> \n" +
+    "        </div>-->\n" +
+    "\n" +
     "    </div>\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
-    "      <p>contribute. collab. invest.</p>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-wrench\"></i>view our results </h3>\n" +
-    "      <p>(y)our machines are continuously running and producing valuable investment information. it's <a href=\"#\">it's transparent</a></p>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
-    "      <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-lg-4 col-sm-6\">\n" +
-    "      <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
-    "    </div>\n" +
-    "  </div>\n" +
+    "\n" +
     "\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
@@ -460,6 +466,8 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "\n" +
+    "	<!--<h2>Market Depth, volume</h2>-->\n" +
+    "\n" +
     "	<h2>Market Change</h2>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button><!--select periods..?-->\n" +
@@ -487,13 +495,13 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
     "\n" +
-    "\n" +
     "	<h2>Probability Density</h2>\n" +
     "	<div style=\"max-height:500px;overflow:scroll\">\n" +
-    "		<canvas id=\"tableHeatmap\" width=\"1250\" height=\"3500\"></canvas>\n" +
+    "		<canvas id=\"tableHeatmap\" width=\"1200\" height=\"1500\"></canvas>\n" +
     "	</div>\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
     "\n" +
+    "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOTO YET EXECUTED-->\n" +
     "	<h2>Market Orders</h2>\n" +
     "	<table class=\"table table-inverse table-hover\">\n" +
     "	    <thead>\n" +
@@ -514,17 +522,38 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	    </tbody>\n" +
     "	</table>\n" +
     "\n" +
-    "	<!--\n" +
-    "	<h2>5 Min Prediction</h2>\n" +
-    "	<nvd3 options='options' data='fiveMinData'></nvd3>\n" +
-    "	<h2>Thirty Min Prediction</h2>\n" +
-    "	<nvd3 options='options' data='thirtyMinData'></nvd3>\n" +
-    "	<h3>Current</h3>\n" +
-    "	<h3>Price: {{currentData.last_price}}</h3>\n" +
-    "	<h3>Bid: {{currentData.bid}}</h3>\n" +
-    "	<h3>Ask: {{currentData.ask}}</h3>\n" +
-    "	-->\n" +
+    "	<!--EXCHANGE-->\n" +
+    "	\n" +
+    "	<!--<h2>Ask</h2>\n" +
+    "	<form role=\"form\">\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"amount\" placeholder=\"Amount\" title=\"Amount\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"price\" placeholder=\"Price\" title=\"Price\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"align-right\">\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Create Order</button>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
     "\n" +
+    "	<h2>Bid</h2>\n" +
+    "    <form role=\"form\">\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"amount\" placeholder=\"Amount\" title=\"Amount\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"price\" placeholder=\"Price\" title=\"Price\" type=\"text\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"align-right\">\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Create Order</button>\n" +
+    "        </div>\n" +
+    "    </form>-->\n" +
+    "	\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +
