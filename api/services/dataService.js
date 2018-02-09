@@ -114,6 +114,7 @@ module.exports = {
 				dataArray.push([Date.parse(models[x].createdAt) - Date.parse(models[0].createdAt), models[x].percentChange]);
 	    	}
 			var result = regression.polynomial(dataArray, { order: order, precision: precision });
+			
 	    	//console.log(result);
 	    	//console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
 
@@ -139,11 +140,7 @@ module.exports = {
 	    		//console.log(result);
 
 			});  
-			tulind.indicators.bbands.indicator([change], [5,2], function(err, results) {
-				console.log(results)
-			});  
-
-
+		
 			//tulind.indicators.sma.start([change])
 			//console.log(tulind.indicators.stoch.start([5,3,3]))
 
@@ -156,6 +153,7 @@ module.exports = {
 	    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
 	    	//console.log(predict)
 	    	//console.log(models);
+
 	    });
 	},
 
@@ -254,6 +252,7 @@ module.exports = {
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
 			                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
+			                //model.percentChangeChange = (model.absoluteChange - models[1].absoluteChange)/model.absoluteChange;
 
 			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){
 			                    console.log(updated[0]);
@@ -288,7 +287,7 @@ module.exports = {
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
 							orderModel.delta = delta;
-			                var emailList = ['jawestguard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
+			                var emailList = ['camcook88@gmail.com','jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
 			                if (model.percentChange > 0.15){
 			                    orderModel.type = 'SELL';
@@ -347,7 +346,7 @@ module.exports = {
 			                //30 SEC
 			                if (delta == '30000'){
 
-								if (model.percentChange < -0.05){
+								if (model.percentChange < -0.05 && model.percentChange > -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 
 									orderModel.type = 'BUY';
@@ -358,8 +357,10 @@ module.exports = {
 
 								}
 
-								if (model.percentChange < -0.10){
-									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
+								if (model.percentChange <= -0.10){
+									for (x in emailList){
+										emailService.sendTemplate('marketUpdate', emailList[x], 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
+					               	}
 					               	orderModel.type = 'BUY';
 
 									//TODO: IMPROVE.. MB SLOW
@@ -369,6 +370,7 @@ module.exports = {
 					                    //do % by model.percentChange..:D
 					                    orderModel.amount = (asset[0].amount*0.5)/orderModel.price;
 					                    var asset1Amount = asset[0].amount*0.5;
+					                    //TODO -- subtract fees..
 
 					                    //TODO:ORDER USERID
 										Order.create(orderModel).then(function(orderModel){
@@ -414,8 +416,10 @@ module.exports = {
 					                    	//do % by model.percentChange..:D
 					                    	orderModel.amount = asset[0].amount*0.88;
 					                    	var asset1Amount = orderModel.amount*orderModel.price;
-
-					                    	emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
+					                    	//TODO -- subtract fees..
+											//for (x in emailList){
+					                    		emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
+											//}
 											//TODO: FOR REAL MONEY.. CHECK IF PRICE IS WITHIN RANGE STILL (there will be a few (s) change -- and take the market.. factor in fees, make the market? + .00001 or -.00001; not good for fast tho. so take
 											Order.create(orderModel).then(function(orderModel){
 						                    	console.log(orderModel);

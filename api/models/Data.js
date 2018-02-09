@@ -40,7 +40,11 @@ module.exports = {
         absoluteChangeChange:{
             type: 'float',
             defaultsTo:0
-        }
+        },
+        //percentChangeChange:{
+        //    type: 'float',
+        //    defaultsTo:0
+        //}
     },
 
 

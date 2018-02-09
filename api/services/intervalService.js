@@ -110,7 +110,7 @@ var tradingPairs = [
     'BLK/XMR'
 ];
 
-function assetArrayLinearCombinationEquality(){
+function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight){
 	var exchangeMap = [];
 	console.log('assetArrayLinearCombinationEquality')
 	//for (x in tradingPairs){
@@ -135,6 +135,7 @@ function assetArrayLinearCombinationEquality(){
 	function(err) {
 		console.log(exchangeMap)
 		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0}
+		//var currentPortfolio = currentPortfolio;
 		var BTC = 0;
 		for (x in exchangeMap){
 			if(exchangeMap[x].asset2=='BTC'){
@@ -161,6 +162,8 @@ function assetArrayLinearCombinationEquality(){
 		//resursiveDecomposition(exchangeMap);
 
 		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
+		//var allocationWeight = allocationWeight;
+
 		exchangeMap.map(function(obj){
 			for (x in Object.keys(allocationWeight)){
 				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
@@ -197,6 +200,9 @@ function recursiveDecomposition(dataObj){
 //experimental neural net where time is a variable'
 //experimental neural net where currency pair are variable arrays -- > abstract
 //TODO: multiNeuralNet
+//TODO: REDO
+//TODO: DEEP
+//TODO: TENSOR FLOW
 function neuralNet(networkModel, asset1, asset2, delta, limit){
 
 	var myNetwork = Network.fromJSON(networkModel.networkJson);
@@ -266,7 +272,6 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 
 				trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
 				//trainingSet.push({input:[normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput], output:[normalizedBidOutput, normalizedAskOutput, normalizedPriceOutput, normalizedPercentChangeOutput]});
-
 			}
 
 			return {
@@ -289,9 +294,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 				maxPriceOutput:maxPriceOutput,  
 				minPercentChangeOutput:minPercentChangeOutput,  
 				maxPercentChangeOutput:maxPercentChangeOutput,
-
 			};
-
 		}
 
 	}).then(function(dataSet){
@@ -444,7 +447,7 @@ function order(){
 	//assetArrayLinearCombinationEquality()
 	//Asset.find()
 	console.log(Object.keys(assetMap))
-	Data.find({delta:'1000'})
+	Data.find({delta:'5000'})
 	.limit(100)
 	.then(function(models){
 
