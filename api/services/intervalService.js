@@ -1064,7 +1064,7 @@ function getCurrentPrediction(delta, asset1, asset2) {
 function initPortfolio(){
 
 	//1 btc and 1btc of all assets
-	/*var promises = [];
+	var promises = [];
 	tradingPairs = tradingPairs.filter(function(obj){
         if (obj.split('/')[1]=='BTC'){return obj}
     });
@@ -1083,14 +1083,21 @@ function initPortfolio(){
 				amount: 1/data[x][0].price,
 				//conversionArray: data,
 			};
-			Asset.create(assetModel).then(function(model){
+			//Asset.create(assetModel).then(function(model){
+			//	console.log(model)
+			//});
+			Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
 				console.log(model)
 			});
 			console.log(1/data[x][0].price, data[x][0].asset2);
 		}
-	});*/
+	});
 
 	//Asset.create({user: '591a95d935ab691100c584ce', symbol:'BTC', amount:1}).then(function(model){
+	//	console.log(model)
+	//});
+
+	//Asset.update({user: '591a95d935ab691100c584ce', symbol:'BTC'}, {amount:1}).then(function(model){
 	//	console.log(model)
 	//});
 
@@ -1180,7 +1187,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
