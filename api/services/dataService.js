@@ -339,7 +339,7 @@ module.exports = {
 			                //5 MIN
 			                if (delta == '300000'){
 			                	//BUY LOW
-								if (model.percentChange < -0.01){
+								if (model.percentChange <= -0.035){
 									console.log('BUY LOW')
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
@@ -440,7 +440,7 @@ module.exports = {
 									//
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 
-									if (model.percentChange > 0.1){//|| or totoal price incease is some amount of profit
+									if (model.percentChange > 0.05){//|| or totoal price incease is some amount of profit
 										//mb hold hold -- 50/50 if 5000-> for more gain
 										orderModel.type = 'SELL';
 
