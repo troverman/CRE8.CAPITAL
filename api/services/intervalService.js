@@ -1103,12 +1103,21 @@ function initPortfolio(){
 
 	Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
 		console.log(model)
-	})
+	});
 
 };
 
 
 module.exports.intervalService = function(){
+
+	//Data.find({percentChange: { '>': 0.15 }})
+	//.limit(10)
+	//.sort('createdAt DESC')
+	//.then(function(model){
+		//console.log(model)
+		//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY', {data: model[0]});
+	//})
+
 
 	//initPortfolio();
 

@@ -41,10 +41,10 @@ module.exports = {
             type: 'float',
             defaultsTo:0
         },
-        //percentChangeChange:{
-        //    type: 'float',
-        //    defaultsTo:0
-        //}
+        percentChangeChange:{
+            type: 'float',
+            defaultsTo:0
+        }
     },
 
 

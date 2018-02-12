@@ -253,9 +253,9 @@ module.exports = {
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
 			                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-			                model.percentChangeChange = (model.absoluteChange - models[1].absoluteChange)/model.absoluteChange;
+			                //model.percentChangeChange = (model.absoluteChange - models[1].absoluteChange)/model.absoluteChange;
 
-			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){console.log(updated[0]);});
+			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){/*console.log(updated[0]);*/});
 
 			                /*
 			                if (model.delta >= 60000){
@@ -285,10 +285,11 @@ module.exports = {
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
 							orderModel.delta = delta;
-			                var emailList = ['camcook88@gmail.com','jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
+			                var emailList = ['camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
 			                //SELL HIGH
 			                if (model.percentChange > 0.15){
+			                	console.log('SELL HIGH')
 			                    for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
@@ -313,6 +314,7 @@ module.exports = {
 
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
+								console.log('BUY LOW')
 								for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
@@ -367,7 +369,7 @@ module.exports = {
 			                //TODO: REFACTOR ASSET ISH
 			                if (delta == '30000'){
 
-								if (model.percentChange < -0.05 && model.percentChange > -0.10){
+								if (model.percentChange <= -0.035 && model.percentChange > -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 									orderModel.type = 'BUY';
 
