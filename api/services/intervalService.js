@@ -1110,13 +1110,13 @@ function initPortfolio(){
 
 module.exports.intervalService = function(){
 
-	//Data.find({percentChange: { '>': 0.15 }})
-	//.limit(10)
-	//.sort('createdAt DESC')
-	//.then(function(model){
-		//console.log(model)
+	Data.find({percentChange: { '<=': -0.03 }, delta:"300000"})
+	.limit(10)
+	.sort('createdAt DESC')
+	.then(function(model){
+		console.log(model)
 		//emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'MARKET UPDATE: BUY', {data: model[0]});
-	//})
+	})
 
 
 	//initPortfolio();

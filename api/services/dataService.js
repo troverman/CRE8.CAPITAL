@@ -340,7 +340,8 @@ module.exports = {
 			                //5 MIN
 			                if (delta == '300000'){
 			                	//BUY LOW
-								if (model.percentChange < -0.3){
+								if (model.percentChange < -0.03){
+									console.log('BUY LOW')
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
