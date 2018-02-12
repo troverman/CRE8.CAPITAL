@@ -1110,7 +1110,7 @@ function initPortfolio(){
 
 module.exports.intervalService = function(){
 
-	Data.find({percentChange: { '<=': -0.03 }, delta:"300000"})
+	Data.find({percentChange: { '<=': -0.01 }, delta:"300000"})
 	.limit(10)
 	.sort('createdAt DESC')
 	.then(function(model){

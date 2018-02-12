@@ -241,7 +241,8 @@ module.exports = {
 						currentBid:data.highestBid,
 						currentAsk:data.lowestAsk,
 						delta:delta,
-						//volume
+						//baseVolume:baseVolume
+						//quoteVolume:quoteVolume
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
@@ -249,12 +250,10 @@ module.exports = {
 			            .sort('createdAt DESC')
 			            .limit(2)
 			            .then(function (models) {
-
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
 			                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
 			                //model.percentChangeChange = (model.absoluteChange - models[1].absoluteChange)/model.absoluteChange;
-
 			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){/*console.log(updated[0]);*/});
 
 			                /*
@@ -340,7 +339,7 @@ module.exports = {
 			                //5 MIN
 			                if (delta == '300000'){
 			                	//BUY LOW
-								if (model.percentChange < -0.03){
+								if (model.percentChange < -0.01){
 									console.log('BUY LOW')
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
