@@ -123,8 +123,6 @@ angular.module( 'investing.markets', [
         'BLK/XMR'
     ];
 
-    //console.log(d3)
-
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -160,10 +158,6 @@ angular.module( 'investing.markets', [
         }
     };
 
-    //$scope.marketDataRender = {};
-    //$scope.marketDataRender.key = 'cre8';
-    //$scope.marketDataRender.color = '#f94442';
-    //$scope.marketDataRender.values = [];
     $scope.marketDataRender = {};
     $scope.marketDataRenderRender = [];
 

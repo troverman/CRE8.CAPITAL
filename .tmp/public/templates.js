@@ -576,7 +576,8 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "	<h5>overlay percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
-    "\n" +
+    "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
+    "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
