@@ -216,6 +216,7 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	createOrder: function(asset1, asset2, price, amount){
 
+	    var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
 		//maker, taker
 		//poloniex.buy('BTC_LTC', '0.001841667', '1', 0, 0, 1, function(err, model){
@@ -308,7 +309,7 @@ module.exports = {
 			                orderModel.asset2 = model.asset2;
 			                orderModel.price = model.price;
 							orderModel.delta = delta;
-			                var emailList = ['camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
+			                var emailList = ['lourens1@ad.unc.edu', 'camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
 			                //TODO REFACTOR THIS ALL!!
 			                //IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX

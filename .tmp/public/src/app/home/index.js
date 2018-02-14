@@ -44,6 +44,7 @@ angular.module( 'investing.home', [
                 for (x in assets){
                     if(assets[x].symbol!='USDT'){
                         if (assets[x].symbol!='BTC'){
+                            console.log(data);
                             var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
                             var btcValue = assets[x].amount*data[index][0].price;
                             $scope.btcValue += btcValue;

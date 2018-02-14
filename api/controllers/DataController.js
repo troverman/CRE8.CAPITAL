@@ -106,9 +106,10 @@ var tradingPairs = [
 function getData(limit, delta, tradingPair){
     var defered = Q.defer();
     Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-	.limit(limit)
+	.limit(1)
 	.sort('createdAt DESC')
 	.then(function(models){
+		console.log(models)
 		console.log(tradingPair);
 		defered.resolve(models.reverse());
 	});
@@ -153,12 +154,15 @@ module.exports = {
 	    });
 
 		tradingPairs.forEach(function(tradingPair, index){
-		    var promise = getData(1, '5000', tradingPair);
+			console.log(tradingPair)
+			//back to 5000
+		    var promise = getData(1, '30000', tradingPair);
 		    promises.push(promise);
 		});
 
 		Q.all(promises)
 		.then(function(data){
+			console.log(data)
 			res.json(data);
 		});
 
