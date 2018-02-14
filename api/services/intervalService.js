@@ -17,6 +17,7 @@ var tradingPairs = [
     'BTC/USDT',
     'LTC/BTC',
     'BCH/BTC',
+	'STR/BTC',
     'XRP/USDT',
     'ETH/USDT',
     'BCH/USDT',
@@ -1078,7 +1079,7 @@ function initPortfolio(){
 	.then(function(data){
 		for (x in data){
 			var assetModel = {
-				user: '591a95d935ab691100c584ce',
+				user: '5a7f41749fd8e1000467ba3b',
 				symbol: data[x][0].asset2,
 				amount: 1/data[x][0].price,
 				//conversionArray: data,
@@ -1086,14 +1087,14 @@ function initPortfolio(){
 			//Asset.create(assetModel).then(function(model){
 			//	console.log(model)
 			//});
-			Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
-				console.log(model)
-			});
+			//Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
+			//	console.log(model)
+			//});
 			console.log(1/data[x][0].price, data[x][0].asset2);
 		}
 	});
 
-	//Asset.create({user: '591a95d935ab691100c584ce', symbol:'BTC', amount:1}).then(function(model){
+	//Asset.create({user: '5a7f41749fd8e1000467ba3b', symbol:'BTC', amount:1}).then(function(model){
 	//	console.log(model)
 	//});
 
@@ -1101,16 +1102,16 @@ function initPortfolio(){
 	//	console.log(model)
 	//});
 
-	Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
-		console.log(model)
-	});
+	//Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
+	//	console.log(model)
+	//});
 
 };
 
 
 module.exports.intervalService = function(){
 
-	dataService.createOrder()
+	//dataService.createOrder()
 	//initPortfolio();
 
 	//tradingPairs.forEach(function(tradingPair, index){
@@ -1188,7 +1189,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min

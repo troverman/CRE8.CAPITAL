@@ -42,25 +42,33 @@ angular.module( 'investing.home', [
             PortfolioModel.getAssets($scope.currentUser.id).then(function(assets){
                 $scope.assets = assets;
                 for (x in assets){
-                    if (assets[x].symbol!='BTC'){
-                        var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
-                        var btcValue = assets[x].amount*data[index][0].price;
-                        $scope.btcValue += btcValue;
+                    if(assets[x].symbol!='USDT'){
+                        if (assets[x].symbol!='BTC'){
+                            var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                            var btcValue = assets[x].amount*data[index][0].price;
+                            $scope.btcValue += btcValue;
+                            console.log($scope.btcValue, assets[x].symbol)
+                        }
+                        else{
+                            $scope.btcValue += assets[x].amount;
+                            console.log($scope.btcValue, assets[x].symbol, assets[x].amount)
+                        }
                     }
-                    else{$scope.btcValue++}
                 }
 
                 //TODO: IMPROVE
                 for (x in assets){
-                    if (assets[x].symbol!='BTC'){
-                        var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
-                        var btcValue = assets[x].amount*data[index][0].price;
-                        $scope.portfolioData.push(btcValue/$scope.btcValue)
-                        $scope.portfolioLabels.push(assets[x].symbol);
-                    }
-                    else{
-                        $scope.portfolioData.push(1/$scope.btcValue)
-                        $scope.portfolioLabels.push(assets[x].symbol);
+                    if(assets[x].symbol!='USDT'){
+                        if (assets[x].symbol!='BTC'){
+                            var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                            var btcValue = assets[x].amount*data[index][0].price;
+                            $scope.portfolioData.push(btcValue/$scope.btcValue)
+                            $scope.portfolioLabels.push(assets[x].symbol);
+                        }
+                        else{
+                            $scope.portfolioData.push(assets[x].amount/$scope.btcValue)
+                            $scope.portfolioLabels.push(assets[x].symbol);
+                        }
                     }
                 }  
             });
@@ -74,6 +82,7 @@ angular.module( 'investing.home', [
         'BTC/USDT',
         'LTC/BTC',
         'BCH/BTC',
+        'STR/BTC',
         'XRP/USDT',
         'XLM/BTC',
         'ETH/USDT',

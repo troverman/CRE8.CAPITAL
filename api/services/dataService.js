@@ -216,6 +216,7 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	createOrder: function(asset1, asset2, price, amount){
 
+
 		//maker, taker
 		//poloniex.buy('BTC_LTC', '0.001841667', '1', 0, 0, 1, function(err, model){
 		//	console.log(model);
@@ -229,9 +230,26 @@ module.exports = {
 		//	console.log(model);
 		//})
 
-		poloniex.returnBalances(function(err, model){
-			console.log(model);
-		})
+		//INIT NEW ACCT W REAL BALANCES
+		//console.log('sup')
+		//poloniex.returnCompleteBalances('all', function(err, model){
+		/*poloniex.returnBalances(function(err, model){
+			console.log(model)
+			for (x in Object.keys(model)){
+				var assetModel = {
+					user: '5a83602d5ac735000488e8f7',
+					symbol: Object.keys(model)[x],
+					amount: parseFloat(model[Object.keys(model)[x]]),
+				};
+				if (assetModel.amount != 0){
+					//console.log(assetModel);
+					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
+						console.log(model)
+					})
+				}
+			}
+		});*/
+
 
 		//returnTradableBalances - margin
 		//poloniex.returnTradableBalances(function(err, model){
@@ -243,7 +261,6 @@ module.exports = {
 		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//sell(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//cancelOrder(orderNumber [, callback])
-
 
 		//ex if flash crash --- SUPER MARGIN BUY LOL
 

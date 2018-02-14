@@ -9,6 +9,7 @@ var tradingPairs = [
     'BTC/USDT',
     'LTC/BTC',
     'BCH/BTC',
+    'STR/BTC',
     'XRP/USDT',
     'ETH/USDT',
     'BCH/USDT',

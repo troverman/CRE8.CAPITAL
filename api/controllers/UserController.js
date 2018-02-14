@@ -20,8 +20,17 @@ module.exports = {
 	},
 
 	update: function (req, res) {
-	
-		User.update(model)
+		var id = req.session.user.id
+		var model = {
+			username: req.param('username'),
+			firstName: req.param('firstName'),
+			lastName: req.param('lastName'),
+			poloniexApiKey: req.param('poloniexApiKey'),
+			poloniexApiSecret: req.param('poloniexApiSecret'),
+			btcWalletAddress: req.param('btcWalletAddress'),
+			ltcWalletAddress: req.param('ltcWalletAddress'),
+		};
+		User.update({id:id}, model)
 		.exec(function(err, model) {
 			if (err) {
 				return console.log(err);
@@ -37,7 +46,8 @@ module.exports = {
 		var model = {
 			username: req.param('username'),
 			email: req.param('email'),
-			first_name: req.param('first_name')
+			firstName: req.param('firstName'),
+			lastName: req.param('lastName')
 		};
 
 		User.create(model)

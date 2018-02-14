@@ -29,6 +29,7 @@ angular.module( 'investing.markets', [
         'BTC/USDT',
         'LTC/BTC',
         'BCH/BTC',
+        'STR/BTC',
         'XRP/USDT',
         'XLM/BTC',
         'ETH/USDT',
