@@ -550,7 +550,7 @@ module.exports = {
 								//SELL HIGH
 								//REFACTOR..
 								//REDO FOR FLASH CRASH.
-								if (model.percentChange >= 0.05){//|| or totoal price incease is some amount of profit
+								if (model.percentChange >= 0.08){//|| or total price incease is some amount of profit
 									orderModel.type = 'SELL';
 				                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
 				                    	orderModel.amount = asset[0].amount*0.5;
