@@ -47,6 +47,8 @@ angular.module( 'investing.home', [
     //aka total 
     $scope.assets = [];
     if($scope.currentUser){
+
+
         DataModel.getLatestData().then(function(data){
 
             PortfolioModel.getAssets($scope.currentUser.id).then(function(assets){
@@ -85,6 +87,11 @@ angular.module( 'investing.home', [
             });
 
         });
+
+        //OrderModel.getSome(25, 0, 'createdAt DESC', user:$scope.currentUser.id).then(function(data){
+        //    $scope.orders = data
+        //});
+
     }
 
     $scope.tradingPairs = [
