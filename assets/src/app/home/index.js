@@ -32,6 +32,16 @@ angular.module( 'investing.home', [
     $scope.portfolioLabels = [];
     $scope.btcValue = 0;
 
+    //EXAMPLE
+    //DataModel.getExchangeMap().then(function(data){
+    //    console.log(data);
+    //    for (x in data){
+    //        data[x].asset1, data[x].asset2, data[x].price
+    //    }
+    //});
+    //-->extend over time, combine with protfolioequality and probabilities
+
+
     //TODO: normalize to btc price
     //TODO: update to ticker.. 
     //aka total 
@@ -43,16 +53,16 @@ angular.module( 'investing.home', [
                 $scope.assets = assets;
                 for (x in assets){
                     if(assets[x].symbol!='USDT'){
-                        if (assets[x].symbol!='BTC'){
-                            console.log(data);
+                        if (assets[x].symbol!='BTC' && assets[x].amount != 0){
+                            //console.log(data);
                             var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
                             var btcValue = assets[x].amount*data[index][0].price;
                             $scope.btcValue += btcValue;
-                            console.log($scope.btcValue, assets[x].symbol)
+                            //console.log($scope.btcValue, assets[x].symbol);
                         }
                         else{
                             $scope.btcValue += assets[x].amount;
-                            console.log($scope.btcValue, assets[x].symbol, assets[x].amount)
+                            //console.log($scope.btcValue, assets[x].symbol, assets[x].amount);
                         }
                     }
                 }
@@ -60,14 +70,14 @@ angular.module( 'investing.home', [
                 //TODO: IMPROVE
                 for (x in assets){
                     if(assets[x].symbol!='USDT'){
-                        if (assets[x].symbol!='BTC'){
+                        if (assets[x].symbol!='BTC' && assets[x].amount != 0){
                             var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
                             var btcValue = assets[x].amount*data[index][0].price;
-                            $scope.portfolioData.push(btcValue/$scope.btcValue)
+                            $scope.portfolioData.push(btcValue/$scope.btcValue);
                             $scope.portfolioLabels.push(assets[x].symbol);
                         }
                         else{
-                            $scope.portfolioData.push(assets[x].amount/$scope.btcValue)
+                            $scope.portfolioData.push(assets[x].amount/$scope.btcValue);
                             $scope.portfolioLabels.push(assets[x].symbol);
                         }
                     }

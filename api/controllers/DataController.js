@@ -155,8 +155,7 @@ module.exports = {
 
 		tradingPairs.forEach(function(tradingPair, index){
 			console.log(tradingPair)
-			//back to 5000
-		    var promise = getData(1, '30000', tradingPair);
+		    var promise = getData(1, '5000', tradingPair);
 		    promises.push(promise);
 		});
 
@@ -166,6 +165,19 @@ module.exports = {
 			res.json(data);
 		});
 
+	},
+
+	getExchangeMap: function(req, res){
+		var promises = [];
+		tradingPairs.forEach(function(tradingPair, index){
+		    var promise = getData(100, '5000', tradingPair);
+		    promises.push(promise);
+		});
+		Q.all(promises)
+		.then(function(data){
+			console.log(data)
+			res.json(data);
+		});
 	},
 
 	getTicker: function(req, res){

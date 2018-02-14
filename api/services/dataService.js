@@ -214,16 +214,75 @@ module.exports = {
 	},
 
 	//TODO: REFACTOR AND PACKAGE
-	createOrder: function(asset1, asset2, price, amount){
+	createOrder: function(model, user, type){
 
-	    var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+
+		var orderModel = {};
+		orderModel.assetPair = model.assetPair;
+		orderModel.asset1 = model.asset1;
+		orderModel.asset2 = model.asset2;
+		orderModel.price = model.price;
+		orderModel.delta = delta;
+		orderModel.type = type;
 
 		//maker, taker
 		//poloniex.buy('BTC_LTC', '0.001841667', '1', 0, 0, 1, function(err, model){
 		//	console.log(model);
 		//});
 
+		//BUY
+        //may be better to call poloniex balance vs interal storage?  --> does this need to persist? 
+        //TODO: BRIDGE REAL - AND SIMUL
+        //TODO: REFACTOR!!!
+        if (orderModel.type=='BUY'){
+	        Asset.find({user: user, symbol: models[0].asset1}).then(function(asset){
+	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
+	            var asset1Amount = asset[0].amount*0.15;
+				Order.create(orderModel).then(function(orderModel){
+	            	console.log(orderModel)
+	            });
 
+	            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 1, 0, 0, function(err, model){
+					console.log(model);
+				});
+
+				Asset.update({user: user, symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+				Asset.find({user: user, symbol: models[0].asset2}).then(function(asset){
+
+					//FACTOR IN FEES
+					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+					Asset.update({user: user, symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + models[0].asset2, {data: orderModel});
+
+	            });
+	        });
+		}
+
+        //SELL
+		if (orderModel.type=='SELL'){
+       		Asset.find({user: user, symbol: models[0].asset2}).then(function(asset){
+	        	orderModel.amount = asset[0].amount*0.15;
+	        	var asset1Amount = orderModel.amount*orderModel.price;
+				Order.create(orderModel).then(function(orderModel){
+	            	console.log(orderModel);
+	            });	
+
+	            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 1, 0, 0, function(err, model){
+					console.log(model);
+				});
+
+				Asset.update({user: user, symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+				Asset.find({user: user, symbol: models[0].asset1}).then(function(asset){
+
+					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+					Asset.update({user: user, symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + models[0].asset2, {data: orderModel});
+
+	            });	
+	        });
+    	}
+        
 		//poloniex.sell('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel,){
 		//});
 
@@ -251,12 +310,10 @@ module.exports = {
 			}
 		});*/
 
-
 		//returnTradableBalances - margin
 		//poloniex.returnTradableBalances(function(err, model){
 		//	console.log(model);
 		//})
-
 
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
 		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
@@ -336,6 +393,10 @@ module.exports = {
 										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY LOW ' + models[0].asset2, {data: orderModel});
 				                    });
 				                });
+
+				                //THIS IS LIVE ~ OOO
+								dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
+
 			                }
 
 			                //SELL HIGH
@@ -360,6 +421,11 @@ module.exports = {
 										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL HIGH ' + models[0].asset2, {data: orderModel});
 				                    });	
 			                    });
+
+			                    //THIS IS LIVE ~ OOO
+								dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
+
+
 			                }
 
 
@@ -367,7 +433,7 @@ module.exports = {
 			                if (delta == '300000'){
 			                	//BUY LOW
 								if (model.percentChange <= -0.035){
-									console.log('BUY LOW')
+									console.log('BUY LOW');
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
@@ -391,7 +457,7 @@ module.exports = {
 
 			                	//SELL HIGH
 								if (model.percentChange >= 0.05){
-				                	console.log('SELL HIGH')
+				                	console.log('SELL HIGH');
 				                    for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
@@ -476,10 +542,14 @@ module.exports = {
 
 					                });
 
+									//THIS IS LIVE ~ OOO
+									dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
+
 								}
 
 								//SELL HIGH
 								//REFACTOR..
+								//REDO FOR FLASH CRASH.
 								if (model.percentChange >= 0.05){//|| or totoal price incease is some amount of profit
 									orderModel.type = 'SELL';
 				                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
@@ -498,7 +568,10 @@ module.exports = {
 					                    });	
 
 				                    });
-				                    
+
+				                    //THIS IS LIVE ~ OOO
+									dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
+				                   
 								}
 
 			                }
@@ -515,7 +588,6 @@ module.exports = {
 								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){
 
 									//if multiple intervals --> create profit taking logic 
-									//
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 									if (model.percentChange > 0.05){//|| or totoal price incease is some amount of profit
 										//mb hold hold -- 50/50 if 5000-> for more gain
@@ -549,13 +621,19 @@ module.exports = {
 									}
 	
 								}
+
 			                }
 
 			            });
+
 					});
+
 				}
+
 			}
+
 		});
+
 	},
 
 	ticker: function(){

@@ -113,29 +113,43 @@ var tradingPairs = [
 
 function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight){
 	var exchangeMap = [];
-	console.log('assetArrayLinearCombinationEquality')
-	//for (x in tradingPairs){
-	//	console.log(tradingPairs[x][0], tradingPairs[x][1])
-	//	getPairData(tradingPairs[x][0], tradingPairs[x][1]).then(function(currencyData){
-			//console.log(currencyData.last_price)
-	//		exchangeMap.push({asset1:tradingPairs[x][0], asset2: tradingPairs[x][1], price: currencyData.last_price})
-	//		exchangeMap.push({asset1:tradingPairs[x][1], asset2: tradingPairs[x][0], price: 1/currencyData.last_price})
-	//		console.log(exchangeMap)
-	//	});
-	//}
+	var exchangeMap1 = {};
+	console.log('assetArrayLinearCombinationEquality');
 	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		//or instant ticker.. 
-		Data.find({asset1:tradingPair[1], asset2:tradingPair[1], delta: '5000'})
+		//or instant ticker..
+		//TODO: convert data into exchangeMap 
+		Data.find({asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0], delta: '5000'})
 		.limit(1)
 		.then(function(currencyData){
-			exchangeMap.push({asset1:tradingPair[0], asset2: tradingPair[1], price: currencyData.last_price})
-			exchangeMap.push({asset1:tradingPair[1], asset2: tradingPair[0], price: 1/currencyData.last_price})
+
+
+			if (!exchangeMap1[tradingPair.split('/')[0]]){exchangeMap1[tradingPair.split('/')[0]]={}}
+			if (!exchangeMap1[tradingPair.split('/')[1]]){exchangeMap1[tradingPair.split('/')[1]]={}}
+
+			exchangeMap1[tradingPair.split('/')[0]][tradingPair.split('/')[1]] = currencyData[0].price;
+			exchangeMap1[tradingPair.split('/')[1]][tradingPair.split('/')[0]] = 1/currencyData[0].price;
+			exchangeMap1[tradingPair.split('/')[1]][tradingPair.split('/')[1]] = 1;
+			exchangeMap1[tradingPair.split('/')[0]][tradingPair.split('/')[0]] = 1;
+
+
+
+
+			exchangeMap.push({asset1:tradingPair.split('/')[0], asset2: tradingPair.split('/')[1], price: currencyData[0].price});
+			exchangeMap.push({asset1:tradingPair.split('/')[1], asset2: tradingPair.split('/')[0], price: 1/currencyData[0].price});
+			//exchangeMap.push({asset1:tradingPair.split('/')[0], asset2: tradingPair.split('/')[0], price: 1});
+			//exchangeMap.push({asset1:tradingPair.split('/')[1], asset2: tradingPair.split('/')[1], price: 1});
+
+
+
+
 			process.nextTick(nextIteration);
 		});
 	}, 
 	function(err) {
-		console.log(exchangeMap)
-		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0}
+		//console.log(exchangeMap);
+		//console.log(exchangeMap1);
+		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0};
+		//recursiveDecomposition(exchangeMap1)
 		//var currentPortfolio = currentPortfolio;
 		var BTC = 0;
 		for (x in exchangeMap){
@@ -155,7 +169,6 @@ function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight)
 			}
 		}
 
-		//console.log(BTC)
 		//remember the shortest path.. this method converts to btc
 		//render these as a graph? 
 		//as in this is [USD, LTC, ETH, BTC] --> [BTC] --> [USD, LTC, ETH, BTC] ^^^
@@ -165,6 +178,8 @@ function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight)
 		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
 		//var allocationWeight = allocationWeight;
 
+		//TODO!
+		//TURN REWEIGHTING INTO ORDERS
 		exchangeMap.map(function(obj){
 			for (x in Object.keys(allocationWeight)){
 				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
@@ -189,12 +204,12 @@ function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight)
 
 	//Portfolio.find() --> multiply weights 
 	// --> find equalities : ) 
-
 };
 
 function recursiveDecomposition(dataObj){
 	for (x in Object.keys(dataObj)){
-		recursiveDecomposition(dataObj);
+		console.log(dataObj[Object.keys(dataObj)[x]])
+		recursiveDecomposition(dataObj[Object.keys(dataObj)[x]]);
 	}
 };
 
@@ -434,7 +449,6 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 		}
 
 	});
-
 };
 
 //OLD
@@ -468,7 +482,6 @@ function order(){
 	});
 
 	//Asset.find()
-   
 };
 
 //OLD
@@ -506,13 +519,9 @@ function getData(limit, delta, tradingPair){
     return defered.promise;
 };
 
-function hasUndefined(a) {
-    return a.indexOf() !== -1;
-};
+function hasUndefined(a) {return a.indexOf() !== -1;};
 
-function clone(a) {
-	return JSON.parse(JSON.stringify(a));
-};
+function clone(a) {return JSON.parse(JSON.stringify(a));};
 
 function portfolioBalance(delta, limit){
 
@@ -610,7 +619,6 @@ function portfolioBalance(delta, limit){
 		console.log(currentPortfolio)
 
 	});
-
 };
 
 function portfolioBalanceMulti(delta, limit, strat){
@@ -733,7 +741,6 @@ function portfolioBalanceMulti(delta, limit, strat){
 		//console.log(currentPortfolio)
 
 	});
-
 };
 
 function createPrediction(limit, delta){
@@ -978,7 +985,6 @@ function createPrediction(limit, delta){
 
 	});	
 	*/
-
 };
 
 //TODO:DO THIS WHEN I WANT $
@@ -1077,21 +1083,36 @@ function initPortfolio(){
 
 	Q.all(promises)
 	.then(function(data){
-		for (x in data){
-			var assetModel = {
-				user: '5a7f41749fd8e1000467ba3b',
-				symbol: data[x][0].asset2,
-				amount: 1/data[x][0].price,
-				//conversionArray: data,
-			};
-			//Asset.create(assetModel).then(function(model){
-			//	console.log(model)
-			//});
-			//Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
-			//	console.log(model)
-			//});
-			console.log(1/data[x][0].price, data[x][0].asset2);
-		}
+
+		Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
+
+			for (x in data){
+				var assetModel = {
+					user: '5a83602d5ac735000488e8f7',
+					symbol: data[x][0].asset2,
+					amount: 0,
+					//conversionArray: data,
+					//wallet
+					//secret?
+				};
+				var index = model.map(function(obj){return obj.symbol}).indexOf(assetModel.symbol)
+				if (index == -1){
+					//console.log(assetModel);
+					Asset.create(assetModel).then(function(model){
+						console.log(model)
+					});
+				}
+				//Asset.create(assetModel).then(function(model){
+				//	console.log(model)
+				//});
+				//Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
+				//	console.log(model)
+				//});
+				//console.log(1/data[x][0].price, data[x][0].asset2);
+			}
+
+		});
+
 	});
 
 	//Asset.create({user: '5a7f41749fd8e1000467ba3b', symbol:'BTC', amount:1}).then(function(model){
@@ -1111,6 +1132,10 @@ function initPortfolio(){
 
 module.exports.intervalService = function(){
 
+	//assetArrayLinearCombinationEquality();
+	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
+	//	console.log(model)
+	//});
 	//dataService.createOrder()
 	//initPortfolio();
 
@@ -1186,10 +1211,15 @@ module.exports.intervalService = function(){
 		}
     });*/
 
+	//PORTFOLIO UTL
+	//timer(dataService.portfolio.bind(null, 5000), 5000);//second
+
+
+
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min

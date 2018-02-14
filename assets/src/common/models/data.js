@@ -18,6 +18,11 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url).then(success, error);
     };
 
+    this.getExchangeMap = function() {
+        var url = utils.prepareUrl('data/map');
+        return $sailsSocket.get(url).then(success, error);
+    };
+
     this.getCurrency = function() {
         var url = utils.prepareUrl('data/currency');
         return $sailsSocket.get(url).then(success, error);

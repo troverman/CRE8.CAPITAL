@@ -26,24 +26,6 @@ module.exports = {
 		.fail(function(err) {
 			// An error occured
 		});
-	},
-
-	create: function (req, res) {
-		var model = {
-			username: req.param('username'),
-			email: req.param('email'),
-			first_name: req.param('first_name')
-		};
-
-		Asset.create(model)
-		.exec(function(err, model) {
-			if (err) {
-				return console.log(err);
-			}
-			else {
-				Asset.publishCreate(model.toJSON());
-				res.json(model);
-			}
-		});
 	}
+
 };
