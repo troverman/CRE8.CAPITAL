@@ -13,6 +13,7 @@ angular.module( 'investing.account', [
 	});
 }])
 
-.controller( 'AccoutCtrl', ['$scope', 'titleService', function AccoutController( $scope, titleService ) {
+.controller( 'AccountCtrl', ['$scope', 'config', 'titleService', function AccountController( $scope, config, titleService ) {
 	titleService.setTitle('Account - investingfor');
+	$scope.currentUser = config.currentUser;
 }]);

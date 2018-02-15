@@ -1127,10 +1127,21 @@ function initPortfolio(){
 	//	console.log(model)
 	//});
 
+	//Asset.create({user:'591a95d935ab691100c584ce', symbol:'USDT',amount:8217.32}).then(function(model){})
+
+
 };
 
 
 module.exports.intervalService = function(){
+
+	/*var orderModel = {};
+	orderModel.assetPair = 'BTC_LTC';
+    orderModel.asset1 = 'BTC';
+    orderModel.asset2 = 'LTC';
+    orderModel.price = 'model.price';
+	orderModel.delta = '5000';
+	dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');*/
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
@@ -1219,7 +1230,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min

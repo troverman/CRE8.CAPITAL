@@ -29,15 +29,12 @@ module.exports = {
 		.then(function(predictionModel){
 			res.json(predictionModel);
 		});
-
 	},
 
 	create: function (req, res) {
 		NeuralNetwork.create(model)
 		.exec(function(err, model) {
-			if (err) {
-				return console.log(err);
-			}
+			if (err) {return console.log(err);}
 			else {
 				Network.publishCreate(model.toJSON());
 				res.json(model);

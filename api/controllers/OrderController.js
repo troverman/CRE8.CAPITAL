@@ -5,6 +5,7 @@ module.exports = {
 		var delta = req.query.delta;
 		var asset1 = req.query.asset1;
 		var asset2 = req.query.asset2;
+		var user = req.query.user;//mb..--> system wide trading 
 		var type =  req.query.type;
 		var limit = req.query.limit;
 		var skip = req.query.skip;

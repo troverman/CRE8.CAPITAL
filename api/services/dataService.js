@@ -223,8 +223,10 @@ module.exports = {
 		orderModel.asset1 = model.asset1;
 		orderModel.asset2 = model.asset2;
 		orderModel.price = model.price;
-		orderModel.delta = delta;
+		orderModel.delta = model.delta;
 		orderModel.type = type;
+
+		console.log(orderModel);
 
 		//maker, taker
 		//poloniex.buy('BTC_LTC', '0.001841667', '1', 0, 0, 1, function(err, model){
@@ -236,24 +238,30 @@ module.exports = {
         //TODO: BRIDGE REAL - AND SIMUL
         //TODO: REFACTOR!!!
         if (orderModel.type=='BUY'){
-	        Asset.find({user: user, symbol: models[0].asset1}).then(function(asset){
+	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
 	            var asset1Amount = asset[0].amount*0.15;
 				Order.create(orderModel).then(function(orderModel){
 	            	console.log(orderModel)
 	            });
+				console.log('supe');
 
+
+				//only buy if more than .0001 btc
+				//if statements here
 	            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 1, 0, 0, function(err, model){
 					console.log(model);
 				});
 
-				Asset.update({user: user, symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-				Asset.find({user: user, symbol: models[0].asset2}).then(function(asset){
+
+
+				Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+				Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
 					//FACTOR IN FEES
 					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-					Asset.update({user: user, symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + models[0].asset2, {data: orderModel});
+					Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
 	            });
 	        });
@@ -261,9 +269,11 @@ module.exports = {
 
         //SELL
 		if (orderModel.type=='SELL'){
-       		Asset.find({user: user, symbol: models[0].asset2}).then(function(asset){
+       		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
 	        	orderModel.amount = asset[0].amount*0.15;
 	        	var asset1Amount = orderModel.amount*orderModel.price;
+				
+	        	//doubles the order..
 				Order.create(orderModel).then(function(orderModel){
 	            	console.log(orderModel);
 	            });	
@@ -272,12 +282,12 @@ module.exports = {
 					console.log(model);
 				});
 
-				Asset.update({user: user, symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-				Asset.find({user: user, symbol: models[0].asset1}).then(function(asset){
+				Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+				Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 
 					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-					Asset.update({user: user, symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + models[0].asset2, {data: orderModel});
+					Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
 
 	            });	
 	        });
@@ -346,7 +356,7 @@ module.exports = {
 						Data.publishCreate(model);
 			            Data.find({assetPair:model.assetPair, delta: model.delta})
 			            .sort('createdAt DESC')
-			            .limit(2)
+			            .limit(2)//change this to 100 --> to get trend.. 
 			            .then(function (models) {
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
@@ -368,8 +378,25 @@ module.exports = {
 							orderModel.delta = delta;
 			                var emailList = ['lourens1@ad.unc.edu', 'camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
-			                //TODO REFACTOR THIS ALL!!
-			                //IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
+
+
+
+							//TODO REFACTOR THIS ALL!!
+			                //REFACTOR SECTION..
+			                //if model.percentChange < average of last 60 --> floating point
+			                //this is based on delta.. do period calc. 
+			                //tier based on sD..
+			                //dataService.getBband...
+			                //mb mix too.
+							//IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
+							//Order.find().limit(10)//-->get last 10 orders with pair 
+
+
+
+
+
+
+
 			       
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
@@ -583,6 +610,13 @@ module.exports = {
 			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
 			                //TODO: LOGIC.. CANT SELL IF DIDNT BUY OR HAVE THE ASSET. 
 			                //TODO: REAL $
+
+			                //delta??
+			                //Order.find({asset1:orderModel.asset1, asset2:orderModel.asset2}).sort('createdAt DESC').limit(2).then(function(order){
+
+			                //});
+
+
 			                if (models[1].percentChange < -0.05){
 
 								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){

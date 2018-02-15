@@ -51,15 +51,19 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
   $templateCache.put("account/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "	<h1>Account info</h1>\n" +
+    "    <h3><a href=\"member/{{currentUser.username}}\">{{currentUser.username}}</a></h2><br>\n" +
     "	<p>edit</p>\n" +
-    "	\n" +
     "	<form role=\"form\">\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"userName\" placeholder=\"username\" title=\"username\" type=\"text\"> \n" +
+    "            <input class=\"form-control\" name=\"userName\" placeholder=\"username\" title=\"username\" type=\"text\" ng-model=\"currentUser.username\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"firstName\" placeholder=\"first name\" title=\"first name\" type=\"text\"> \n" +
+    "            <input class=\"form-control\" name=\"firstName\" placeholder=\"first name\" title=\"first name\" type=\"text\" ng-model=\"currentUser.firstName\"> \n" +
+    "            <i class=\"fa fa-user\"></i>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <input class=\"form-control\" name=\"lastName\" placeholder=\"last name\" title=\"last name\" type=\"text\" ng-model=\"currentUser.lastName\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"align-right\">\n" +
@@ -80,7 +84,7 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api key\" title=\"api secret\" type=\"text\"> \n" +
+    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api secret\" title=\"api secret\" type=\"text\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"align-right\">\n" +

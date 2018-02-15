@@ -109,8 +109,6 @@ function getData(limit, delta, tradingPair){
 	.limit(1)
 	.sort('createdAt DESC')
 	.then(function(models){
-		console.log(models)
-		console.log(tradingPair);
 		defered.resolve(models.reverse());
 	});
     return defered.promise;
@@ -120,7 +118,6 @@ function getData(limit, delta, tradingPair){
 module.exports = {
 
 	getData: function(req, res){
-		console.log('what the fuck')
 		var delta = req.query.delta;
 		var asset1 = req.query.asset1;
 		var asset2 = req.query.asset2;
@@ -129,9 +126,7 @@ module.exports = {
 		var sort = 'createdAt DESC';//req.query.filter;
 		var indicator = req.query.indicator;
 		var indicatorOption = req.query.indicatorOption;
-
 		console.log(req.query)
-
 		//var filter;
 		//TODO: max limit query size DDOS
 		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2})
@@ -143,28 +138,21 @@ module.exports = {
 			Data.watch(req);
 			res.json(dataModel);
 		});
-
 	},
 
 	getLatestData: function(req, res){
-
 		var promises = [];
 		tradingPairs = tradingPairs.filter(function(obj){
 	        if (obj.split('/')[1]=='BTC'){return obj}
 	    });
-
 		tradingPairs.forEach(function(tradingPair, index){
-			console.log(tradingPair)
 		    var promise = getData(1, '5000', tradingPair);
 		    promises.push(promise);
 		});
-
 		Q.all(promises)
 		.then(function(data){
-			console.log(data)
 			res.json(data);
 		});
-
 	},
 
 	getExchangeMap: function(req, res){
@@ -175,7 +163,6 @@ module.exports = {
 		});
 		Q.all(promises)
 		.then(function(data){
-			console.log(data)
 			res.json(data);
 		});
 	},
