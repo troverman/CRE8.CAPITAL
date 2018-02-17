@@ -1134,6 +1134,8 @@ function initPortfolio(){
 
 
 module.exports.intervalService = function(){
+	
+
 
 	/*var orderModel = {};
 	orderModel.assetPair = 'BTC_LTC';
@@ -1194,7 +1196,20 @@ module.exports.intervalService = function(){
 		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
 		var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
 		var trainer = new Trainer(initNetwork);
-		var trainerExperimental = new Trainer(experimentalNetwork)
+		var trainerExperimental = new Trainer(experimentalNetwork);
+
+		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+
+
+		//pdf nerural net has 2k output
+		//train by solving top 3 (n) pick assets at time delta.. 
+		//need to figure the ideal output
+		//general idea pdf .. -- based on known picks and reverse solving of attractive pdf
+		//aka these are the known best picks -- this is the known attractive fxn -- what then are the pdf(s)
+		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+
+
+
 
 		var networkJson = initNetwork.toJSON();
 		var experimentalNetworkJson = initNetwork.toJSON();

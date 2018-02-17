@@ -213,7 +213,15 @@ module.exports = {
 	    });  
 	},
 
+
+	//createOrderContinual:function(){
+		//create order with 15% down on price at every delta. 
+		//cancel last order id if not fuilfilled--> atomic switch to the next. 
+	//}
+
 	//TODO: REFACTOR AND PACKAGE
+	//I can place continuous orders at the bband indicator
+	//-->when filled 'cre8 the order'
 	createOrder: function(model, user, type){
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
@@ -241,29 +249,37 @@ module.exports = {
 	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
 	            var asset1Amount = asset[0].amount*0.15;
-				Order.create(orderModel).then(function(orderModel){
-	            	console.log(orderModel)
-	            });
-				console.log('supe');
-
-
 				//only buy if more than .0001 btc
 				//if statements here
-	            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 1, 0, 0, function(err, model){
-					console.log(model);
-				});
+				if (orderModel.amount>0){
 
+					//maker taker ... 
+					//let's do -->immediateOrCancel
+					//or place a market order .. just a lil higher. 
+		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
+						console.log('REAL BUY -- THIS IS FOR DEBUG');
+						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta}).limit(1).sort('createdAt DESC').then(function(model){console.log('check the logs -- bid ask spread..'); console.log(model); console.log(orderModel)})
+						console.log(model);
+						console.log('REAL BUY -- THIS IS FOR DEBUG');
 
-				Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-				Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
+						//if fuilfilled --> 
 
-					//FACTOR IN FEES
-					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-					Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
+						Order.create(orderModel).then(function(orderModel){
+	            			console.log(orderModel)
+	            		});
+						Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+						Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
-	            });
+							//FACTOR IN FEES
+							var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+							Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+							emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
+
+			            });
+					});
+
+				}
 	        });
 		}
 
@@ -272,24 +288,35 @@ module.exports = {
        		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
 	        	orderModel.amount = asset[0].amount*0.15;
 	        	var asset1Amount = orderModel.amount*orderModel.price;
-				
 	        	//doubles the order..
-				Order.create(orderModel).then(function(orderModel){
-	            	console.log(orderModel);
-	            });	
+				//only sell if more than .0001 asset
+				//if statements here
+				if (orderModel.amount>0){
 
-	            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 1, 0, 0, function(err, model){
-					console.log(model);
-				});
+					//maker taker ... 
+					//let's do -->immediateOrCancel --> better than foK
+					//or place a market order .. just a lil higher. 
+		            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+						console.log('REAL SELL -- THIS IS FOR DEBUG');
+						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta}).limit(1).sort('createdAt DESC').then(function(model){console.log('check the logs -- bid ask spread..'); console.log(model); console.log(orderModel)})
+						console.log(model);
+						console.log('REAL SELL -- THIS IS FOR DEBUG');
+						//if fuilfilled --> 
 
-				Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-				Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+						Order.create(orderModel).then(function(orderModel){
+	            			console.log(orderModel);
+	            		});	
+						Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+						Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 
-					var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-					Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
+							var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+							Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+							emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
 
-	            });	
+			            });	
+					});
+
+				}
 	        });
     	}
         
