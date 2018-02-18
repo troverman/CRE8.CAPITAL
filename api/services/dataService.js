@@ -370,7 +370,6 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-		orderModel.type = type;
 
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
 		Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta})
