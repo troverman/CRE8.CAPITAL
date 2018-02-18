@@ -131,8 +131,8 @@ angular.module( 'investing.markets', [
             margin : {
                 top: 20,
                 right: 0,
-                bottom: 20,
-                left: 30
+                bottom: 50,
+                left: 50
             },
             x: function(d){ 
                 return d[0]; 
@@ -141,21 +141,30 @@ angular.module( 'investing.markets', [
                 return d[1]; 
             },
             color: d3.scale.category20b().range(),
-            duration: 1500,
+            duration: 0,
             interpolate: 'monotone',
             useInteractiveGuideline: true,
             clipVoronoi: true,
             xAxis: {
-                axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                    return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
                 },
-                staggerLabels: true
+                staggerLabels: true,
+                showMaxMin : false
             },
             yAxis: {
-                axisLabel: 'cre8', //$scope.selectedPair[0]+'_'+$scope.selectedPair[1],
-                axisLabelDistance: 50
-            }
+                axisLabelDistance: 50,
+                showMaxMin : false
+            },
+            x2Axis: {
+                tickValues:0,
+                showMaxMin: false
+            },
+            y2Axis: {
+                tickValues:0,
+                axisLabelDistance: 200,
+                showMaxMin : false
+            },
         }
     };
 

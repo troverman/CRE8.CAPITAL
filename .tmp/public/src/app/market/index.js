@@ -51,21 +51,32 @@ angular.module( 'investing.market', [
                 return d[1]; 
             },
             color: d3.scale.category20b().range(),
-            duration: 1500,
+            duration: 200,
             useInteractiveGuideline: true,
             clipVoronoi: false,
             //interpolate: 'cardinal-open',
             xAxis: {
                 //axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                    return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
                 },
-                staggerLabels: true
+                staggerLabels: true,
+                showMaxMin : false
             },
             yAxis: {
                 axisLabel: $scope.selectedPair[0]+'_'+$scope.selectedPair[1],
-                axisLabelDistance: 50
-            }
+                axisLabelDistance: 50,
+                showMaxMin : false
+            },
+            x2Axis: {
+                tickValues:0,
+                showMaxMin: false
+            },
+            y2Axis: {
+                tickValues:0,
+                axisLabelDistance: 200,
+                showMaxMin : false
+            },
         }
     };
 

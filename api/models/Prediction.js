@@ -63,6 +63,9 @@ module.exports = {
         },
         actualAsk:{
             type: 'string',
+        }, 
+        pdf:{
+            type: 'json',
         },       
     },
 

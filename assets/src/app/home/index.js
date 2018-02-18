@@ -211,22 +211,43 @@ angular.module( 'investing.home', [
             y: function(d){ 
                 return d[1]; 
             },
+            showLegend:false,
             color: d3.scale.category10().range(),
-            duration: 1500,
-            useInteractiveGuideline: true,
+            duration: 200,
+            useInteractiveGuideline: false,
             clipVoronoi: true,
+            chartContainer: '.chartContainer',
             xAxis: {
-                axisLabel: 'Time',
+                //axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                    return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
                 },
-                staggerLabels: true
+                staggerLabels: true,
+                showMaxMin : false
             },
             yAxis: {
-                axisLabel: 'BTC/LTC',
-                axisLabelDistance: 200
-            }
-        }
+                //axisLabel: 'BTC/LTC',
+                axisLabelDistance: 200,
+                showMaxMin : false,
+            },
+            x2Axis: {
+                tickValues:0,
+                showMaxMin: false
+            },
+            y2Axis: {
+                tickValues:0,
+                axisLabelDistance: 200,
+                showMaxMin : false
+            },
+        },
+        //title: {
+        //    enable: true,
+        //    text: 'BTC/LTC',
+        //    css: {
+        //        'text-align': 'left',
+        //        'color': 'white'
+        //    }
+        //},
     };
 
     $scope.marketGraphData = {};

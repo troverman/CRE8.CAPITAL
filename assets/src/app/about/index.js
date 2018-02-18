@@ -44,22 +44,28 @@ angular.module( 'investing.about', [
             },
 
             color: d3.scale.category10().range(),
-            duration: 1500,
+            duration: 200,
             useInteractiveGuideline: true,
             clipVoronoi: true,
-
             xAxis: {
-                axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M:%S')(new Date(d))
+                    return d3.time.format('%m/%d/%y %H:%M.%S')(new Date(d))
                 },
-                staggerLabels: true
+                staggerLabels: true,
+                showMaxMin : false
             },
-
             yAxis: {
-                axisLabel: 'USD/BTC',
-                axisLabelDistance: 50
-            }
+                axisLabelDistance: 50,
+                showMaxMin : false
+            },
+            x2Axis: {
+                tickValues:0,
+                showMaxMin: false
+            },
+            y2Axis: {
+                tickValues:0,
+                axisLabelDistance: 200,
+            },
         }
     };
 
@@ -99,6 +105,5 @@ angular.module( 'investing.about', [
 
     $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
     console.log($scope.data);
-
 
 }]);

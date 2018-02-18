@@ -281,11 +281,35 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<h1>market exposure</h1>\n" +
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<br><br>\n" +
+    "\n" +
+    "\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
     "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
+    "\n" +
+    "			<!--<div class=\"col-md-4\">\n" +
+    "				<table class=\"table table-inverse table-hover\">\n" +
+    "				    <thead>\n" +
+    "						<tr>\n" +
+    "							<th>Market</th>\n" +
+    "							<th>Price</th>\n" +
+    "							<th>Percent Change</th>\n" +
+    "						</tr>\n" +
+    "				    </thead>\n" +
+    "				    <tbody>\n" +
+    "						<tr ng-repeat=\"pair in tradingPairs\">\n" +
+    "							<td><a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a></td>\n" +
+    "							<td>0</td>\n" +
+    "							<td>0</td>\n" +
+    "						</tr>\n" +
+    "				    </tbody>\n" +
+    "				</table>\n" +
+    "			</div>-->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "		</div>\n" +
     "	</div>\n" +
     "\n" +
@@ -296,7 +320,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<br><br><br>\n" +
     "		<div class=\"container\">\n" +
     "			<h1>activity</h1>\n" +
-    "			<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
     "			<br>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<!--<h4>sound and transparent investments</h4>-->\n" +
