@@ -229,6 +229,9 @@ angular.module( 'investing.home', [
                 //axisLabel: 'BTC/LTC',
                 axisLabelDistance: 200,
                 showMaxMin : false,
+                tick: {
+                    format: d3.format('.2f')
+                }
             },
             x2Axis: {
                 tickValues:0,

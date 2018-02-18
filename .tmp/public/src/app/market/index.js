@@ -60,13 +60,25 @@ angular.module( 'investing.market', [
                 tickFormat: function(d) {
                     return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
                 },
-                staggerLabels: true,
+                staggerLabels: false,
                 showMaxMin : false
             },
             yAxis: {
                 axisLabel: $scope.selectedPair[0]+'_'+$scope.selectedPair[1],
                 axisLabelDistance: 50,
-                showMaxMin : false
+                showMaxMin : false,
+                tickFormat: function(d) {
+                    if (d.toString().split(".")[1]){
+                        var length = d.toString().split(".")[1].length;
+                        //console.log(length)
+                        if (length<8){
+                            return d3.format("."+length+"f")(d);
+                        }
+                        else{return d3.format()(d)}
+                    }
+                    else{return d3.format()(d)}
+                    //return d3.format()(d)
+                },
             },
             x2Axis: {
                 tickValues:0,
