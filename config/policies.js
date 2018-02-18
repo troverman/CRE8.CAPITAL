@@ -27,7 +27,16 @@ module.exports.policies = {
   ***************************************************************************/
 
   '*': true,
-  '*': [ 'passport' ]
+  '*': [ 'passport' ],
+
+  UserController: {
+    //getMine..with creds -- else, strip
+    getOne: ['sessionAuth'],
+    getAll: ['sessionAuth'],
+    create: ['sessionAuth'],
+    update: ['sessionAuth'],
+    destroy: ['sessionAuth']
+  }
 
   // '*': true,
 

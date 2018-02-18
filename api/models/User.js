@@ -24,7 +24,15 @@ module.exports = {
             type: 'string'
             //required: true
         },
+        btcWalletSecret: {
+            type: 'string'
+            //required: true
+        },
         ltcWalletAddress: {
+            type: 'string'
+            //required: true
+        },
+        ltcWalletSecret: {
             type: 'string'
             //required: true
         },
@@ -40,6 +48,13 @@ module.exports = {
     getAll: function() {
         return User.find()
         .then(function (models) {
+            //STRIP API KEYS.. prob should hash this tho. 
+            //readup on security; 
+            //same if we want to save wallet secret info
+            for (x in models){
+                delete models[x].poloniexApiKey;
+                delete models[x].poloniexApiSecret;
+            }
             return [models];
         });
     },

@@ -222,7 +222,7 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	//I can place continuous orders at the bband indicator
 	//-->when filled 'cre8 the order'
-	createOrder: function(model, user, type){
+	createOrderPoloniex: function(model, user, type){
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
@@ -288,10 +288,10 @@ module.exports = {
        		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
 	        	orderModel.amount = asset[0].amount*0.15;
 	        	var asset1Amount = orderModel.amount*orderModel.price;
-	        	//doubles the order..
+	        	//TODO: order percent system wide. re:duplic8
 				//only sell if more than .0001 asset
 				//if statements here
-				if (orderModel.amount>0){
+				//if (orderModel.amount>0){
 
 					//maker taker ... 
 					//let's do -->immediateOrCancel --> better than foK
@@ -316,7 +316,7 @@ module.exports = {
 			            });	
 					});
 
-				}
+				//}
 	        });
     	}
         
@@ -361,6 +361,78 @@ module.exports = {
 
 	},
 
+	createOrderSimulation: function(model, user, percent){
+
+		var orderModel = {};
+		orderModel.assetPair = model.assetPair;
+		orderModel.asset1 = model.asset1;
+		orderModel.asset2 = model.asset2;
+		orderModel.price = model.price;
+		orderModel.delta = model.delta;
+		orderModel.user = user;
+		orderModel.type = type;
+
+		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
+		Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta})
+		.limit(1)
+		.sort('createdAt DESC')
+		.then(function(model){
+			console.log('FOR DEBUG');
+			console.log('BID: '+ model[0].currentBid); 
+			console.log('ASK: '+ model[0].currentAsk); 
+			console.log('SPREAD: '+ model[0].currentBid - model[0].currentAsk)
+			console.log('ORDER PRICE: '+ orderModel.price);
+
+			// SELL price needs to be below highest bid
+			if (orderModel.type == 'SELL'){
+				console.log('SELL');
+				console.log('BID PRICE '+  model[0].currentBid);
+				console.log('NEW PRICE '+  model[0].currentBid - model[0].currentBid*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+			}
+
+			//BUY price needs to be above lowest ask; dependant on type
+			if (orderModel.type == 'BUY'){
+				console.log('BUY');
+				console.log('ASK PRICE '+ model[0].currentAsk);
+				console.log('NEW PRICE '+ model[0].currentAsk + model[0].currentAsk*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+			}
+
+		});
+
+		if (orderModel.type == 'SELL'){
+	        Asset.find({user:user, symbol: models[0].asset2}).then(function(asset){
+	        	orderModel.amount = asset[0].amount*percent;
+	        	var asset1Amount = orderModel.amount*orderModel.price;
+				Order.create(orderModel).then(function(orderModel){
+	            	console.log(orderModel);
+	            });	
+				Asset.update({user:user, symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+				Asset.find({user:user, symbol: models[0].asset1}).then(function(asset){
+					var updateAmount = asset[0].amount + asset1Amount;
+					Asset.update({user:user, symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + models[0].asset2, {data: orderModel});
+	            });	
+	        });
+    	}
+
+		if (orderModel.type == 'BUY'){
+	        Asset.find({user:user, symbol: models[0].asset1}).then(function(asset){
+	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;
+	            var asset1Amount = asset[0].amount*percent;
+				Order.create(orderModel).then(function(orderModel){
+	            	console.log(orderModel)
+	            });	
+				Asset.update({user:user, symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+				Asset.find({user:user, symbol: models[0].asset2}).then(function(asset){
+					var updateAmount = asset[0].amount + orderModel.amount;
+					Asset.update({user:user, symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + models[0].asset2, {data: orderModel});
+	            });	
+	        });
+    	}
+	},
+
+
 	tickerREST: function(delta){
 	    var poloniex = new Poloniex();  
 		poloniex.returnTicker((err, ticker) => {
@@ -401,15 +473,14 @@ module.exports = {
 			                orderModel.assetPair = model.assetPair;
 			                orderModel.asset1 = model.asset1;
 			                orderModel.asset2 = model.asset2;
-			                orderModel.price = model.price;
+			                orderModel.price = model.price; // this has to do with current bid ask spread.. place order price above/at highest/lowest bid/ask 
+			                								// look at market depth -- > to fill order w confidence
+			                								// BUY price needs to be above lowest ask
+			                								// SELL price needs to be below highest bid
 							orderModel.delta = delta;
-			                var emailList = ['lourens1@ad.unc.edu', 'camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
+			                var emailList = ['mphillipsmusic@gmail.com', 'lourens1@ad.unc.edu', 'camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
-
-
-
-							//TODO REFACTOR THIS ALL!!
-			                //REFACTOR SECTION..
+							//TODO:REFACTOR SECTION..
 			                //if model.percentChange < average of last 60 --> floating point
 			                //this is based on delta.. do period calc. 
 			                //tier based on sD..
@@ -418,275 +489,111 @@ module.exports = {
 							//IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
 							//Order.find().limit(10)//-->get last 10 orders with pair 
 
-
-
-
-
-
-
-			       
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
-								console.log('BUY LOW')
 								for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-
 			                    orderModel.type = 'BUY';
-								//TODO: REFACTOR
-			                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-				                    orderModel.amount = (asset[0].amount*0.15)/orderModel.price;
-				                    var asset1Amount = asset[0].amount*0.15;
-									Order.create(orderModel).then(function(orderModel){
-				                    	console.log(orderModel)
-				                    });	
-									Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-									Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-										var updateAmount = asset[0].amount + orderModel.amount;
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY LOW ' + models[0].asset2, {data: orderModel});
-				                    });
-				                });
-
-				                //THIS IS LIVE ~ OOO
-								dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
-
+			                    //SIMULATION -- could do percent risk based on indicators
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+				                //LIVE -- TODO: 
+								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY');//type --> FoK, IoC, MO, percent rish
 			                }
 
 			                //SELL HIGH
 			                if (model.percentChange > 0.15){
-			                	console.log('SELL HIGH')
 			                    for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-
-			                    orderModel.type = 'SELL';
-								//TODO: REFACTOR
-			                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-			                    	orderModel.amount = asset[0].amount*0.15;
-			                    	var asset1Amount = orderModel.amount*orderModel.price;
-									Order.create(orderModel).then(function(orderModel){
-				                    	console.log(orderModel);
-				                    });	
-									Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-									Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-										var updateAmount = asset[0].amount + asset1Amount;
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL HIGH ' + models[0].asset2, {data: orderModel});
-				                    });	
-			                    });
-
-			                    //THIS IS LIVE ~ OOO
-								dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
-
-
+			                    orderModel.type = 'SELL';			                  
+			                    //SIMULATION
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+			                    //LIVE
+								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
 			                }
-
 
 			                //5 MIN
 			                if (delta == '300000'){
 			                	//BUY LOW
 								if (model.percentChange <= -0.035){
-									console.log('BUY LOW');
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
-
 									orderModel.type = 'BUY';
-									//TODO: REFACTOR
-				                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-					                    orderModel.amount = (asset[0].amount*0.15)/orderModel.price;
-					                    var asset1Amount = asset[0].amount*0.15;
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel)
-					                    });	
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-											var updateAmount = asset[0].amount + orderModel.amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY LOW ' + models[0].asset2, {data: orderModel});
-					                    });
-					                });
+									//SIMULATION
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
 			                	}
-
 			                	//SELL HIGH
 								if (model.percentChange >= 0.05){
-				                	console.log('SELL HIGH');
 				                    for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
-
 				                    orderModel.type = 'SELL';
-									//TODO: REFACTOR
-				                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-				                    	orderModel.amount = asset[0].amount*0.35;
-				                    	var asset1Amount = orderModel.amount*orderModel.price;
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel);
-					                    });	
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-											var updateAmount = asset[0].amount + asset1Amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL HIGH '+ models[0].asset2, {data: orderModel});
-					                    });	
-				                    });
+									//SIMULATION
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.35);
 								}
-
 			                }
 
 			                //FLASH CRASH LOGIC
-			                //DO THIS LOL IT HAPPENS LIKE ONCE A DAY
-			                //30 SEC
-			                //TODO: REFACTOR ASSET ISH
+			                //TODO: REFACTOR
+							//30 SEC
 			                if (delta == '30000'){
-
-			                	//BUY FLASHDIP
+			                	//BUY LOW FLASH DIP
 								if (model.percentChange <= -0.035 && model.percentChange > -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 									orderModel.type = 'BUY';
-
-									Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-
-					                    orderModel.amount = (asset[0].amount*0.5)/orderModel.price;
-					                    var asset1Amount = asset[0].amount*0.5;
-
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel)
-					                    });	
-
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-											var updateAmount = asset[0].amount + orderModel.amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: DIP' + models[0].asset2, {data: orderModel});
-					                    });	
-
-					                });
-
+									//SIMULATION
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 								}
-
-								//BUY FLASH CRASH
+								//BUY LOW FLASH CRASH
 								if (model.percentChange <= -0.10){
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'FLASH CRASH: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 					               	}
-					               	orderModel.type = 'BUY';
-
-									//TODO: IMPROVE.. MB SLOW
-					                Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-
-					                	//ALL IN -- do... 88%
-					                    //do % by model.percentChange..:D
-					                    orderModel.amount = (asset[0].amount*0.5)/orderModel.price;
-					                    var asset1Amount = asset[0].amount*0.5;
-					                    //TODO -- subtract fees..
-
-					                    //TODO:ORDER USERID
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel)
-					                    });	
-
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-											var updateAmount = asset[0].amount + orderModel.amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: CRASH ' + models[0].asset2, {data: orderModel});
-					                    });	
-
-					                });
-
-									//THIS IS LIVE ~ OOO
-									dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
-
+									orderModel.type = 'BUY';
+					               	//SIMULATION
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
+									//LIVE
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
+									//User.find().then(function(userModel){
+										//dataService.createOrder(orderModel, userModel, 'BUY');
+									//})
 								}
-
 								//SELL HIGH
-								//REFACTOR..
-								//REDO FOR FLASH CRASH.
 								if (model.percentChange >= 0.08){//|| or total price incease is some amount of profit
 									orderModel.type = 'SELL';
-				                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-				                    	orderModel.amount = asset[0].amount*0.5;
-				                    	var asset1Amount = orderModel.amount*orderModel.price;
-									
-										Order.create(orderModel).then(function(orderModel){
-					                    	console.log(orderModel);
-					                    });	
-
-										Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-										Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-											var updateAmount = asset[0].amount + asset1Amount;
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-											emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL '+models[0].asset2, {data: orderModel});
-					                    });	
-
-				                    });
-
-				                    //THIS IS LIVE ~ OOO
-									dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
-				                   
+									//SIMULATION
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
+									//LIVE
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
 								}
-
 			                }
 
-			                //TODO: IMPROVE ~ MAKE IT LIVE ~ TURN ON THE CASH! 
-			                //if last time was a flash crash?
-			                //if there was an order..?
-			                //this is faster than finding the last order.. but want to make sure we 'bought' b4 selling. 
 			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
 			                //TODO: LOGIC.. CANT SELL IF DIDNT BUY OR HAVE THE ASSET. 
-			                //TODO: REAL $
-
-			                //delta??
+			                //delta
 			                //Order.find({asset1:orderModel.asset1, asset2:orderModel.asset2}).sort('createdAt DESC').limit(2).then(function(order){
-
 			                //});
 
-
 			                if (models[1].percentChange < -0.05){
-
 								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){
-
 									//if multiple intervals --> create profit taking logic 
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 									if (model.percentChange > 0.05){//|| or totoal price incease is some amount of profit
 										//mb hold hold -- 50/50 if 5000-> for more gain
+										for (x in emailList){
+											emailService.sendTemplate('marketUpdate', emailList[x], 'YOU BOUGHT THE DIP AND TOOK ' + model.percentChange*100 +'% profit', {data: model});
+			                    		}
 										orderModel.type = 'SELL';
-
-					                    //TODO: SYSTEM WIDE?? PERCENT
-					                    Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}).then(function(asset){
-
-					                    	//ALL IN -- do... 88%
-					                    	//do % by model.percentChange..:D
-					                    	orderModel.amount = asset[0].amount*0.88;
-					                    	var asset1Amount = orderModel.amount*orderModel.price;
-					                    	//TODO -- subtract fees..
-											//for (x in emailList){
-					                    		emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'YOU BOUGHT THE DIP! :D YOU TOOK ' + model.percentChange*100 +'% profit', {data: model});
-											//}
-											//TODO: FOR REAL MONEY.. CHECK IF PRICE IS WITHIN RANGE STILL (there will be a few (s) change -- and take the market.. factor in fees, make the market? + .00001 or -.00001; not good for fast tho. so take
-											Order.create(orderModel).then(function(orderModel){
-						                    	console.log(orderModel);
-						                    });	
-
-											Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-											Asset.find({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}).then(function(asset){
-												var updateAmount = asset[0].amount + asset1Amount;
-												Asset.update({user:'591a95d935ab691100c584ce', symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-												emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + models[0].asset2, {data: orderModel});
-						                    });	
-
-					                    });
-					                    
+										//SIMULATION,
+										//TODO: SYSTEM WIDE?? PERCENT
+										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
 									}
-	
 								}
-
 			                }
 
 			            });
-
 					});
 
 				}

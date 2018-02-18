@@ -129,6 +129,7 @@ var AuthController = {
         // will available.
         else {
         	console.log('currently logged in user is: ' + req.user.username);
+          req.session.user = req.user;
           res.redirect('/');
         }
       });
