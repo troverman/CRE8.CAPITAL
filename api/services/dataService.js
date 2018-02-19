@@ -490,14 +490,14 @@ module.exports = {
 			if (orderModel.type == 'SELL'){
 				console.log('SELL');
 				console.log('BID PRICE', model[0].currentBid);
-				console.log('NEW PRICE', parseFloat(model[0].currentBid - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+				console.log('NEW PRICE', parseFloat(model[0].currentBid) - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
 			}
 
 			//BUY price needs to be above lowest ask; dependant on type
 			if (orderModel.type == 'BUY'){
 				console.log('BUY');
 				console.log('ASK PRICE', model[0].currentAsk);
-				console.log('NEW PRICE', parseFloat(model[0].currentAsk + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+				console.log('NEW PRICE', parseFloat(model[0].currentAsk) + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
 			}
 
 			//OR PLACE ORDER BTW THE SPREAD FOR GOOD 'MARKET ORDER'
