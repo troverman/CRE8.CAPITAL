@@ -355,6 +355,8 @@ module.exports = {
 					//maker taker ... 
 					//let's do -->immediateOrCancel
 					//or place a market order .. just a lil higher. 
+					//check out orderBook
+					//dataService.returnOrderBook(orderModel.assetPair, 10)
 		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
 						console.log('REAL BUY -- THIS IS FOR DEBUG');
@@ -367,6 +369,7 @@ module.exports = {
 						Order.create(orderModel).then(function(orderModel){
 	            			console.log(orderModel)
 	            		});
+
 						Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
 						Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
@@ -376,6 +379,7 @@ module.exports = {
 							emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
 			            });
+
 					});
 
 				}
@@ -469,7 +473,7 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-
+		console.log(orderModel)
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
 		Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta})
 		.limit(1)

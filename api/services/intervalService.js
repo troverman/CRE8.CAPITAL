@@ -1137,7 +1137,7 @@ module.exports.intervalService = function(){
 	
 
 	//dataService.ticker()
-	dataService.returnOrderBook('BTC_LTC', 100000)
+	//dataService.returnOrderBook('BTC_LTC', 100000)
 
 	/*
 	var orderModel = {};
