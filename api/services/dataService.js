@@ -325,7 +325,7 @@ module.exports = {
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
-		var orderModel = {};
+		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
 		orderModel.asset1 = model.asset1;
 		orderModel.asset2 = model.asset2;
@@ -466,39 +466,38 @@ module.exports = {
 
 	createOrderSimulation: function(model, user, percent){
 
-		var orderModel = {};
+		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
 		orderModel.asset1 = model.asset1;
 		orderModel.asset2 = model.asset2;
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-		console.log(orderModel)
+
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
     	Data.find({delta:orderModel.delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
 		.limit(1)
 		.sort('createdAt DESC')
 		.then(function(model){
 
-			console.log(model);
 			console.log('FOR DEBUG');
-			console.log('BID: '+ model[0].currentBid); 
-			console.log('ASK: '+ model[0].currentAsk); 
-			console.log('SPREAD: '+ model[0].currentBid - model[0].currentAsk)
-			console.log('ORDER PRICE: '+ orderModel.price);
+			console.log('BID:', model[0].currentBid); 
+			console.log('ASK:', model[0].currentAsk); 
+			console.log('SPREAD:', parseFloat(model[0].currentBid) - parseFloat(model[0].currentAsk));
+			console.log('ORDER PRICE:', orderModel.price);
 
 			// SELL price needs to be below highest bid
 			if (orderModel.type == 'SELL'){
 				console.log('SELL');
-				console.log('BID PRICE '+  model[0].currentBid);
-				console.log('NEW PRICE '+  model[0].currentBid - model[0].currentBid*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+				console.log('BID PRICE', model[0].currentBid);
+				console.log('NEW PRICE', parseFloat(model[0].currentBid - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
 			}
 
 			//BUY price needs to be above lowest ask; dependant on type
 			if (orderModel.type == 'BUY'){
 				console.log('BUY');
-				console.log('ASK PRICE '+ model[0].currentAsk);
-				console.log('NEW PRICE '+ model[0].currentAsk + model[0].currentAsk*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+				console.log('ASK PRICE', model[0].currentAsk);
+				console.log('NEW PRICE', parseFloat(model[0].currentAsk + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
 			}
 
 			//OR PLACE ORDER BTW THE SPREAD FOR GOOD 'MARKET ORDER'
