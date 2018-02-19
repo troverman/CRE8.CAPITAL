@@ -24,6 +24,13 @@ angular.module( 'investing.market', [
 
 .controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, PredictionModel, titleService ) {
 	
+    //TODO: VOLUME IN OUT
+    //TODO: ORDERBOOK MAP -- over time -- 3d
+    //TODO: EXCHANGE AGNOSTIC
+
+    //TODO: INDICATOR LOGIC
+    //TODO: HIGHCHARTS?
+
     //TODO: live price.. ticker call -- socket. --> in title!
     titleService.setTitle($stateParams.path1.toUpperCase()+'/'+$stateParams.path2.toUpperCase()+' - investingfor');
 

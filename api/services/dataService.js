@@ -8,6 +8,105 @@ var bollingerBands = require('bollinger-bands').boll;
 var tulind = require('tulind');
 var Q = require('q');
 
+var tradingPairs = [
+    'XRP/BTC',
+    'ETH/BTC',
+    'BTC/USDT',
+    'LTC/BTC',
+    'BCH/BTC',
+	'STR/BTC',
+    'XRP/USDT',
+    'ETH/USDT',
+    'BCH/USDT',
+    'XMR/BTC',
+    'ZEC/BTC',
+    'LTC/USDT',
+    'DASH/BTC',
+    'ETC/BTC',
+    'XEM/BTC',
+    'ZEC/USDT',
+    'FCT/BTC',
+    'ETC/USDT',
+    'BTS/BTC',
+    'LSK/BTC',
+    'DGB/BTC',  
+    'EMC2/BTC',
+    'NXT/BTC',
+    'SC/BTC',
+    'POT/BTC',  
+    'STRAT/BTC',
+    'NXT/USDT',
+    'DOGE/BTC',
+    'DASH/USDT',
+    'XMR/USDT',
+    'BCH/ETH',
+    'ZRX/BTC',  
+    'ARDR/BTC',
+    'VTC/BTC',
+    'BTM/BTC',  
+    'OMG/BTC',
+    'MAID/BTC',
+    'VRC/BTC',  
+    'GNT/BTC',  
+    'GAME/BTC',
+    'CVC/BTC',  
+    'REP/BTC',
+    'STEEM/BTC',
+    'SYS/BTC',
+    'BCN/BTC',
+    'LBC/BTC',
+    'DCR/BTC',
+    'ZEC/ETH',
+    'REP/USDT',
+    'ETC/ETH',
+    'LTC/XMR',
+    'ZRX/ETH',
+    'RIC/BTC',
+    'GNO/BTC',
+    'PPC/BTC',
+    'GAS/BTC',
+    'BURST/BTC',
+    'PASC/BTC', 
+    'VIA/BTC',
+    'FLO/BTC',
+    'FLDC/BTC',
+    'NEOS/BTC', 
+    'OMG/ETH',
+    'STORJ/BTC',
+    'GNT/ETH',
+    'CLAM/BTC', 
+    'NAV/BTC',
+    'XCP/BTC',
+    'LSK/ETH',
+    'XBC/BTC',
+    'AMP/BTC',
+    'OMNI/BTC', 
+    'EXP/BTC',
+    'GRC/BTC',
+    'BLK/BTC',  
+    'SBD/BTC',
+    'PINK/BTC',
+    'NMC/BTC',
+    'RADS/BTC', 
+    'GNO/ETH',
+    'NXC/BTC',
+    'XVC/BTC',
+    'CVC/ETH',
+    'BELA/BTC',
+    'NXT/XMR',
+    'ZEC/XMR',
+    'XPM/BTC',
+    'BTCD/BTC', 
+    'REP/ETH',
+    'BCY/BTC',
+    'MAID/XMR', 
+    'DASH/XMR', 
+    'HUC/BTC',
+    'STEEM/ETH',
+    'BCN/XMR',
+    'BTCD/XMR', 
+    'BLK/XMR'
+];
 
 module.exports = {
 
@@ -370,7 +469,7 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-		con
+
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
 		Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta})
 		.limit(1)
@@ -397,6 +496,11 @@ module.exports = {
 				console.log('ASK PRICE '+ model[0].currentAsk);
 				console.log('NEW PRICE '+ model[0].currentAsk + model[0].currentAsk*.001); //LOOK AT ORDER BOOK! -- take price of closest order
 			}
+
+			//OR PLACE ORDER BTW THE SPREAD FOR GOOD 'MARKET ORDER'
+
+			//TEST
+			dataService.returnOrderBook(orderModel.assetPair, 10)
 
 		});
 
@@ -433,6 +537,33 @@ module.exports = {
     	}
 	},
 
+	//save order book? --> orderbook analysis.. can manipulate the price.. hmmm  ie. how real is book
+	returnOrderBook: function(assetPair, depth){
+		var poloniex = new Poloniex();  
+		poloniex.returnOrderBook(assetPair, depth, function(err, data){
+			//return data;
+			console.log(data);
+			//for (x in data.bids){
+			//	console.log('bid BTC', data.bids[x][0], 'amount LTC', data.bids[x][1])
+			//}
+			//for (x in data.asks){
+			//	console.log('ask BTC', data.asks[x][0], 'amount LTC', data.asks[x][1])
+			//}
+
+			console.log(assetPair, 'highestBid', data.bids[0][0], data.bids[0][1]);
+			console.log(assetPair, 'lowestAsk', data.asks[0][0], data.asks[0][1]);
+
+			//SELL price needs to be below highest bid
+			console.log('TEST SELL', parseFloat(data.bids[0][0])-parseFloat(data.bids[0][0])*.001);
+
+			//BUY price needs to be above lowest ask; dependant on type 
+			//-- gotta make sure there is enought volume on book
+			console.log('TEST BUY', parseFloat(data.asks[0][0])+parseFloat(data.asks[0][0])*.001);
+
+			//PLACE MARKET ORDER ABOUT PRICE IN FLASH CRASH TO FUILFIL. TOOMUCH
+
+		});
+	},
 
 	tickerREST: function(delta){
 	    var poloniex = new Poloniex();  
@@ -606,6 +737,7 @@ module.exports = {
 
 	},
 
+	//IM GETTING INFINTE GRANULARITY.
 	ticker: function(){
 	    var poloniex = new Poloniex();  
 
@@ -621,11 +753,71 @@ module.exports = {
 		//	console.log(data);
 		//});
 
+		//poloniex.subscribe('footer');
+		//poloniex.subscribe('BTC_ETH');
 		//poloniex.subscribe('ticker');
-		poloniex.subscribe('BTC_ETH');
-		//var test = 0;
-		//var date = new Date();
+
+		for (x in tradingPairs){
+			poloniex.subscribe(tradingPairs[x].split('/')[1]+'_'+tradingPairs[x].split('/')[0]);
+		}
+
+		var sum = 0;
+		//TODO: SAVE DATA based on TRANSACTION / TICKER -- with caviet of type TICKER / TRANSACTION
+		//for delta delieniations cnahge the query logic
 		poloniex.on('message', (channelName, data, seq) => {
+
+			//if (channelName === 'BTC_ETH') {
+				for (x in data){
+					//console.log(data[x])
+					if (data[x].type=='orderBook'){
+						//console.log(data[x])
+					}
+					if (data[x].type=='orderBookModify'){
+						//data[x].data.type;
+						//data[x].data.rate;
+						//data[x].data.amount;
+					}
+					if (data[x].type=='orderBookRemove'){
+						//data[x].data.type;
+						//data[x].data.rate;
+						//data[x].data.amount;
+					}
+					if (data[x].type=='newTrade'){
+						var orderModel = {
+							tradeId: data[x].data.tradeID,
+							type: data[x].data.type,
+							rate: data[x].data.rate,
+							amount: data[x].data.amount,
+							total: data[x].data.total,
+						}
+						sum++;
+						console.log(sum);
+						//console.log(orderModel.type, orderModel.rate, orderModel.amount, orderModel.total);
+						if (orderModel.type == 'buy'){
+							console.log('BUY', orderModel.amount, channelName.split('_')[1], '@', orderModel.rate, 'total', channelName.split('_')[0], orderModel.total);
+						}
+						if (orderModel.type == 'sell'){
+							console.log('SELL', orderModel.amount, channelName.split('_')[1], '@', orderModel.rate, 'total', channelName.split('_')[0], orderModel.total);
+						}
+					}
+				}
+			
+			//}
+
+			if (channelName === 'footer') {
+				//console.log(data)
+			}
+
+			//too slow
+			//or it's for every change?? on the market?? -- store a db here/ 
+			if (channelName === 'ticker') {
+				//if (data.currencyPair == 'BTC_ETH'){
+					//console.log(data);
+					//sum++;
+					//console.log(sum);
+				//}
+			}
+
 			//test++
 			//console.log(data);
 			//var date1 = new Date();
@@ -652,6 +844,8 @@ module.exports = {
 			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
 			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
 			//,1000);
+
+
 		});
 
 		poloniex.on('open', () => {

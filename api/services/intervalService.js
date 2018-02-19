@@ -1136,14 +1136,18 @@ function initPortfolio(){
 module.exports.intervalService = function(){
 	
 
+	//dataService.ticker()
+	dataService.returnOrderBook('BTC_LTC', 100000)
 
-	/*var orderModel = {};
+	/*
+	var orderModel = {};
 	orderModel.assetPair = 'BTC_LTC';
     orderModel.asset1 = 'BTC';
     orderModel.asset2 = 'LTC';
     orderModel.price = 'model.price';
 	orderModel.delta = '5000';
-	dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');*/
+	dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
+	*/
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
