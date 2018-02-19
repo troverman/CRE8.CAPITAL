@@ -508,33 +508,33 @@ module.exports = {
 		});
 
 		if (orderModel.type == 'SELL'){
-	        Asset.find({user:user, symbol: models[0].asset2}).then(function(asset){
+	        Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
 	        	orderModel.amount = asset[0].amount*percent;
 	        	var asset1Amount = orderModel.amount*orderModel.price;
 				Order.create(orderModel).then(function(orderModel){
 	            	console.log(orderModel);
 	            });	
-				Asset.update({user:user, symbol: models[0].asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-				Asset.find({user:user, symbol: models[0].asset1}).then(function(asset){
+				Asset.update({user:user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+				Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
 					var updateAmount = asset[0].amount + asset1Amount;
-					Asset.update({user:user, symbol: models[0].asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + models[0].asset2, {data: orderModel});
+					Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + orderModel.asset2, {data: orderModel});
 	            });	
 	        });
     	}
 
 		if (orderModel.type == 'BUY'){
-	        Asset.find({user:user, symbol: models[0].asset1}).then(function(asset){
+	        Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
 	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;
 	            var asset1Amount = asset[0].amount*percent;
 				Order.create(orderModel).then(function(orderModel){
 	            	console.log(orderModel)
 	            });	
-				Asset.update({user:user, symbol: models[0].asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-				Asset.find({user:user, symbol: models[0].asset2}).then(function(asset){
+				Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+				Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
 					var updateAmount = asset[0].amount + orderModel.amount;
-					Asset.update({user:user, symbol: models[0].asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + models[0].asset2, {data: orderModel});
+					Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + orderModel.asset2, {data: orderModel});
 	            });	
 	        });
     	}
