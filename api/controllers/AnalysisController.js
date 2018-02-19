@@ -148,6 +148,8 @@ function liveTrade(delta, asset1, asset2){
 
 module.exports = {
 
+
+
 	ema: function(req, res) {
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
@@ -210,7 +212,6 @@ module.exports = {
 		});
 	},
 
-
 	tsf: function(req, res) {
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
@@ -242,7 +243,6 @@ module.exports = {
 		});
 	},
 	
-
 	fosc: function(req, res) {
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
@@ -273,7 +273,6 @@ module.exports = {
 		});
 	},
 
-
 	bband: function(req, res) {
 		var data = JSON.parse(req.query.data);
 		var period = req.query.period;
@@ -302,6 +301,12 @@ module.exports = {
 			console.log(lowerData.length, results[0].length, parseInt(period));
 			res.json({lower:lowerData, middle:middleData, upper:uppderData});
 		});
+	},
+
+	fft: function(req, res) {
+	},
+
+	regression: function(req, res) {
 	},
 
 	//TODO:THIS WILL BE A DB LOL OVER ENG
@@ -408,7 +413,6 @@ module.exports = {
 		dataService.predictiveModelPolynomial(req.query.asset1, req.query.asset2, req.query.delta, req.query.dataCount, req.query.order, req.query.precision).then(function(model){
 			console.log(model);
 		});
-
 	},
 
 	portfolioBalance: function(req, res) {
@@ -549,7 +553,6 @@ module.exports = {
 			res.json({portfolioSet:portfolioSet, orderSet:orderSet});
 
 		});
-
 	},
 
 	portfolioBalanceMulti: function(req, res) {
@@ -679,13 +682,13 @@ module.exports = {
 			res.json({portfolioSet:portfolioSet, orderSet:orderSet})
 
 		});
-
 	},
 
 	//only using TSF atm
 	//IF THIS IS PROFITABLE.. TURN IT ON!
 	//TODO: restructure to object strcutre vs. reliying on indexing 
 	//TODO: this a mess lol
+	//TODO: pdf from multipick
 	portfolioSolvePDF: function(req, res) {
 
 		//TODO: THIS IS IT

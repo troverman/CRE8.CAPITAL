@@ -370,12 +370,14 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-
+		con
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
 		Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta})
 		.limit(1)
 		.sort('createdAt DESC')
 		.then(function(model){
+
+			console.log(model);
 			console.log('FOR DEBUG');
 			console.log('BID: '+ model[0].currentBid); 
 			console.log('ASK: '+ model[0].currentAsk); 
@@ -472,6 +474,7 @@ module.exports = {
 			                orderModel.assetPair = model.assetPair;
 			                orderModel.asset1 = model.asset1;
 			                orderModel.asset2 = model.asset2;
+							orderModel.delta = model.delta;
 			                orderModel.price = model.price; // this has to do with current bid ask spread.. place order price above/at highest/lowest bid/ask 
 			                								// look at market depth -- > to fill order w confidence
 			                								// BUY price needs to be above lowest ask
