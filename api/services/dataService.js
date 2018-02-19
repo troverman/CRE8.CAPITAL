@@ -475,7 +475,7 @@ module.exports = {
 		orderModel.user = user;
 		console.log(orderModel)
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
-    	Data.find({delta:delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
+    	Data.find({delta:orderModel.delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
 		.limit(1)
 		.sort('createdAt DESC')
 		.then(function(model){
