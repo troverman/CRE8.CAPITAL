@@ -346,6 +346,7 @@ module.exports = {
         //TODO: REFACTOR!!!
         if (orderModel.type=='BUY'){
 	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+	        	//buy is btc->zrx; --> 0.001. 
 	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
 	            var asset1Amount = asset[0].amount*0.15;
 				//only buy if more than .0001 btc
@@ -357,17 +358,28 @@ module.exports = {
 					//or place a market order .. just a lil higher. 
 					//check out orderBook
 					//dataService.returnOrderBook(orderModel.assetPair, 10)
+					console.log('REAL BUY:');
+					console.log(orderModel);
 		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
-						console.log('REAL BUY -- THIS IS FOR DEBUG');
-						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta}).limit(1).sort('createdAt DESC').then(function(model){console.log('check the logs -- bid ask spread..'); console.log(model); console.log(orderModel)})
+						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
+						.limit(1)
+						.sort('createdAt DESC')
+						.then(function(model){
+							console.log('BID:', model[0].currentBid); 
+							console.log('ASK:', model[0].currentAsk);
+							//console.log('BID ASK SPREAD ANALYSIS'); 
+							//console.log(model);
+							//console.log('ORDERBOOK');
+							//dataService.returnOrderBook(orderModel.assetPair, 10);
+						});
+
 						console.log(model);
-						console.log('REAL BUY -- THIS IS FOR DEBUG');
 
 						//if fuilfilled --> 
 
 						Order.create(orderModel).then(function(orderModel){
-	            			console.log(orderModel)
+	            			//console.log(orderModel);
 	            		});
 
 						Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
@@ -389,25 +401,36 @@ module.exports = {
         //SELL
 		if (orderModel.type=='SELL'){
        		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
-	        	orderModel.amount = asset[0].amount*0.15;
+	        	orderModel.amount = asset[0].amount*0.15;//-->orderBook analysis
 	        	var asset1Amount = orderModel.amount*orderModel.price;
 	        	//TODO: order percent system wide. re:duplic8
 				//only sell if more than .0001 asset
 				//if statements here
 				//if (orderModel.amount>0){
-
 					//maker taker ... 
 					//let's do -->immediateOrCancel --> better than foK
 					//or place a market order .. just a lil higher. 
+					console.log('REAL SELL');
 		            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
-						console.log('REAL SELL -- THIS IS FOR DEBUG');
-						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta}).limit(1).sort('createdAt DESC').then(function(model){console.log('check the logs -- bid ask spread..'); console.log(model); console.log(orderModel)})
+
+						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
+						.limit(1)
+						.sort('createdAt DESC')
+						.then(function(model){
+							console.log('BID:', model[0].currentBid); 
+							console.log('ASK:', model[0].currentAsk); 
+							//console.log('BID ASK SPREAD ANALYSIS'); 
+							//console.log(model); 
+							//console.log(orderModel);
+							//console.log('ORDERBOOK');
+							//dataService.returnOrderBook(orderModel.assetPair, 10);
+						});
+
 						console.log(model);
-						console.log('REAL SELL -- THIS IS FOR DEBUG');
 						//if fuilfilled --> 
 
 						Order.create(orderModel).then(function(orderModel){
-	            			console.log(orderModel);
+	            			//console.log(orderModel);
 	            		});	
 						Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
 						Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
@@ -475,49 +498,49 @@ module.exports = {
 		orderModel.user = user;
 
 		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
-    	Data.find({delta:orderModel.delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
-		.limit(1)
-		.sort('createdAt DESC')
-		.then(function(model){
+		//find appropiate price based on proder book
+    	//Data.find({delta:orderModel.delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
+		//.limit(1)
+		//.sort('createdAt DESC')
+		//.then(function(model){
 
-			console.log('FOR DEBUG');
-			console.log('BID:', model[0].currentBid); 
-			console.log('ASK:', model[0].currentAsk); 
-			console.log('SPREAD:', parseFloat(model[0].currentBid) - parseFloat(model[0].currentAsk));
-			console.log('ORDER PRICE:', orderModel.price);
+			//console.log('FOR DEBUG');
+			//console.log('BID:', model[0].currentBid); 
+			//console.log('ASK:', model[0].currentAsk); 
+			//console.log('SPREAD:', parseFloat(model[0].currentBid) - parseFloat(model[0].currentAsk));
+			//console.log('ORDER PRICE:', orderModel.price);
 
 			// SELL price needs to be below highest bid
-			if (orderModel.type == 'SELL'){
-				console.log('SELL');
-				console.log('BID PRICE', model[0].currentBid);
-				console.log('NEW PRICE', parseFloat(model[0].currentBid) - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
-			}
+			//if (orderModel.type == 'SELL'){
+			//	console.log('SELL');
+			//	console.log('BID PRICE', model[0].currentBid);
+			//	console.log('NEW PRICE', parseFloat(model[0].currentBid) - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+			//}
 
 			//BUY price needs to be above lowest ask; dependant on type
-			if (orderModel.type == 'BUY'){
-				console.log('BUY');
-				console.log('ASK PRICE', model[0].currentAsk);
-				console.log('NEW PRICE', parseFloat(model[0].currentAsk) + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
-			}
+			//if (orderModel.type == 'BUY'){
+			//	console.log('BUY');
+			//	console.log('ASK PRICE', model[0].currentAsk);
+			//	console.log('NEW PRICE', parseFloat(model[0].currentAsk) + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
+			//}
 
 			//OR PLACE ORDER BTW THE SPREAD FOR GOOD 'MARKET ORDER'
 
-			//TEST
-			dataService.returnOrderBook(orderModel.assetPair, 10)
+			//dataService.returnOrderBook(orderModel.assetPair, 10);
 
-		});
+		//});
 
 		if (orderModel.type == 'SELL'){
 	        Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
 	        	orderModel.amount = asset[0].amount*percent;
 	        	var asset1Amount = orderModel.amount*orderModel.price;
 				Order.create(orderModel).then(function(orderModel){
-	            	console.log(orderModel);
+	            	//console.log(orderModel);
 	            });	
-				Asset.update({user:user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+				Asset.update({user:user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){/*console.log(model)*/});
 				Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
 					var updateAmount = asset[0].amount + asset1Amount;
-					Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+					Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
 					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + orderModel.asset2, {data: orderModel});
 	            });	
 	        });
@@ -528,12 +551,12 @@ module.exports = {
 	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;
 	            var asset1Amount = asset[0].amount*percent;
 				Order.create(orderModel).then(function(orderModel){
-	            	console.log(orderModel)
+	            	//console.log(orderModel)
 	            });	
-				Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+				Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){/*console.log(model)*/});
 				Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
 					var updateAmount = asset[0].amount + orderModel.amount;
-					Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+					Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
 					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + orderModel.asset2, {data: orderModel});
 	            });	
 	        });
@@ -567,6 +590,26 @@ module.exports = {
 
 		});
 	},
+
+	returnBalances: function(){
+		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		poloniex.returnBalances(function(err, model){
+			console.log(model)
+			for (x in Object.keys(model)){
+				var assetModel = {
+					user: '5a83602d5ac735000488e8f7',
+					symbol: Object.keys(model)[x],
+					amount: parseFloat(model[Object.keys(model)[x]]),
+				};
+				//if (assetModel.amount != 0){
+					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
+						console.log(model)
+					})
+				//}
+			}
+		});
+	},
+
 
 	tickerREST: function(delta){
 	    var poloniex = new Poloniex();  
@@ -744,18 +787,6 @@ module.exports = {
 	ticker: function(){
 	    var poloniex = new Poloniex();  
 
-		//poloniex.returnCompleteBalances('all', (data) => {
-		//	console.log(data);
-		//});
-
-		//poloniex.returnBalances((data) => {
-		//	console.log(data);
-		//});
-
-		//poloniex.returnActiveLoans((data) => {
-		//	console.log(data);
-		//});
-
 		//poloniex.subscribe('footer');
 		//poloniex.subscribe('BTC_ETH');
 		//poloniex.subscribe('ticker');
@@ -771,37 +802,75 @@ module.exports = {
 
 			//if (channelName === 'BTC_ETH') {
 				for (x in data){
-					//console.log(data[x])
 					if (data[x].type=='orderBook'){
-						//console.log(data[x])
+						var orderBookModel = {
+							exchange: 'poloniex',
+							assetPair: channelName,
+							asset1: channelName.split('_')[0],
+							asset2: channelName.split('_')[1],
+						};
+						//OrderBook.create(orderBookModel).then(function(model){console.log(model)});//--> could just create a new one.. with a time stamp/id
+						OrderBook.find(orderBookModel).then(function(model){
+							//console.log(data[x].data);
+							//format data in orderBook
+							if (data[x] && data[x].data && model[0]){
+								model[0].bids = Object.keys(data[x].data.bids).map(function(key){return [key, data[x].data.bids[key]]});
+								model[0].asks = Object.keys(data[x].data.asks).map(function(key){return [key, data[x].data.asks[key]]});
+								//console.log(model)
+								OrderBook.update({id:model[0].id}, model[0]).then(function(model){
+									//console.log(model)
+								});
+							}
+						});
 					}
-					if (data[x].type=='orderBookModify'){
-						//data[x].data.type;
-						//data[x].data.rate;
-						//data[x].data.amount;
-					}
-					if (data[x].type=='orderBookRemove'){
-						//data[x].data.type;
-						//data[x].data.rate;
-						//data[x].data.amount;
-					}
+					//TODO: SCALE ``COMPUTATIONALLY EXPENSIVE ``almost toomuch
+					/*if (data[x].type=='orderBookModify' || data[x].type=='orderBookRemove'){
+						//could copy the entire order book for x intervals to have in db.. 
+						var orderBookModel = {
+							exchange: 'poloniex',
+							assetPair: channelName,
+							asset1: channelName.split('_')[0],
+							asset2: channelName.split('_')[1],
+						};
+						OrderBook.find(orderBookModel).then(function(model){
+							//orderBookModel[0][data[x].data.type]== [n,n]
+							//orderBookModel[0][data[x].data.type];
+							if (data[x] && data[x].data){
+								var index = model[0][data[x].data.type+'s'].map(function(value,index) {return value[0]}).indexOf(data[x].data.rate);
+								console.log(index);
+								if (index!=-1){
+									model[0][data[x].data.type+'s'][index][1]=data[x].data.amount;
+									console.log(model[0][data[x].data.type+'s'][index])
+									//if 0 -->cut it
+									//data[x].data.rate;
+									//data[x].data.amount;
+									//format data in orderBook
+									//OrderBook.update({id:model[0].id}, model[0]).then(function(orderBook){
+									//	console.log(orderBook);
+									//});
+								}
+							}
+						});
+					}*/
 					if (data[x].type=='newTrade'){
 						var orderModel = {
+							exchange: 'poloniex',
 							tradeId: data[x].data.tradeID,
+							assetPair: channelName,
+							asset1: channelName.split('_')[0],
+							asset2: channelName.split('_')[1],
 							type: data[x].data.type,
-							rate: data[x].data.rate,
-							amount: data[x].data.amount,
-							total: data[x].data.total,
-						}
+							price: data[x].data.rate,
+							orderBookAmount: data[x].data.amount,
+							amount: data[x].data.total,
+						};
+						Trade.create(orderModel).then(function(trade){
+							//console.log(trade);
+						});
+						//update orderBook?
 						sum++;
-						console.log(sum);
-						//console.log(orderModel.type, orderModel.rate, orderModel.amount, orderModel.total);
-						if (orderModel.type == 'buy'){
-							console.log('BUY', orderModel.amount, channelName.split('_')[1], '@', orderModel.rate, 'total', channelName.split('_')[0], orderModel.total);
-						}
-						if (orderModel.type == 'sell'){
-							console.log('SELL', orderModel.amount, channelName.split('_')[1], '@', orderModel.rate, 'total', channelName.split('_')[0], orderModel.total);
-						}
+						console.log(sum, orderModel.tradeId);
+						
 					}
 				}
 			
@@ -847,7 +916,6 @@ module.exports = {
 			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
 			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
 			//,1000);
-
 
 		});
 

@@ -1084,30 +1084,30 @@ function initPortfolio(){
 	Q.all(promises)
 	.then(function(data){
 
-		Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
+		Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
 
 			for (x in data){
 				var assetModel = {
-					user: '5a83602d5ac735000488e8f7',
+					user: '591a95d935ab691100c584ce',
 					symbol: data[x][0].asset2,
-					amount: 0,
+					amount: 1/data[x][0].price,
 					//conversionArray: data,
 					//wallet
 					//secret?
 				};
 				var index = model.map(function(obj){return obj.symbol}).indexOf(assetModel.symbol)
-				if (index == -1){
+				//if (index == -1){
 					//console.log(assetModel);
-					Asset.create(assetModel).then(function(model){
-						console.log(model)
-					});
-				}
+				//	Asset.create(assetModel).then(function(model){
+				//		console.log(model)
+				//	});
+				//}
 				//Asset.create(assetModel).then(function(model){
 				//	console.log(model)
 				//});
-				//Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
-				//	console.log(model)
-				//});
+				Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
+					console.log(model)
+				});
 				//console.log(1/data[x][0].price, data[x][0].asset2);
 			}
 
@@ -1134,8 +1134,8 @@ function initPortfolio(){
 
 
 module.exports.intervalService = function(){
-	
-
+	dataService.returnBalances();
+	//initPortfolio();
 	//dataService.ticker()
 	//dataService.returnOrderBook('BTC_LTC', 100000)
 
