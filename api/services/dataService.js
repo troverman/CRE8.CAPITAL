@@ -351,6 +351,8 @@ module.exports = {
 	            var asset1Amount = asset[0].amount*0.15;
 				//only buy if more than .0001 btc
 				//if statements here
+				console.log(orderModel);
+				console.log('REAL BUY');
 				if (orderModel.amount>0){
 
 					//maker taker ... 
@@ -358,8 +360,6 @@ module.exports = {
 					//or place a market order .. just a lil higher. 
 					//check out orderBook
 					//dataService.returnOrderBook(orderModel.assetPair, 10)
-					console.log('REAL BUY:');
-					console.log(orderModel);
 		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
 						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
@@ -374,23 +374,23 @@ module.exports = {
 							//dataService.returnOrderBook(orderModel.assetPair, 10);
 						});
 
-						console.log(model);
-
+						console.log(model);						
 						//if fuilfilled --> 
+						if (model.resultingTrades.length > 0){
+							Order.create(orderModel).then(function(orderModel){
+		            			//console.log(orderModel);
+		            		});
 
-						Order.create(orderModel).then(function(orderModel){
-	            			//console.log(orderModel);
-	            		});
+							Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+							Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
-						Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-						Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
+								//FACTOR IN FEES
+								var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+								Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
-							//FACTOR IN FEES
-							var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-							Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-							emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
-
-			            });
+				            });
+						}
 
 					});
 
@@ -406,11 +406,12 @@ module.exports = {
 	        	//TODO: order percent system wide. re:duplic8
 				//only sell if more than .0001 asset
 				//if statements here
-				//if (orderModel.amount>0){
+				console.log(orderModel);
+				console.log('REAL SELL');
+				if (orderModel.amount>0){
 					//maker taker ... 
 					//let's do -->immediateOrCancel --> better than foK
 					//or place a market order .. just a lil higher. 
-					console.log('REAL SELL');
 		            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
 						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
@@ -428,21 +429,22 @@ module.exports = {
 
 						console.log(model);
 						//if fuilfilled --> 
+						if (model.resultingTrades.length > 0){
+							Order.create(orderModel).then(function(orderModel){
+		            			//console.log(orderModel);
+		            		});	
+							Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
+							Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 
-						Order.create(orderModel).then(function(orderModel){
-	            			//console.log(orderModel);
-	            		});	
-						Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-						Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+								var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+								Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
 
-							var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-							Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-							emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
+				            });	
+						}
 
-			            });	
 					});
-
-				//}
+				}
 	        });
     	}
         
@@ -925,6 +927,7 @@ module.exports = {
 
 		poloniex.on('close', (reason, details) => {
 		  console.log('Poloniex WebSocket connection disconnected:', reason, details);
+		  poloniex.openWebSocket({ version: 2 });
 		});
 
 		poloniex.on('error', (error) => {

@@ -3,7 +3,9 @@ angular.module('models', [
 	'models.data',
 	'models.network',
 	'models.order',
+	'models.orderbook',
 	'models.portfolio',
 	'models.prediction',
+	'models.trade',
 	'models.user'
 ]);

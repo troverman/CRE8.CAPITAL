@@ -18,6 +18,8 @@ var cssFilesToInject = [
   'styles/**/*.css',
   'bower_components/nvd3/build/nv.d3.css',
   'bower_components/angular-material/angular-material.css',
+  'bower_components/highcharts/css/highcharts.css',
+  'bower_components/highcharts-ng/dist/highcharts-ng.css',
 ];
 
 
@@ -48,6 +50,11 @@ var jsFilesToInject = [
   'bower_components/heatmap.js/build/heatmap.js',
   'bower_components/heatmap.js/plugins/angular-heatmap/angular-heatmap.js',
   'bower_components/Chart.HeatMap/dst/Chart.HeatMap.S.js',
+
+  'bower_components/highcharts/highcharts.js',
+  'bower_components/highcharts/highstocks.js',
+  'bower_components/highcharts/highcharts-more.js',
+  'bower_components/highcharts-ng/dist/highcharts-ng.js',
 
   //
   // *->    you might put other dependencies like jQuery or Angular here   <-*

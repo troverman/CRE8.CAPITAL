@@ -22,18 +22,20 @@
 	<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'price')">ema</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'price')">tsf</button><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'price')">bband</button><!--select periods / stD.?-->
-	<button class="btn btn-default" ng-click="getNn('price')">nn</button>
-	<button class="btn btn-default" ng-click="getPdf('price')">pdf</button><!--;)-->
+	<!--<button class="btn btn-default" ng-click="getNn('price')">nn</button>-->
+	<!--<button class="btn btn-default" ng-click="getPdf('price')">pdf</button>--><!--;)-->
 
 	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
 
 	<!--<h2>Market Depth, volume</h2>-->
+	<h2>Order Book</h2>
+	<nvd3 options='orderBookOptions' data='orderBookGraphDataRender'></nvd3>
 
 	<h2>Market Change</h2>
-	<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button><!--select periods..?-->
-	<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button><!--select periods..?-->
+	<!--<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button>--><!--select periods..?-->
+	<!--<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button>--><!--select periods..?-->
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">bband</button><!--select periods / sD..?-->
-	<button class="btn btn-default" ng-click="getNn('change')">nn</button>
+	<!--<button class="btn btn-default" ng-click="getNn('change')">nn</button>-->
 	<button class="btn btn-default" ng-click="getPdf('change')">pdf</button><!--;)-->
 
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>

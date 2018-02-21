@@ -64,10 +64,20 @@ module.exports.routes = {
   'get /api/order': 'OrderController.getSome',
 
   /**
+   * OrderBook routes
+   */
+  'get /api/orderbook': 'OrderBookController.getSome',
+
+  /**
    * Prediction routes
    */
   'get /api/prediction': 'PredictionController.getSome',
   'get /api/prediction/current': 'PredictionController.getCurrentPrediction',
+
+  /**
+   * Trade routes
+   */
+  'get /api/trade': 'TradeController.getTrade',
 
   /**
    * User routes

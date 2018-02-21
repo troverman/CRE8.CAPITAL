@@ -22,9 +22,9 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'PredictionModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, PredictionModel, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'OrderBookModel', 'PredictionModel', 'TradeModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, OrderBookModel, PredictionModel, TradeModel, titleService ) {
 	
-    //TODO: VOLUME IN OUT
+    //TODO: VOLUME IN OUT -- via trades
     //TODO: ORDERBOOK MAP -- over time -- 3d
     //TODO: EXCHANGE AGNOSTIC
 
@@ -38,7 +38,67 @@ angular.module( 'investing.market', [
     $scope.stateParams = $stateParams;
     $scope.selectedPair = [$stateParams.path1.toUpperCase(),$stateParams.path2.toUpperCase()];
     $scope.selectedDelta = '300000';
+    $scope.orderBook = {};
     $scope.orders = orders;
+    $scope.trades = [];
+
+    /*OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
+        console.log(orderBookModel);
+        $scope.orderBook = orderBookModel[0];
+
+        $scope.orderBookOptions = {
+            chart: {
+                type: 'multiBarChart',
+                height: 450,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 45,
+                    left: 45
+                },
+                x: function(d){ 
+                    return parseFloat(d[0]); 
+                },
+                y: function(d){ 
+                    return parseFloat(d[1]); 
+                },
+                //xDomain:[0.075,0.09],
+                yDomain:[0,25],
+                //staggerLabels: true,
+                duration: 500,
+                reduceXTicks:true,
+                //interpolate: 'step-before',
+                useInteractiveGuideline: true,
+                showControls: false,
+                //zoom:{
+                //    enabled:true
+                //}
+            }
+        };
+
+        $scope.orderBookBidsGraphData = {};
+        $scope.orderBookBidsGraphData.key = 'bids';
+        $scope.orderBookBidsGraphData.area = true;
+        $scope.orderBookBidsGraphData.color = '#a94442';
+        $scope.orderBookBidsGraphData.values = orderBookModel[0].bids.slice(0,200);
+
+        $scope.orderBookAsksGraphData = {};
+        $scope.orderBookAsksGraphData.key = 'asks';
+        $scope.orderBookAsksGraphData.area = true;
+        $scope.orderBookAsksGraphData.color = '#14b794';
+        $scope.orderBookAsksGraphData.values = orderBookModel[0].asks.slice(0,200);
+
+        $scope.orderBookGraphDataRender = [$scope.orderBookBidsGraphData, $scope.orderBookAsksGraphData]
+
+    });
+
+    TradeModel.getSome(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(tradeModel){
+        console.log(tradeModel);
+        //$scope.trades = tradeModel;
+        $scope.marketGraphData.values = [];
+        $scope.marketData = tradeModel;
+        $scope.updateMarketData(function(){});
+    });*/
 
     //TODO: HIGH CHARTS
     $scope.marketOptions = {

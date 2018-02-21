@@ -1134,9 +1134,9 @@ function initPortfolio(){
 
 
 module.exports.intervalService = function(){
-	dataService.returnBalances();
+	//dataService.returnBalances();
 	//initPortfolio();
-	//dataService.ticker()
+	//dataService.ticker();
 	//dataService.returnOrderBook('BTC_LTC', 100000)
 
 	/*
@@ -1249,7 +1249,7 @@ module.exports.intervalService = function(){
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min

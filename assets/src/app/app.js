@@ -13,6 +13,7 @@ angular.module( 'investing', [
     'nvd3',
     'ngMaterial',
     //'heatmap',
+    'highcharts-ng',
     'investing.about',
     'investing.account',
     'investing.footer',

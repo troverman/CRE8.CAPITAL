@@ -40,6 +40,8 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "    </div>\n" +
     "\n" +
+    "     <highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>\n" +
+    "\n" +
     "\n" +
     "</div>\n" +
     "<div style=\"height:100px;\"></div>\n" +
@@ -104,6 +106,8 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function($tem
     "    {{date | date:'yyyy'}} <a href=\"/\">collaborative.capital</a>\n" +
     "    <a href=\"/about\">about</a>\n" +
     "    <a href=\"#\">terms</a>\n" +
+    "    <a href=\"https://www.twitter.com/cre8capital\"><i class=\"fa fa-twitter\"></i></a>\n" +
+    "    <a href=\"https://www.instagram.com/cre8capital\"><i class=\"fa fa-instagram\"></i></a>\n" +
     "  </div>\n" +
     "</div>");
 }]);
@@ -489,18 +493,20 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'price')\">ema</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'price')\">tsf</button><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">bband</button><!--select periods / stD.?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button><!--;)-->\n" +
+    "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
+    "	<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
     "\n" +
     "	<!--<h2>Market Depth, volume</h2>-->\n" +
+    "	<h2>Order Book</h2>\n" +
+    "	<nvd3 options='orderBookOptions' data='orderBookGraphDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Market Change</h2>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button><!--select periods..?-->\n" +
+    "	<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
+    "	<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">bband</button><!--select periods / sD..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>\n" +
+    "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">pdf</button><!--;)-->\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +

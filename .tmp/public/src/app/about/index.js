@@ -106,4 +106,33 @@ angular.module( 'investing.about', [
     $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
     console.log($scope.data);
 
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'bar',
+                zoomType: 'x'
+            },
+            tooltip: {
+                style: {
+                    padding: 10,
+                    fontWeight: 'bold'
+                }
+            }
+        },
+        series: [{
+            data: [10, 15, 12, 8, 7]
+        }],
+        xAxis: {
+            currentMin: 0,
+            currentMax: 20,
+        },
+        size: {
+            width: 400,
+            height: 300
+        },
+        credits: {enabled:false},
+        useHighStocks: true,
+        loading: false,
+    };
+
 }]);
