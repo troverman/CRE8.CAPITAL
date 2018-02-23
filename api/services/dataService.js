@@ -374,7 +374,6 @@ module.exports = {
 							//dataService.returnOrderBook(orderModel.assetPair, 10);
 						});
 
-						console.log(model);						
 						//if fuilfilled --> 
 						if (model.resultingTrades.length > 0){
 							Order.create(orderModel).then(function(orderModel){
@@ -389,7 +388,18 @@ module.exports = {
 								Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
 								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
+								//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
+								//var sellPrice = orderModel.price+orderModel.price*0.03
+								//poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
+									//console.log(model);
+									//emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
+									//TODO: listen for updates on an interval
+									//every 5 seconds to see if fulifilled.. 
+									//edit Asset
+								//});
+
 				            });
+
 						}
 
 					});
@@ -593,6 +603,7 @@ module.exports = {
 		});
 	},
 
+	//TODO: logic based on open orders //returnCompleteBalances
 	returnBalances: function(){
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
@@ -602,6 +613,8 @@ module.exports = {
 					user: '5a83602d5ac735000488e8f7',
 					symbol: Object.keys(model)[x],
 					amount: parseFloat(model[Object.keys(model)[x]]),
+					//amount: parseFloat(model[Object.keys(model)[x]].available),
+					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
 				//if (assetModel.amount != 0){
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
@@ -609,6 +622,20 @@ module.exports = {
 					})
 				//}
 			}
+		});
+	},
+
+	returnOpenOrders: function(pair){
+		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		poloniex.returnOpenOrders('all', function(err, model){
+			console.log(model);//-->goes from open to history; 
+		});
+	},
+
+	returnTradeHistory: function(pair, ){
+		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		poloniex.returnOpenOrders('all', function(err, model){
+			console.log(model);
 		});
 	},
 
