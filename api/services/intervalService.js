@@ -1237,7 +1237,7 @@ module.exports.intervalService = function(){
 	//POPULATE DATA
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1247,10 +1247,10 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*2), 1000*5*12*5*6*2*2*2);//4hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
-	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
+	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
 	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
-	timer(dataService.returnBalances.bind(null), 1000*5*6);
+	timer(dataService.returnBalances.bind(null), 1000*5*6);*/
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK
