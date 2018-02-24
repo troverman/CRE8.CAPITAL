@@ -338,7 +338,7 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	//I can place continuous orders at the bband indicator
 	//-->when filled 'cre8 the order'
-	createOrderPoloniex: function(model, user, type, percentChange){
+	createOrderPoloniex: function(model, user, type, percent, percentChange){
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
@@ -361,12 +361,20 @@ module.exports = {
         //may be better to call poloniex balance vs interal storage?  --> does this need to persist? 
         //TODO: BRIDGE REAL - AND SIMUL
         //TODO: REFACTOR!!!
+
         if (orderModel.type=='BUY'){
 	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 
 	        	//TODO: DYNAMIC PERCENTAGE RISK -- ratio of percent change and delta
-	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
-	            var asset1Amount = asset[0].amount*0.15;
+	        	//TODO: DATA AS A MODEL
+	        	//TODO: ORDERBOOK!!!!!!!!!!!!!! WHY U NO DO THIS YET
+
+	        	//dataService.returnOrderBook(orderModel.assetPair, 10)
+	        	//-->get ask -- buy at lowest ask --> then buy at next lowest match, then next lowest match, then next lowest match.. 
+	        	//for Fok, IoC
+
+	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
+	            var asset1Amount = asset[0].amount*percent;
 
 				console.log(orderModel);
 				console.log('REAL BUY');
@@ -379,6 +387,11 @@ module.exports = {
 					//or place a market order .. just a lil higher. 
 					//check out orderBook
 					//dataService.returnOrderBook(orderModel.assetPair, 10)
+
+					//TODO: PRICE BASED ON ORDERBOOK
+					//TODO: FUCKINNNNNG DO THIS
+					//THANK YOU TREV
+
 		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 
 						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
@@ -413,11 +426,12 @@ module.exports = {
 								//ratio of delta to percent
 								//golden ratio 1.61803398875
 
-								console.log(Math.abs(percentChange), Math.abs(percentChange/1.5))
+								console.log(Math.abs(percentChange), Math.abs(percentChange/1.5));
 								var sellPrice = orderModel.price+orderModel.price*Math.abs(percentChange/1.5)
 								poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
 									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
-									
+									console.log(model);
+
 									//TODO: listen for updates on an interval
 									//every 5 seconds to see if fulifilled.. 
 									//edit Asset
@@ -671,6 +685,9 @@ module.exports = {
 			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){/*console.log(updated[0]);*/});
 
 			          
+			                //TODO: MASTOR REFACTOR. 
+
+
 							//TODO: WORK ON ORDER....
 							//TODO: FLASH CRASH LOGIC!
 							//TODO: INJECT SOME INDICATORS?? ANALYIS ~ PDF? --> if saved..
@@ -706,7 +723,7 @@ module.exports = {
 			                    //SIMULATION -- could do percent risk based on indicators
 								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
 				                //LIVE -- TODO: 
-								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY');//type --> FoK, IoC, MO, percent rish
+								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);//type --> FoK, IoC, MO, percent rish
 			                }
 
 			                //SELL HIGH
@@ -718,7 +735,7 @@ module.exports = {
 			                    //SIMULATION
 								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
 			                    //LIVE
-								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
+								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', 0.15, model.percentChange);
 			                }
 
 			                //5 MIN
@@ -731,6 +748,11 @@ module.exports = {
 									orderModel.type = 'BUY';
 									//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+
+									//LIVE -- SCRY -- EXCITE
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);
+
+
 			                	}
 			                	//SELL HIGH
 								if (model.percentChange >= 0.05){
@@ -743,7 +765,6 @@ module.exports = {
 								}
 			                }
 
-			                //FLASH CRASH LOGIC
 			                //TODO: REFACTOR
 							//30 SEC
 			                if (delta == '30000'){
@@ -763,7 +784,7 @@ module.exports = {
 					               	//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 									//LIVE
-									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', model.percentChange);
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);
 									//User.find().then(function(userModel){
 										//dataService.createOrder(orderModel, userModel, 'BUY');
 									//})
@@ -774,7 +795,7 @@ module.exports = {
 									//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 									//LIVE
-									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', model.percentChange);
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', 0.15, model.percentChange);
 								}
 			                }
 
