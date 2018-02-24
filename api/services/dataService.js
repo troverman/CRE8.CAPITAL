@@ -750,8 +750,9 @@ module.exports = {
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
 
 									//LIVE -- SCRY -- EXCITE
-									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);
-
+									if (model.percentChange <= -0.045){
+										dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);
+									}
 
 			                	}
 			                	//SELL HIGH
