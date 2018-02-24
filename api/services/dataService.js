@@ -338,10 +338,13 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	//I can place continuous orders at the bband indicator
 	//-->when filled 'cre8 the order'
-	createOrderPoloniex: function(model, user, type, percent, percentChange){
+	//TODO: order percent system wide. re:duplic8
+	createOrderPoloniex: function(model, user, type, percent, percentChange, orderBook){
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
+		//TODO: DATA AS A MODEL
+		//TODO: REFACTOR
 		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
 		orderModel.asset1 = model.asset1;
@@ -349,162 +352,187 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.type = type;
-
 		console.log(orderModel);
 
-		//maker, taker
-		//poloniex.buy('BTC_LTC', '0.001841667', '1', 0, 0, 1, function(err, model){
-		//	console.log(model);
-		//});
+		dataService.returnOrderBook(model.assetPair, 10).then(function(orderBook){
 
-		//BUY
-        //may be better to call poloniex balance vs interal storage?  --> does this need to persist? 
-        //TODO: BRIDGE REAL - AND SIMUL
-        //TODO: REFACTOR!!!
+	        if (orderModel.type=='BUY'){
+				//may be better to call poloniex balance vs interal storage
+		        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+					console.log('REAL BUY');
+					console.log(orderModel);
 
-        if (orderModel.type=='BUY'){
-	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+		        	//for FoK, IoC
+		        	//var highestBid = orderBook.bids[0][0];
+					var lowestAsk = orderBook.asks[0][0];
 
-	        	//TODO: DYNAMIC PERCENTAGE RISK -- ratio of percent change and delta
-	        	//TODO: DATA AS A MODEL
-	        	//TODO: ORDERBOOK!!!!!!!!!!!!!! WHY U NO DO THIS YET
+					//TODO: ORDERBOOK
+ 					//orderModel.amount = (asset[0].amount*percent)/orderModel.price; 
+					orderModel.amount = (asset[0].amount*percent)/lowestAsk; 
+		            var asset1Amount = asset[0].amount - asset[0].amount*percent;
 
-	        	//dataService.returnOrderBook(orderModel.assetPair, 10)
-	        	//-->get ask -- buy at lowest ask --> then buy at next lowest match, then next lowest match, then next lowest match.. 
-	        	//for Fok, IoC
+		            //TODO: LOOP THRU ORDER BK COMPLETE
+		            if (orderModel.amount <= orderBook.asks[0][1]){
+						orderModel.amount = (asset[0].amount*percent)/lowestAsk;
+						asset1Amount = asset[0].amount - asset[0].amount*percent;;
+		            }
+		            else{
+						orderModel.amount = orderBook.asks[0][1]
+						asset1Amount = asset[0].amount - orderBook.asks[0][1]*lowestAsk;
+		            }
 
-	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
-	            var asset1Amount = asset[0].amount*percent;
+					//BUY price needs to be above lowest ask;
+					//-- gotta make sure there is enought volume on book
+					//parseFloat(orderBook.asks[0][0])+parseFloat(orderBook.asks[0][0])*.001
 
-				console.log(orderModel);
-				console.log('REAL BUY');
+					//only buy if more than .0001 btc
+					if (orderModel.amount>0){
+						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString())
+			            poloniex.buy(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+			            	console.log(err, model)
+							
+							//if fuilfilled --> 
+							if (model.resultingTrades.length > 0){
+								console.log('REAL BUY');
+								Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});
 
-				//only buy if more than .0001 btc
-				if (orderModel.amount>0){
+			            		//IS THIS NEEDED?
+								//may be better to call poloniex balance update
 
-					//maker taker ... 
-					//let's do -->immediateOrCancel
-					//or place a market order .. just a lil higher. 
-					//check out orderBook
-					//dataService.returnOrderBook(orderModel.assetPair, 10)
+								Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+								Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
-					//TODO: PRICE BASED ON ORDERBOOK
-					//TODO: FUCKINNNNNG DO THIS
-					//THANK YOU TREV
+									//FACTOR IN FEES
+									var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
+									Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
-		            poloniex.buy(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+									//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
+									//ratio of delta to percent
+									//golden ratio 1.61803398875
 
-						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
-						.limit(1)
-						.sort('createdAt DESC')
-						.then(function(model){
-							console.log('BID:', model[0].currentBid); 
-							console.log('ASK:', model[0].currentAsk);
-							//console.log('BID ASK SPREAD ANALYSIS'); 
-							//console.log(model);
-							//console.log('ORDERBOOK');
-							//dataService.returnOrderBook(orderModel.assetPair, 10);
+									var sellPrice = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
+									var sellAmount = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
+									poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
+										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
+										console.log(model);
+
+										//TODO: listen for updates on an interval
+										//every 5 seconds to see if fulifilled.. 
+										//edit Asset
+										dataService.returnBalances();
+
+										//CREATE ORDER.. onBooks
+										//Order.create(orderModel).then(function(orderModel){
+			            					//console.log(orderModel);
+			            				//});
+
+									});
+
+					            });
+
+							}
+
 						});
+					}
 
-						//if fuilfilled --> 
-						if (model.resultingTrades.length > 0){
-							Order.create(orderModel).then(function(orderModel){
-		            			//console.log(orderModel);
-		            		});
-
-							Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
-							Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
-
-								//FACTOR IN FEES
-								var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-								Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
-								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
-
-
-
-								//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
-								//ratio of delta to percent
-								//golden ratio 1.61803398875
-
-								console.log(Math.abs(percentChange), Math.abs(percentChange/1.5));
-								var sellPrice = orderModel.price+orderModel.price*Math.abs(percentChange/1.5)
-								poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
-									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
-									console.log(model);
-
-									//TODO: listen for updates on an interval
-									//every 5 seconds to see if fulifilled.. 
-									//edit Asset
+					//TODO: ORDER BOOK ANALYSIS FOR LRG BUYS AND SELLS
+					//experimental multiple order in order book.. 
+					/*
+					var orderAmount = orderModel.amount;
+					for (x in orderBook.asks[0]){
+						//-- gotta make sure there is enought volume on book
+						if (orderAmount > orderBook.asks[x][1]){
+							orderAmount - orderBook.asks[x][1];
+							//always place order with orderModel;
+			            	poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderBook.asks[x][1].toString(), 0, 1, 0, function(err, model){
+								console.log(err, model);
+								if (model.resultingTrades.length > 0){
+									console.log('REAL BUY');
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY' + orderModel.asset2, {data: orderModel});
 									dataService.returnBalances();
+								}
+			            	});
+						}
+						else{
 
-									//CREATE ORDER.. onBooks
-									//Order.create(orderModel).then(function(orderModel){
-		            					//console.log(orderModel);
-		            				//});
+							//BUY price needs to be above or at lowest ask;
+							//parseFloat(orderBook.asks[0][0])+parseFloat(orderBook.asks[0][0])*.001
+							poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderAmount.toString(), 0, 1, 0, function(err, model){
+								console.log(err, model);
+								if (model.resultingTrades.length > 0){
+									console.log('REAL BUY');
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY' + orderModel.asset2, {data: orderModel});
+									dataService.returnBalances();
+								}
+							});
 
-								});
-
-
-
-				            });
+							//if type
+							//TODO: BE A MARKET MAKER..  
+							//TODO: add minimal amnt more.
+							//var price = parseFloat(orderBook.bids[0][0])+parseFloat(orderBook.bids[0][0])*.001;
+							//-- look at fee and spread 1st
+							//poloniex.buy(orderModel.assetPair, price.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
+								//console.log(err, model);
+								//if (model.resultingTrades.length > 0){
+								//	console.log('REAL BUY');
+								//	emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ON BOOKS' + orderModel.asset2, {data: orderModel});
+								//	dataService.returnBalances();
+								//}
+							//});
 
 						}
+					}
+					*/
+					
+		        });
+			}
 
-					});
+	        //SELL
+			if (orderModel.type=='SELL'){
+				//may be better to call poloniex balance vs interal storage?  --> does this need to persist? 
+	       		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
+					console.log('REAL SELL');
+					console.log(orderModel);
 
-				}
-	        });
-		}
+					//SELL price needs to be below highest bid
+					//console.log('TEST SELL', parseFloat(data.bids[0][0])-parseFloat(data.bids[0][0])*.001);
 
-        //SELL
-		if (orderModel.type=='SELL'){
-       		Asset.find({user: user, symbol:orderModel.asset2}).then(function(asset){
-	        	orderModel.amount = asset[0].amount*0.15;//-->orderBook analysis
-	        	var asset1Amount = orderModel.amount*orderModel.price;
-	        	//TODO: order percent system wide. re:duplic8
-				//only sell if more than .0001 asset
-				//if statements here
-				console.log(orderModel);
-				console.log('REAL SELL');
-				if (orderModel.amount>0){
-					//maker taker ... 
-					//let's do -->immediateOrCancel --> better than foK
-					//or place a market order .. just a lil higher. 
-		            poloniex.sell(orderModel.assetPair, orderModel.price.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+					//for FoK, IoC
+		        	var highestBid = orderBook.bids[0][0];
+					//var lowestAsk = orderBook.asks[0][0];
 
-						Data.find({asset1:orderModel.asset1, asset2:orderModel.asset2, delta:orderModel.delta.toString()})
-						.limit(1)
-						.sort('createdAt DESC')
-						.then(function(model){
-							console.log('BID:', model[0].currentBid); 
-							console.log('ASK:', model[0].currentAsk); 
-							//console.log('BID ASK SPREAD ANALYSIS'); 
-							//console.log(model); 
-							//console.log(orderModel);
-							//console.log('ORDERBOOK');
-							//dataService.returnOrderBook(orderModel.assetPair, 10);
+					//TODO: ORDERBOOK
+					//-->orderBook analysis
+		        	orderModel.amount = asset[0].amount*percent;
+		        	var asset2Amount = asset[0].amount - asset[0].amount*percent;
+
+					//only sell if more than .0001 btc
+					if (orderModel.amount>0){
+						console.log(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString())
+			            poloniex.sell(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+			            	console.log(err, model)
+							//if fuilfilled --> 
+							if (model.resultingTrades.length > 0){
+								console.log('REAL COMPLETE');
+								Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});	
+
+								//IS THIS NEEDED?
+								//may be better to call poloniex balance update
+								Asset.update({user: user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){console.log(model)});
+								Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+									var updateAmount = (asset[0].amount + orderModel.amount*orderModel.price) - (orderModel.amount*orderModel.price)*0.0025;//TAKER; maker is 0.0015
+									Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
+					            });	
+							}
 						});
+					}
+		        });
+	    	}
 
-						console.log(model);
-						//if fuilfilled --> 
-						if (model.resultingTrades.length > 0){
-							Order.create(orderModel).then(function(orderModel){
-		            			//console.log(orderModel);
-		            		});	
-							Asset.update({user: user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){console.log(model)});
-							Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+		});
 
-								var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-								Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
-								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
-
-				            });	
-						}
-
-					});
-				}
-	        });
-    	}
         
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
 		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
@@ -524,102 +552,96 @@ module.exports = {
 		orderModel.delta = model.delta;
 		orderModel.user = user;
 
-		//TODO: PACKAGE THIS INTO MAIN ORDER PRICE FXN
-		//find appropiate price based on proder book
-    	//Data.find({delta:orderModel.delta.toString(), asset1:orderModel.asset1, asset2:orderModel.asset2})
-		//.limit(1)
-		//.sort('createdAt DESC')
-		//.then(function(model){
 
-			//console.log('FOR DEBUG');
-			//console.log('BID:', model[0].currentBid); 
-			//console.log('ASK:', model[0].currentAsk); 
-			//console.log('SPREAD:', parseFloat(model[0].currentBid) - parseFloat(model[0].currentAsk));
-			//console.log('ORDER PRICE:', orderModel.price);
+		dataService.returnOrderBook(model.assetPair, 10).then(function(orderBook){
 
-			// SELL price needs to be below highest bid
-			//if (orderModel.type == 'SELL'){
-			//	console.log('SELL');
-			//	console.log('BID PRICE', model[0].currentBid);
-			//	console.log('NEW PRICE', parseFloat(model[0].currentBid) - parseFloat(model[0].currentBid)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
-			//}
+			if (orderModel.type == 'BUY'){
+		        Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
+		            orderModel.amount = (asset[0].amount*percent)/orderModel.price;
+		            var asset1Amount = asset[0].amount - asset[0].amount*percent;
 
-			//BUY price needs to be above lowest ask; dependant on type
-			//if (orderModel.type == 'BUY'){
-			//	console.log('BUY');
-			//	console.log('ASK PRICE', model[0].currentAsk);
-			//	console.log('NEW PRICE', parseFloat(model[0].currentAsk) + parseFloat(model[0].currentAsk)*.001); //LOOK AT ORDER BOOK! -- take price of closest order
-			//}
+		            //TODO TYPE..
+					var orderAmount = orderModel.amount;
+					for (x in orderBook.asks[0]){
+						if (orderAmount > orderBook.asks[x][1]){
+							//orderAmount - orderBook.asks[x][1];
+			            	//poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderBook.asks[x][1].toString(), 0, 1, 0, function(err, model){});
+						}
+						else{
+							//poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderBook.asks[x][1].toString(), 0, 1, 0, function(err, model){});
+						}
+					}
 
-			//OR PLACE ORDER BTW THE SPREAD FOR GOOD 'MARKET ORDER'
+					Order.create(orderModel).then(function(orderModel){/*console.log(orderModel)*/});	
+					Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){/*console.log(model)*/});
+					Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
+						var updateAmount = asset[0].amount + orderModel.amount;
+						Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
+						emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + orderModel.asset2, {data: orderModel});
+		            });	
 
-			//dataService.returnOrderBook(orderModel.assetPair, 10);
+		        });
+	    	}
 
-		//});
+	    	if (orderModel.type == 'SELL'){
+		        Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
+		        	orderModel.amount = asset[0].amount*percent;
+		        	var asset2Amount = asset[0].amount - asset[0].amount*percent;
 
-		if (orderModel.type == 'SELL'){
-	        Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
-	        	orderModel.amount = asset[0].amount*percent;
-	        	var asset1Amount = orderModel.amount*orderModel.price;
-				Order.create(orderModel).then(function(orderModel){
-	            	//console.log(orderModel);
-	            });	
-				Asset.update({user:user, symbol: orderModel.asset2}, {amount:orderModel.amount}).then(function(model){/*console.log(model)*/});
-				Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
-					var updateAmount = asset[0].amount + asset1Amount;
-					Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + orderModel.asset2, {data: orderModel});
-	            });	
-	        });
-    	}
+	        		//TODO TYPE..
+					var orderAmount = orderModel.amount;
+					for (x in orderBook.asks[0]){
+						if (orderAmount > orderBook.asks[x][1]){
+							//orderAmount - orderBook.asks[x][1];
+			            	//poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderBook.asks[x][1].toString(), 0, 1, 0, function(err, model){});
+						}
+						else{
+							//poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderBook.asks[x][1].toString(), 0, 1, 0, function(err, model){});
+						}
+					}
 
-		if (orderModel.type == 'BUY'){
-	        Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
-	            orderModel.amount = (asset[0].amount*percent)/orderModel.price;
-	            var asset1Amount = asset[0].amount*percent;
-				Order.create(orderModel).then(function(orderModel){
-	            	//console.log(orderModel)
-	            });	
-				Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){/*console.log(model)*/});
-				Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
-					var updateAmount = asset[0].amount + orderModel.amount;
-					Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
-					emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + orderModel.asset2, {data: orderModel});
-	            });	
-	        });
-    	}
+					Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});
+					Asset.update({user:user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){/*console.log(model)*/});
+					Asset.find({user:user, symbol: orderModel.asset1}).then(function(asset){
+						var updateAmount = asset[0].amount + orderModel.amount*orderModel.price;
+						Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
+						emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + orderModel.asset2, {data: orderModel});
+		            });	
+
+		        });
+	    	}
+
+
+		});
+
 	},
 
 	//save order book? --> orderbook analysis.. can manipulate the price.. hmmm  ie. how real is book
 	returnOrderBook: function(assetPair, depth){
 		var poloniex = new Poloniex();  
-		poloniex.returnOrderBook(assetPair, depth, function(err, data){
-			//return data;
-			console.log(data);
-			//for (x in data.bids){
-			//	console.log('bid BTC', data.bids[x][0], 'amount LTC', data.bids[x][1])
-			//}
-			//for (x in data.asks){
-			//	console.log('ask BTC', data.asks[x][0], 'amount LTC', data.asks[x][1])
-			//}
+		var deferred = Q.defer();
 
-			console.log(assetPair, 'highestBid', data.bids[0][0], data.bids[0][1]);
-			console.log(assetPair, 'lowestAsk', data.asks[0][0], data.asks[0][1]);
+		poloniex.returnOrderBook(assetPair, depth, function(err, data){
+			deferred.resolve(data);
+
+			//console.log(assetPair, 'highestBid', data.bids[0][0], data.bids[0][1]);
+			//console.log(assetPair, 'lowestAsk', data.asks[0][0], data.asks[0][1]);
 
 			//SELL price needs to be below highest bid
-			console.log('TEST SELL', parseFloat(data.bids[0][0])-parseFloat(data.bids[0][0])*.001);
-
+			//console.log('TEST SELL', parseFloat(data.bids[0][0])-parseFloat(data.bids[0][0])*.001);
 			//BUY price needs to be above lowest ask; dependant on type 
 			//-- gotta make sure there is enought volume on book
-			console.log('TEST BUY', parseFloat(data.asks[0][0])+parseFloat(data.asks[0][0])*.001);
 
+			//console.log('TEST BUY', parseFloat(data.asks[0][0])+parseFloat(data.asks[0][0])*.001);
 			//PLACE MARKET ORDER ABOUT PRICE IN FLASH CRASH TO FUILFIL. TOOMUCH
 
 		});
+		return deferred.promise;
+
 	},
 
 	//TODO: logic based on open orders //returnCompleteBalances
-	returnBalances: function(){
+	returnBalances: function(model){
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
 			//console.log(model)
@@ -640,14 +662,14 @@ module.exports = {
 		});
 	},
 
-	returnOpenOrders: function(pair){
+	returnOpenOrders: function(model, pair){
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);//-->goes from open to history; 
 		});
 	},
 
-	returnTradeHistory: function(pair, ){
+	returnTradeHistory: function(model, pair){
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);
@@ -688,8 +710,10 @@ module.exports = {
 			                //TODO: MASTOR REFACTOR. 
 
 
+			                //TODO: REFACTOR BASED ON ORDER BUY SELL PAIR -- TOTAL POSITION :)
+
+
 							//TODO: WORK ON ORDER....
-							//TODO: FLASH CRASH LOGIC!
 							//TODO: INJECT SOME INDICATORS?? ANALYIS ~ PDF? --> if saved..
 							//THIS IS THE HEARTBEAT.. EVERY DELTA
 							//IF STRONG CONFIDENCE
@@ -731,11 +755,16 @@ module.exports = {
 			                    for (x in emailList){
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
-			                    orderModel.type = 'SELL';			                  
-			                    //SIMULATION
+			                    
+
+		                    	orderModel.type = 'SELL';			                  
+		                    	//SIMULATION
 								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
-			                    //LIVE
-								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', 0.15, model.percentChange);
+		                    	//LIVE
+								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', 0.15, model.percentChange, orderBook);
+
+
+
 			                }
 
 			                //5 MIN
