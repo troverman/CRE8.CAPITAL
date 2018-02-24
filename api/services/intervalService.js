@@ -1237,7 +1237,7 @@ module.exports.intervalService = function(){
 	//POPULATE DATA
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1250,7 +1250,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
 	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
-	timer(dataService.returnBalances.bind(null), 1000*5*6);*/
+	timer(dataService.returnBalances.bind(null), 1000*5*6);//30 seconds
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK
@@ -1259,9 +1259,8 @@ module.exports.intervalService = function(){
 
 	//CULL DATA
 
-	//timer(dataService.cullTrade.bind(null, 86400000), 100000);//keep for one day
-	/*timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
-	timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 100000);//5 seconds
+	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
+	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 100000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 100000);//30seconds
 	timer(dataService.cullData.bind(null, '60000', 7*24*60*60*1000), 100000);//60sec
 	timer(dataService.cullData.bind(null, '300000', 2*7*24*60*60*1000), 100000);//5min
@@ -1272,5 +1271,7 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '21600000', 2*2*2*7*24*60*60*1000), 7200000);//6hr
 	timer(dataService.cullData.bind(null, '43200000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//12hr
 	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr*/
+
+	//timer(dataService.cullTrade.bind(null, 86400000), 100000);//keep for one day
 
 };
