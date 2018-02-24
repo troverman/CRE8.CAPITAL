@@ -622,7 +622,7 @@ module.exports = {
 	returnBalances: function(){
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
-			console.log(model)
+			//console.log(model)
 			for (x in Object.keys(model)){
 				var assetModel = {
 					user: '5a83602d5ac735000488e8f7',

@@ -1232,13 +1232,7 @@ module.exports.intervalService = function(){
 		}
     });*/
 
-	//PORTFOLIO UTL
-	//timer(dataService.portfolio.bind(null, 5000), 5000);//second
-
-
-	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
-	//timer(dataService.returnBalances.bind(null), 1000*5*6);
-
+	
 	//CCUTL
 	//POPULATE DATA
 
@@ -1254,6 +1248,9 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3), 1000*5*12*5*6*2*2*3);//6hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr*/
+
+	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
+	timer(dataService.returnBalances.bind(null), 1000*5*6);
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK
