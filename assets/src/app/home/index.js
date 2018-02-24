@@ -253,6 +253,34 @@ angular.module( 'investing.home', [
         //},
     };
 
+    //HIGHCHARTS
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'bar',
+                zoomType: 'x'
+            },
+            tooltip: {
+                style: {
+                    padding: 10,
+                    fontWeight: 'bold'
+                }
+            }
+        },
+        series: [{data:[]}],
+        xAxis: {
+            currentMin: 0,
+            currentMax: 20,
+        },
+        size: {
+            width: 400,
+            height: 550
+        },
+        credits: {enabled:false},
+        useHighStocks: true,
+        loading: false,
+    };
+
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'/'+$scope.selectedPair[1];
     $scope.marketGraphData.color = '#14b794';
@@ -276,11 +304,11 @@ angular.module( 'investing.home', [
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             var change = 0;
-            if (index > 1){
-                change = (obj.price - $scope.marketData[index-1].price)/obj.price;
-                console.log(change, obj.percentChange);
-            }
+            if (index > 1){change = (obj.price - $scope.marketData[index-1].price)/obj.price;}
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
+            //HIGHCHARTS
+            $scope.chartConfig.series[0].data.push([new Date(obj.createdAt), change])
+
         });
         //$scope.marketGraphDataRender = [$scope.marketGraphData];
         $scope.marketGraphDataRender = [$scope.marketGraphChangeData];

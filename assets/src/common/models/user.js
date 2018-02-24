@@ -23,17 +23,13 @@ angular.module('models.user', ['lodash', 'services', 'sails.io',])
         return $sailsSocket.get(url).then(success, error);
     };
 
-    this.getOne = function(id) {
-        var url = utils.prepareUrl('user/' + id);
-        return $sailsSocket.get(url).then(success, error);
-    };
-
     this.create = function(newModel) {
         var url = utils.prepareUrl('user');
         return $sailsSocket.post(url, newModel).then(success, error);
     };
 
     this.update = function(newModel){
+        console.log(newModel)
         var url = utils.prepareUrl('user/' + newModel.id);
         return $sailsSocket.post(url, newModel).then(success, error);
     };

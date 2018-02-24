@@ -9,11 +9,25 @@ angular.module( 'investing.account', [
 				controller: 'AccountCtrl',
 				templateUrl: 'account/index.tpl.html'
 			}
-		}
+		},
+        resolve:{
+            member: ['UserModel', function(UserModel) {
+                return UserModel.getMine();
+            }]
+        }
 	});
 }])
 
-.controller( 'AccountCtrl', ['$scope', 'config', 'titleService', function AccountController( $scope, config, titleService ) {
+.controller( 'AccountCtrl', ['$location', '$rootScope', '$scope', 'config', 'member', 'titleService', 'UserModel', function AccountController( $location, $rootScope, $scope, config, member, titleService, UserModel ) {
 	titleService.setTitle('Account - investingfor');
+	if (!config.currentUser){$location.path('/login')}
 	$scope.currentUser = config.currentUser;
+	$scope.member = member[0];
+	$scope.update = function(){
+        $rootScope.stateIsLoading = true;
+		UserModel.update($scope.member).then(function(member){
+			$rootScope.stateIsLoading = false;
+			$scope.member = member[0];
+		});
+	};
 }]);

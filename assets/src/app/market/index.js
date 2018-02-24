@@ -42,7 +42,8 @@ angular.module( 'investing.market', [
     $scope.orders = orders;
     $scope.trades = [];
 
-    /*OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
+    //TODO: MB HIGHCHARTS
+    OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
         console.log(orderBookModel);
         $scope.orderBook = orderBookModel[0];
 
@@ -62,13 +63,13 @@ angular.module( 'investing.market', [
                 y: function(d){ 
                     return parseFloat(d[1]); 
                 },
+                //yScale: d3.scale.log(2),
                 //xDomain:[0.075,0.09],
                 yDomain:[0,25],
-                //staggerLabels: true,
+                staggerLabels: true,
                 duration: 500,
                 reduceXTicks:true,
-                //interpolate: 'step-before',
-                useInteractiveGuideline: true,
+                //useInteractiveGuideline: true,
                 showControls: false,
                 //zoom:{
                 //    enabled:true
@@ -92,14 +93,17 @@ angular.module( 'investing.market', [
 
     });
 
-    TradeModel.getSome(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(tradeModel){
-        console.log(tradeModel);
-        //$scope.trades = tradeModel;
-        $scope.marketGraphData.values = [];
-        $scope.marketData = tradeModel;
-        $scope.updateMarketData(function(){});
-    });*/
-
+    $scope.getLive = function(){
+        $scope.selectedDelta = 'Live';//HAK-CLEAN
+        TradeModel.getSome(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(tradeModel){
+            console.log(tradeModel);
+            //$scope.trades = tradeModel;
+            $scope.marketGraphData.values = [];
+            $scope.marketData = tradeModel;
+            $scope.updateMarketData(function(){});
+        });
+    };
+   
     //TODO: HIGH CHARTS
     $scope.marketOptions = {
         chart: {

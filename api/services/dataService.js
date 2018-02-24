@@ -312,6 +312,23 @@ module.exports = {
 	    });  
 	},
 
+	cullTrade: function(time){
+		var now = new Date(), start = new Date(now.getTime() - (time));
+		Trade.find()
+		.limit(10000)
+	    .where({createdAt: {'<': start}})
+	    .then(function (data) {
+	    	if (data.length > 0){
+	    		var idArray = data.map(function(obj) {return obj.id});
+	    		console.log(idArray);
+				Trade.destroy(idArray, function(err, model) {
+					console.log(err, model);
+					console.log('deleted');
+				});
+	    	}
+	    });  
+	},
+
 
 	//createOrderContinual:function(){
 		//create order with 15% down on price at every delta. 
@@ -321,7 +338,7 @@ module.exports = {
 	//TODO: REFACTOR AND PACKAGE
 	//I can place continuous orders at the bband indicator
 	//-->when filled 'cre8 the order'
-	createOrderPoloniex: function(model, user, type){
+	createOrderPoloniex: function(model, user, type, percentChange){
 
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
@@ -346,13 +363,15 @@ module.exports = {
         //TODO: REFACTOR!!!
         if (orderModel.type=='BUY'){
 	        Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
-	        	//buy is btc->zrx; --> 0.001. 
+
+	        	//TODO: DYNAMIC PERCENTAGE RISK -- ratio of percent change and delta
 	            orderModel.amount = (asset[0].amount*0.15)/orderModel.price;//--> this is up to the market maker.. fillOrKill rn. 
 	            var asset1Amount = asset[0].amount*0.15;
-				//only buy if more than .0001 btc
-				//if statements here
+
 				console.log(orderModel);
 				console.log('REAL BUY');
+
+				//only buy if more than .0001 btc
 				if (orderModel.amount>0){
 
 					//maker taker ... 
@@ -388,15 +407,30 @@ module.exports = {
 								Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
 								emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
+
+
 								//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
-								//var sellPrice = orderModel.price+orderModel.price*0.03
-								//poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
-									//console.log(model);
-									//emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
+								//ratio of delta to percent
+								//golden ratio 1.61803398875
+
+								console.log(Math.abs(percentChange), Math.abs(percentChange/1.5))
+								var sellPrice = orderModel.price+orderModel.price*Math.abs(percentChange/1.5)
+								poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
+									
 									//TODO: listen for updates on an interval
 									//every 5 seconds to see if fulifilled.. 
 									//edit Asset
-								//});
+									dataService.returnBalances();
+
+									//CREATE ORDER.. onBooks
+									//Order.create(orderModel).then(function(orderModel){
+		            					//console.log(orderModel);
+		            				//});
+
+								});
+
+
 
 				            });
 
@@ -458,43 +492,10 @@ module.exports = {
 	        });
     	}
         
-		//poloniex.sell('BTC_LTC', '.001', 1, fillOrKill, immediateOrCancel,){
-		//});
-
-		//poloniex.returnActiveLoans(function(err, model){
-		//	console.log(model);
-		//})
-
-		//INIT NEW ACCT W REAL BALANCES
-		//console.log('sup')
-		//poloniex.returnCompleteBalances('all', function(err, model){
-		/*poloniex.returnBalances(function(err, model){
-			console.log(model)
-			for (x in Object.keys(model)){
-				var assetModel = {
-					user: '5a83602d5ac735000488e8f7',
-					symbol: Object.keys(model)[x],
-					amount: parseFloat(model[Object.keys(model)[x]]),
-				};
-				if (assetModel.amount != 0){
-					//console.log(assetModel);
-					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						console.log(model)
-					})
-				}
-			}
-		});*/
-
-		//returnTradableBalances - margin
-		//poloniex.returnTradableBalances(function(err, model){
-		//	console.log(model);
-		//})
-
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
 		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//sell(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
 		//cancelOrder(orderNumber [, callback])
-
 		//ex if flash crash --- SUPER MARGIN BUY LOL
 
 	},
@@ -616,11 +617,11 @@ module.exports = {
 					//amount: parseFloat(model[Object.keys(model)[x]].available),
 					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
-				//if (assetModel.amount != 0){
+				if (assetModel.amount != 0){
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						console.log(model)
+						//console.log(model)
 					})
-				//}
+				}
 			}
 		});
 	},
@@ -638,7 +639,6 @@ module.exports = {
 			console.log(model);
 		});
 	},
-
 
 	tickerREST: function(delta){
 	    var poloniex = new Poloniex();  
@@ -763,7 +763,7 @@ module.exports = {
 					               	//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 									//LIVE
-									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', model.percentChange);
 									//User.find().then(function(userModel){
 										//dataService.createOrder(orderModel, userModel, 'BUY');
 									//})
@@ -774,7 +774,7 @@ module.exports = {
 									//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 									//LIVE
-									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL');
+									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', model.percentChange);
 								}
 			                }
 
@@ -824,85 +824,84 @@ module.exports = {
 			poloniex.subscribe(tradingPairs[x].split('/')[1]+'_'+tradingPairs[x].split('/')[0]);
 		}
 
-		var sum = 0;
+		//var sum = 0;
 		//TODO: SAVE DATA based on TRANSACTION / TICKER -- with caviet of type TICKER / TRANSACTION
 		//for delta delieniations cnahge the query logic
 		poloniex.on('message', (channelName, data, seq) => {
 
 			//if (channelName === 'BTC_ETH') {
-				for (x in data){
-					if (data[x].type=='orderBook'){
-						var orderBookModel = {
-							exchange: 'poloniex',
-							assetPair: channelName,
-							asset1: channelName.split('_')[0],
-							asset2: channelName.split('_')[1],
-						};
-						//OrderBook.create(orderBookModel).then(function(model){console.log(model)});//--> could just create a new one.. with a time stamp/id
-						OrderBook.find(orderBookModel).then(function(model){
-							//console.log(data[x].data);
-							//format data in orderBook
-							if (data[x] && data[x].data && model[0]){
-								model[0].bids = Object.keys(data[x].data.bids).map(function(key){return [key, data[x].data.bids[key]]});
-								model[0].asks = Object.keys(data[x].data.asks).map(function(key){return [key, data[x].data.asks[key]]});
+			for (x in data){
+				if (data[x].type=='orderBook'){
+					var orderBookModel = {
+						exchange: 'poloniex',
+						assetPair: channelName,
+						asset1: channelName.split('_')[0],
+						asset2: channelName.split('_')[1],
+					};
+					//OrderBook.create(orderBookModel).then(function(model){console.log(model)});//--> could just create a new one.. with a time stamp/id
+					OrderBook.find(orderBookModel).then(function(model){
+						//console.log(data[x].data);
+						//format data in orderBook
+						if (data[x] && data[x].data && model[0]){
+							model[0].bids = Object.keys(data[x].data.bids).map(function(key){return [key, data[x].data.bids[key]]});
+							model[0].asks = Object.keys(data[x].data.asks).map(function(key){return [key, data[x].data.asks[key]]});
+							//console.log(model)
+							OrderBook.update({id:model[0].id}, model[0]).then(function(model){
 								//console.log(model)
-								OrderBook.update({id:model[0].id}, model[0]).then(function(model){
-									//console.log(model)
-								});
-							}
-						});
-					}
-					//TODO: SCALE ``COMPUTATIONALLY EXPENSIVE ``almost toomuch
-					/*if (data[x].type=='orderBookModify' || data[x].type=='orderBookRemove'){
-						//could copy the entire order book for x intervals to have in db.. 
-						var orderBookModel = {
-							exchange: 'poloniex',
-							assetPair: channelName,
-							asset1: channelName.split('_')[0],
-							asset2: channelName.split('_')[1],
-						};
-						OrderBook.find(orderBookModel).then(function(model){
-							//orderBookModel[0][data[x].data.type]== [n,n]
-							//orderBookModel[0][data[x].data.type];
-							if (data[x] && data[x].data){
-								var index = model[0][data[x].data.type+'s'].map(function(value,index) {return value[0]}).indexOf(data[x].data.rate);
-								console.log(index);
-								if (index!=-1){
-									model[0][data[x].data.type+'s'][index][1]=data[x].data.amount;
-									console.log(model[0][data[x].data.type+'s'][index])
-									//if 0 -->cut it
-									//data[x].data.rate;
-									//data[x].data.amount;
-									//format data in orderBook
-									//OrderBook.update({id:model[0].id}, model[0]).then(function(orderBook){
-									//	console.log(orderBook);
-									//});
-								}
-							}
-						});
-					}*/
-					if (data[x].type=='newTrade'){
-						var orderModel = {
-							exchange: 'poloniex',
-							tradeId: data[x].data.tradeID,
-							assetPair: channelName,
-							asset1: channelName.split('_')[0],
-							asset2: channelName.split('_')[1],
-							type: data[x].data.type,
-							price: data[x].data.rate,
-							orderBookAmount: data[x].data.amount,
-							amount: data[x].data.total,
-						};
-						Trade.create(orderModel).then(function(trade){
-							//console.log(trade);
-						});
-						//update orderBook?
-						sum++;
-						console.log(sum, orderModel.tradeId);
-						
-					}
+							});
+						}
+					});
 				}
-			
+				//TODO: SCALE ``COMPUTATIONALLY EXPENSIVE ``almost toomuch
+				/*if (data[x].type=='orderBookModify' || data[x].type=='orderBookRemove'){
+					//could copy the entire order book for x intervals to have in db.. 
+					var orderBookModel = {
+						exchange: 'poloniex',
+						assetPair: channelName,
+						asset1: channelName.split('_')[0],
+						asset2: channelName.split('_')[1],
+					};
+					OrderBook.find(orderBookModel).then(function(model){
+						//orderBookModel[0][data[x].data.type]== [n,n]
+						//orderBookModel[0][data[x].data.type];
+						if (data[x] && data[x].data){
+							var index = model[0][data[x].data.type+'s'].map(function(value,index) {return value[0]}).indexOf(data[x].data.rate);
+							console.log(index);
+							if (index!=-1){
+								model[0][data[x].data.type+'s'][index][1]=data[x].data.amount;
+								console.log(model[0][data[x].data.type+'s'][index])
+								//if 0 -->cut it
+								//data[x].data.rate;
+								//data[x].data.amount;
+								//format data in orderBook
+								//OrderBook.update({id:model[0].id}, model[0]).then(function(orderBook){
+								//	console.log(orderBook);
+								//});
+							}
+						}
+					});
+				}*/
+				if (data[x].type=='newTrade'){
+					var orderModel = {
+						exchange: 'poloniex',
+						tradeId: data[x].data.tradeID,
+						assetPair: channelName,
+						asset1: channelName.split('_')[0],
+						asset2: channelName.split('_')[1],
+						type: data[x].data.type,
+						price: data[x].data.rate,
+						orderBookAmount: data[x].data.amount,
+						amount: data[x].data.total,
+					};
+					Trade.create(orderModel).then(function(trade){
+						//console.log(trade);
+					});
+					//update orderBook?
+					//sum++;
+					//console.log(sum, orderModel.tradeId);
+					
+				}
+			}
 			//}
 
 			if (channelName === 'footer') {

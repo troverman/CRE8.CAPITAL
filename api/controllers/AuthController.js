@@ -130,6 +130,7 @@ var AuthController = {
         else {
         	console.log('currently logged in user is: ' + req.user.username);
           req.session.user = req.user;
+          req.session.authenticated = true;
           res.redirect('/');
         }
       });

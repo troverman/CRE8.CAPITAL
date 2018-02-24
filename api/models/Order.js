@@ -26,6 +26,13 @@ module.exports = {
         amount:{
             type: 'float',
         },
+        status:{
+            type: 'string',
+        },
+        //TODO: precent vs us absolute; mb systemwide UserId
+        user: {
+            model: 'user'
+        }
     },
 
     //AfterCreate --> tweet via investinfor perdictionBot --~~>

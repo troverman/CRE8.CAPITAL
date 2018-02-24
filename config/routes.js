@@ -83,6 +83,7 @@ module.exports.routes = {
    * User routes
    */
   'get /api/user': 'UserController.getAll',
+  'get /api/user/me': 'UserController.getMine',
   'get /api/user/:id': 'UserController.getOne',
   'post /api/user': 'UserController.create',
   'post /api/user/:id': 'UserController.update',
@@ -100,7 +101,13 @@ module.exports.routes = {
   'post /api/post': 'PostController.create',
   'delete /api/post/:id': 'PostController.destroy',
 
-
   '/.well-known/acme-challenge/6vMcD5bHdA1IbOn59yq6ms_wEF_h38L-rrOhjlJOKNI': 'HomeController.ssl',
+
+  'get /*': {
+    controller: "HomeController",
+    action: "index",
+    skipAssets: true
+  }
+
 
 };

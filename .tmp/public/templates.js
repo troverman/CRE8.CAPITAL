@@ -57,19 +57,19 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
     "	<p>edit</p>\n" +
     "	<form role=\"form\">\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"userName\" placeholder=\"username\" title=\"username\" type=\"text\" ng-model=\"currentUser.username\"> \n" +
+    "            <input class=\"form-control\" name=\"userName\" placeholder=\"username\" title=\"username\" type=\"text\" ng-model=\"member.username\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"firstName\" placeholder=\"first name\" title=\"first name\" type=\"text\" ng-model=\"currentUser.firstName\"> \n" +
+    "            <input class=\"form-control\" name=\"firstName\" placeholder=\"first name\" title=\"first name\" type=\"text\" ng-model=\"member.firstName\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"lastName\" placeholder=\"last name\" title=\"last name\" type=\"text\" ng-model=\"currentUser.lastName\"> \n" +
+    "            <input class=\"form-control\" name=\"lastName\" placeholder=\"last name\" title=\"last name\" type=\"text\" ng-model=\"member.lastName\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"align-right\">\n" +
-    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Save</button>\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\" ng-click=\"update()\">Save</button>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "\n" +
@@ -82,15 +82,15 @@ angular.module("account/index.tpl.html", []).run(["$templateCache", function($te
     "	<!--poloniex-->\n" +
     "    <form role=\"form\">\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api key\" title=\"api key\" type=\"text\"> \n" +
+    "            <input class=\"form-control\" name=\"apiKey\" placeholder=\"api key\" title=\"api key\" type=\"text\" ng-model=\"member.poloniexApiKey\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"apikey\" placeholder=\"api secret\" title=\"api secret\" type=\"text\"> \n" +
+    "            <input class=\"form-control\" name=\"apiSecret\" placeholder=\"api secret\" title=\"api secret\" type=\"text\" ng-model=\"member.poloniexApiSecret\"> \n" +
     "            <i class=\"fa fa-user\"></i>\n" +
     "        </div>\n" +
     "        <div class=\"align-right\">\n" +
-    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Save</button>\n" +
+    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\" ng-click=\"update()\">Save</button>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "\n" +
@@ -140,7 +140,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "					</tr>\n" +
     "			    </thead>\n" +
     "			    <tbody>\n" +
-    "					<tr ng-repeat=\"asset in assets\">\n" +
+    "					<tr ng-repeat=\"asset in assets | orderBy:'-amount'\">\n" +
     "						<td>{{asset.symbol}}</td>\n" +
     "						<td>{{asset.amount}}</td>\n" +
     "						<!--<td>Wallet</td>-->\n" +
@@ -319,12 +319,14 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	<br><br><br>\n" +
     "\n" +
+    "\n" +
     "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
     "		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>\n" +
     "		<br><br><br>\n" +
     "		<div class=\"container\">\n" +
     "			<h1>activity</h1>\n" +
     "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
+    "			<!--<highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>-->\n" +
     "			<br>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<!--<h4>sound and transparent investments</h4>-->\n" +
@@ -473,7 +475,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
     "	<div class=\"row\">\n" +
-    "		<!--<button ng-class=\"selectedClass('1000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1000')\">1sec </button>-->\n" +
+    "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
     "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
     "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
     "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
@@ -530,10 +532,12 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
-    "	<div style=\"max-height:500px;overflow:scroll\">\n" +
-    "		<canvas id=\"tableHeatmap\" width=\"1200\" height=\"1500\"></canvas>\n" +
-    "	</div>\n" +
+    "	<!--<div style=\"max-height:500px;overflow:scroll\">-->\n" +
+    "		<canvas id=\"tableHeatmap\" width=\"1200\" height=\"500\"></canvas>\n" +
+    "	<!--</div>-->\n" +
     "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
+    "\n" +
+    "	<!--HIGH CHART-->\n" +
     "\n" +
     "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOTO YET EXECUTED-->\n" +
     "	<h2>Market Orders</h2>\n" +

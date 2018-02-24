@@ -57,12 +57,5 @@ module.exports = {
             }
             return [models];
         });
-    },
-
-    getOne: function(id) {
-        return User.findOne(id)
-        .then(function (model) {
-            return [model];
-        });
     }
 };

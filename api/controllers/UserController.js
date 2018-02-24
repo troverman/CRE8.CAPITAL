@@ -19,6 +19,21 @@ module.exports = {
 		});
 	},
 
+	getMine: function(req,res){
+		if (req.user){
+			var id = req.session.user.id
+			User.find({id:id})
+			.populate('passports')
+			.then(function(user){
+				return res.json(user);
+			})
+			.catch(function(err){
+				return res.negotiate(err);
+			});
+		}
+		else{return res.json();}
+	},
+
 	update: function (req, res) {
 		var id = req.session.user.id
 		var model = {
@@ -30,13 +45,14 @@ module.exports = {
 			btcWalletAddress: req.param('btcWalletAddress'),
 			ltcWalletAddress: req.param('ltcWalletAddress'),
 		};
+		console.log(model)
 		User.update({id:id}, model)
 		.exec(function(err, model) {
 			if (err) {
 				return console.log(err);
 			}
 			else {
-				User.publishCreate(model.toJSON());
+				User.publishCreate(model);
 				res.json(model);
 			}
 		});

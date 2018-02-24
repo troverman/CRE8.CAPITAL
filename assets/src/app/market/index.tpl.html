@@ -2,7 +2,7 @@
 
 	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
 	<div class="row">
-		<!--<button ng-class="selectedClass('1000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1000')">1sec </button>-->
+		<button ng-class="selectedClass('Live')" ng-click="getLive()">Live</button>
 		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5sec </button>
 		<button ng-class="selectedClass('30000')" ng-click="selectData(stateParams.path1, stateParams.path2, '30000')">30sec</button>
 		<button ng-class="selectedClass('60000')" ng-click="selectData(stateParams.path1, stateParams.path2, '60000')">1min </button>
@@ -59,10 +59,12 @@
 	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>
 
 	<h2>Probability Density</h2>
-	<div style="max-height:500px;overflow:scroll">
-		<canvas id="tableHeatmap" width="1200" height="1500"></canvas>
-	</div>
+	<!--<div style="max-height:500px;overflow:scroll">-->
+		<canvas id="tableHeatmap" width="1200" height="500"></canvas>
+	<!--</div>-->
 	<!--<heatmap id="heatmap-1" data="heatmapData" config="heatmapConfig" width="834" height="400" class="ng-isolate-scope"></heatmap>-->
+
+	<!--HIGH CHART-->
 
 	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOTO YET EXECUTED-->
 	<h2>Market Orders</h2>
