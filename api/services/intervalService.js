@@ -1243,7 +1243,7 @@ module.exports.intervalService = function(){
 	//POPULATE DATA
 
 	//REALTIME TRADES & ORDERBOOK
-	/*dataService.ticker();
+	//dataService.ticker();
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
