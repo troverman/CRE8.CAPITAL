@@ -1119,7 +1119,8 @@ function initPortfolio(user){
 
 module.exports.intervalService = function(){
 
-	initPortfolio('591a95d935ab691100c584ce');
+	//initPortfolio('591a95d935ab691100c584ce');
+	dataService.returnBalances('5a83602d5ac735000488e8f7');
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
@@ -1223,7 +1224,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
 	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
-	timer(dataService.returnBalances.bind(null), 1000*5*6);//30 seconds*/
+	timer(dataService.returnBalances.bind(null, '5a83602d5ac735000488e8f7'), 1000*5*6);//30 seconds*/
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK

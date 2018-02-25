@@ -329,10 +329,10 @@ module.exports = {
 	    });  
 	},
 
-
 	//createOrderContinual:function(){
 		//create order with 15% down on price at every delta. 
 		//cancel last order id if not fuilfilled--> atomic switch to the next. 
+		//save fees by making the market ready for strat; risk it by locking into this order
 	//}
 
 	//TODO: REFACTOR AND PACKAGE
@@ -353,7 +353,6 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.type = type;
-		console.log(orderModel);
 
 		dataService.returnOrderBook(model.assetPair, 10).then(function(orderBook){
 
@@ -400,12 +399,12 @@ module.exports = {
 			            		//IS THIS NEEDED?
 								//may be better to call poloniex balance update
 
-								Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){console.log(model)});
+								Asset.update({user: user, symbol:orderModel.asset1}, {amount:asset1Amount}).then(function(model){/*console.log(model)*/});
 								Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
 									//FACTOR IN FEES
 									var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
-									Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){console.log(model)});
+									Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
 									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
 
 									//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
@@ -413,15 +412,16 @@ module.exports = {
 									//golden ratio 1.61803398875
 
 									var sellPrice = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
-									var sellAmount = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
-									poloniex.sell(orderModel.assetPair, sellPrice.toString(), orderModel.amount.toString(), 0, 0, 1, function(err, model){
+									var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
+									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount)
+									poloniex.sell(orderModel.assetPair, sellPrice.toString(), sellAmount.toString(), 0, 0, 1, function(err, model){
 										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
 										console.log(model);
 
 										//TODO: listen for updates on an interval
 										//every 5 seconds to see if fulifilled.. 
 										//edit Asset
-										dataService.returnBalances();
+										dataService.returnBalances('5a83602d5ac735000488e8f7');
 
 										//CREATE ORDER.. onBooks
 										//Order.create(orderModel).then(function(orderModel){
@@ -520,10 +520,10 @@ module.exports = {
 
 								//IS THIS NEEDED?
 								//may be better to call poloniex balance update
-								Asset.update({user: user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){console.log(model)});
+								Asset.update({user: user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){/*console.log(model)*/});
 								Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
 									var updateAmount = (asset[0].amount + orderModel.amount*orderModel.price) - (orderModel.amount*orderModel.price)*0.0025;//TAKER; maker is 0.0015
-									Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){console.log(model)});
+									Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
 									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
 					            });	
 							}
@@ -641,23 +641,33 @@ module.exports = {
 	},
 
 	//TODO: logic based on open orders //returnCompleteBalances
-	returnBalances: function(model){
+	returnBalances: function(user){
 		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
-			//console.log(model)
 			for (x in Object.keys(model)){
 				var assetModel = {
-					user: '5a83602d5ac735000488e8f7',
+					user: user,
 					symbol: Object.keys(model)[x],
 					amount: parseFloat(model[Object.keys(model)[x]]),
 					//amount: parseFloat(model[Object.keys(model)[x]].available),
 					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
 				if (assetModel.amount != 0){
+					
+					//console.log(assetModel.amount)
+					//TODO:SCOPING
+					//Asset.find({user:assetModel.user, symbol:assetModel.symbol}).then(function(asset){
+					//	console.log(asset[0], assetModel)
+					//	if (asset[0].amount != assetModel.amount){
+
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
 						//console.log(model)
-					})
+					});
+
+					//	}
+					//});
+
 				}
 			}
 		});
@@ -798,6 +808,7 @@ module.exports = {
 								if (model.percentChange <= -0.035 && model.percentChange > -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 									orderModel.type = 'BUY';
+									//TODO: dynamic percent risk
 									//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 								}

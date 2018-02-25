@@ -38,10 +38,7 @@ module.exports = {
     //AfterCreate --> tweet via investinfor perdictionBot --~~>
 
      afterCreate: function (model, next) {
-
-        console.log('ORDER CREATE')
         return next(null, model);
-
     },
 
     getOne: function(id) {
