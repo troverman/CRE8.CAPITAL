@@ -21,7 +21,7 @@ angular.module( 'investing.home', [
     });
 }])
 
-.controller( 'HomeCtrl', ['$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', 'PortfolioModel', function HomeController($sailsSocket, $scope, titleService, config, DataModel, marketData, orders, PortfolioModel) {
+.controller( 'HomeCtrl', [ '$mdSidenav', '$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', 'PortfolioModel', function HomeController( $mdSidenav, $sailsSocket, $scope, titleService, config, DataModel, marketData, orders, PortfolioModel) {
     titleService.setTitle('collaborative.capital');
     $scope.currentUser = config.currentUser;
     $scope.marketData = marketData;
@@ -40,6 +40,10 @@ angular.module( 'investing.home', [
     //    }
     //});
     //-->extend over time, combine with protfolioequality and probabilities
+
+    $scope.sideNavToggle = function(){
+        $mdSidenav('left').toggle();
+    }
 
 
     //TODO: normalize to btc price

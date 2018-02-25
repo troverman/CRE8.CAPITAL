@@ -20,7 +20,7 @@ angular.module( 'investing.markets', [
 }])
 
 .controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
-	titleService.setTitle('Markets - investingfor');
+	titleService.setTitle('Markets | collaborative.capital');
     $scope.marketData = marketData;
     $scope.selectedDelta = '60000';
     $scope.tradingPairs = [

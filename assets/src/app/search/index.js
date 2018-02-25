@@ -22,7 +22,7 @@ angular.module( 'investing.search', [
 }])
 
 .controller( 'SearchController', ['$sailsSocket', '$scope', '$stateParams', 'titleService', 'config', 'DataModel', 'marketData', 'PortfolioModel', function SearchController($sailsSocket, $scope, $stateParams, titleService, config, DataModel, marketData, PortfolioModel) {
-    titleService.setTitle('collaborative.capital');
+    titleService.setTitle('Search | collaborative.capital');
     $scope.currentUser = config.currentUser;
     $scope.marketData = marketData;
     $scope.stateParams = $stateParams.path

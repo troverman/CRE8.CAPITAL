@@ -2,45 +2,115 @@ angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
+    "<!--<img src=\"images/3.jpg\">\n" +
+    "<img src=\"images/4.jpg\">\n" +
+    "<img src=\"images/5.jpg\">\n" +
+    "<img src=\"images/6.jpg\">\n" +
+    "<img src=\"images/7.jpg\">\n" +
+    "<img src=\"images/8.jpg\">\n" +
+    "<img src=\"images/9.jpg\">\n" +
+    "<img src=\"images/10.jpg\">\n" +
+    "<img src=\"images/11.jpg\">\n" +
+    "<img src=\"images/12.jpg\">\n" +
+    "<img src=\"images/13.jpg\">\n" +
+    "<img src=\"images/14.jpg\">\n" +
+    "<img src=\"images/15.jpg\">\n" +
+    "<img src=\"images/16.jpg\">\n" +
+    "<img src=\"images/17.jpg\">\n" +
+    "<img src=\"images/18.jpg\">\n" +
+    "<img src=\"images/19.jpg\">\n" +
+    "<img src=\"images/20.jpg\">\n" +
+    "<img src=\"images/21.jpg\">\n" +
+    "<img src=\"images/22.jpg\">\n" +
+    "<img src=\"images/23.jpg\">\n" +
+    "<img src=\"images/24.jpg\">\n" +
+    "<img src=\"images/25.jpg\">\n" +
+    "<img src=\"images/26.jpg\">\n" +
+    "<img src=\"images/27.jpg\">\n" +
+    "<img src=\"images/28.jpg\">\n" +
+    "<img src=\"images/29.jpg\">\n" +
+    "<img src=\"images/30.jpg\">\n" +
+    "<img src=\"images/31.jpg\">\n" +
+    "<img src=\"images/32.jpg\">\n" +
+    "<img src=\"images/33.jpg\">\n" +
+    "<img src=\"images/34.jpg\">\n" +
+    "<img src=\"images/35.jpg\">-->\n" +
+    "\n" +
+    "<!--<img src=\"images/2.gif\">\n" +
+    "<img src=\"images/3.gif\">\n" +
+    "<img src=\"images/4.gif\">\n" +
+    "<img src=\"images/5.gif\">-->\n" +
+    "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "    <h2>investingfor</h2>\n" +
-    "    <p>our network of advisors, consisting of hunderds of companies spanning the globe.</p> \n" +
+    "    <p>our network consisting of thousands of companies spanning the globe.</p> \n" +
+    "    <img src=\"images/3.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/4.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/5.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/24.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/25.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/26.jpg\" style=\"max-width:100%\">\n" +
+    "    <!--<img src=\"images/13.jpg\" style=\"max-width:100%\">-->\n" +
+    "    <img src=\"images/30.jpg\" style=\"max-width:100%\">\n" +
+    "    <img src=\"images/34.jpg\" style=\"width:100%\">\n" +
     "\n" +
-    "    <br><br><br>\n" +
-    "    <nvd3 options='options' data='data'></nvd3>\n" +
-    "    <br><br><br>\n" +
+    "\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "        <div class=\"col-sm-6\">\n" +
     "            <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
     "            <p>data, we use. data we prouduce, together.</p>\n" +
     "        </div>\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <img src=\"images/7.jpg\">\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <img src=\"images/laxmi.png\">\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
     "            <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
     "            <p>contribute. collab. invest.</p>\n" +
+    "            <img src=\"images/heatmap.png\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-wrench\"></i>view our results </h3>\n" +
-    "            <p>(y)our machines are continuously running and producing valuable investment information. it's <a href=\"#\">it's transparent</a></p>\n" +
+    "\n" +
+    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <h3><i class=\"fa fa-bullhorn\"></i> transparent finance </h3>\n" +
+    "            <p>(y)our machines create valuable investment intelligence.</p>\n" +
     "        </div>\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-cogs\"></i> transparent finance </h3>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <!--<img src=\"images/heatmap.png\">-->\n" +
+    "            <img src=\"images/1.gif\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "\n" +
+    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
     "            <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
-    "            <p><a href=\"./help/#api\">APIs</a> are available.</p>\n" +
-    "            <!--<canvas id=\"base\" class=\"chart chart-polar-area\" chart-data=\"chartData\" chart-labels=\"labels\" chart-options=\"options\"></canvas>-->\n" +
     "        </div>\n" +
-    "        <div class=\"col-lg-4 col-sm-6\">\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <!--<div class=\"col-sm-6\">\n" +
     "            <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
-    "        </div>\n" +
-    "        <!--<div class=\"col-sm-12\">\n" +
-    "            <canvas id=\"base\" class=\"chart chart-polar-area\" chart-data=\"chartData\" chart-labels=\"labels\" chart-options=\"options\"></canvas> \n" +
     "        </div>-->\n" +
+    "\n" +
     "\n" +
     "    </div>\n" +
     "\n" +
-    "     <highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
+    "    <nvd3 options='options' data='data'></nvd3>\n" +
+    "    <div style=\"height:50px;\"></div>\n" +
     "\n" +
     "\n" +
     "</div>\n" +
@@ -118,6 +188,36 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div class=\"container\" style=\"text-align:left\">\n" +
     "		<h1>dashboard</h1>\n" +
     "		<p><a href=\"account\">link in wallets, connect api keys, fund account</a></p>\n" +
+    "\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"sideNavToggle()\">TOGGLE</button>\n" +
+    "		<md-sidenav class=\"md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"false\">\n" +
+    "			<md-toolbar style=\"background-color:rgb(35, 170, 159)\" class=\"md-primary md-hue-2\">\n" +
+    "				<h1 class=\"md-toolbar-tools\">Dashboard</h1>\n" +
+    "			</md-toolbar>\n" +
+    "			<md-content>\n" +
+    "				<md-list>\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
+    "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
+    "							<h3><a ui-sref=\"/dashboard\"><span class=\"pull-left ct-red\">Home</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "						</div>\n" +
+    "					</md-list-item>\n" +
+    "					<md-divider ></md-divider>\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/accounts')\">\n" +
+    "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
+    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Accounts</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "						</div>\n" +
+    "					</md-list-item>\n" +
+    "					<md-divider ></md-divider>\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/sites')\">\n" +
+    "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
+    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Sites</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "						</div>\n" +
+    "					</md-list-item>\n" +
+    "					<md-divider ></md-divider>\n" +
+    "\n" +
+    "				</md-list>\n" +
+    "			</md-content>\n" +
+    "		</md-sidenav>-->\n" +
     "\n" +
     "\n" +
     "		<!--<div style=\"float:right;text-align:right\" class=\"col-sm-12\">-->\n" +
@@ -471,9 +571,30 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
 
 angular.module("market/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("market/index.tpl.html",
+    "<md-sidenav class=\"md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"false\">\n" +
+    "	<md-toolbar style=\"background-color:rgb(35, 170, 159)\" class=\"md-primary md-hue-2\">\n" +
+    "		<h1 class=\"md-toolbar-tools\">Markets</h1>\n" +
+    "	</md-toolbar>\n" +
+    "	<md-content>\n" +
+    "		<md-list>\n" +
+    "			<md-list-item ng-repeat=\"pair in tradingPairs\" ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
+    "				<div class=\"md-list-item-text\" layout=\"column\">\n" +
+    "					<h3><a href=\"/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\"><span class=\"pull-left ct-red\">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>\n" +
+    "				</div>\n" +
+    "				<md-divider ></md-divider>\n" +
+    "			</md-list-item>\n" +
+    "		</md-list>\n" +
+    "	</md-content>\n" +
+    "</md-sidenav>\n" +
+    "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
+    "\n" +
+    "	<br>\n" +
+    "	<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
+    "	<br><br>\n" +
+    "\n" +
     "	<div class=\"row\">\n" +
     "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
     "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
@@ -684,13 +805,14 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("nav/index.tpl.html",
     "<style>\n" +
-    "  .navbar-inverse .navbar-brand:focus{color:#424242}\n" +
-    "  .navbar-inverse .navbar-toggle {border-color: black;}\n" +
-    "  .navbar-inverse .navbar-toggle .icon-bar{background-color:#424242;}\n" +
-    "  .navbar-inverse .navbar-toggle:hover .icon-bar{background-color:#fff;}\n" +
-    "  .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:black }\n" +
+    "  .navbar-custom{background-color: #fff; text-align: left;}//border-bottom:1px solid #15b593;}\n" +
+    "  .navbar-custom .navbar-brand:focus{color:#424242}\n" +
+    "  .navbar-custom .navbar-toggle {border-color: white;}\n" +
+    "  .navbar-custom .navbar-toggle .icon-bar{background-color:#424242;}\n" +
+    "  .navbar-custom .navbar-toggle:hover .icon-bar{background-color:#000;}\n" +
+    "  //.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:black }\n" +
     "</style>\n" +
-    "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
+    "<div ng-controller=\"NavCtrl\" class=\"navbar navbar-custom navbar-fixed-top\" role=\"navigation\">\n" +
     "  <div class=\"container\">\n" +
     "    <div class=\"navbar-header\">\n" +
     "      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n" +
@@ -699,6 +821,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        <span class=\"icon-bar\"></span>\n" +
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
+    "      <img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:11px;margin-right:10px\">\n" +
     "      <a class=\"navbar-brand\" href=\"/\">collaborative.capital</a>\n" +
     "      <!--cre8.capital-->\n" +
     "    </div>\n" +

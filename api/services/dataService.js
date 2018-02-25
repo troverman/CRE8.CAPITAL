@@ -388,7 +388,7 @@ module.exports = {
 					//only buy if more than .0001 btc
 					if (orderModel.amount>0){
 						//TODO: FACTOR INTO ORDERMODEL
-						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString())
+						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString());
 			            poloniex.buy(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 			            	console.log(err, model)
 							
@@ -417,7 +417,7 @@ module.exports = {
 									//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
 									//ratio of delta to percent
 									//golden ratio 1.61803398875
-
+									//TODO: CHECK LOGS..
 									var sellPrice = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
 									var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
 									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount)

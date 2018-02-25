@@ -22,7 +22,7 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'OrderBookModel', 'PredictionModel', 'TradeModel', 'titleService', function MarketController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, OrderBookModel, PredictionModel, TradeModel, titleService ) {
+.controller( 'MarketCtrl', ['$mdSidenav', '$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'orders', 'OrderBookModel', 'PredictionModel', 'TradeModel', 'titleService', function MarketController( $mdSidenav, $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, orders, OrderBookModel, PredictionModel, TradeModel, titleService ) {
 	
     //TODO: VOLUME IN OUT -- via trades
     //TODO: ORDERBOOK MAP -- over time -- 3d
@@ -32,7 +32,7 @@ angular.module( 'investing.market', [
     //TODO: HIGHCHARTS?
 
     //TODO: live price.. ticker call -- socket. --> in title!
-    titleService.setTitle($stateParams.path1.toUpperCase()+'/'+$stateParams.path2.toUpperCase()+' - investingfor');
+    titleService.setTitle($stateParams.path1.toUpperCase()+'/'+$stateParams.path2.toUpperCase()+' | collaborative.capital');
 
     $scope.marketData = marketData;
     $scope.stateParams = $stateParams;
@@ -41,6 +41,114 @@ angular.module( 'investing.market', [
     $scope.orderBook = {};
     $scope.orders = orders;
     $scope.trades = [];
+
+    //TODO
+    $scope.sideNavToggle = function(){
+        $mdSidenav('left').toggle();
+    }
+    
+    //TODO -- better than this
+    $scope.tradingPairs = [
+        'XRP/BTC',
+        'ETH/BTC',
+        'BTC/USDT',
+        'LTC/BTC',
+        'BCH/BTC',
+        'STR/BTC',
+        'XRP/USDT',
+        'XLM/BTC',
+        'ETH/USDT',
+        'BCH/USDT',
+        'XMR/BTC',
+        'ZEC/BTC',
+        'LTC/USDT',
+        'DASH/BTC',
+        'ETC/BTC',
+        'XEM/BTC',
+        'ZEC/USDT',
+        'FCT/BTC',
+        'ETC/USDT',
+        'BTS/BTC',
+        'LSK/BTC',
+        'DGB/BTC',  
+        'EMC2/BTC',
+        'NXT/BTC',
+        'SC/BTC',
+        'POT/BTC',  
+        'STRAT/BTC',
+        'NXT/USDT',
+        'DOGE/BTC',
+        'DASH/USDT',
+        'XMR/USDT',
+        'BCH/ETH',
+        'ZRX/BTC',  
+        'ARDR/BTC',
+        'VTC/BTC',
+        'BTM/BTC',  
+        'OMG/BTC',
+        'MAID/BTC',
+        'VRC/BTC',  
+        'GNT/BTC',  
+        'GAME/BTC',
+        'CVC/BTC',  
+        'REP/BTC',
+        'STEEM/BTC',
+        'SYS/BTC',
+        'BCN/BTC',
+        'LBC/BTC',
+        'DCR/BTC',
+        'ZEC/ETH',
+        'REP/USDT',
+        'ETC/ETH',
+        'LTC/XMR',
+        'ZRX/ETH',
+        'RIC/BTC',
+        'GNO/BTC',
+        'PPC/BTC',
+        'GAS/BTC',
+        'BURST/BTC',
+        'PASC/BTC', 
+        'VIA/BTC',
+        'FLO/BTC',
+        'FLDC/BTC',
+        'NEOS/BTC', 
+        'OMG/ETH',
+        'STORJ/BTC',
+        'GNT/ETH',
+        'CLAM/BTC', 
+        'NAV/BTC',
+        'XCP/BTC',
+        'LSK/ETH',
+        'XBC/BTC',
+        'AMP/BTC',
+        'OMNI/BTC', 
+        'EXP/BTC',
+        'GRC/BTC',
+        'BLK/BTC',  
+        'SBD/BTC',
+        'PINK/BTC',
+        'NMC/BTC',
+        'RADS/BTC', 
+        'GNO/ETH',
+        'NXC/BTC',
+        'XVC/BTC',
+        'CVC/ETH',
+        'BELA/BTC',
+        'NXT/XMR',
+        'ZEC/XMR',
+        'XPM/BTC',
+        'BTCD/BTC', 
+        'REP/ETH',
+        'BCY/BTC',
+        'MAID/XMR', 
+        'DASH/XMR', 
+        'HUC/BTC',
+        'STEEM/ETH',
+        'BCN/XMR',
+        'BTCD/XMR', 
+        'BLK/XMR'
+    ];
+
 
     //TODO: MB HIGHCHARTS
     OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){

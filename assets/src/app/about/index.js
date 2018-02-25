@@ -19,7 +19,7 @@ angular.module( 'investing.about', [
 }])
 
 .controller( 'AboutCtrl', ['$scope', 'predictionData', 'titleService', function AboutController( $scope, predictionData, titleService ) {
-	titleService.setTitle('About - investingfor');
+	titleService.setTitle('About | collaborative.capital');
 
     $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
     $scope.chartData = [300, 500, 100, 40, 120];

@@ -14,5 +14,5 @@ angular.module( 'investing.member', [
 }])
 
 .controller( 'MemberCtrl', ['$scope', 'config', 'titleService', function MemberController( $scope, config, titleService ) {
-	titleService.setTitle('Member - investingfor');
+	titleService.setTitle('Member | collaborative.capital');
 }]);
