@@ -387,6 +387,7 @@ module.exports = {
 
 					//only buy if more than .0001 btc
 					if (orderModel.amount>0){
+						//TODO: FACTOR INTO ORDERMODEL
 						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString())
 			            poloniex.buy(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 			            	console.log(err, model)
@@ -403,9 +404,15 @@ module.exports = {
 								Asset.find({user: user, symbol: orderModel.asset2}).then(function(asset){
 
 									//FACTOR IN FEES
+									//TODO: BETTER -- model.resultingTrades[0]
 									var updateAmount = (asset[0].amount + orderModel.amount) - (orderModel.amount)*0.0025;//TAKER; maker is 0.0015
 									Asset.update({user: user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
-									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: orderModel});
+									
+									//TODO:FACTOR INTO ORDERMODEL
+									var emailModel = orderModel;
+									emailModel.price =  model.resultingTrades[0].rate;
+									emailModel.amount = model.resultingTrades[0].amount;
+									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL BUY ' + orderModel.asset2, {data: emailModel});
 
 									//PLACE IMMEDIATE SELL ORDER AT PROFIT TAKE %
 									//ratio of delta to percent
@@ -415,13 +422,18 @@ module.exports = {
 									var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
 									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount)
 									poloniex.sell(orderModel.assetPair, sellPrice.toString(), sellAmount.toString(), 0, 0, 1, function(err, model){
-										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: orderModel});
+
+										//TODO: REFACTOR ORDERMODEL
+										var emailModel = orderModel;
+										emailModel.price = sellPrice;
+										emailModel.amount = sellAmount;
+										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ON BOOKS ' + orderModel.asset2, {data: emailModel});
 										console.log(model);
 
 										//TODO: listen for updates on an interval
 										//every 5 seconds to see if fulifilled.. 
 										//edit Asset
-										dataService.returnBalances('5a83602d5ac735000488e8f7');
+										dataService.returnBalances(user);
 
 										//CREATE ORDER.. onBooks
 										//Order.create(orderModel).then(function(orderModel){
@@ -654,7 +666,7 @@ module.exports = {
 					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
 				if (assetModel.amount != 0){
-					
+
 					//console.log(assetModel.amount)
 					//TODO:SCOPING
 					//Asset.find({user:assetModel.user, symbol:assetModel.symbol}).then(function(asset){

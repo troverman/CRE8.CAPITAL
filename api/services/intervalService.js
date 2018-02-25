@@ -1120,7 +1120,7 @@ function initPortfolio(user){
 module.exports.intervalService = function(){
 
 	//initPortfolio('591a95d935ab691100c584ce');
-	dataService.returnBalances('5a83602d5ac735000488e8f7');
+	//dataService.returnBalances('5a83602d5ac735000488e8f7');
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
