@@ -1068,7 +1068,7 @@ function getCurrentPrediction(delta, asset1, asset2) {
 	});
 };
 
-function initPortfolio(){
+function initPortfolio(user){
 
 	//1 btc and 1btc of all assets
 	var promises = [];
@@ -1084,11 +1084,10 @@ function initPortfolio(){
 	Q.all(promises)
 	.then(function(data){
 
-		Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
-
+		Asset.find({user:user}).then(function(model){
 			for (x in data){
 				var assetModel = {
-					user: '591a95d935ab691100c584ce',
+					user: user,
 					symbol: data[x][0].asset2,
 					amount: 1/data[x][0].price,
 					//conversionArray: data,
@@ -1097,7 +1096,7 @@ function initPortfolio(){
 				};
 				var index = model.map(function(obj){return obj.symbol}).indexOf(assetModel.symbol)
 				//if (index == -1){
-					//console.log(assetModel);
+				//  console.log(assetModel);
 				//	Asset.create(assetModel).then(function(model){
 				//		console.log(model)
 				//	});
@@ -1105,50 +1104,27 @@ function initPortfolio(){
 				//Asset.create(assetModel).then(function(model){
 				//	console.log(model)
 				//});
-				Asset.update({user:'591a95d935ab691100c584ce', symbol:assetModel.symbol}, assetModel).then(function(model){
+				Asset.update({user:user, symbol:assetModel.symbol}, assetModel).then(function(model){
 					console.log(model)
 				});
-				//console.log(1/data[x][0].price, data[x][0].asset2);
 			}
-
 		});
 
 	});
 
-	//Asset.create({user: '5a7f41749fd8e1000467ba3b', symbol:'BTC', amount:1}).then(function(model){
-	//	console.log(model)
-	//});
-
-	//Asset.update({user: '591a95d935ab691100c584ce', symbol:'BTC'}, {amount:1}).then(function(model){
-	//	console.log(model)
-	//});
-
-	//Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
-	//	console.log(model)
-	//});
-
+	Asset.update({user: user, symbol:'BTC'}, {amount:1}).then(function(model){console.log(model)});
 	//Asset.create({user:'591a95d935ab691100c584ce', symbol:'USDT',amount:8217.32}).then(function(model){})
 };
 
 
 module.exports.intervalService = function(){
 
-	/*
-	var orderModel = {};
-	orderModel.assetPair = 'BTC_LTC';
-    orderModel.asset1 = 'BTC';
-    orderModel.asset2 = 'LTC';
-    orderModel.price = 'model.price';
-	orderModel.delta = '5000';
-	dataService.createOrder(orderModel, '5a83602d5ac735000488e8f7', 'BUY');
-	*/
+	initPortfolio('591a95d935ab691100c584ce');
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
 	//	console.log(model)
 	//});
-	//dataService.createOrder()
-	//initPortfolio();
 
 	//tradingPairs.forEach(function(tradingPair, index){
 	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
@@ -1161,13 +1137,10 @@ module.exports.intervalService = function(){
 	//60000
 	//1800000
 	//3600000
-
 	//createPrediction(100, '1800000');
-
 	//portfolioBalanceMulti('30000', 100);
 	//get some training ---
 	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
-
 	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
 	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
 
@@ -1237,7 +1210,7 @@ module.exports.intervalService = function(){
 	//POPULATE DATA
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1250,7 +1223,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
 	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
-	timer(dataService.returnBalances.bind(null), 1000*5*6);//30 seconds
+	timer(dataService.returnBalances.bind(null), 1000*5*6);//30 seconds*/
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK

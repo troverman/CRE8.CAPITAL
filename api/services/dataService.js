@@ -341,6 +341,7 @@ module.exports = {
 	//TODO: order percent system wide. re:duplic8
 	createOrderPoloniex: function(model, user, type, percent, percentChange, orderBook){
 
+		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 
 		//TODO: DATA AS A MODEL
@@ -542,6 +543,7 @@ module.exports = {
 
 	},
 
+	//TODO: REFACTOR PARAMETERS
 	createOrderSimulation: function(model, user, percent){
 
 		var orderModel = model;
@@ -551,7 +553,6 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.user = user;
-
 
 		dataService.returnOrderBook(model.assetPair, 10).then(function(orderBook){
 
@@ -637,11 +638,11 @@ module.exports = {
 
 		});
 		return deferred.promise;
-
 	},
 
 	//TODO: logic based on open orders //returnCompleteBalances
 	returnBalances: function(model){
+		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
 			//console.log(model)
@@ -663,6 +664,7 @@ module.exports = {
 	},
 
 	returnOpenOrders: function(model, pair){
+		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);//-->goes from open to history; 
@@ -670,6 +672,7 @@ module.exports = {
 	},
 
 	returnTradeHistory: function(model, pair){
+		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);
@@ -708,11 +711,7 @@ module.exports = {
 
 			          
 			                //TODO: MASTOR REFACTOR. 
-
-
 			                //TODO: REFACTOR BASED ON ORDER BUY SELL PAIR -- TOTAL POSITION :)
-
-
 							//TODO: WORK ON ORDER....
 							//TODO: INJECT SOME INDICATORS?? ANALYIS ~ PDF? --> if saved..
 							//THIS IS THE HEARTBEAT.. EVERY DELTA
@@ -745,7 +744,7 @@ module.exports = {
 			                    }
 			                    orderModel.type = 'BUY';
 			                    //SIMULATION -- could do percent risk based on indicators
-								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.33);
 				                //LIVE -- TODO: 
 								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);//type --> FoK, IoC, MO, percent rish
 			                }
@@ -756,14 +755,11 @@ module.exports = {
 									emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 			                    }
 			                    
-
 		                    	orderModel.type = 'SELL';			                  
 		                    	//SIMULATION
-								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.33);
 		                    	//LIVE
 								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'SELL', 0.15, model.percentChange, orderBook);
-
-
 
 			                }
 
@@ -776,7 +772,7 @@ module.exports = {
 				                    }
 									orderModel.type = 'BUY';
 									//SIMULATION
-									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.15);
+									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.33);
 
 									//LIVE -- SCRY -- EXCITE
 									if (model.percentChange <= -0.045){

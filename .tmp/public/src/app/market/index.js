@@ -16,7 +16,7 @@ angular.module( 'investing.market', [
                 //return null
             }],
             orders: ['$stateParams', 'OrderModel', function($stateParams, OrderModel) {
-                return OrderModel.getSome(25, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(),  $stateParams.path2.toUpperCase());
+                return OrderModel.getSome(50, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(),  $stateParams.path2.toUpperCase());
             }],
         }
 	});
