@@ -11,6 +11,7 @@ angular.module( 'investing.home', [
             }
         },
         resolve:{
+            //TODO: SOCKET CONNECT TO CCUTL
             marketData: ['DataModel', function(DataModel) {
                 return DataModel.getData(100, 0, 'createdAt DESC', 'BTC', 'LTC', 30000);
             }],
@@ -31,8 +32,6 @@ angular.module( 'investing.home', [
     $scope.portfolioData = [];
     $scope.portfolioLabels = [];
     $scope.btcValue = 0;
-
-    console.log('sup')
 
     //EXAMPLE
     //DataModel.getExchangeMap().then(function(data){
@@ -223,8 +222,15 @@ angular.module( 'investing.home', [
             useInteractiveGuideline: false,
             clipVoronoi: true,
             tooltip: {
-              chartContainer: '.chartContainer',
-              position: function () { return { top: 100 } }
+                position: function() {
+                    var svgRect = d3.select("#nvd3-svg").node().getBoundingClientRect();
+                    var tooltipRect = d3.select('.nvtooltip').node().getBoundingClientRect();
+
+                    return {
+                        top: svgRect.top + (svgRect.height / 2) - (tooltipRect.height / 3),
+                        left: svgRect.left + (svgRect.width / 2) - (tooltipRect.width / 1.5),
+                    };
+                }
             },
             xAxis: {
                 //axisLabel: 'Time',
