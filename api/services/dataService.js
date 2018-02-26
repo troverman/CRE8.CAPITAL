@@ -674,7 +674,7 @@ module.exports = {
 					//	if (asset[0].amount != assetModel.amount){
 
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						console.log(model)
+						//console.log(model)
 					});
 
 					//	}
