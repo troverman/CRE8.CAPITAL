@@ -225,7 +225,7 @@ angular.module( 'investing.home', [
             tooltip: {
               chartContainer: '.chartContainer',
               position: function () { return { top: 100 } }
-            }
+            },
             xAxis: {
                 //axisLabel: 'Time',
                 tickFormat: function(d) {
