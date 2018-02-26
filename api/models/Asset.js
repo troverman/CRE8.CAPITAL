@@ -13,6 +13,9 @@ module.exports = {
         amount: {
             type: 'float',
         },
+        amountOnOrders: {
+            type: 'float',
+        },
         symbol: {
             type: 'string',
         },

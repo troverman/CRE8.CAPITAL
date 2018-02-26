@@ -32,6 +32,7 @@ angular.module( 'investing.home', [
     $scope.portfolioData = [];
     $scope.portfolioLabels = [];
     $scope.btcValue = 0;
+    $scope.btcOrderValue = 0;
 
     //EXAMPLE
     //DataModel.getExchangeMap().then(function(data){
@@ -46,13 +47,11 @@ angular.module( 'investing.home', [
         $mdSidenav('left').toggle();
     }
 
-
     //TODO: normalize to btc price
     //TODO: update to ticker.. 
     //aka total 
     $scope.assets = [];
     if($scope.currentUser){
-
 
         DataModel.getLatestData().then(function(data){
 
@@ -89,6 +88,24 @@ angular.module( 'investing.home', [
                         }
                     }
                 }  
+
+                for (x in assets){
+                    if(assets[x].symbol!='USDT'){
+                        if (assets[x].symbol!='BTC'){
+                            var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                            //console.log(assets[x].amountOnOrders, assets[x].amount, data[index][0].price, index, assets[x].symbol);
+                            //TODO: IMPROVE
+                            if (assets[x].amountOnOrders){
+                                var btcOrderValue = assets[x].amountOnOrders*data[index][0].price;
+                                $scope.btcOrderValue += btcOrderValue;
+                            }
+                           
+                        }
+                        else{
+                            $scope.btcOrderValue += assets[x].amountOnOrders;
+                        }
+                    }
+                }
             });
 
         });

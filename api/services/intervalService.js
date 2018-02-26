@@ -1121,6 +1121,11 @@ module.exports.intervalService = function(){
 
 	//initPortfolio('591a95d935ab691100c584ce');
 	//dataService.returnBalances('5a83602d5ac735000488e8f7');
+	//Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
+	//	for (x in model){
+	//		Asset.update({user: '591a95d935ab691100c584ce', symbol:model[x].symbol}, {amountOnOrders:0}).then(function(model){console.log(model)});
+	//	}
+	//});
 
 	//assetArrayLinearCombinationEquality();
 	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){

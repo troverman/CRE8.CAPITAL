@@ -11,6 +11,9 @@ angular.module( 'investing.about', [
 			}
 		},
         resolve:{
+            marketData: ['DataModel', function(DataModel) {
+                return DataModel.getData(1000, 0, 'createdAt DESC','BTC', 'LTC', 21600000);
+            }],
             predictionData: ['PredictionModel', function(PredictionModel) {
                 return PredictionModel.getSome(1000, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'300000'});
             }],
@@ -18,11 +21,124 @@ angular.module( 'investing.about', [
 	});
 }])
 
-.controller( 'AboutCtrl', ['$scope', 'predictionData', 'titleService', function AboutController( $scope, predictionData, titleService ) {
+.controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'predictionData', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, predictionData, titleService ) {
 	titleService.setTitle('About | collaborative.capital');
+    $scope.marketData = marketData;
 
-    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
-    $scope.chartData = [300, 500, 100, 40, 120];
+    $scope.heatMapChart={};
+    /*$scope.heatMapChart = {
+        chart: {
+            type: 'heatmap',
+            marginTop: 40,
+            marginBottom: 80,
+            plotBorderWidth: 1
+        },
+        title: {
+            text: 'Probability Density Function of Percent Change for the BTC/LTC Market'
+        },
+        xAxis: {
+            categories: [],
+            title: null
+        },
+        yAxis: {
+            categories: [],
+            title: null
+        },
+        colorAxis: {
+            min: -1,
+            minColor: '#FFFFFF',
+            maxColor: Highcharts.getOptions().colors[0]
+        },
+        legend: {
+            align: 'right',
+            layout: 'vertical',
+            margin: 0,
+            verticalAlign: 'top',
+            y: 25,
+            symbolHeight: 280
+        },
+        tooltip: {
+            formatter: function () {
+                return this.series.xAxis.categories[this.point.x];
+            }
+        },
+        series: [{
+            name: 'Probability Density Function',
+            borderWidth: 1,
+            data: [],
+            dataLabels: {
+                enabled: true,
+                color: '#000000'
+            }
+        }],
+        credits:{enabled:false},
+    };*/
+
+    //TODO: SAVE PDF
+    /*AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
+        var pdfData = returnData.heatMap.slice(returnData.heatMap.length-20, returnData.heatMap.length);
+        for(x in pdfData){
+            $scope.heatMapChart.xAxis.categories.push(x);
+        }
+        var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});
+        for (x in Object.keys(pdfData[0])){ 
+            var dataArray = [];
+            var key = Object.keys(pdfData[0])[x];
+            if (key < 0.20 && key > -0.20){
+                $scope.heatMapChart.yAxis.categories.push(key);
+                //console.log(key)
+                var heatMapData = [];
+                for (z in pdfData){
+                    //console.log(pdfData[z][key])
+                    $scope.heatMapChart.series[0].data.push([parseFloat(z),parseFloat(x),pdfData[z][key]])
+                }
+            }
+        }
+        console.log($scope.heatMapChart.series[0].data);
+    });*/
+
+
+    /*$scope.heatMapChart = {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: null
+            }
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Bids',
+            data: []
+        },{
+            name: 'Asks',
+            data: []
+        }]
+    };
+    OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'LTC').then(function(orderBookModel){
+        console.log(orderBookModel);
+        $scope.orderBook = orderBookModel[0];
+        for (x in orderBookModel[0].bids){
+            $scope.heatMapChart.series[0].data.push(parseFloat(orderBookModel[0].bids[x][0]));
+        }
+        for (x in orderBookModel[0].asks){
+            $scope.heatMapChart.series[0].data.push(parseFloat(orderBookModel[0].asks[x][0]));
+        }
+    
+    });*/
 
     $scope.predictionData = predictionData;
 
@@ -105,53 +221,6 @@ angular.module( 'investing.about', [
 
     $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
     console.log($scope.data);
-
-    $scope.chartConfig = {
-        chart: {
-            type: 'heatmap',
-            marginTop: 40,
-            marginBottom: 80,
-            plotBorderWidth: 1
-        },
-        title: {
-            text: 'Sales per employee per weekday'
-        },
-        xAxis: {
-            categories: ['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']
-        },
-        yAxis: {
-            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-            title: null
-        },
-        colorAxis: {
-            min: 0,
-            minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
-        },
-        legend: {
-            align: 'right',
-            layout: 'vertical',
-            margin: 0,
-            verticalAlign: 'top',
-            y: 25,
-            symbolHeight: 280
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-            }
-        },
-        series: [{
-            name: 'Sales per employee',
-            borderWidth: 1,
-            data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], [6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], [8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47], [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]],
-            dataLabels: {
-                enabled: true,
-                color: '#000000'
-            }
-        }]
-    };
 
 
 }]);

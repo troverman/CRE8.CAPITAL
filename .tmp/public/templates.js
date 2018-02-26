@@ -121,7 +121,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <highchart id=\"heatMap\" config=\"chartConfig\"></highchart>\n" +
+    "            <highchart id=\"heatMap\" config=\"heatMapChart\"></highchart>\n" +
     "        </div>\n" +
     "\n" +
     "        <!--<div class=\"col-sm-6\">\n" +
@@ -250,6 +250,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "\n" +
     "		<p>{{btcValue}}</p>\n" +
+    "		<p>{{btcOrderValue}}</p>\n" +
+    "		<p>{{btcValue+btcOrderValue}}</p>\n" +
+    "\n" +
     "		<br><br>\n" +
     "		<div style=\"max-height:250px;overflow:scroll\">\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
@@ -330,10 +333,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
-    "				<h3>sound financial representation </h3>\n" +
-    "				<p>intellligence; continually learning</p>\n" +
-    "				<p>a community of transparent analysts</p>\n" +
-    "				<p>select financial representatives</p>\n" +
+    "				<h3>sound financial intellligence; continually learning</h3>\n" +
+    "				<!--<p>intellligence; continually learning</p>-->\n" +
+    "				<p>a community of analysts; select representation</p>\n" +
     "			</div>\n" +
     "			<!--<div class=\"col-sm-6\">\n" +
     "				<img src=\"images/tesseract-bg.png\">\n" +
@@ -352,24 +354,23 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-file-o\"></i> open and transparent data</h3>\n" +
+    "				<h3>open and transparent data</h3>\n" +
     "				<p>data we use, data we prouduce, together.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\" style=\"text-align:right\">\n" +
-    "				<h3><i class=\"fa fa-wrench\"></i> cutting edge analysis at scale</h3>\n" +
-    "				<p>distributed networks working together to give you the cutting edge.</p>\n" +
-    "				<p>a computational network designed to normalize risk and equalize investment returns.</p>\n" +
+    "				<h3>cutting edge analysis at scale</h3>\n" +
+    "				<p>distributed networks working to give you the cutting edge.</p>\n" +
+    "				<p>computational intelligence designed to normalize risk and equalize investment returns.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3><i class=\"fa fa-cogs\"></i> transparent financial results </h3>\n" +
+    "				<h3>transparent financial results </h3>\n" +
     "				<p>data-backed with proven results</p>\n" +
-    "				<!--<p>powerful apis</p>-->\n" +
     "			</div>\n" +
     "		</div>\n" +
     "		<div style=\"height:100px;\"></div>\n" +
@@ -840,7 +841,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        <span class=\"icon-bar\"></span>\n" +
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
-    "      <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:5px\">collaborative.capital</a>\n" +
+    "      <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">collaborative.capital</a>\n" +
     "      <!--cre8.capital-->\n" +
     "    </div>\n" +
     "    <div class=\"collapse navbar-collapse\">\n" +

@@ -662,11 +662,9 @@ module.exports = {
 					user: user,
 					symbol: Object.keys(model)[x],
 					amount: parseFloat(model[Object.keys(model)[x]]),
-					//amount: parseFloat(model[Object.keys(model)[x]].available),
-					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
+					//amountOnOrders: 0,
 				};
 				//if (assetModel.amount != 0){
-
 					//console.log(assetModel.amount)
 					//TODO:SCOPING
 					//Asset.find({user:assetModel.user, symbol:assetModel.symbol}).then(function(asset){
@@ -679,10 +677,29 @@ module.exports = {
 
 					//	}
 					//});
-
 				//}
 			}
 		});
+
+		poloniex.returnCompleteBalances('all', function(err, model){
+			for (x in Object.keys(model)){
+				var assetModel = {
+					user: user,
+					symbol: Object.keys(model)[x],
+					amount: parseFloat(model[Object.keys(model)[x]].available),
+					amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
+				};
+				if (assetModel.amount != 0 || assetModel.amountOnOrders != 0){
+					console.log(assetModel);
+					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
+						console.log(model)
+					});
+				}
+			}
+
+		});
+
+
 	},
 
 	returnOpenOrders: function(model, pair){
