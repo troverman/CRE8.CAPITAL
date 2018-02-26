@@ -665,7 +665,7 @@ module.exports = {
 					//amount: parseFloat(model[Object.keys(model)[x]].available),
 					//amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
-				if (assetModel.amount != 0){
+				//if (assetModel.amount != 0){
 
 					//console.log(assetModel.amount)
 					//TODO:SCOPING
@@ -674,13 +674,13 @@ module.exports = {
 					//	if (asset[0].amount != assetModel.amount){
 
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						//console.log(model)
+						console.log(model)
 					});
 
 					//	}
 					//});
 
-				}
+				//}
 			}
 		});
 	},

@@ -258,11 +258,21 @@ angular.module( 'investing.home', [
     };
 
     //HIGHCHARTS
-    $scope.chartConfig = {
+    /*$scope.chartConfig = {
         options: {
             chart: {
-                type: 'bar',
-                zoomType: 'x'
+                type: 'stock',
+                //chartType: 'stock',
+                zoomType: 'x',
+                backgroundColor: {
+                   linearGradient: [0, 0, 500, 500],
+                   stops: [
+                     [0, 'rgb(0, 0, 0)'],
+                     [1, 'rgb(200, 200, 255)']
+                   ]
+                 },
+                //backgroundColor: '#000',
+
             },
             tooltip: {
                 style: {
@@ -271,19 +281,53 @@ angular.module( 'investing.home', [
                 }
             }
         },
-        series: [{data:[]}],
-        xAxis: {
-            currentMin: 0,
-            currentMax: 20,
-        },
         size: {
             width: 400,
             height: 550
         },
+        title:{text: null},
+        legend: {enabled: false},
+        //colors: ['#14b794'],
+        series: [{data:[]}],
+        xAxis: {
+            currentMin: 0,
+            currentMax: 20,
+            title: null,
+        },
+        yAxis: {
+            title: null,
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
         credits: {enabled:false},
         useHighStocks: true,
         loading: false,
-    };
+    };*/
+
+    /*$scope.chartConfig = {
+        options: {
+            chart: {
+                zoomType: 'x',
+               // chartType: 'stock'
+            },
+            rangeSelector: {
+                enabled: true
+            },
+            navigator: {
+                enabled: true
+            },
+        },
+        series: [{data:[]}],
+        title: {
+            text: 'Hello'
+        },
+    };*/
+
 
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'/'+$scope.selectedPair[1];
@@ -311,7 +355,7 @@ angular.module( 'investing.home', [
             if (index > 1){change = (obj.price - $scope.marketData[index-1].price)/obj.price;}
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
             //HIGHCHARTS
-            $scope.chartConfig.series[0].data.push([new Date(obj.createdAt), change])
+            //$scope.chartConfig.series[0].data.push([new Date(obj.createdAt), change])
 
         });
         //$scope.marketGraphDataRender = [$scope.marketGraphData];

@@ -5,7 +5,7 @@
 	</md-toolbar>
 	<md-content>
 		<md-list>
-			<md-list-item ng-repeat="pair in tradingPairs" ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" style="background:#e8e8e8;">
+			<md-list-item ng-repeat="pair in tradingPairs" class="menu-select md-3-line" md-ink-ripple="#101010" style="background:#e8e8e8;">
 				<div class="md-list-item-text" layout="column">
 					<h3><a href="/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}"><span class="pull-left ct-red">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>
 				</div>
@@ -16,12 +16,9 @@
 </md-sidenav>
 
 <div class="container" style="text-align:left">
-
-	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
-
 	<br>
 	<span ng-click="sideNavToggle()"><i style="font-size:24px" class="fa fa-bars"></i></span>
-	<br><br>
+	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
 
 	<div class="row">
 		<button ng-class="selectedClass('Live')" ng-click="getLive()">Live</button>

@@ -40,65 +40,88 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "<img src=\"images/3.gif\">\n" +
     "<img src=\"images/4.gif\">\n" +
     "<img src=\"images/5.gif\">-->\n" +
+    "<div style=\"height:20vh;overflow:hidden\">\n" +
+    "    <!--<h1 style=\"color:white;position:absolute\">create the next wave</h1>-->\n" +
+    "    <img src=\"images/24.jpg\" style=\"width:100%\">\n" +
+    "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
+    "    <div style=\"height:25px;\"></div>\n" +
     "    <h2>investingfor</h2>\n" +
-    "    <p>our network consisting of thousands of companies spanning the globe.</p> \n" +
+    "    <p>a network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
+    "    <p>intelligence that learns and works with you to create value and amass wealth</p>\n" +
+    "    <p>a network of analysts spanning the globe. a strong team.</p>\n" +
     "    <img src=\"images/3.jpg\" style=\"max-width:100%\">\n" +
     "    <img src=\"images/4.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/5.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/24.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/25.jpg\" style=\"max-width:100%\">\n" +
+    "    <!--<img src=\"images/5.jpg\" style=\"max-width:100%\">-->\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<!--<div style=\"height:20vh;overflow:hidden\">\n" +
+    "    <img src=\"images/25.jpg\" style=\"width:100%\">\n" +
+    "</div>-->\n" +
+    "\n" +
+    "<div style=\"color:white;background-color:black\">\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"container\" style=\"text-align:left\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-sm-6\">\n" +
+    "                <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
+    "                <p>data, we use. data we prouduce, together.</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-sm-6\" style=\"overflow:hidden\">\n" +
+    "                <img src=\"images/2.gif\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div style=\"height:100px;\"></div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "\n" +
+    "    <!--<img src=\"images/24.jpg\" style=\"max-width:100%\">-->\n" +
+    "    <!--<img src=\"images/25.jpg\" style=\"max-width:100%\">\n" +
     "    <img src=\"images/26.jpg\" style=\"max-width:100%\">\n" +
-    "    <!--<img src=\"images/13.jpg\" style=\"max-width:100%\">-->\n" +
+    "    <img src=\"images/13.jpg\" style=\"max-width:100%\">\n" +
     "    <img src=\"images/30.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/34.jpg\" style=\"width:100%\">\n" +
+    "    <img src=\"images/34.jpg\" style=\"width:100%\">-->\n" +
     "\n" +
     "\n" +
     "    <div style=\"height:100px;\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "            <p>data, we use. data we prouduce, together.</p>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <img src=\"images/7.jpg\">\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
-    "\n" +
+    "        \n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <img src=\"images/laxmi.png\">\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-github\"></i> community algs</h3>\n" +
+    "        <div class=\"col-sm-6\" style=\"text-align:right\">\n" +
+    "            <h3>community analysts</h3>\n" +
     "            <p>contribute. collab. invest.</p>\n" +
-    "            <img src=\"images/heatmap.png\">\n" +
+    "            <img style=\"max-height:300px\" src=\"images/heatmap.png\">\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
+    "        <div class=\"col-xs-12\"><div style=\"height:200px;\"></div></div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-bullhorn\"></i> transparent finance </h3>\n" +
-    "            <p>(y)our machines create valuable investment intelligence.</p>\n" +
+    "            <h3>transparent finance </h3>\n" +
+    "            <p>we create valuable investment intelligence.</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <!--<img src=\"images/heatmap.png\">-->\n" +
-    "            <img src=\"images/1.gif\">\n" +
+    "            <img style=\"max-height:300px;float:right\" src=\"images/1.gif\">\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"col-xs-12\"><div style=\"height:100px;\"></div></div>\n" +
+    "        <div class=\"col-xs-12\"><div style=\"height:200px;\"></div></div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-cloud\"></i> mapping the market</h3>\n" +
+    "            <h3>mapping the market</h3>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>\n" +
+    "            <highchart id=\"heatMap\" config=\"chartConfig\"></highchart>\n" +
     "        </div>\n" +
     "\n" +
     "        <!--<div class=\"col-sm-6\">\n" +
@@ -110,7 +133,6 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "    <div style=\"height:100px;\"></div>\n" +
     "    <nvd3 options='options' data='data'></nvd3>\n" +
-    "    <div style=\"height:50px;\"></div>\n" +
     "\n" +
     "\n" +
     "</div>\n" +
@@ -426,7 +448,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"container\">\n" +
     "			<h1>activity</h1>\n" +
     "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
-    "			<!--<highchart id=\"chart1\" config=\"chartConfig\" class=\"span10\"></highchart>-->\n" +
+    "			<!--<highchart id=\"chart1\" config=\"chartConfig\"></highchart>-->\n" +
     "			<br>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<!--<h4>sound and transparent investments</h4>-->\n" +
@@ -577,7 +599,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	</md-toolbar>\n" +
     "	<md-content>\n" +
     "		<md-list>\n" +
-    "			<md-list-item ng-repeat=\"pair in tradingPairs\" ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
+    "			<md-list-item ng-repeat=\"pair in tradingPairs\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
     "				<div class=\"md-list-item-text\" layout=\"column\">\n" +
     "					<h3><a href=\"/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\"><span class=\"pull-left ct-red\">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>\n" +
     "				</div>\n" +
@@ -588,12 +610,9 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "</md-sidenav>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
-    "\n" +
-    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
-    "\n" +
     "	<br>\n" +
     "	<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
-    "	<br><br>\n" +
+    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
@@ -821,8 +840,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        <span class=\"icon-bar\"></span>\n" +
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
-    "      <img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:11px;margin-right:10px\">\n" +
-    "      <a class=\"navbar-brand\" href=\"/\">collaborative.capital</a>\n" +
+    "      <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:5px\">collaborative.capital</a>\n" +
     "      <!--cre8.capital-->\n" +
     "    </div>\n" +
     "    <div class=\"collapse navbar-collapse\">\n" +
