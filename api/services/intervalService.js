@@ -1233,7 +1233,7 @@ module.exports.intervalService = function(){
 	
 	//CCUTL2
 	//REALTIME TRADES & ORDERBOOK
-	//dataService.ticker();
+	dataService.ticker();
 
 
 	//CULL DATA
