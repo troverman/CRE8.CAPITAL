@@ -393,7 +393,7 @@ module.exports = {
 			            	console.log(err, model)
 							
 							//if fuilfilled --> 
-							if (model.resultingTrades.length > 0){
+							if (!err && model && model.resultingTrades.length > 0){
 								console.log('REAL BUY');
 								Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});
 
@@ -528,7 +528,7 @@ module.exports = {
 			            poloniex.sell(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 			            	console.log(err, model)
 							//if fuilfilled --> 
-							if (model.resultingTrades.length > 0){
+							if (!err && model && model.resultingTrades.length > 0){
 								console.log('REAL COMPLETE');
 								Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});	
 
