@@ -377,7 +377,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "				<p class=\"lead\">nice...</p>\n" +
-    "				<a href=\"/about\" class=\"btn btn-default\">now let me see some numbers</a>\n" +
+    "				<a href=\"/about\" class=\"btn btn-default log-btn\">now let me see some numbers</a>\n" +
     "				<br><br>\n" +
     "			</div>\n" +
     "		</div>\n" +

@@ -418,7 +418,7 @@ module.exports = {
 									//ratio of delta to percent
 									//golden ratio 1.61803398875
 									//TODO: CHECK LOGS..
-									var sellPrice = parseFloat(orderModel.price)+parseFloat(orderModel.price)*Math.abs(percentChange/1.5);
+									var sellPrice = parseFloat(model.resultingTrades[0].rate)+parseFloat(model.resultingTrades[0].rate)*Math.abs(percentChange/1.5);
 									var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
 									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount)
 									poloniex.sell(orderModel.assetPair, sellPrice.toString(), sellAmount.toString(), 0, 0, 1, function(err, model){
@@ -692,7 +692,7 @@ module.exports = {
 				if (assetModel.amount != 0 || assetModel.amountOnOrders != 0){
 					console.log(assetModel);
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						console.log(model)
+						//console.log(model)
 					});
 				}
 			}

@@ -25,7 +25,7 @@ angular.module( 'investing.about', [
 	titleService.setTitle('About | collaborative.capital');
     $scope.marketData = marketData;
 
-    $scope.heatMapChart={};
+    $scope.heatMapChart = {};
     /*$scope.heatMapChart = {
         chart: {
             type: 'heatmap',
