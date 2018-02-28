@@ -420,7 +420,9 @@ module.exports = {
 									//TODO: CHECK LOGS..
 									var sellPrice = parseFloat(model.resultingTrades[0].rate)+parseFloat(model.resultingTrades[0].rate)*Math.abs(percentChange/1.5);
 									var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
-									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount)
+									console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount);
+									console.log('compare', model.resultingTrades[0].rate, orderModel.price);
+
 									poloniex.sell(orderModel.assetPair, sellPrice.toString(), sellAmount.toString(), 0, 0, 1, function(err, model){
 
 										//TODO: REFACTOR ORDERMODEL
