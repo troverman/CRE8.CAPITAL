@@ -524,24 +524,30 @@ module.exports = {
 
 					//only sell if more than .0001 btc
 					if (orderModel.amount>0){
-						console.log(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString())
-			            poloniex.sell(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
-			            	console.log(err, model)
-							//if fuilfilled --> 
-							if (!err && model && model.resultingTrades.length > 0){
-								console.log('REAL COMPLETE');
-								Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});	
+						console.log(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString());
 
-								//IS THIS NEEDED?
-								//may be better to call poloniex balance update
-								Asset.update({user: user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){/*console.log(model)*/});
-								Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
-									var updateAmount = (asset[0].amount + orderModel.amount*orderModel.price) - (orderModel.amount*orderModel.price)*0.0025;//TAKER; maker is 0.0015
-									Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
-									emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
-					            });	
-							}
-						});
+						//LOST MONEY ONCE HERE BC HIGHET BID WAS LOOOOOW and LAST TRADE PRICE WAS HIGH..
+						console.log('PRICE COMPARE', highestBid.toString(), orderModel.price)
+						if (highestBid.toString() == orderModel.price){
+				            poloniex.sell(orderModel.assetPair, highestBid.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
+				            	console.log(err, model)
+								//if fuilfilled --> 
+								if (!err && model && model.resultingTrades.length > 0){
+									console.log('REAL COMPLETE');
+									Order.create(orderModel).then(function(orderModel){/*console.log(orderModel);*/});	
+
+									//IS THIS NEEDED?
+									//may be better to call poloniex balance update
+									Asset.update({user: user, symbol: orderModel.asset2}, {amount:asset2Amount}).then(function(model){/*console.log(model)*/});
+									Asset.find({user: user, symbol: orderModel.asset1}).then(function(asset){
+										var updateAmount = (asset[0].amount + orderModel.amount*orderModel.price) - (orderModel.amount*orderModel.price)*0.0025;//TAKER; maker is 0.0015
+										Asset.update({user: user, symbol: orderModel.asset1}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
+										emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'REAL SELL ' + orderModel.asset2, {data: orderModel});
+						            });	
+								}
+							});
+						}
+
 					}
 		        });
 	    	}
