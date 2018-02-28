@@ -659,48 +659,50 @@ module.exports = {
 		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
 		poloniex.returnBalances(function(err, model){
-			for (x in Object.keys(model)){
-				var assetModel = {
-					user: user,
-					symbol: Object.keys(model)[x],
-					amount: parseFloat(model[Object.keys(model)[x]]),
-					//amountOnOrders: 0,
-				};
-				//if (assetModel.amount != 0){
-					//console.log(assetModel.amount)
-					//TODO:SCOPING
-					//Asset.find({user:assetModel.user, symbol:assetModel.symbol}).then(function(asset){
-					//	console.log(asset[0], assetModel)
-					//	if (asset[0].amount != assetModel.amount){
+			if (!err && model){
+				for (x in Object.keys(model)){
+					var assetModel = {
+						user: user,
+						symbol: Object.keys(model)[x],
+						amount: parseFloat(model[Object.keys(model)[x]]),
+						//amountOnOrders: 0,
+					};
+					//if (assetModel.amount != 0){
+						//console.log(assetModel.amount)
+						//TODO:SCOPING
+						//Asset.find({user:assetModel.user, symbol:assetModel.symbol}).then(function(asset){
+						//	console.log(asset[0], assetModel)
+						//	if (asset[0].amount != assetModel.amount){
 
-					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						//console.log(model)
-					});
+						Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
+							//console.log(model)
+						});
 
-					//	}
-					//});
-				//}
+						//	}
+						//});
+					//}
+				}
 			}
 		});
 
 		poloniex.returnCompleteBalances('all', function(err, model){
-			for (x in Object.keys(model)){
-				var assetModel = {
-					user: user,
-					symbol: Object.keys(model)[x],
-					amount: parseFloat(model[Object.keys(model)[x]].available),
-					amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
-				};
-				if (assetModel.amount != 0 || assetModel.amountOnOrders != 0){
-					//console.log(assetModel);
-					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
-						//console.log(model)
-					});
+			if (!err && model){
+				for (x in Object.keys(model)){
+					var assetModel = {
+						user: user,
+						symbol: Object.keys(model)[x],
+						amount: parseFloat(model[Object.keys(model)[x]].available),
+						amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
+					};
+					if (assetModel.amount != 0 || assetModel.amountOnOrders != 0){
+						//console.log(assetModel);
+						Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
+							//console.log(model)
+						});
+					}
 				}
 			}
-
 		});
-
 
 	},
 
