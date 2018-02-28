@@ -692,7 +692,7 @@ module.exports = {
 					amountOnOrders: parseFloat(model[Object.keys(model)[x]].onOrders),
 				};
 				if (assetModel.amount != 0 || assetModel.amountOnOrders != 0){
-					console.log(assetModel);
+					//console.log(assetModel);
 					Asset.update({user:assetModel.user, symbol: assetModel.symbol}, assetModel).then(function(model){
 						//console.log(model)
 					});
