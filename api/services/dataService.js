@@ -346,6 +346,7 @@ module.exports = {
 
 		//TODO: DATA AS A MODEL
 		//TODO: REFACTOR
+		//TODO.. really should be using lowest ask as the denominator vs price of last trade.. esp  BTC-RIC experience
 		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
 		orderModel.asset1 = model.asset1;
@@ -385,10 +386,16 @@ module.exports = {
 					//-- gotta make sure there is enought volume on book
 					//parseFloat(orderBook.asks[0][0])+parseFloat(orderBook.asks[0][0])*.001
 
+
+					//if latest orderBook price !differ from price by x percent..
+					//lowestAsk - OrderModel.price
+
 					//only buy if more than .0001 btc
-					if (orderModel.amount>0){
+					if (orderModel.amount>0.0001){
 						//TODO: FACTOR INTO ORDERMODEL
 						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString());
+						console.log('compare', lowestAsk, orderModel.price, (orderModel.price-lowestAsk)/orderModel.price);
+
 			            poloniex.buy(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString(), 0, 1, 0, function(err, model){
 			            	console.log(err, model)
 							
@@ -547,6 +554,7 @@ module.exports = {
 								}
 							});
 						}
+						//ELSE PALCE ON BOOK??
 
 					}
 		        });
@@ -878,7 +886,13 @@ module.exports = {
 			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
 			                //TODO: LOGIC.. CANT SELL IF DIDNT BUY OR HAVE THE ASSET. 
 			                //delta
-			                //Order.find({asset1:orderModel.asset1, asset2:orderModel.asset2}).sort('createdAt DESC').limit(2).then(function(order){
+			                //Order.find({asset1:orderModel.asset1, asset2:orderModel.asset2})
+			                //.sort('createdAt DESC')
+			                //.limit(2)
+			                //.then(function(orders){
+
+			                	//orders[0].price;
+			                	//change~ l8r
 			                //});
 
 			                if (models[1].percentChange < -0.05){

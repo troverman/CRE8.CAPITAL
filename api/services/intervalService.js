@@ -111,6 +111,35 @@ var tradingPairs = [
     'BLK/XMR'
 ];
 
+function hasUndefined(a) {return a.indexOf() !== -1;};
+function clone(a) {return JSON.parse(JSON.stringify(a));};
+
+function timer(callback, delay){
+    var self = this;
+    var counter = 0;
+    var start = new Date().getTime();
+    function delayed(){
+        callback(delay);
+        counter ++;
+        var diff = (new Date().getTime() - start) - counter * delay;
+        setTimeout(delayed, delay - diff);
+    }
+    delayed();
+    setTimeout(delayed, delay);
+};
+
+function getData(limit, delta, tradingPair){
+    var defered = Q.defer();
+    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
+	.limit(limit)
+	.sort('createdAt DESC')
+	.then(function(models){
+		console.log(tradingPair);
+		defered.resolve(models.reverse());
+	});
+    return defered.promise;
+};
+
 function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight){
 	var exchangeMap = [];
 	var exchangeMap1 = {};
@@ -219,7 +248,9 @@ function recursiveDecomposition(dataObj){
 //TODO: REDO
 //TODO: DEEP
 //TODO: TENSOR FLOW
-function neuralNet(networkModel, asset1, asset2, delta, limit){
+function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
+
+	console.log(agnostic);
 
 	var myNetwork = Network.fromJSON(networkModel.networkJson);
 	var trainer =  new Trainer(myNetwork);
@@ -255,7 +286,6 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 			var minPercentChangeInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
 			var maxPercentChangeInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
 
-
 			var minBidOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
 			var maxBidOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
 			var minAskOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
@@ -286,7 +316,16 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 				var normalizedPercentChangeOutput = (inputArray[x].percentChange-minPercentChangeOutput)/(maxPercentChangeOutput-minPercentChangeOutput);
 				if (isNaN(normalizedPercentChangeOutput)){normalizedPercentChangeOutput=0}
 
-				trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
+				//NORMALIZED TIME
+				if (agnostic){
+					var normalizedDelta = 1/parseFloat(delta);
+					trainingSet.push({input:[normalizedBidInput, normalizedAskInput, normalizedDelta], output:[normalizedBidOutput, normalizedAskOutput]});
+					//trainingSet.push({input:[normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput, normalizedDelta], output:[normalizedBidOutput, normalizedAskOutput, normalizedPriceOutput, normalizedPercentChangeOutput]});
+				}
+				else{
+					trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
+				}
+				//trainingSet.push({input:[normalizedBidInput, normalizedAskInput], output:[normalizedBidOutput, normalizedAskOutput]});
 				//trainingSet.push({input:[normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput], output:[normalizedBidOutput, normalizedAskOutput, normalizedPriceOutput, normalizedPercentChangeOutput]});
 			}
 
@@ -451,6 +490,132 @@ function neuralNet(networkModel, asset1, asset2, delta, limit){
 	});
 };
 
+//TODO: THINK
+//MARKET TO MARKET TOTAL -- INNACURATE
+//NEED HUGE MEMORY
+function neuralNetComplex(networkModel, asset1, asset2, delta, limit){
+
+	var myNetwork = Network.fromJSON(networkModel.networkJson);
+	var trainer =  new Trainer(myNetwork);
+
+	var promises = [];
+	tradingPairs = tradingPairs.filter(function(obj){
+        if (obj.split('/')[1]=='BTC'){return obj}
+    });
+	tradingPairs.forEach(function(tradingPair, index){
+	    var promise = getData(limit, delta, tradingPair);
+	    promises.push(promise);
+	});
+	Q.all(promises)
+	.then(function(data){
+
+		var trainingSet = [];
+
+		for (y in data){
+
+			var inputArray = data[y].reverse().slice(1);
+			var outputArray = data[y].reverse().slice(0, -1);
+
+			//INPUT
+			var minBidInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.currentBid}));
+			var maxBidInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentBid}));
+			var minAskInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
+			var maxAskInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.currentAsk}));
+			var minPriceInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.price}));
+			var maxPriceInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.price}));
+			var minPercentChangeInput = Math.min.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+			var maxPercentChangeInput = Math.max.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+
+			//OUTPUT
+			var minBidOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
+			var maxBidOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentBid}));
+			var minAskOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
+			var maxAskOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.currentAsk}));
+			var minPriceOutput = Math.min.apply(Math, outputArray.map(function(obj){return obj.price}));
+			var maxPriceOutput = Math.max.apply(Math, outputArray.map(function(obj){return obj.price}));
+			var minPercentChangeOutput = Math.min.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+			var maxPercentChangeOutput = Math.max.apply(Math, inputArray.map(function(obj){return obj.percentChange}));
+
+			var pairTrainingSet = [];
+
+			for (x in inputArray){
+				var normalizedBidInput = (inputArray[x].currentBid-minBidInput)/(maxBidInput-minBidInput);
+				if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+				var normalizedAskInput = (inputArray[x].currentAsk-minAskInput)/(maxAskInput-minAskInput);
+				if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+				var normalizedPriceInput = (inputArray[x].price-minPriceInput)/(maxPriceInput-minPriceInput);
+				if (isNaN(normalizedPriceInput)){normalizedPriceInput=0}
+				var normalizedPercentChangeInput = (inputArray[x].percentChange-minPercentChangeInput)/(maxPercentChangeInput-minPercentChangeInput);
+				if (isNaN(normalizedPercentChangeInput)){normalizedPercentChangeInput=0}
+
+				var normalizedBidOutput = (outputArray[x].currentBid-minBidOutput)/(maxBidOutput-minBidOutput);
+				if (isNaN(normalizedBidOutput)){normalizedBidOutput=0}
+				var normalizedAskOutput = (outputArray[x].currentAsk-minAskOutput)/(maxAskOutput-minAskOutput);
+				if (isNaN(normalizedAskOutput)){normalizedAskOutput=0}
+				var normalizedPriceOutput = (inputArray[x].price-minPriceOutput)/(maxPriceOutput-minPriceOutput);
+				if (isNaN(normalizedPriceOutput)){normalizedPriceOutput=0}
+				var normalizedPercentChangeOutput = (inputArray[x].percentChange-minPercentChangeOutput)/(maxPercentChangeOutput-minPercentChangeOutput);
+				if (isNaN(normalizedPercentChangeOutput)){normalizedPercentChangeOutput=0}
+
+				pairTrainingSet.push({
+					input:[normalizedBidInput, normalizedAskInput, normalizedPriceInput, normalizedPercentChangeInput], 
+					output:[normalizedBidOutput, normalizedAskOutput, normalizedPriceOutput, normalizedPercentChangeOutput]
+				});
+
+			}
+			//console.log(pairTrainingSet);
+			//pairTrainingSet-->[10]
+			trainingSet.push(pairTrainingSet);
+			//trainingSet-->[67][10]
+
+		}
+		
+		//Meh..
+		//reduce this 
+		var flatSet = [];
+		for (y in trainingSet[0]){
+			//trainingSet[x]: [10] [{output:1,input:1},...] --> 
+			var tempOutput = [];
+			var tempInput = [];
+			for (x in trainingSet){
+				tempOutput.push(trainingSet[x][y].output);
+				tempInput.push(trainingSet[x][y].input);
+			}
+			//flatSet.push({output:tempOutput, input:tempInput});
+			var flatInput = [].concat.apply([], tempOutput);
+			var flatOutput = [].concat.apply([], tempInput);
+			flatSet.push({output:flatOutput, input:flatInput});
+		}
+
+		return flatSet;
+
+	})
+	.then(function(trainingSet){
+
+		trainer.train(trainingSet, {
+			rate: .25,
+			iterations: 20000,
+			error: -10000,
+			shuffle: false,
+			log: 1000000,
+			cost: Trainer.cost.MSE,
+			schedule: {
+				every: 5000,
+				do: function(data) {
+					console.log(data)
+				}
+			}
+		});
+		
+		var networkJson = myNetwork.toJSON();
+
+	});
+};
+
+//MARKET TO PAIR DIMENSIONALITY REDUCTION
+function neuralNetMarketToPair(networkModel, asset1, asset2, delta, limit){};
+
+
 //OLD
 function order(){
 
@@ -483,45 +648,6 @@ function order(){
 
 	//Asset.find()
 };
-
-//OLD
-function analyze(){
-	Prediction.find({asset1:'ETH', asset2:'BTC'})
-	.sort('createdAt DESC')
-	.then(function(models){
-		console.log(models[0]);
-	});
-};
-
-function timer(callback, delay){
-    var self = this;
-    var counter = 0;
-    var start = new Date().getTime();
-    function delayed(){
-        callback(delay);
-        counter ++;
-        var diff = (new Date().getTime() - start) - counter * delay;
-        setTimeout(delayed, delay - diff);
-    }
-    delayed();
-    setTimeout(delayed, delay);
-};
-
-function getData(limit, delta, tradingPair){
-    var defered = Q.defer();
-    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-	.limit(limit)
-	.sort('createdAt DESC')
-	.then(function(models){
-		console.log(tradingPair);
-		defered.resolve(models.reverse());
-	});
-    return defered.promise;
-};
-
-function hasUndefined(a) {return a.indexOf() !== -1;};
-
-function clone(a) {return JSON.parse(JSON.stringify(a));};
 
 function portfolioBalance(delta, limit){
 
@@ -1089,7 +1215,7 @@ function initPortfolio(user){
 				var assetModel = {
 					user: user,
 					symbol: data[x][0].asset2,
-					amount: 1/data[x][0].price,
+					amount: 1000//75/data[x][0].price,
 					//conversionArray: data,
 					//wallet
 					//secret?
@@ -1104,16 +1230,24 @@ function initPortfolio(user){
 				//Asset.create(assetModel).then(function(model){
 				//	console.log(model)
 				//});
+				//if (assetModel.symbol=='ETH'){
 				Asset.update({user:user, symbol:assetModel.symbol}, assetModel).then(function(model){
 					console.log(model)
 				});
+				//}
 			}
 		});
 
 	});
 
-	Asset.update({user: user, symbol:'BTC'}, {amount:1}).then(function(model){console.log(model)});
-	//Asset.create({user:'591a95d935ab691100c584ce', symbol:'USDT',amount:8217.32}).then(function(model){})
+
+	//Asset.update({user: user, symbol:'BTC'}, {amount:100}).then(function(model){console.log(model)});
+	//Asset.update({user: user, symbol:'ETH'}, {amount:1000}).then(function(model){console.log(model)});
+	//Asset.update({user: user, symbol:'XMR'}, {amount:1500}).then(function(model){console.log(model)});
+
+	//Asset.update({user: user, symbol:'BTC'}, {amount:100}).then(function(model){console.log(model)});
+	Asset.update({user: user, symbol:'USDT'}, {amount:0}).then(function(model){console.log(model)});
+	//Asset.create({user:user, symbol:'USDT',amount:1111111}).then(function(model){})
 };
 
 
@@ -1140,9 +1274,7 @@ module.exports.intervalService = function(){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
 	//});
 
-	//60000
-	//1800000
-	//3600000
+
 	//createPrediction(100, '1800000');
 	//portfolioBalanceMulti('30000', 100);
 	//get some training ---
@@ -1153,70 +1285,85 @@ module.exports.intervalService = function(){
 	//assetArrayLinearCombinationEquality();
 	//order();
 
-	//POPULATE NETWORKS
-    //TODO:check
-    //combined neural net? --> def
-    //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-    //NeuralNetwork.create({title:'1 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'5 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'30 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'1 hr btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'1 hr market', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-
-    //combined neural net experiment? --> def
-    //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-  
-      /*for (x in tradingPairs){
-		//for loop thru data if unique pair & delta create network. . . . 
-		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
-		var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
-		var trainer = new Trainer(initNetwork);
-		var trainerExperimental = new Trainer(experimentalNetwork);
-
-		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
 
 
-		//pdf nerural net has 2k output
-		//train by solving top 3 (n) pick assets at time delta.. 
-		//need to figure the ideal output
-		//general idea pdf .. -- based on known picks and reverse solving of attractive pdf
-		//aka these are the known best picks -- this is the known attractive fxn -- what then are the pdf(s)
-		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
 
-		var networkJson = initNetwork.toJSON();
-		var experimentalNetworkJson = initNetwork.toJSON();
 
-		NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'30 seconds ' + tradingPairs[x], delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], delta:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], delta:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], delta:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], delta:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'2 hr ' + tradingPairs[x], delta:'7200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'4 hr ' + tradingPairs[x], delta:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-	};*/
+
+	//EXPERIMENTAL NETWORK!
+	//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
+	//var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
+	//var experimentalNetworkPdf = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+
+	//console.log(tradingPairs.length)--> 97 * 2 -->bid ask + delta == 195
+	//total market experiment.. -->
+	//USE THE WHOLE MARKET TO PREDICT ONE PAIR
+	//USE THE WHOLE MARKET TO PREDICT THE WHOLE MARKET
+	//var experimentalNetwork = new Architect.Perceptron(195, 390, 500, 390, 195);
+	//var experimentalNetwork = new Architect.Perceptron(195, 390, 500, 650, 450, 400, 350, 333, 500, 250, 225, 210, 205, 210, 200, 205, 195);
+	//var experimentalNetworkJson = experimentalNetwork.toJSON();
+	//var neuralNetworkModel = {
+	//	title:'Experimental time agnostic total market network', 
+	//	delta:'Variable', 
+	//	assetPair: 'Total Market', 
+	//	asset1: 'Total Market', 
+	//	asset2: 'Total Market', 
+	//	networkJson:experimentalNetworkJson 
+	//};
+	//console.log(neuralNetworkModel);
+
+	//268, 268.. STACK OVERFLOW
+	/*
+	var experimentalNetwork = new Architect.Perceptron(268, 536, 357, 313, 300, 295, 280, 268);
+	var experimentalNetworkJson = experimentalNetwork.toJSON();
+	var neuralNetworkModel = {
+		title: 'Experimental total market network: 2hr', 
+		delta: '7200000', 
+		assetPair: 'Total Market', 
+		asset1: 'Total Market', 
+		asset2: 'Total Market', 
+		networkJson: experimentalNetworkJson 
+	};
+	neuralNetComplex(neuralNetworkModel, 'Total Market', 'Total Market', '7200000', 10);
+	//NeuralNetwork.create(neuralNetworkModel).then(function(){console.log('HI')})
+	*/
 
 	//NETWORKTRAINER
-	/*NeuralNetwork.find()
+	NeuralNetwork.find({asset2:'LTC'})
     .then(function (models) {
-		for (x in models){
-			if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
-				timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta), parseInt(models[x].delta), 30);
+    	NeuralNetwork.find({delta:'Agnostic', asset2:'LTC'})
+    	.then(function (agnosticModels) {
+			for (x in models){
+				if (models[x].delta == '300000' || models[x].delta == '1800000' || models[x].delta == '3600000'){
+					console.log(models[x].asset2)
+					timer(neuralNet.bind(null, models[x], models[x].asset1, models[x].asset2, models[x].delta, 10, false), parseInt(models[x].delta));
+					for (y in agnosticModels){
+						timer(neuralNet.bind(null, agnosticModels[y], agnosticModels[y].asset1, agnosticModels[y].asset2, models[x].delta, 10, true), parseInt(models[x].delta));
+					}
+				}
 			}
-		}
-    });*/
+		});
+    }); 
+	
+
+	/*
+	var timeAgnosticNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
+	var timeAgnosticNetworkJson = timeAgnosticNetwork.toJSON();
+
+	//var timeAgnosticNetwork = new Architect.Perceptron(3, 10, 20, 30, 50, 88, 44, 21, 13, 7, 5, 2);
+
+	for (x in tradingPairs){
+		NeuralNetwork.create({title:'Agnostic' + tradingPairs[x], delta:'Agnostic', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:timeAgnosticNetworkJson }).then(function(){console.log('HI')})
+	}
+	*/
+
 
 	
 	//CCUTL
 	//POPULATE DATA
 
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
-	timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
+	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12), 1000*5*12);//60 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5), 1000*5*12*5);//5min
@@ -1252,5 +1399,56 @@ module.exports.intervalService = function(){
 	timer(dataService.cullData.bind(null, '86400000', 2*2*2*2*2*7*24*60*60*1000), 7200000);//24hr*/
 
 	//timer(dataService.cullTrade.bind(null, 86400000), 100000);//keep for one day
+
+
+
+
+	//NEURALNETWORKS
+	//POPULATE NETWORKS
+    //TODO:check
+    //combined neural net? --> def
+    //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+    //NeuralNetwork.create({title:'1 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'5 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'30 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'1 hr btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'1 hr market', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+
+    //combined neural net experiment? --> def
+    //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+    //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+  
+    /*
+    for (x in tradingPairs){
+		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
+		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
+		var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
+		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+
+		//pdf nerural net has 2k output
+		//train by solving top 3 (n) pick assets at time delta.. 
+		//need to figure the ideal output
+		//general idea pdf .. -- based on known picks and reverse solving of attractive pdf
+		//aka these are the known best picks -- this is the known attractive fxn -- what then are the pdf(s)
+		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+
+		var networkJson = initNetwork.toJSON();
+		var experimentalNetworkJson = initNetwork.toJSON();
+
+		NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'30 seconds ' + tradingPairs[x], delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], delta:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], delta:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], delta:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], delta:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'2 hr ' + tradingPairs[x], delta:'7200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'4 hr ' + tradingPairs[x], delta:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+	}
+	*/
+
+
 
 };
