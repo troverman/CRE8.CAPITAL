@@ -24,8 +24,8 @@ angular.module( 'investing.about', [
 .controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'predictionData', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, predictionData, titleService ) {
 	titleService.setTitle('About | collaborative.capital');
     $scope.marketData = marketData;
-
     $scope.heatMapChart = {};
+    
     /*$scope.heatMapChart = {
         chart: {
             type: 'heatmap',
@@ -96,7 +96,6 @@ angular.module( 'investing.about', [
         }
         console.log($scope.heatMapChart.series[0].data);
     });*/
-
 
     /*$scope.heatMapChart = {
         chart: {

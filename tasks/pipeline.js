@@ -51,17 +51,10 @@ var jsFilesToInject = [
   'bower_components/heatmap.js/plugins/angular-heatmap/angular-heatmap.js',
   'bower_components/Chart.HeatMap/dst/Chart.HeatMap.S.js',
 
-  'bower_components/highcharts/highcharts.js',
-  'bower_components/highcharts/highstocks.js',
-  //'https://code.highcharts.com/highcharts.src.js',
-  //'https://code.highcharts.com/stock/highstock.src.js'
+  'bower_components/highcharts/highstock.js',
   'bower_components/highcharts/modules/heatmap.js',
   'bower_components/highcharts/highcharts-more.js',
   'bower_components/highcharts-ng/dist/highcharts-ng.js',
-
-  //
-  // *->    you might put other dependencies like jQuery or Angular here   <-*
-  //
 
   // All of the rest of your app scripts
   'src/**/*.js',

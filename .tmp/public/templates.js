@@ -409,14 +409,13 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<br><br>\n" +
     "\n" +
-    "\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
     "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "\n" +
-    "			<!--<div class=\"col-md-4\">\n" +
+    "			<!--\n" +
+    "			<div class=\"col-md-4\">\n" +
     "				<table class=\"table table-inverse table-hover\">\n" +
     "				    <thead>\n" +
     "						<tr>\n" +
@@ -433,9 +432,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "						</tr>\n" +
     "				    </tbody>\n" +
     "				</table>\n" +
-    "			</div>-->\n" +
-    "\n" +
-    "\n" +
+    "			</div>\n" +
+    "			-->\n" +
     "\n" +
     "		</div>\n" +
     "	</div>\n" +
@@ -449,14 +447,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"container\">\n" +
     "			<h1>activity</h1>\n" +
     "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
-    "			<!--<highchart id=\"chart1\" config=\"chartConfig\"></highchart>-->\n" +
+    "			<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
     "			<br>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<!--<h4>sound and transparent investments</h4>-->\n" +
-    "			<!--<h1>order book</h1><br>-->\n" +
-    "			<!--<div ng-repeat=\"order in orders\">\n" +
-    "				<p><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a> traded {{order.amount}} {{order.asset1}} for {{order.amount/order.price}} {{order.asset2}} at {{order.price}}: {{order.createdAt}}</p>\n" +
-    "			</div>-->\n" +
     "		</div>\n" +
     "	</div>\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +

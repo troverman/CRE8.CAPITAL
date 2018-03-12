@@ -422,14 +422,25 @@ function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
 				var normalizedPercentChangeInput = (data[0].percentChange-minPercentChangeInput)/(maxPercentChangeInput-minPercentChangeInput);
 				if (isNaN(normalizedPercentChangeInput)){normalizedPercentChangeInput=0}
 
-				var latestInput = [normalizedBidInput, normalizedAskInput];
+				//if (normalizedBidInput==0){normalizedBidInput=0.00001}
+				//if (normalizedAskInput==0){normalizedAskInput=0.00001}
+				var latestInput = [];
+				if (agnostic){
+					latestInput = [normalizedBidInput, normalizedAskInput, 1/parseFloat(delta)];
+				}
+				else{
+					latestInput = [normalizedBidInput, normalizedAskInput];
+				}
+
+				console.log(latestInput)
 				//normalizedBidInput, normalizedPriceInput, normalizedAskInput, normalizedPercentChangeInput]
 
 				var output = myNetwork.activate(latestInput);
 
 				var denormalizeBid = minBidInput*-1*output[0]+minBidInput+output[0]*maxBidInput;
 				var denormalizeAsk = minAskInput*-1*output[1]+minAskInput+output[1]*maxAskInput;
-				
+				console.log(output)
+
 				var denormalizePrice = minPriceInput*-1*output[1]+minPriceInput+output[1]*maxPriceInput;
 				var denormalizePercentChange = minPercentChangeInput*-1*output[1]+minPercentChangeInput+output[1]*maxPercentChangeInput;
 
@@ -445,13 +456,13 @@ function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
 					currentPercentChange: data[0].percentChange,
 					predictedBid: denormalizeBid,
 					predictedAsk: denormalizeAsk,
-					timeStamp: data[0].createdAt,
 					predictedPrice: null,
 					predictedPercentChange: null,
 					actualPercentChange:null,
 					actualPrice:null,
 					actualBid:null,
 					actualAsk:null,
+					timeStamp: data[0].createdAt,
 				};
 
 				//console.log(output, asset1, asset2, delta, data[0], predictionModel);
@@ -613,6 +624,9 @@ function neuralNetComplex(networkModel, asset1, asset2, delta, limit){
 };
 
 //MARKET TO PAIR DIMENSIONALITY REDUCTION
+//MARKET + INDICATORS DIMENSIONALITY REDUCTION
+//MARKET + INDICATORS + DELTA GAP DIMENSIONALITY REDUCTION
+
 function neuralNetMarketToPair(networkModel, asset1, asset2, delta, limit){};
 
 

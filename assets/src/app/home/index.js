@@ -236,19 +236,8 @@ angular.module( 'investing.home', [
             showLegend:false,
             color: d3.scale.category10().range(),
             duration: 200,
-            useInteractiveGuideline: false,
+            useInteractiveGuideline: true,
             clipVoronoi: true,
-            tooltip: {
-                position: function() {
-                    var svgRect = d3.select("#nvd3-svg").node().getBoundingClientRect();
-                    var tooltipRect = d3.select('.nvtooltip').node().getBoundingClientRect();
-
-                    return {
-                        top: svgRect.top + (svgRect.height / 2) - (tooltipRect.height / 3),
-                        left: svgRect.left + (svgRect.width / 2) - (tooltipRect.width / 1.5),
-                    };
-                }
-            },
             xAxis: {
                 //axisLabel: 'Time',
                 tickFormat: function(d) {
@@ -286,27 +275,21 @@ angular.module( 'investing.home', [
     };
 
     //HIGHCHARTS
-    /*$scope.chartConfig = {
-        options: {
-            chart: {
-                type: 'stock',
-                //chartType: 'stock',
-                zoomType: 'x',
-                backgroundColor: {
-                   linearGradient: [0, 0, 500, 500],
-                   stops: [
-                     [0, 'rgb(0, 0, 0)'],
-                     [1, 'rgb(200, 200, 255)']
-                   ]
-                 },
-                //backgroundColor: '#000',
-
-            },
-            tooltip: {
-                style: {
-                    padding: 10,
-                    fontWeight: 'bold'
-                }
+    $scope.chartConfig = {
+        chart: {
+            type: 'line',
+            zoomType: 'x',
+            backgroundColor: {
+               linearGradient: [0, 0, 500, 500],
+               stops: [
+                 [0, 'rgb(0, 0, 0)'],
+               ]
+             },
+        },
+        tooltip: {
+            style: {
+                padding: 10,
+                fontWeight: 'bold'
             }
         },
         size: {
@@ -315,15 +298,26 @@ angular.module( 'investing.home', [
         },
         title:{text: null},
         legend: {enabled: false},
-        //colors: ['#14b794'],
-        series: [{data:[]}],
+        colors: ['#14b794'],
+        series: [{
+            name: 'BTC/LTC', 
+            lineWidth: 1.2, 
+            data:[]
+        }],
         xAxis: {
+            type: 'datetime',
             currentMin: 0,
             currentMax: 20,
             title: null,
+            crosshair: true,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+
         },
         yAxis: {
             title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
         },
         plotOptions: {
             line: {
@@ -333,29 +327,8 @@ angular.module( 'investing.home', [
             }
         },
         credits: {enabled:false},
-        useHighStocks: true,
         loading: false,
-    };*/
-
-    /*$scope.chartConfig = {
-        options: {
-            chart: {
-                zoomType: 'x',
-               // chartType: 'stock'
-            },
-            rangeSelector: {
-                enabled: true
-            },
-            navigator: {
-                enabled: true
-            },
-        },
-        series: [{data:[]}],
-        title: {
-            text: 'Hello'
-        },
-    };*/
-
+    };
 
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'/'+$scope.selectedPair[1];
@@ -383,7 +356,7 @@ angular.module( 'investing.home', [
             if (index > 1){change = (obj.price - $scope.marketData[index-1].price)/obj.price;}
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), change]);
             //HIGHCHARTS
-            //$scope.chartConfig.series[0].data.push([new Date(obj.createdAt), change])
+            $scope.chartConfig.series[0].data.push([new Date(obj.createdAt).getTime(), change])
 
         });
         //$scope.marketGraphDataRender = [$scope.marketGraphData];
