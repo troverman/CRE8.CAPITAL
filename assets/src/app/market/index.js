@@ -30,7 +30,6 @@ angular.module( 'investing.market', [
 
     //TODO: INDICATOR LOGIC
     //TODO: HIGHCHARTS?
-
     //TODO: live price.. ticker call -- socket. --> in title!
     titleService.setTitle($stateParams.path1.toUpperCase()+'/'+$stateParams.path2.toUpperCase()+' | collaborative.capital');
 
@@ -45,8 +44,8 @@ angular.module( 'investing.market', [
     //TODO
     $scope.sideNavToggle = function(){
         $mdSidenav('left').toggle();
-    }
-    
+    };
+
     //TODO -- better than this
     $scope.tradingPairs = [
         'XRP/BTC',
@@ -149,70 +148,7 @@ angular.module( 'investing.market', [
         'BLK/XMR'
     ];
 
-
     //TODO: MB HIGHCHARTS
-    OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
-        console.log(orderBookModel);
-        $scope.orderBook = orderBookModel[0];
-
-        $scope.orderBookOptions = {
-            chart: {
-                type: 'multiBarChart',
-                height: 450,
-                margin : {
-                    top: 20,
-                    right: 20,
-                    bottom: 45,
-                    left: 45
-                },
-                x: function(d){ 
-                    return parseFloat(d[0]); 
-                },
-                y: function(d){ 
-                    return parseFloat(d[1]); 
-                },
-                //yScale: d3.scale.log(2),
-                //xDomain:[0.075,0.09],
-                yDomain:[0,25],
-                staggerLabels: true,
-                duration: 500,
-                reduceXTicks:true,
-                //useInteractiveGuideline: true,
-                showControls: false,
-                //zoom:{
-                //    enabled:true
-                //}
-            }
-        };
-
-        $scope.orderBookBidsGraphData = {};
-        $scope.orderBookBidsGraphData.key = 'bids';
-        $scope.orderBookBidsGraphData.area = true;
-        $scope.orderBookBidsGraphData.color = '#a94442';
-        $scope.orderBookBidsGraphData.values = orderBookModel[0].bids.slice(0,200);
-
-        $scope.orderBookAsksGraphData = {};
-        $scope.orderBookAsksGraphData.key = 'asks';
-        $scope.orderBookAsksGraphData.area = true;
-        $scope.orderBookAsksGraphData.color = '#14b794';
-        $scope.orderBookAsksGraphData.values = orderBookModel[0].asks.slice(0,200);
-
-        $scope.orderBookGraphDataRender = [$scope.orderBookBidsGraphData, $scope.orderBookAsksGraphData]
-
-    });
-
-    $scope.getLive = function(){
-        $scope.selectedDelta = 'Live';//HAK-CLEAN
-        TradeModel.getSome(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(tradeModel){
-            console.log(tradeModel);
-            //$scope.trades = tradeModel;
-            $scope.marketGraphData.values = [];
-            $scope.marketData = tradeModel;
-            $scope.updateMarketData(function(){});
-        });
-    };
-   
-    //TODO: HIGH CHARTS
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -271,6 +207,129 @@ angular.module( 'investing.market', [
         }
     };
 
+    //TODO: HIGH CHARTS
+    //HIGHCHARTS
+    $scope.chartConfig = {
+        chart: {
+            type: 'line',
+            zoomType: 'x',
+            marginLeft: 70,
+            //marginBottom: 40,
+            marginTop: 20,
+            height: 500
+        },
+        tooltip: {
+            style: {
+                padding: 10,
+                fontWeight: 'bold'
+            }
+        },
+        title:{text: null},
+        //legend: {enabled: false},
+        colors: ['#14b794'],
+        series: [{
+            id: 'price',
+            name: $stateParams.path1.toUpperCase() + ' | ' + $stateParams.path2.toUpperCase(),
+            lineWidth: 1.2, 
+            data:[],
+        }/*,{
+            id: 'bid',
+            name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' bid',
+            lineWidth: 1.2, 
+            data:[],
+            color:'#a94442'
+        },{
+            id: 'ask',
+            name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' ask',
+            lineWidth: 1.2, 
+            data:[],
+            color:'#f94442'
+        },
+        /*{
+            id: 'change',
+            color:'#a94442',
+            type: 'line',
+            name: $stateParams.path1.toUpperCase() + ' | ' + $stateParams.path2.toUpperCase()+' change',
+            lineWidth: 1.2, 
+            yAxis: 1, 
+            data:[]
+
+        }*/],
+        xAxis: {
+            type: 'datetime',
+            currentMin: 0,
+            currentMax: 20,
+            title: null,
+            crosshair: true,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+
+        },
+        yAxis: [{
+            title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+        },
+        {
+            title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+        }],
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        credits: {enabled:false},
+        loading: false,
+        time: {
+            timezoneOffset: 5 * 60
+        },
+        //tooltip: {
+        //    split: true
+        //},
+    };
+
+    $scope.bidAskChart = {
+        chart: {
+            type: 'column',
+            zoomType: 'x',
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: null
+            },
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            id: 'Bids',
+            name: 'Bids',
+            color: '#a94442',
+            data: []
+        },{
+            id:  'Asks',
+            name: 'Asks',
+            color: '#14b794',
+            data: []
+        }],
+        credits:{enabled:false},
+    };
+
     $scope.marketGraphData = {};
     $scope.marketGraphData.key = $scope.selectedPair[0]+'_'+$scope.selectedPair[1];
     $scope.marketGraphData.color = '#14b794';
@@ -287,11 +346,6 @@ angular.module( 'investing.market', [
     $scope.marketGraphChangeChangeData.values = [];
 
     $scope.marketGraphOscillatorDataRender = [];
-
-    $scope.selectedClass= function(delta){
-        if($scope.selectedDelta==delta){return 'btn btn-primary'}
-        else{return 'btn btn-default'}
-    }
 
     //TODO: REFACTOR
     var heatmapData = {};
@@ -318,6 +372,39 @@ angular.module( 'investing.market', [
     var ctx = document.getElementById('tableHeatmap').getContext('2d');
     var heatmapOptions = {rounded: false, showLabels: false};
     var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
+
+    OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
+        console.log(orderBookModel);
+        $scope.orderBook = orderBookModel[0];
+        for (x in orderBookModel[0].bids.reverse()){
+            $scope.bidAskChart.series[0].data.push([parseFloat(orderBookModel[0].bids[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
+        }
+        for (x in orderBookModel[0].asks){
+            $scope.bidAskChart.series[1].data.push([parseFloat(orderBookModel[0].asks[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
+        }
+    });
+
+    $scope.selectedClass= function(delta){
+        if($scope.selectedDelta==delta){return 'btn btn-primary'}
+        else{return 'btn btn-default'}
+    };
+
+    $scope.getLive = function(){
+        $scope.selectedDelta = 'Live';//HAK-CLEAN
+        TradeModel.getSome(1000, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(tradeModel){
+            console.log(tradeModel);
+            //$scope.trades = tradeModel;
+            $scope.marketGraphData.values = [];
+            //HIGHCHARTS
+            $scope.chartConfig.series = [{
+                name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase(),
+                lineWidth: 1.2, 
+                data:[]
+            }];
+            $scope.marketData = tradeModel;
+            $scope.updateMarketData(function(){});
+        });
+    };
 
     //TODO: LOL
     $scope.getPdf = function (){
@@ -362,12 +449,20 @@ angular.module( 'investing.market', [
         for(x in periodArray){
             (function(x, periodArray) {
                 AnalysisModel.getEma($scope.marketData, periodArray[x], type).then(function(emaData){
-                    console.log(emaData);
                     var emaGraphData = {};
                     emaGraphData.key = 'EMA_'+periodArray[x];
                     emaGraphData.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
                     emaGraphData.values = emaData;
                     $scope.marketGraphDataRender.push(emaGraphData);
+
+                    var emaGraphData1 = {};
+                    emaGraphData1.name = 'EMA_'+periodArray[x];
+                    emaGraphData1.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    emaGraphData1.data = emaData;
+                    emaGraphData1.lineWidth = 1.2;
+                    emaGraphData1.id = emaGraphData1.name;
+                    $scope.chartConfig.series.push(emaGraphData1);
+
                     //$scope.marketGraphChangeDataRender.push(emaGraphData);
                     //$scope.marketGraphChangeChangeDataRender.push(emaGraphData);
                     $rootScope.stateIsLoading = false;
@@ -408,13 +503,20 @@ angular.module( 'investing.market', [
             (function(x, periodArray) {
                 //AnalysisModel.getTsf($scope.marketData.reverse(), x).then(function(tsfData){
                 AnalysisModel.getTsf($scope.marketData, periodArray[x]).then(function(tsfData){
-                    console.log(tsfData);
                     var tsfGraphData = {}
-                    //tsfGraphData.key = 'TSF_'+x;
                     tsfGraphData.key = 'TSF_'+periodArray[x];
                     tsfGraphData.color = "#" + Math.random().toString(16).slice(2,8);
                     tsfGraphData.values = tsfData;
                     $scope.marketGraphDataRender.push(tsfGraphData);
+
+                    var tsfGraphData1 = {};
+                    tsfGraphData1.name = 'TSF_'+periodArray[x];
+                    tsfGraphData1.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                    tsfGraphData1.data = tsfData;
+                    tsfGraphData1.lineWidth = 1.2;
+                    tsfGraphData1.id = tsfGraphData1.name;
+                    $scope.chartConfig.series.push(tsfGraphData1);
+
                     //$scope.marketGraphChangeDataRender.push(tsfGraphData);
                     //$scope.marketGraphChangeChangeDataRender.push(tsfGraphData);
                     $rootScope.stateIsLoading = false;
@@ -493,10 +595,28 @@ angular.module( 'investing.market', [
                         bbandLowerGraphData.values = bbandData.lower;
                         console.log(bbandData);
 
+                        //HIGHCHARTS
+                        var bbandUpperGraphData1 = {};
+                        var bbandMiddleGraphData1 = {};
+                        var bbandLowerGraphData1 = {}
+                        bbandUpperGraphData1.name = 'UB_'+periodArray[x]+'_'+sdArray[y];
+                        bbandLowerGraphData1.name = 'LB_'+periodArray[x]+'_'+sdArray[y];
+                        bbandUpperGraphData1.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        bbandLowerGraphData1.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+                        bbandUpperGraphData1.data = bbandData.upper;
+                        bbandLowerGraphData1.data = bbandData.lower;
+                        bbandUpperGraphData1.lineWidth = 1.2;
+                        bbandLowerGraphData1.lineWidth = 1.2;
+                        bbandUpperGraphData1.id = bbandUpperGraphData1.name;
+                        bbandLowerGraphData1.id = bbandLowerGraphData1.name;
+
+
                         if (type=='price'){
                             $scope.marketGraphDataRender.push(bbandUpperGraphData);
-                            //$scope.marketGraphDataRender.push(bbandMiddleGraphData);
                             $scope.marketGraphDataRender.push(bbandLowerGraphData);
+
+                            $scope.chartConfig.series.push(bbandUpperGraphData1);
+                            $scope.chartConfig.series.push(bbandLowerGraphData1);
                         }
                         if (type=='change'){
                             $scope.marketGraphChangeDataRender.push(bbandUpperGraphData);
@@ -533,6 +653,11 @@ angular.module( 'investing.market', [
         $scope.marketData.reverse().forEach(function(obj, index){ 
             $scope.marketGraphData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.price]);
             $scope.marketGraphChangeData.values.push([parseInt(new Date(obj.createdAt).getTime()), obj.percentChange]);
+            $scope.chartConfig.series[0].data.push([parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.price)]);
+            //$scope.chartConfig.series[1].data.push([parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.percentChange)]);
+            //$scope.chartConfig.series[1].data.push([parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.currentBid)]);
+            //$scope.chartConfig.series[2].data.push([parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.currentAsk)]);
+
             var change = 0;
             var changeChange = 0
             if (index > 1){
@@ -551,11 +676,35 @@ angular.module( 'investing.market', [
         $scope.marketGraphDataRender = [$scope.marketGraphData]
         $scope.marketGraphChangeDataRender = [$scope.marketGraphChangeData]
         $scope.marketGraphChangeChangeDataRender = [$scope.marketGraphChangeChangeData];
+
+        //console.log($scope.chartConfig.series)
         //RENDER INDICATORS~~
         callback();
+
     };
 
     $scope.updateMarketData(function(){
+
+        //TODO: PACKAGE
+        var flagModel = {};
+        flagModel.type = 'flags';
+        flagModel.data = [];
+        flagModel.onSeries = 'price';
+        flagModel.name = 'Orders';
+        flagModel.id = 'flags';
+        flagModel.shape = 'flag';
+
+        for (x in orders.reverse().slice(0,50)){
+            if (parseInt(new Date(orders[x].createdAt).getTime()) > parseInt(new Date($scope.marketData.reverse()[0].createdAt).getTime())){
+                var dataModel = {}
+                dataModel.title = orders[x].type.substring(0, 1);
+                dataModel.x = parseInt(new Date(orders[x].createdAt).getTime());
+                dataModel.text = orders[x].type;
+                flagModel.data.push(dataModel)
+            }
+        }
+        $scope.chartConfig.series.push(flagModel);
+
         //$scope.getBband([500, 750], [0.5, 1, 2, 4, 6, 8], 'price');
         //$scope.getBband([50, 100], [2], 'change');
         //$scope.getEma([160, 320], 'price');
@@ -571,12 +720,43 @@ angular.module( 'investing.market', [
             $scope.marketGraphData.values = [];
             $scope.marketGraphChangeData.values = [];
             $scope.marketGraphChangeChangeData.values = [];
+
+            //HIGHCHARTS
+            //$scope.chartConfig.series = [{
+            //    name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase(),
+            //    lineWidth: 1.2, 
+            //    data:[],
+            //    id: 'price',
+            //}];
+            for (x in $scope.chartConfig.series){$scope.chartConfig.series[x].data = [];}
+
             //TODO
             $scope.marketGraphOscillatorDataRender = [];
             //TODO: reverse prob.
             $scope.marketData = model;
             $rootScope.stateIsLoading = false;
-            $scope.updateMarketData(function(){});
+            $scope.updateMarketData(function(){
+
+                var flagModel = {};
+                flagModel.type = 'flags';
+                flagModel.data = [];
+                flagModel.onSeries = 'price';
+                flagModel.name = 'Orders';
+                flagModel.id = 'flags';
+                flagModel.shape = 'flag';
+
+                for (x in orders.reverse().slice(0,50)){
+                    if (parseInt(new Date(orders[x].createdAt).getTime()) > parseInt(new Date($scope.marketData.reverse()[0].createdAt).getTime())){
+                        var dataModel = {}
+                        dataModel.title = orders[x].type.substring(0, 1);
+                        dataModel.x = parseInt(new Date(orders[x].createdAt).getTime());
+                        dataModel.text = orders[x].type;
+                        flagModel.data.push(dataModel)
+                    }
+                }
+                $scope.chartConfig.series.push(flagModel);
+
+            });
         })
     };
 

@@ -15,7 +15,7 @@ angular.module( 'investing.about', [
                 return DataModel.getData(1000, 0, 'createdAt DESC','BTC', 'LTC', 21600000);
             }],
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(1000, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'300000'});
+                return PredictionModel.getSome(1000, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'});
             }],
         }
 	});
@@ -24,8 +24,44 @@ angular.module( 'investing.about', [
 .controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'predictionData', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, predictionData, titleService ) {
 	titleService.setTitle('About | collaborative.capital');
     $scope.marketData = marketData;
-    $scope.heatMapChart = {};
-    
+    $scope.predictionData = predictionData;
+
+    $scope.bidAskChart = {
+        chart: {
+            type: 'column',
+            zoomType: 'x',
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: null
+            },
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            id: 'Bids',
+            name: 'Bids',
+            data: []
+        },{
+            id:  'Asks',
+            name: 'Asks',
+            data: []
+        }],
+        credits:{enabled:false},
+    };
+
     /*$scope.heatMapChart = {
         chart: {
             type: 'heatmap',
@@ -97,129 +133,145 @@ angular.module( 'investing.about', [
         console.log($scope.heatMapChart.series[0].data);
     });*/
 
-    /*$scope.heatMapChart = {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: null
-        },
-        xAxis: {
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: null
-            }
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: 'Bids',
-            data: []
-        },{
-            name: 'Asks',
-            data: []
-        }]
-    };
     OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'LTC').then(function(orderBookModel){
-        console.log(orderBookModel);
         $scope.orderBook = orderBookModel[0];
-        for (x in orderBookModel[0].bids){
-            $scope.heatMapChart.series[0].data.push(parseFloat(orderBookModel[0].bids[x][0]));
+        //var askSum = 0;
+        //var bidSum = 0;
+        for (x in orderBookModel[0].bids.reverse()){
+            //bidSum+=parseFloat(orderBookModel[0].bids[x][1]);
+            $scope.bidAskChart.series[0].data.push([parseFloat(orderBookModel[0].bids[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
         }
         for (x in orderBookModel[0].asks){
-            $scope.heatMapChart.series[0].data.push(parseFloat(orderBookModel[0].asks[x][0]));
+            //askSum+=parseFloat(orderBookModel[0].asks[x][1]);
+            $scope.bidAskChart.series[1].data.push([parseFloat(orderBookModel[0].asks[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
+            console.log('asks',[parseFloat(orderBookModel[0].asks[x][0]),parseFloat(orderBookModel[0].asks[x][1])])
         }
-    
-    });*/
-
-    $scope.predictionData = predictionData;
-
-    $scope.options = {
-        chart: {
-            type: 'lineWithFocusChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
-            },
-            x: function(d){ 
-                return d[0]; 
-            },
-            y: function(d){ 
-                return d[1]; 
-            },
-
-            color: d3.scale.category10().range(),
-            duration: 200,
-            useInteractiveGuideline: true,
-            clipVoronoi: true,
-            xAxis: {
-                tickFormat: function(d) {
-                    return d3.time.format('%m/%d/%y %H:%M.%S')(new Date(d))
-                },
-                staggerLabels: true,
-                showMaxMin : false
-            },
-            yAxis: {
-                axisLabelDistance: 50,
-                showMaxMin : false
-            },
-            x2Axis: {
-                tickValues:0,
-                showMaxMin: false
-            },
-            y2Axis: {
-                tickValues:0,
-                axisLabelDistance: 200,
-            },
-        }
-    };
-
-    $scope.predictionAskData = {};
-    $scope.predictionAskData.key = 'Prediction Ask';
-    $scope.predictionAskData.color = '#ff7f0e';
-    $scope.predictionAskData.values = [];
-
-    $scope.predictionBidData = {};
-    $scope.predictionBidData.key = 'Prediction Bid';
-    $scope.predictionBidData.color = '#2ab996';
-    $scope.predictionBidData.values = [];
-
-    $scope.actualAskData = {};
-    $scope.actualAskData.key = 'Actual Ask';
-    $scope.actualAskData.color = '#a94442';
-    $scope.actualAskData.values = [];
-
-    $scope.actualBidData = {};
-    $scope.actualBidData.key = 'Actual Bid';
-    $scope.actualBidData.color = '#2ca02c';
-    $scope.actualBidData.values = [];
-
-    $scope.predictionData.reverse().forEach(function(obj){ 
-        if (obj.actualAsk == 0){obj.actualAsk = null}
-        if (obj.actualBid == 0){obj.actualBid = null}
-        var predictionAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), obj.predictedAsk];
-        var predictionBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), obj.predictedBid];
-        var actualAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), obj.actualAsk];
-        var actualBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), obj.actualBid];
-
-        $scope.predictionAskData.values.push(predictionAskModel);
-        $scope.predictionBidData.values.push(predictionBidModel);
-        $scope.actualAskData.values.push(actualAskModel);
-        $scope.actualBidData.values.push(actualBidModel);
     });
 
-    $scope.data = [$scope.predictionAskData, $scope.predictionBidData, $scope.actualAskData, $scope.actualBidData]
-    console.log($scope.data);
+    //HIGHCHARTS
+    $scope.chartConfig = {
+        chart: {
+            type: 'line',
+            zoomType: 'x',
+        },
+        tooltip: {
+            style: {
+                padding: 10,
+                fontWeight: 'bold'
+            }
+        },
+        size: {
+            width: 400,
+            height: 550
+        },
+        title:{text: null},
+        colors: ['#14b794'],
+        series: [{
+            id: 'Prediction Ask',
+            name: 'Prediction Ask',
+            color: '#ff7f0e',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 0
+        },{
+            id: 'Prediction Bid',
+            name: 'Prediction Bid',
+            color: '#2ab996',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 0
+        },{
+            id: 'Actual Ask',
+            name: 'Actual Ask',
+            color: '#a94442',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 0
+        },{
+            id: 'Actual Bid',
+            name: 'Actual Bid',
+            color: '#2ca02c',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 0
+        },{
+            type: 'column',
+            id: 'Ask Error',
+            name: 'Ask Error',
+            color: '#a94442',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 1
+        },{
+            type: 'column',
+            id: 'Bid Error',
+            name: 'Bid Error',
+            color: '#2ca02c',
+            lineWidth: 1.2, 
+            data:[],
+            yAxis: 1
+        }],
+        xAxis: {
+            type: 'datetime',
+            currentMin: 0,
+            currentMax: 20,
+            title: null,
+            crosshair: true,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+        },
+        yAxis: [{
+            title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+        },{
+            title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey',
+            //opposite: true,
+        }],
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        credits: {enabled:false},
+        loading: false,
+    };
+
+
+    $scope.predictionData.reverse().forEach(function(obj){ 
+
+        //if (obj.actualAsk == 0){obj.actualAsk = null}
+        //if (obj.actualBid == 0){obj.actualBid = null}
+
+        //console.log(parseFloat(100*Math.abs((obj.actualBid - obj.predictedBid)/obj.actualBid)))
+        //console.log(parseFloat(100*Math.abs((obj.predictedBid - obj.actualBid)/obj.predictedBid)))
+
+        var predictionAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedAsk)];
+        var predictionBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedBid)];
+        var actualAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualAsk)];
+        var actualBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualBid)];
+        var errorBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualAsk - obj.predictedAsk)/obj.actualAsk))];
+        var errorAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualBid - obj.predictedBid)/obj.actualBid))];
+
+        //var priceChangeModel = 0;
+        //if (){
+        //    priceChangeModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat((obj.actualBid - obj.predictedBid)/obj.actualBid)];
+        //}
+
+        $scope.chartConfig.series[0].data.push(predictionAskModel);
+        $scope.chartConfig.series[1].data.push(predictionBidModel);
+        $scope.chartConfig.series[2].data.push(actualAskModel);
+        $scope.chartConfig.series[3].data.push(actualBidModel);
+        $scope.chartConfig.series[4].data.push(errorAskModel);
+        $scope.chartConfig.series[5].data.push(errorBidModel);
+
+        //$scope.chartConfig.series[6].data.push(errorBidModel)
+
+    });
 
 
 }]);

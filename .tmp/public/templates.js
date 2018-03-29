@@ -68,7 +68,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
     "                <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "                <p>data, we use. data we prouduce, together.</p>\n" +
+    "                <p style=\"font-style:italic\">data, we use. data we prouduce, together.</p>\n" +
     "            </div>\n" +
     "            <div class=\"col-sm-6\" style=\"overflow:hidden\">\n" +
     "                <img src=\"images/2.gif\">\n" +
@@ -93,12 +93,12 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "        \n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <img src=\"images/laxmi.png\">\n" +
+    "            <highchart config=\"bidAskChart\"></highchart>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\" style=\"text-align:right\">\n" +
     "            <h3>community analysts</h3>\n" +
-    "            <p>contribute. collab. invest.</p>\n" +
+    "            <p style=\"font-style:italic\">contribute. collab. invest.</p>\n" +
     "            <img style=\"max-height:300px\" src=\"images/heatmap.png\">\n" +
     "        </div>\n" +
     "\n" +
@@ -106,7 +106,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <h3>transparent finance </h3>\n" +
-    "            <p>we create valuable investment intelligence.</p>\n" +
+    "            <p style=\"font-style:italic\">we create valuable investment intelligence.</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
@@ -118,21 +118,20 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <h3>mapping the market</h3>\n" +
+    "            <p style=\"font-style:italic\"></p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <highchart id=\"heatMap\" config=\"heatMapChart\"></highchart>\n" +
+    "            <!--<highchart config=\"heatMapChart\"></highchart>-->\n" +
+    "            <highchart config=\"bidAskChart\"></highchart>\n" +
     "        </div>\n" +
-    "\n" +
-    "        <!--<div class=\"col-sm-6\">\n" +
-    "            <h3><i class=\"fa fa-bullhorn\"></i> Stay Updated</h3>\n" +
-    "        </div>-->\n" +
     "\n" +
     "\n" +
     "    </div>\n" +
     "\n" +
     "    <div style=\"height:100px;\"></div>\n" +
-    "    <nvd3 options='options' data='data'></nvd3>\n" +
+    "    <highchart config=\"chartConfig\"></highchart>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "</div>\n" +
@@ -607,7 +606,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "	<br>\n" +
     "	<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
-    "	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>\n" +
+    "	<h2>{{selectedPair[0]}} / {{selectedPair[1]}}</h2>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
@@ -623,6 +622,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button>\n" +
     "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button>\n" +
     "	</div>\n" +
+    "	<hr>\n" +
     "	<!--how much data..?-->\n" +
     "	<!--zoom out ability.. a lot-->\n" +
     "\n" +
@@ -632,12 +632,14 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">bband</button><!--select periods / stD.?-->\n" +
     "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
     "	<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
+    "	<hr>\n" +
     "\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>\n" +
+    "	<!--<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>-->\n" +
+    "	<highchart config=\"chartConfig\"></highchart>\n" +
     "\n" +
     "	<!--<h2>Market Depth, volume</h2>-->\n" +
-    "	<h2>Order Book</h2>\n" +
-    "	<nvd3 options='orderBookOptions' data='orderBookGraphDataRender'></nvd3>\n" +
+    "	<h2>Order Book</h2><hr>\n" +
+    "	<highchart config=\"bidAskChart\"></highchart>\n" +
     "\n" +
     "	<h2>Market Change</h2>\n" +
     "	<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
@@ -645,6 +647,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">bband</button><!--select periods / sD..?-->\n" +
     "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">pdf</button><!--;)-->\n" +
+    "	<hr>\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
     "\n" +
@@ -656,6 +659,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getNn('changeChange')\">nn</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button>\n" +
     "	-->\n" +
+    "	<hr>\n" +
     "\n" +
     "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
     "\n" +
@@ -663,7 +667,8 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">macd</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">fosc</button>\n" +
     "	<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">rsi</button>\n" +
-    "\n" +
+    "	<hr>\n" +
+    "	\n" +
     "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
     "\n" +
     "	<h2>Probability Density</h2>\n" +
@@ -749,6 +754,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "	<h5>overlay percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
+    "	<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
     "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
     "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
     "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +

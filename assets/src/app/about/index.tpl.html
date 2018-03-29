@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <h3><i class="fa fa-file-o"></i> open datasets</h3>
-                <p>data, we use. data we prouduce, together.</p>
+                <p style="font-style:italic">data, we use. data we prouduce, together.</p>
             </div>
             <div class="col-sm-6" style="overflow:hidden">
                 <img src="images/2.gif">
@@ -89,12 +89,12 @@
     <div class="row">
         
         <div class="col-sm-6">
-            <img src="images/laxmi.png">
+            <highchart config="bidAskChart"></highchart>
         </div>
 
         <div class="col-sm-6" style="text-align:right">
             <h3>community analysts</h3>
-            <p>contribute. collab. invest.</p>
+            <p style="font-style:italic">contribute. collab. invest.</p>
             <img style="max-height:300px" src="images/heatmap.png">
         </div>
 
@@ -102,7 +102,7 @@
 
         <div class="col-sm-6">
             <h3>transparent finance </h3>
-            <p>we create valuable investment intelligence.</p>
+            <p style="font-style:italic">we create valuable investment intelligence.</p>
         </div>
 
         <div class="col-sm-6">
@@ -114,21 +114,20 @@
 
         <div class="col-sm-6">
             <h3>mapping the market</h3>
+            <p style="font-style:italic"></p>
         </div>
 
         <div class="col-sm-6">
-            <highchart id="heatMap" config="heatMapChart"></highchart>
+            <!--<highchart config="heatMapChart"></highchart>-->
+            <highchart config="bidAskChart"></highchart>
         </div>
-
-        <!--<div class="col-sm-6">
-            <h3><i class="fa fa-bullhorn"></i> Stay Updated</h3>
-        </div>-->
 
 
     </div>
 
     <div style="height:100px;"></div>
-    <nvd3 options='options' data='data'></nvd3>
+    <highchart config="chartConfig"></highchart>
+
 
 
 </div>

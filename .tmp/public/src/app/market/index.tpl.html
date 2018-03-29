@@ -18,7 +18,7 @@
 <div class="container" style="text-align:left">
 	<br>
 	<span ng-click="sideNavToggle()"><i style="font-size:24px" class="fa fa-bars"></i></span>
-	<h2>{{stateParams.path1}} / {{stateParams.path2}}</h2>
+	<h2>{{selectedPair[0]}} / {{selectedPair[1]}}</h2>
 
 	<div class="row">
 		<button ng-class="selectedClass('Live')" ng-click="getLive()">Live</button>
@@ -34,6 +34,7 @@
 		<button ng-class="selectedClass('43200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '43200000')">12hr </button>
 		<button ng-class="selectedClass('86400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '86400000')">24hr </button>
 	</div>
+	<hr>
 	<!--how much data..?-->
 	<!--zoom out ability.. a lot-->
 
@@ -43,12 +44,14 @@
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'price')">bband</button><!--select periods / stD.?-->
 	<!--<button class="btn btn-default" ng-click="getNn('price')">nn</button>-->
 	<!--<button class="btn btn-default" ng-click="getPdf('price')">pdf</button>--><!--;)-->
+	<hr>
 
-	<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>
+	<!--<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>-->
+	<highchart config="chartConfig"></highchart>
 
 	<!--<h2>Market Depth, volume</h2>-->
-	<h2>Order Book</h2>
-	<nvd3 options='orderBookOptions' data='orderBookGraphDataRender'></nvd3>
+	<h2>Order Book</h2><hr>
+	<highchart config="bidAskChart"></highchart>
 
 	<h2>Market Change</h2>
 	<!--<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button>--><!--select periods..?-->
@@ -56,6 +59,7 @@
 	<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">bband</button><!--select periods / sD..?-->
 	<!--<button class="btn btn-default" ng-click="getNn('change')">nn</button>-->
 	<button class="btn btn-default" ng-click="getPdf('change')">pdf</button><!--;)-->
+	<hr>
 
 	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>
 
@@ -67,6 +71,7 @@
 	<button class="btn btn-default" ng-click="getNn('changeChange')">nn</button>
 	<button class="btn btn-default" ng-click="getPdf('changeChange')">pdf</button>
 	-->
+	<hr>
 
 	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>
 
@@ -74,7 +79,8 @@
 	<button class="btn btn-default" ng-click="getMacd([20,40,80,160,320,640],'change')">macd</button>
 	<button class="btn btn-default" ng-click="getFosc([20,40,80,160,320,640],'change')">fosc</button>
 	<button class="btn btn-default" ng-click="getRsi([20,40,80,160,320,640],'change')">rsi</button>
-
+	<hr>
+	
 	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>
 
 	<h2>Probability Density</h2>

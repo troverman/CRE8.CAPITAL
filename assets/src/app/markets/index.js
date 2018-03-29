@@ -124,6 +124,57 @@ angular.module( 'investing.markets', [
         'BLK/XMR'
     ];
 
+    $scope.chartConfig = {
+        chart: {
+            type: 'spline',
+            zoomType: 'x',
+            marginLeft: 70,
+            //marginBottom: 40,
+            marginTop: 20,
+            height: 750
+        },
+        tooltip: {
+            style: {
+                padding: 10,
+                fontWeight: 'bold'
+            }
+        },
+        title:{text: null},
+        //legend: {enabled: false},
+        colors: ['#14b794'],
+        series: [],
+        xAxis: {
+            type: 'datetime',
+            currentMin: 0,
+            currentMax: 20,
+            title: null,
+            crosshair: true,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+
+        },
+        yAxis: {
+            title: null,
+            gridLineWidth: 0.5,
+            gridLineColor: 'grey'
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        credits: {enabled:false},
+        loading: false,
+        time: {
+            timezoneOffset: 5 * 60
+        },
+        tooltip: {
+            split: true
+        },
+    };
+
     $scope.marketOptions = {
         chart: {
             type: 'lineWithFocusChart',
@@ -174,6 +225,7 @@ angular.module( 'investing.markets', [
     //do an analysis of % change...
     $scope.dataMap = {}
     $scope.iterator = 0
+    //TODO: REDO
     $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
         //$scope.selectedPair = [asset1, asset2];
@@ -195,12 +247,22 @@ angular.module( 'investing.markets', [
             $scope.iterator++
             console.log($scope.iterator, $scope.selectedPairs.length)
             if ($scope.iterator == $scope.selectedPairs.length){
+
                 for (x in Object.keys($scope.marketDataRender)){
                     console.log(Object.keys($scope.marketDataRender)[x]);
                     $scope.marketDataRenderRender.push($scope.marketDataRender[Object.keys($scope.marketDataRender)[x]]);
+                    var series = {
+                        id: Object.keys($scope.marketDataRender)[x],
+                        name: Object.keys($scope.marketDataRender)[x],
+                        lineWidth: 1.2,
+                        color:'#'+(Math.random()*0xFFFFFF<<0).toString(16),
+                        data: $scope.marketDataRender[Object.keys($scope.marketDataRender)[x]].values
+                    };
+                    //$scope.chartConfig.series.push(series);
                     $rootScope.stateIsLoading = false;
                     $scope.iterator = 0;
                 }
+
             }
         });
     };
@@ -208,11 +270,11 @@ angular.module( 'investing.markets', [
     $scope.selectTime = function(delta, asset){
         $scope.marketDataRender = {};
         $scope.marketDataRenderRender = [];
+        $scope.chartConfig.series = [];
         $scope.selectedPairs = $scope.tradingPairs.filter(function(obj){
             if (obj.split('/')[1]==asset){return obj;}
             else{if(asset == 'all'){return obj}}
         });
-        console.log($scope.selectedPairs);
         for (x in $scope.selectedPairs){
             $scope.selectData($scope.selectedPairs[x].split('/')[1], $scope.selectedPairs[x].split('/')[0], delta);
         }
