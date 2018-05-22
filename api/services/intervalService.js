@@ -95,7 +95,6 @@ var tradingPairs = [
     'NXC/BTC',
     'XVC/BTC',
     'CVC/ETH',
-    'BELA/BTC',
     'NXT/XMR',
     'ZEC/XMR',
     'XPM/BTC',
@@ -1298,10 +1297,6 @@ module.exports.intervalService = function(){
 
 	//assetArrayLinearCombinationEquality();
 	//order();
-
-
-
-
 
 
 	//EXPERIMENTAL NETWORK!

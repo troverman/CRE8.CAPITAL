@@ -59,9 +59,10 @@ angular.module( 'investing.home', [
                 $scope.assets = assets;
                 for (x in assets){
                     if(assets[x].symbol!='USDT'){
+                        console.log(data)
                         if (assets[x].symbol!='BTC' && assets[x].amount != 0){
-                            //console.log(data);
                             var index = data.map(function(obj){return obj[0].asset2}).indexOf(assets[x].symbol);
+                            console.log(index, assets[x].symbol)
                             var btcValue = assets[x].amount*data[index][0].price;
                             $scope.btcValue += btcValue;
                             //console.log($scope.btcValue, assets[x].symbol);
@@ -201,7 +202,7 @@ angular.module( 'investing.home', [
         'NXC/BTC',
         'XVC/BTC',
         'CVC/ETH',
-        'BELA/BTC',
+        //'BELA/BTC',
         'NXT/XMR',
         'ZEC/XMR',
         'XPM/BTC',

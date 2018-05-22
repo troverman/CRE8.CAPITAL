@@ -210,50 +210,60 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<h1>dashboard</h1>\n" +
     "		<p><a href=\"account\">link in wallets, connect api keys, fund account</a></p>\n" +
     "\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"sideNavToggle()\">TOGGLE</button>\n" +
+    "		<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
     "		<md-sidenav class=\"md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"false\">\n" +
     "			<md-toolbar style=\"background-color:rgb(35, 170, 159)\" class=\"md-primary md-hue-2\">\n" +
-    "				<h1 class=\"md-toolbar-tools\">Dashboard</h1>\n" +
     "			</md-toolbar>\n" +
     "			<md-content>\n" +
     "				<md-list>\n" +
     "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
     "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "							<h3><a ui-sref=\"/dashboard\"><span class=\"pull-left ct-red\">Home</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "							<h3><a ui-sref=\"\"><span class=\"pull-left ct-red\">Home</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
     "						</div>\n" +
     "					</md-list-item>\n" +
     "					<md-divider ></md-divider>\n" +
-    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/accounts')\">\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/markets')\">\n" +
     "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Accounts</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Markets</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
     "						</div>\n" +
     "					</md-list-item>\n" +
     "					<md-divider ></md-divider>\n" +
-    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/sites')\">\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('member/troverman')\">\n" +
     "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Sites</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Portfolio</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
+    "						</div>\n" +
+    "					</md-list-item>\n" +
+    "					<md-divider ></md-divider>\n" +
+    "					<md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('')\">\n" +
+    "						<div class=\"md-list-item-text\" layout=\"column\">\n" +
+    "							<h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Trades</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
     "						</div>\n" +
     "					</md-list-item>\n" +
     "					<md-divider ></md-divider>\n" +
     "\n" +
     "				</md-list>\n" +
     "			</md-content>\n" +
-    "		</md-sidenav>-->\n" +
+    "		</md-sidenav>\n" +
     "\n" +
     "\n" +
-    "		<!--<div style=\"float:right;text-align:right\" class=\"col-sm-12\">-->\n" +
-    "			<canvas id=\"doughnut\" class=\"chart chart-doughnut\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>\n" +
-    "			<!--<canvas id=\"doughnut\" class=\"chart chart-radar\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>-->\n" +
-    "			<!--<canvas id=\"doughnut\" class=\"chart chart-polar-area\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>-->\n" +
-    "		<!--</div>-->\n" +
+    "		<div class=\"row\">\n" +
+    "			<div class=\"col-md-12\">\n" +
+    "				<canvas id=\"doughnut\" class=\"chart chart-doughnut\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>\n" +
+    "			</div>\n" +
+    "			<!--<div class=\"col-md-4\">\n" +
+    "				<highchart config=\"chartConfig\"></highchart>\n" +
+    "			</div>-->\n" +
+    "		</div>\n" +
     "\n" +
-    "\n" +
-    "		<p>{{btcValue}}</p>\n" +
-    "		<p>{{btcOrderValue}}</p>\n" +
-    "		<p>{{btcValue+btcOrderValue}}</p>\n" +
+    "		<div>\n" +
+    "			<p>available to trade: {{btcValue}} BTC</p>\n" +
+    "			<p>order value: {{btcOrderValue}} BTC</p>\n" +
+    "			<p>protfolio value: {{btcValue+btcOrderValue}} BTC</p>\n" +
+    "		</div>\n" +
     "\n" +
     "		<br><br>\n" +
-    "		<div style=\"max-height:250px;overflow:scroll\">\n" +
+    "		<h1>assets</h1>\n" +
+    "		<div>\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
     "			    <thead>\n" +
     "					<tr>\n" +
@@ -276,7 +286,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "		<br><br>\n" +
     "		<h1>order book</h1>\n" +
-    "		<div style=\"max-height:250px;overflow:scroll\">\n" +
+    "		<div>\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
     "			    <thead>\n" +
     "					<tr>\n" +

@@ -804,6 +804,12 @@ module.exports = {
 								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.33);
 				                //LIVE -- TODO: 
 								dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);//type --> FoK, IoC, MO, percent rish
+
+								//logic based on ask, bid change. :)
+								console.log('askChange', (model.lowestAsk - models[1].lowestAsk)/model.lowestAsk)
+								console.log('bidChange', (model.highestBid - models[1].highestBid)/model.highestBid)
+
+
 			                }
 
 			                //SELL HIGH
