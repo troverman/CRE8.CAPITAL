@@ -1298,7 +1298,6 @@ module.exports.intervalService = function(){
 	//assetArrayLinearCombinationEquality();
 	//order();
 
-
 	//EXPERIMENTAL NETWORK!
 	//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
 	//var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
@@ -1338,7 +1337,7 @@ module.exports.intervalService = function(){
 	*/
 
 	//NETWORKTRAINER
-	NeuralNetwork.find({asset2:'LTC'})
+	/*NeuralNetwork.find({asset2:'LTC'})
     .then(function (models) {
     	NeuralNetwork.find({delta:'Agnostic', asset2:'LTC'})
     	.then(function (agnosticModels) {
@@ -1352,7 +1351,7 @@ module.exports.intervalService = function(){
 				}
 			}
 		});
-    }); 
+    });*/
 	
 
 	/*
@@ -1370,7 +1369,6 @@ module.exports.intervalService = function(){
 	
 	//CCUTL
 	//POPULATE DATA
-
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
 	/*timer(dataService.tickerREST.bind(null, 1000*5), 1000*5);//5 seconds
 	timer(dataService.tickerREST.bind(null, 1000*5*6), 1000*5*6);//30 seconds
@@ -1391,9 +1389,7 @@ module.exports.intervalService = function(){
 	//REALTIME TRADES & ORDERBOOK
 	//dataService.ticker();
 
-
 	//CULL DATA
-
 	//timer(dataService.cullData.bind(null, '1000', 30*60*1000), 100000);//second
 	/*timer(dataService.cullData.bind(null, '5000', 3*60*60*1000), 100000);//5 seconds
 	timer(dataService.cullData.bind(null, '30000', 24*60*60*1000), 100000);//30seconds

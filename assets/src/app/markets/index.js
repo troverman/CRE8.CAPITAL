@@ -108,7 +108,6 @@ angular.module( 'investing.markets', [
         'NXC/BTC',
         'XVC/BTC',
         'CVC/ETH',
-        'BELA/BTC',
         'NXT/XMR',
         'ZEC/XMR',
         'XPM/BTC',
@@ -263,6 +262,8 @@ angular.module( 'investing.markets', [
                     $scope.iterator = 0;
                 }
 
+                console.log($scope.marketDataRenderRender)
+
             }
         });
     };
@@ -288,6 +289,7 @@ angular.module( 'investing.markets', [
         AnalysisModel.getPortfolioSolve($scope.selectedDelta, 100).then(function(data){
             $rootScope.stateIsLoading = false;
             $scope.portfolioData = data;
+            console.log(data);
             //$scope.updatePortfolio(data.portfolioSet);
         });
     };

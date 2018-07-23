@@ -86,7 +86,6 @@ var tradingPairs = [
     'NXC/BTC',
     'XVC/BTC',
     'CVC/ETH',
-    'BELA/BTC',
     'NXT/XMR',
     'ZEC/XMR',
     'XPM/BTC',
@@ -147,8 +146,6 @@ function liveTrade(delta, asset1, asset2){
 //save pdf --> delta, pair, timestamp, data
 
 module.exports = {
-
-
 
 	ema: function(req, res) {
 		var data = JSON.parse(req.query.data);
@@ -409,7 +406,6 @@ module.exports = {
 	},
 
 	prediction: function(req, res) {
-
 		dataService.predictiveModelPolynomial(req.query.asset1, req.query.asset2, req.query.delta, req.query.dataCount, req.query.order, req.query.precision).then(function(model){
 			console.log(model);
 		});
@@ -446,7 +442,6 @@ module.exports = {
 		Q.all(promises)
 		.then(function(data){
 			exchangeMap = data;
-			
 			//gotta compare 
 			//exchangeMap[0][1]
 			//exchangeMap[1][1]
@@ -462,6 +457,7 @@ module.exports = {
 				var predictionArray = [];
 
 				for (x in exchangeMap){
+					//SLOP
 					timeArray.push(exchangeMap[x][y]);
 					predictionArray.push(exchangeMap[x][parseInt(y)+1]);
 					if (!hasUndefined(timeArray)){
@@ -470,8 +466,9 @@ module.exports = {
 					}
 				}
 
+				//sloppy fix.. | it's becoming undefined ?? 
+				//if(exchangeMap[x][parseInt(y)+1]){
 				if (!hasUndefined(predictionArray)){
-
 					timeArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 					predictionArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 

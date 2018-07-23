@@ -202,7 +202,6 @@ angular.module( 'investing.home', [
         'NXC/BTC',
         'XVC/BTC',
         'CVC/ETH',
-        //'BELA/BTC',
         'NXT/XMR',
         'ZEC/XMR',
         'XPM/BTC',
