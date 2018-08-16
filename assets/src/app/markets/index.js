@@ -23,7 +23,7 @@ angular.module( 'investing.markets', [
 	titleService.setTitle('Markets | collaborative.capital');
     $scope.marketData = marketData;
     $scope.selectedDelta = '60000';
-    $scope.tradingPairs = [
+     $scope.tradingPairs = [
         'XRP/BTC',
         'ETH/BTC',
         'BTC/USDT',
@@ -77,15 +77,12 @@ angular.module( 'investing.markets', [
         'ETC/ETH',
         'LTC/XMR',
         'ZRX/ETH',
-        'RIC/BTC',
         'GNO/BTC',
         'PPC/BTC',
         'GAS/BTC',
         'BURST/BTC',
         'PASC/BTC', 
         'VIA/BTC',
-        'FLO/BTC',
-        'FLDC/BTC',
         'NEOS/BTC', 
         'OMG/ETH',
         'STORJ/BTC',
@@ -99,28 +96,21 @@ angular.module( 'investing.markets', [
         'OMNI/BTC', 
         'EXP/BTC',
         'GRC/BTC',
-        'BLK/BTC',  
         'SBD/BTC',
-        'PINK/BTC',
         'NMC/BTC',
-        'RADS/BTC', 
         'GNO/ETH',
-        'NXC/BTC',
-        'XVC/BTC',
         'CVC/ETH',
         'NXT/XMR',
         'ZEC/XMR',
         'XPM/BTC',
         'BTCD/BTC', 
         'REP/ETH',
-        'BCY/BTC',
         'MAID/XMR', 
         'DASH/XMR', 
         'HUC/BTC',
         'STEEM/ETH',
         'BCN/XMR',
         'BTCD/XMR', 
-        'BLK/XMR'
     ];
 
     $scope.chartConfig = {

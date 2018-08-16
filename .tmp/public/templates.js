@@ -47,7 +47,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "    <div style=\"height:25px;\"></div>\n" +
-    "    <h2>investingfor</h2>\n" +
+    "    <h2>CRE8.CAPITAL</h2>\n" +
     "    <p>a network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
     "    <p>intelligence that learns and works with you to create value and amass wealth</p>\n" +
     "    <p>a network of analysts spanning the globe. a strong team.</p>\n" +
@@ -68,7 +68,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
     "                <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "                <p style=\"font-style:italic\">data, we use. data we prouduce, together.</p>\n" +
+    "                <p style=\"font-style:italic\">data, we use. data we produce, together.</p>\n" +
     "            </div>\n" +
     "            <div class=\"col-sm-6\" style=\"overflow:hidden\">\n" +
     "                <img src=\"images/2.gif\">\n" +
@@ -507,7 +507,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "        <defs>\n" +
     "            <mask class=\"intro-mask\" id=\"intro-mask\" x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" maskUnits=\"userSpaceOnUse\">\n" +
     "                <rect class=\"intro-rect\" x=\"0\" y=\"0\" width=\"1920px\" height=\"1080px\"></rect>\n" +
-    "                <text x=\"960\" y=\"46%\" class=\"medium-text\">investingfor</text>\n" +
+    "                <text x=\"960\" y=\"46%\" class=\"medium-text\">collaborative.capital</text>\n" +
     "                <text x=\"960\" y=\"51%\" class=\"small-text mantra\">empowered financial representation</text>\n" +
     "                <text x=\"960\" y=\"67.5%\" class=\"small-text learn-more\">learn more</text>\n" +
     "                <a href=\"#about\" du-smooth-scroll>\n" +

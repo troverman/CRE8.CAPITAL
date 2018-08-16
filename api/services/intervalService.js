@@ -64,15 +64,12 @@ var tradingPairs = [
     'ETC/ETH',
     'LTC/XMR',
     'ZRX/ETH',
-    'RIC/BTC',
     'GNO/BTC',
     'PPC/BTC',
     'GAS/BTC',
     'BURST/BTC',
     'PASC/BTC', 
     'VIA/BTC',
-    'FLO/BTC',
-    'FLDC/BTC',
     'NEOS/BTC', 
     'OMG/ETH',
     'STORJ/BTC',
@@ -86,28 +83,21 @@ var tradingPairs = [
     'OMNI/BTC', 
     'EXP/BTC',
     'GRC/BTC',
-    'BLK/BTC',  
     'SBD/BTC',
-    'PINK/BTC',
     'NMC/BTC',
-    'RADS/BTC', 
     'GNO/ETH',
-    'NXC/BTC',
-    'XVC/BTC',
     'CVC/ETH',
     'NXT/XMR',
     'ZEC/XMR',
     'XPM/BTC',
     'BTCD/BTC', 
     'REP/ETH',
-    'BCY/BTC',
     'MAID/XMR', 
     'DASH/XMR', 
     'HUC/BTC',
     'STEEM/ETH',
     'BCN/XMR',
     'BTCD/XMR', 
-    'BLK/XMR'
 ];
 
 function hasUndefined(a) {return a.indexOf() !== -1;};
@@ -1259,7 +1249,7 @@ function initPortfolio(user){
 	//Asset.update({user: user, symbol:'XMR'}, {amount:1500}).then(function(model){console.log(model)});
 
 	//Asset.update({user: user, symbol:'BTC'}, {amount:100}).then(function(model){console.log(model)});
-	Asset.update({user: user, symbol:'USDT'}, {amount:0}).then(function(model){console.log(model)});
+	//Asset.update({user: user, symbol:'USDT'}, {amount:0}).then(function(model){console.log(model)});
 	//Asset.create({user:user, symbol:'USDT',amount:1111111}).then(function(model){})
 };
 
