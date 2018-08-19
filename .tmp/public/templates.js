@@ -46,16 +46,16 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
-    "    <div style=\"height:25px;\"></div>\n" +
+    "    <div class=\"spacing-25\"></div>\n" +
     "    <h2>CRE8.CAPITAL</h2>\n" +
-    "    <p>a network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
-    "    <p>intelligence that learns and works with you to create value and amass wealth</p>\n" +
-    "    <p>a network of analysts spanning the globe. a strong team.</p>\n" +
+    "    <p>A network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
+    "    <p>Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
+    "    <p>A network of analysts spanning the globe. A strong team.</p>\n" +
+    "    <div class=\"spacing-25\"></div>\n" +
     "    <img src=\"images/3.jpg\" style=\"max-width:100%\">\n" +
     "    <img src=\"images/4.jpg\" style=\"max-width:100%\">\n" +
     "    <!--<img src=\"images/5.jpg\" style=\"max-width:100%\">-->\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
     "\n" +
     "<!--<div style=\"height:20vh;overflow:hidden\">\n" +
@@ -63,19 +63,23 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "</div>-->\n" +
     "\n" +
     "<div style=\"color:white;background-color:black\">\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "    <div class=\"container\" style=\"text-align:left\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
-    "                <h3><i class=\"fa fa-file-o\"></i> open datasets</h3>\n" +
-    "                <p style=\"font-style:italic\">data, we use. data we produce, together.</p>\n" +
+    "                <!--<h3><i class=\"fa fa-file-o\"></i> Open Data</h3>\n" +
+    "                <p style=\"font-style:italic\">Data, we use. Data we produce, together.</p>-->\n" +
+    "                <h3>Cutting Edge Analysis at Scale</h4>\n" +
+    "                <h3>Open Intelligence</h3>\n" +
+    "                                <h3>Collaboration and Contribution</h3>\n" +
+    "\n" +
     "            </div>\n" +
-    "            <div class=\"col-sm-6\" style=\"overflow:hidden\">\n" +
-    "                <img src=\"images/2.gif\">\n" +
+    "            <div class=\"col-sm-6\" style=\"overflow:hidden; text-align:right\">\n" +
+    "                <img style=\"height:200px\"src=\"images/2.gif\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
@@ -88,54 +92,53 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <img src=\"images/34.jpg\" style=\"width:100%\">-->\n" +
     "\n" +
     "\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
-    "        \n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <highchart config=\"bidAskChart\"></highchart>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"col-sm-6\" style=\"text-align:right\">\n" +
-    "            <h3>community analysts</h3>\n" +
-    "            <p style=\"font-style:italic\">contribute. collab. invest.</p>\n" +
+    "            <h3>Open Intelligence</h3>\n" +
+    "            <h5>Community Analysts</h5>\n" +
     "            <img style=\"max-height:300px\" src=\"images/heatmap.png\">\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"col-xs-12\"><div style=\"height:200px;\"></div></div>\n" +
-    "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>transparent finance </h3>\n" +
-    "            <p style=\"font-style:italic\">we create valuable investment intelligence.</p>\n" +
+    "            <highchart config=\"bidAskChart\"></highchart>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    \n" +
+    "    <div class=\"spacing-50\"></div>\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <h3>Transparent Finance </h3>\n" +
+    "            <p style=\"font-style:italic\">We Create Valuable Intelligence</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <!--<img src=\"images/heatmap.png\">-->\n" +
     "            <img style=\"max-height:300px;float:right\" src=\"images/1.gif\">\n" +
     "        </div>\n" +
+    "    </div>\n" +
     "\n" +
-    "        <div class=\"col-xs-12\"><div style=\"height:200px;\"></div></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
+    "    <div class=\"row\">\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>mapping the market</h3>\n" +
-    "            <p style=\"font-style:italic\"></p>\n" +
+    "            <h3>Mapping the Market</h3>\n" +
+    "            <highchart config=\"bidAskChart\"></highchart>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <!--<highchart config=\"heatMapChart\"></highchart>-->\n" +
-    "            <highchart config=\"bidAskChart\"></highchart>\n" +
     "        </div>\n" +
-    "\n" +
-    "\n" +
     "    </div>\n" +
     "\n" +
-    "    <div style=\"height:100px;\"></div>\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "    <highchart config=\"chartConfig\"></highchart>\n" +
     "\n" +
     "\n" +
     "\n" +
     "</div>\n" +
-    "<div style=\"height:100px;\"></div>\n" +
+    "<div class=\"spacing-50\"></div>\n" +
     "<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "");
 }]);
@@ -207,7 +210,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
   $templateCache.put("home/index.tpl.html",
     "<div ng-show=\"currentUser\">\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
-    "		<h1>dashboard</h1>\n" +
+    "		<h1>Dashboard</h1>\n" +
     "		<p><a href=\"account\">link in wallets, connect api keys, fund account</a></p>\n" +
     "\n" +
     "		<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
@@ -240,7 +243,6 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "						</div>\n" +
     "					</md-list-item>\n" +
     "					<md-divider ></md-divider>\n" +
-    "\n" +
     "				</md-list>\n" +
     "			</md-content>\n" +
     "		</md-sidenav>\n" +
@@ -256,13 +258,13 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		</div>\n" +
     "\n" +
     "		<div>\n" +
-    "			<p>available to trade: {{btcValue}} BTC</p>\n" +
-    "			<p>order value: {{btcOrderValue}} BTC</p>\n" +
-    "			<p>protfolio value: {{btcValue+btcOrderValue}} BTC</p>\n" +
+    "			<p>Available to Trade: {{btcValue}} BTC</p>\n" +
+    "			<p>Order value: {{btcOrderValue}} BTC</p>\n" +
+    "			<p>Protfolio Value: {{btcValue+btcOrderValue}} BTC</p>\n" +
     "		</div>\n" +
     "\n" +
-    "		<br><br>\n" +
-    "		<h1>assets</h1>\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
+    "		<h1>Assets</h1>\n" +
     "		<div>\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
     "			    <thead>\n" +
@@ -284,8 +286,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			</table>\n" +
     "		</div>\n" +
     "\n" +
-    "		<br><br>\n" +
-    "		<h1>order book</h1>\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
+    "		<h1>Order Book</h1>\n" +
     "		<div>\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
     "			    <thead>\n" +
@@ -309,7 +311,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			</table>\n" +
     "		</div>\n" +
     "\n" +
-    "		<br><br>\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
     "		<h1>markets</h1>\n" +
     "		<div ng-repeat=\"pair in tradingPairs\">\n" +
     "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
@@ -326,103 +328,78 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<nvd3 options='directedOptions' data='directedData'></nvd3>-->\n" +
     "\n" +
     "	<div class=\"container\" id=\"about\">\n" +
-    "		<div style=\"height:50px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "			    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
-    "			       <h1>empowered financial representation</h1>\n" +
-    "			       <h3 style=\"\">backed by sound, open data</h3>\n" +
+    "			       <h1>Empowered Financial Representation</h1>\n" +
+    "			       <h3 style=\"\">Backed by Sound, Open Data</h3>\n" +
     "			    </div>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div style=\"height:50px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
-    "				<h3>sound financial intellligence; continually learning</h3>\n" +
-    "				<!--<p>intellligence; continually learning</p>-->\n" +
-    "				<p>a community of analysts; select representation</p>\n" +
+    "				<h3>A Financial Intellligence Continually Learning</h3>\n" +
+    "				<p>Guided by a Community of Analysts; Select Your Representation</p>\n" +
     "			</div>\n" +
-    "			<!--<div class=\"col-sm-6\">\n" +
-    "				<img src=\"images/tesseract-bg.png\">\n" +
-    "			</div>-->\n" +
+    "			<div class=\"col-sm-6\" style=\"text-align:right\">\n" +
+    "				<img style=\"max-height:300px;\" src=\"images/1.gif\">\n" +
+    "			</div>\n" +
     "		</div>\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-4\">\n" +
     "				<img src=\"images/tesseract-bg.png\">\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
-    "				<h3>collaboration and contribution</h3>\n" +
-    "				<p>contribute. collab. invest.</p>\n" +
+    "				<h3>Collaboration and Contribution</h3>\n" +
+    "				<p>The collaborative.capital engine is continually learning from intelligence produced from your machienes and analytic insight.</p>\n" +
+    "				<p>Deep Learning Techniques create actionable intelligence.</p>\n" +
+    "				<h3>Cutting Edge Analysis at Scale</h3>\n" +
+    "				<p>Distributed Networks work to give you the cutting edge</p>\n" +
+    "				<p>Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3>open and transparent data</h3>\n" +
-    "				<p>data we use, data we prouduce, together.</p>\n" +
+    "				<h3>Open Intelligence</h3>\n" +
+    "				<p>Data we use, data we prouduce, together.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
-    "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-12\" style=\"text-align:right\">\n" +
-    "				<h3>cutting edge analysis at scale</h3>\n" +
-    "				<p>distributed networks working to give you the cutting edge.</p>\n" +
-    "				<p>computational intelligence designed to normalize risk and equalize investment returns.</p>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<h3>transparent financial results </h3>\n" +
-    "				<p>data-backed with proven results</p>\n" +
+    "				<h3>Transparent Results </h3>\n" +
+    "				<p>Data-backed with proven results.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div style=\"height:100px;\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "				<p class=\"lead\">nice...</p>\n" +
-    "				<a href=\"/about\" class=\"btn btn-default log-btn\">now let me see some numbers</a>\n" +
-    "				<br><br>\n" +
+    "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
+    "				<div class=\"spacing-10\"></div>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "	</div>\n" +
-    "\n" +
-    "	<!--\n" +
-    "	<div style=\"background-color:rgb(220,220,220);\">\n" +
-    "		<br><br><br>\n" +
-    "		<h1 style=\"text-align:center;\">why you'll love investingfor</h1>\n" +
-    "		<br><br>\n" +
-    "		<p style=\"text-align:center;\"><i style=\"font-size:256px;\" class=\"fa fa-heart-o\"></i></p>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">the computing power around us is immense!</p>\n" +
-    "		<br>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">investingfor uses the idle power of the computational potiental around us.</p>\n" +
-    "		<br>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">what if our devices were working toward a common goal?</p>\n" +
-    "		<br>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">extract value by earning crypto-backed <a href=\"http://www.epoint.me/market/investment-point\">investment points</a>.</p>\n" +
-    "		<br>\n" +
-    "		<p class=\"lead\" style=\"text-align:center;\">investingfor us all.</p>\n" +
-    "		<br><br><br>\n" +
-    "	</div>\n" +
-    "	-->\n" +
     "\n" +
     "	<div style=\"text-align:left\">\n" +
-    "		<br><br><br>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"container\" style=\"\">\n" +
-    "			<h1>market exposure</h1>\n" +
+    "			<h1><a href=\"/markets\">Market Exposure</a></h1>\n" +
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
-    "			<br><br>\n" +
+    "			<div class=\"spacing-10\"></div>\n" +
     "\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
     "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
+    "\n" +
     "			<!--\n" +
     "			<div class=\"col-md-4\">\n" +
     "				<table class=\"table table-inverse table-hover\">\n" +
@@ -445,28 +422,26 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			-->\n" +
     "\n" +
     "		</div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
-    "\n" +
-    "	<br><br><br>\n" +
-    "\n" +
     "\n" +
     "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
     "		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>\n" +
-    "		<br><br><br>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"container\">\n" +
-    "			<h1>activity</h1>\n" +
+    "			<h1>Activity</h1>\n" +
     "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
     "			<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
-    "			<br>\n" +
     "			<!--daily return vs index..-->\n" +
-    "			<!--<h4>sound and transparent investments</h4>-->\n" +
+    "			<div class=\"spacing-50\"></div>\n" +
     "		</div>\n" +
     "	</div>\n" +
+    "\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
-    "		<br><br>\n" +
-    "		<h1>order book</h1>\n" +
-    "		<h4>sound and transparent investments</h4>\n" +
-    "		<br><br>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
+    "		<h1>Order Book</h1>\n" +
+    "		<h4>Transparent Investments</h4>\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
     "		<table class=\"table table-inverse table-hover\">\n" +
     "		    <thead>\n" +
     "				<tr>\n" +
@@ -486,12 +461,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
     "					<!--<td>{{order.createdAt | date :  \"s.m.h.dd.MM.y\"}}</td>-->\n" +
     "					<!--<td>{{order.createdAt | date :  \"medium\"}}</td>-->\n" +
-    "\n" +
     "				</tr>\n" +
     "		    </tbody>\n" +
     "		</table>\n" +
-    "		\n" +
-    "		<br><br>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
@@ -507,8 +480,11 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "        <defs>\n" +
     "            <mask class=\"intro-mask\" id=\"intro-mask\" x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" maskUnits=\"userSpaceOnUse\">\n" +
     "                <rect class=\"intro-rect\" x=\"0\" y=\"0\" width=\"1920px\" height=\"1080px\"></rect>\n" +
+    "                <!--<text x=\"960\" y=\"46%\" class=\"medium-text\">CRE8.CAPITAL</text>-->\n" +
     "                <text x=\"960\" y=\"46%\" class=\"medium-text\">collaborative.capital</text>\n" +
+    "                <!--<text x=\"960\" y=\"51%\" class=\"small-text mantra\">Empowered Financial Representation</text>-->\n" +
     "                <text x=\"960\" y=\"51%\" class=\"small-text mantra\">empowered financial representation</text>\n" +
+    "                <!--Multidimensional Financial Partners-->\n" +
     "                <text x=\"960\" y=\"67.5%\" class=\"small-text learn-more\">learn more</text>\n" +
     "                <a href=\"#about\" du-smooth-scroll>\n" +
     "                    <svg class=\"tri-before\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"883px\" y=\"68%\" width=\"150px\" height=\"150px\" viewBox=\"0 0 723 626\" enable-background=\"new 0 0 723 626\" xml:space=\"preserve\">\n" +
@@ -541,9 +517,6 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "        </a>\n" +
     "    </svg>\n" +
     "    <canvas style=\"position:absolute;top:0%;left:0%;\" id=\"scene\"></canvas>\n" +
-    "    <!--<video id=\"video\" autoplay=\"autoplay\" muted=\"muted\" preload=\"auto\" loop=\"loop\">\n" +
-    "        <source src=\"videos/stock.mp4\" type=\"video/mp4\">\n" +
-    "    </video>-->\n" +
     "</div>");
 }]);
 

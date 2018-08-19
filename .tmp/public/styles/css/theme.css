@@ -455,6 +455,18 @@ input:-ms-input-placeholder {
     opacity: 0.8;
 }
 
+.spacing-5 {padding:5px;}
+.spacing-10 {padding:10px;}
+.spacing-15 {padding:15px;}
+.spacing-25 {padding:25px;}
+.spacing-50 {padding:50px;}
+.spacing-75 {padding:75px;}
+.spacing-100 {padding:100px;}
+.spacing-125 {padding:125px;}
+.spacing-150 {padding:150px;}
+.spacing-200 {padding:200px;}
+.spacing-250 {padding:250px;}
+
 @media (max-width: 1200px) {
     .navbar-header {
         float: none;
