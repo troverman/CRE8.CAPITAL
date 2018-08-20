@@ -15,13 +15,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/"><img src="images/tesseract.png" style="height:32px;float:left;margin-top:-3px;margin-right:10px">collaborative.capital</a>
+      <a class="navbar-brand" href="/"><img src="images/tesseract.png" style="height:32px;float:left;margin-top:-3px;margin-right:10px">CRE8.CAPITAL</a>
       <!--cre8.capital-->
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/about')}" ng-show="!currentUser"><a href="/about">about</a></li>
-        <li ng-class="{ active: isActive('/markets')}"><a href="/markets">markets</a></li>
+        <li ng-class="{ active: isActive('/about')}" ng-show="!currentUser"><a href="/about">ABOUT</a></li>
+        <li ng-class="{ active: isActive('/markets')}"><a href="/markets">EXPLORE</a></li>
         <form class="navbar-form pull-left" role="search" action="/search/" onSubmit=" location.href = 'search/' + document.getElementById('search-link').value; return false;">
           <div class="form-group">
             <input ng-keyup="keyPress(searchValue)" ng-model="searchValue" id="search-link" size="40" type="text" placeholder="">
@@ -30,9 +30,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-class="{ active: isActive('/account')}" ng-show="currentUser"><a href="/account">{{currentUser.username}}</a></li>
-        <li ng-show="currentUser"><a href="/logout">signout</a></li>
-        <li ng-class="{ active: isActive('/register')}" ng-show="!currentUser"><a href="/register">register</a></li>
-        <li ng-class="{ active: isActive('/login')}" ng-show="!currentUser"><a href="/login">login</a></li>
+        <li ng-show="currentUser"><a href="/logout">SIGNOUT</a></li>
+        <li ng-class="{ active: isActive('/register')}" ng-show="!currentUser"><a href="/register">REGISTER</a></li>
+        <li ng-class="{ active: isActive('/login')}" ng-show="!currentUser"><a href="/login">LOGIN</a></li>
       </ul>
     </div>
   </div>

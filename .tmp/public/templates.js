@@ -430,8 +430,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"container\">\n" +
     "			<h1>Activity</h1>\n" +
-    "			<div class=\"chartContainer\"><nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3></div>\n" +
-    "			<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
+    "			<highchart config=\"chartConfig\"></highchart>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<div class=\"spacing-50\"></div>\n" +
     "		</div>\n" +
@@ -475,16 +474,367 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
 
 angular.module("intro/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("intro/index.tpl.html",
-    "<div ng-controller=\"IntroCtrl\" class=\"intro-container\">\n" +
+    "<style>\n" +
+    "@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700);\n" +
+    "\n" +
+    ".intro {\n" +
+    "    position:relative;\n" +
+    "    top:0;\n" +
+    "    overflow: hidden;\n" +
+    "}\n" +
+    "\n" +
+    ".intro-container {\n" +
+    "    cursor:default;\n" +
+    "    min-height:100vh;\n" +
+    "    min-width:100vw;\n" +
+    "    height:100%;\n" +
+    "    width:100%;\n" +
+    "    z-index:1\n" +
+    "}\n" +
+    "\n" +
+    ".intro-mobile {\n" +
+    "    visibility:hidden;\n" +
+    "    position:absolute;\n" +
+    "    top:0;\n" +
+    "    left:0;\n" +
+    "    min-width:100%;\n" +
+    "    min-height:100%;\n" +
+    "    z-index:-4;\n" +
+    "    overflow:hidden;\n" +
+    "    background-repeat:no-repeat;\n" +
+    "    background:url(https://s3.amazonaws.com/novollc/images/home/mobile.png);\n" +
+    "    -webkit-background-size:cover;\n" +
+    "    -moz-background-size:cover;\n" +
+    "    -o-background-size:cover;\n" +
+    "    background-size:cover\n" +
+    "}\n" +
+    "\n" +
+    "svg {\n" +
+    "    max-width:100%;\n" +
+    "    max-height:100%;\n" +
+    "    min-width:100%;\n" +
+    "    min-height:100%\n" +
+    "}\n" +
+    "\n" +
+    ".continue-wrap {\n" +
+    "    position:absolute;\n" +
+    "    top:75%;\n" +
+    "    width:100%;\n" +
+    "    margin:0 auto\n" +
+    "}\n" +
+    "\n" +
+    ".svg-wrapper {\n" +
+    "    height:60px;\n" +
+    "    margin:0 auto;\n" +
+    "    width:320px;\n" +
+    "    cursor: pointer;\n" +
+    "}\n" +
+    "\n" +
+    ".text {\n" +
+    "    color:#fff;\n" +
+    "    font-family:'Play',sans-serif;\n" +
+    "    font-size:22px;\n" +
+    "    letter-spacing:8px;\n" +
+    "    line-height:32px;\n" +
+    "    position:relative;\n" +
+    "    top:-48px\n" +
+    "}\n" +
+    "\n" +
+    "#novo-svg {\n" +
+    "    fill:#fff;\n" +
+    "}\n" +
+    "\n" +
+    ".shape {\n" +
+    "    fill:transparent;\n" +
+    "    stroke-dasharray:180 540;\n" +
+    "    stroke-dashoffset:-454;\n" +
+    "    stroke-width:6px;\n" +
+    "    stroke:#fff\n" +
+    "}\n" +
+    "\n" +
+    "@keyframes draw {\n" +
+    "0% {\n" +
+    "    stroke-dasharray:180 540;\n" +
+    "    stroke-dashoffset:-454;\n" +
+    "    stroke-width:6px;\n" +
+    "    stroke:#14B795\n" +
+    "}\n" +
+    "\n" +
+    "100% {\n" +
+    "    stroke-dasharray:760;\n" +
+    "    stroke-dashoffset:0;\n" +
+    "    stroke-width:2px;\n" +
+    "    stroke:#14B795\n" +
+    "}\n" +
+    "}\n" +
+    "\n" +
+    ".svg-wrapper:hover .shape {\n" +
+    "    -webkit-animation:.5s draw linear forwards;\n" +
+    "    animation:.5s draw linear forwards\n" +
+    "}\n" +
+    "\n" +
+    ".svg-wrapper:hover .text {\n" +
+    "    color: #fff;\n" +
+    "}\n" +
+    "\n" +
+    ".box-with-text {\n" +
+    "    position:absolute;\n" +
+    "    top:0;\n" +
+    "    left:0;\n" +
+    "    width:100%;\n" +
+    "    height:100%;\n" +
+    "    margin:0 auto\n" +
+    "}\n" +
+    "\n" +
+    ".svg-inverted-mask {\n" +
+    "    margin:0 auto;\n" +
+    "    overflow:auto!important;\n" +
+    "    z-index:2\n" +
+    "}\n" +
+    "\n" +
+    ".text-fill {\n" +
+    "    z-index:-5;\n" +
+    "    margin:auto;\n" +
+    "    overflow:hidden\n" +
+    "}\n" +
+    "\n" +
+    ".video {\n" +
+    "    position:absolute;\n" +
+    "    top:0;\n" +
+    "    left:0;\n" +
+    "    bottom:0;\n" +
+    "    min-width:100%;\n" +
+    "    min-height:100%;\n" +
+    "    overflow:hidden;\n" +
+    "    z-index:-5\n" +
+    "}\n" +
+    "\n" +
+    ".mask__shape {\n" +
+    "    fill:#fff\n" +
+    "}\n" +
+    "\n" +
+    ".shape--fill {\n" +
+    "    fill:rgba(0,0,0,0.25);\n" +
+    "}\n" +
+    "\n" +
+    ".text--transparent {\n" +
+    "    fill:rgba(255,255,255,0.75);\n" +
+    "    font-family: 'Titillium Web', sans-serif;\n" +
+    "    font-weight: bold;\n" +
+    "    letter-spacing: 1px;\n" +
+    "}\n" +
+    "\n" +
+    ".intro-shade {\n" +
+    "    background: rgba(0,0,0,0.5);\n" +
+    "    position: absolute;\n" +
+    "    top: 0;\n" +
+    "    left: 0;\n" +
+    "    width: 100%;\n" +
+    "    height: 100%;\n" +
+    "    margin: 0 auto;\n" +
+    "    z-index: -1;\n" +
+    "}\n" +
+    "\n" +
+    ".svg-defs {\n" +
+    "    width:0;\n" +
+    "    height:0;\n" +
+    "}\n" +
+    "\n" +
+    "/* media queries */\n" +
+    "@media only screen and (max-width: 1024px) {\n" +
+    "    video {\n" +
+    "        display:none\n" +
+    "    }\n" +
+    "\n" +
+    "    .intro-mobile {\n" +
+    "        visibility:visible;\n" +
+    "        height:100%\n" +
+    "    }\n" +
+    "\n" +
+    "    .port-mobile {\n" +
+    "        visibility:visible\n" +
+    "    }\n" +
+    "\n" +
+    "    .port-box a #fill-hover {\n" +
+    "        fill:rgba(255,255,255,0.1);\n" +
+    "        transition:fill .2s\n" +
+    "    }\n" +
+    "\n" +
+    "    .contact-mobile {\n" +
+    "        visibility:visible;\n" +
+    "        height:100%\n" +
+    "    }\n" +
+    "}\n" +
+    "\n" +
+    "@media only screen and (max-width: 920px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.8;\n" +
+    "    }\n" +
+    "    .continue-wrap {\n" +
+    "        display: none;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 850px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.7;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 740px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.6;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 640px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.55;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 600px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.5;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 555px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.45;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 510px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.4;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 460px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.35;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 410px) {\n" +
+    "    .intro-container {\n" +
+    "        zoom: 0.325;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 788px) {\n" +
+    "    .desktop {\n" +
+    "        visibility:hidden\n" +
+    "    }\n" +
+    "\n" +
+    "    .mobile {\n" +
+    "        visibility:visible\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 500px) {\n" +
+    "    .shape--fill {\n" +
+    "        fill: rgba(0,0,0,0.8);\n" +
+    "    }\n" +
+    "}\n" +
+    "/*@media only screen and (max-width: 920px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.8;\n" +
+    "    }\n" +
+    "    .continue-wrap {\n" +
+    "        display: none;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 850px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.7;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 740px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.6;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 640px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.55;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 600px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.5;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 555px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.45;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 510px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.4;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 460px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.35;\n" +
+    "    }\n" +
+    "}\n" +
+    "@media only screen and (max-width: 410px) {\n" +
+    "    html {\n" +
+    "        zoom: 0.325;\n" +
+    "    }\n" +
+    "}*/\n" +
+    ".imageContainer {\n" +
+    "  background:rgba(26,26,36, 0.84);\n" +
+    "  overflow:hidden;\n" +
+    "  min-height: 500px;\n" +
+    "  font-family: 'Jura', sans-serif;\n" +
+    "  margin:0;padding:0;border:0 none;position: relative;\n" +
+    "}\n" +
+    ".imageContainerDiv {\n" +
+    "  width:100%;\n" +
+    "  height: 35em;\n" +
+    "  display: flex;\n" +
+    "  flex-direction: column;\n" +
+    "}\n" +
+    ".imageContainerDiv h1 {\n" +
+    "  color: rgba(255,255,255,0.9);\n" +
+    "  font-size: 50px;\n" +
+    "  font-weight: 400;\n" +
+    "  margin-top:auto;\n" +
+    "  margin-bottom:auto;\n" +
+    "}\n" +
+    ".imageContainerSmall {\n" +
+    "  background:rgba(36,36,46, 0.84);\n" +
+    "  overflow:hidden;\n" +
+    "  min-height: 200px;\n" +
+    "  font-family: 'Jura', sans-serif;\n" +
+    "  margin:0;padding:0;border:0 none;position: relative;\n" +
+    "}\n" +
+    ".imageContainerSmallDiv {\n" +
+    "  width:100%;\n" +
+    "  height: 200px;\n" +
+    "  display: flex;\n" +
+    "  flex-direction: column;\n" +
+    "}\n" +
+    ".imageContainerSmallDiv h1 {\n" +
+    "  color: rgba(255,255,255,0.9);\n" +
+    "  font-size: 50px;\n" +
+    "  font-weight: 400;\n" +
+    "  margin-top:auto;\n" +
+    "  margin-bottom:auto;\n" +
+    "}\n" +
+    "video {\n" +
+    "  position: absolute;\n" +
+    "  top: 0;\n" +
+    "  left: 0;\n" +
+    "  bottom: 0;\n" +
+    "  min-width: 100%;\n" +
+    "  min-height: 100%;\n" +
+    "  overflow: hidden;\n" +
+    "  z-index: -5;\n" +
+    "}\n" +
+    "</style>\n" +
+    "<!--Multidimensional Financial Partners-->\n" +
+    "<div ng-show=\"false\" ng-controller=\"IntroCtrl\" class=\"intro-container\">\n" +
     "    <svg style=\"z-index:10\" class=\"intro\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1920 1080\" width=\"1920px\" height=\"1080px\" preserveAspectRatio=\"xMidYMid slice\">\n" +
     "        <defs>\n" +
     "            <mask class=\"intro-mask\" id=\"intro-mask\" x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" maskUnits=\"userSpaceOnUse\">\n" +
     "                <rect class=\"intro-rect\" x=\"0\" y=\"0\" width=\"1920px\" height=\"1080px\"></rect>\n" +
-    "                <!--<text x=\"960\" y=\"46%\" class=\"medium-text\">CRE8.CAPITAL</text>-->\n" +
     "                <text x=\"960\" y=\"46%\" class=\"medium-text\">collaborative.capital</text>\n" +
-    "                <!--<text x=\"960\" y=\"51%\" class=\"small-text mantra\">Empowered Financial Representation</text>-->\n" +
     "                <text x=\"960\" y=\"51%\" class=\"small-text mantra\">empowered financial representation</text>\n" +
-    "                <!--Multidimensional Financial Partners-->\n" +
     "                <text x=\"960\" y=\"67.5%\" class=\"small-text learn-more\">learn more</text>\n" +
     "                <a href=\"#about\" du-smooth-scroll>\n" +
     "                    <svg class=\"tri-before\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"883px\" y=\"68%\" width=\"150px\" height=\"150px\" viewBox=\"0 0 723 626\" enable-background=\"new 0 0 723 626\" xml:space=\"preserve\">\n" +
@@ -517,7 +867,62 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "        </a>\n" +
     "    </svg>\n" +
     "    <canvas style=\"position:absolute;top:0%;left:0%;\" id=\"scene\"></canvas>\n" +
-    "</div>");
+    "</div>\n" +
+    "<div ng-show=\"false\" class=\"imageContainer\">\n" +
+    "    <video class='flexible' autoplay=\"autoplay\" muted=\"muted\" preload=\"auto\" loop=\"loop\"><source src=\"videos/earth.mp4\" type=\"video/mp4\" playsinline></video>\n" +
+    "    <div class=\"imageContainerDiv container\">  \n" +
+    "        <h1 style=\"\">MULTIDIMENSIONAL CAPITAL PARTNERS</h1>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div ng-show=\"true\" class=\"intro\" style=\"max-height:500px\">\n" +
+    "    <div class=\"intro-container\">\n" +
+    "      <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "        <symbol id=\"intro-desktop-text\">\n" +
+    "          <text style=\"font-size:32px;\" text-anchor=\"middle\"\n" +
+    "                x=\"960\"  \n" +
+    "                y=\"488\"\n" +
+    "                dy=\".35em\"\n" +
+    "                class=\"medium-text\"\n" +
+    "                >\n" +
+    "            CRE8.CAPITAL\n" +
+    "          </text> \n" +
+    "          <text style=\"font-size:32px;\" text-anchor=\"middle\"\n" +
+    "                x=\"960\"  \n" +
+    "                y=\"570\"\n" +
+    "                dy=\".35em\"\n" +
+    "                class=\"medium-text\"\n" +
+    "                >\n" +
+    "            MULTIDIMENSIONAL CAPITAL PARTNERS\n" +
+    "          </text> \n" +
+    "        </symbol>       \n" +
+    "        <div class=\"intro-shade\"></div>  \n" +
+    "      </svg> \n" +
+    "      <div class=\"box-with-text\">\n" +
+    "        <div class=\"text-fill\">\n" +
+    "          <video itemscope itemtype=\"VideoObject\"\n" +
+    "              class=\"video\" \n" +
+    "              src=\"https://s3-us-west-2.amazonaws.com/voetr/washington.mp4\"\n" +
+    "              preload=\"auto\" \n" +
+    "              autoplay=\"autoplay\" \n" +
+    "              loop=\"loop\" \n" +
+    "              muted=\"muted\">\n" +
+    "          </video>\n" +
+    "        </div>\n" +
+    "        <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" \n" +
+    "             preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "          <rect\n" +
+    "            width=\"100%\"\n" +
+    "            height=\"100%\"\n" +
+    "            mask=\"url(#intro-desktop-mask)\"\n" +
+    "            class=\"shape--fill\"/>\n" +
+    "          <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
+    "          <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
+    "        </svg> \n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  <div class=\"intro-mobile\"></div>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("login/index.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -587,134 +992,90 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "</md-sidenav>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
-    "	<br>\n" +
-    "	<span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span>\n" +
-    "	<h2>{{selectedPair[0]}} / {{selectedPair[1]}}</h2>\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2><span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span> {{selectedPair[0]}} / {{selectedPair[1]}}</h2>\n" +
+    "	</div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
-    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button>\n" +
-    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30sec</button>\n" +
-    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1min </button>\n" +
-    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5min </button>\n" +
-    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30min</button>\n" +
-    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button>\n" +
-    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button>\n" +
-    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button>\n" +
-    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button>\n" +
-    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button>\n" +
-    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button>\n" +
+    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button><!--x6-->\n" +
+    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30sec</button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1min </button><!--x5-->\n" +
+    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5min </button><!--x6-->\n" +
+    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30min</button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button><!--x3/2-->\n" +
+    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button><!--x2-->\n" +
     "	</div>\n" +
     "	<hr>\n" +
     "	<!--how much data..?-->\n" +
     "	<!--zoom out ability.. a lot-->\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2>Price Data</h2>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'price')\">EMA</button><!--select periods..?-->\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'price')\">TSF</button><!--select periods..?-->\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">BBAND</button><!--select periods / stD.?-->\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
+    "		<hr>\n" +
+    "		<div class=\"col-md-9\"><highchart config=\"chartConfig\"></highchart></div>\n" +
+    "		<div class=\"col-md-3\"><highchart config=\"bidAskChart\"></highchart></div>\n" +
+    "		<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
+    "	</div>\n" +
+    "	<!--<h2>Order Book</h2><hr>\n" +
+    "	<highchart config=\"bidAskChart\"></highchart>-->\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2>Market Change</h2>\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">BBAND</button><!--select periods / sD..?-->\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button><!--;)-->\n" +
+    "		<hr>\n" +
+    "		<highchart config=\"changeChart\"></highchart>\n" +
+    "	</div>\n" +
     "\n" +
-    "	<h2>Price Data</h2>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'price')\">ema</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'price')\">tsf</button><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">bband</button><!--select periods / stD.?-->\n" +
-    "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
-    "	<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
-    "	<hr>\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2>Oscillator</h2>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">MACD</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">FOSC</button>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">RSI</button>\n" +
+    "		<hr>\n" +
+    "		<highchart config=\"oscillatorChart\"></highchart>\n" +
+    "	</div>\n" +
     "\n" +
-    "	<!--<nvd3 options='marketOptions' data='marketGraphDataRender'></nvd3>-->\n" +
-    "	<highchart config=\"chartConfig\"></highchart>\n" +
-    "\n" +
-    "	<!--<h2>Market Depth, volume</h2>-->\n" +
-    "	<h2>Order Book</h2><hr>\n" +
-    "	<highchart config=\"bidAskChart\"></highchart>\n" +
-    "\n" +
-    "	<h2>Market Change</h2>\n" +
-    "	<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
-    "	<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">bband</button><!--select periods / sD..?-->\n" +
-    "	<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">pdf</button><!--;)-->\n" +
-    "	<hr>\n" +
-    "\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphChangeDataRender'></nvd3>\n" +
-    "\n" +
-    "	<h2>Market Change^2</h2>\n" +
-    "	<!--\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getEma('changeChange')\">ema</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getTsf('changeChange')\">tsf</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'changeChange')\">bband</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getNn('changeChange')\">nn</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getPdf('changeChange')\">pdf</button>\n" +
-    "	-->\n" +
-    "	<hr>\n" +
-    "\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphChangeChangeDataRender'></nvd3>\n" +
-    "\n" +
-    "	<h2>Oscillator</h2>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">macd</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">fosc</button>\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">rsi</button>\n" +
-    "	<hr>\n" +
-    "	\n" +
-    "	<nvd3 options='marketOptions' data='marketGraphOscillatorDataRender'></nvd3>\n" +
-    "\n" +
-    "	<h2>Probability Density</h2>\n" +
-    "	<!--<div style=\"max-height:500px;overflow:scroll\">-->\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2>Probability Density</h2>\n" +
     "		<canvas id=\"tableHeatmap\" width=\"1200\" height=\"500\"></canvas>\n" +
-    "	<!--</div>-->\n" +
-    "	<!--<heatmap id=\"heatmap-1\" data=\"heatmapData\" config=\"heatmapConfig\" width=\"834\" height=\"400\" class=\"ng-isolate-scope\"></heatmap>-->\n" +
+    "	</div>\n" +
     "\n" +
-    "	<!--HIGH CHART-->\n" +
+    "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOT YET EXECUTED-->\n" +
+    "	<div class=\"row\">\n" +
+    "		<h2>Market Orders</h2>\n" +
+    "		<table class=\"table table-inverse table-hover\">\n" +
+    "		    <thead>\n" +
+    "				<tr>\n" +
+    "					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "					<th></th>\n" +
+    "					<th></th>\n" +
+    "					<th>Date</th>\n" +
+    "				</tr>\n" +
+    "		    </thead>\n" +
+    "		    <tbody>\n" +
+    "				<tr ng-repeat=\"order in orders\">\n" +
+    "					<td>{{order.type}}</td>\n" +
+    "					<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "					<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "				</tr>\n" +
+    "		    </tbody>\n" +
+    "		</table>\n" +
+    "	</div>\n" +
     "\n" +
-    "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOTO YET EXECUTED-->\n" +
-    "	<h2>Market Orders</h2>\n" +
-    "	<table class=\"table table-inverse table-hover\">\n" +
-    "	    <thead>\n" +
-    "			<tr>\n" +
-    "				<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
-    "				<th></th>\n" +
-    "				<th></th>\n" +
-    "				<th>Date</th>\n" +
-    "			</tr>\n" +
-    "	    </thead>\n" +
-    "	    <tbody>\n" +
-    "			<tr ng-repeat=\"order in orders\">\n" +
-    "				<td>{{order.type}}</td>\n" +
-    "				<td>{{order.amount}} {{order.asset2}}</td>\n" +
-    "				<td>{{order.price}} {{order.asset1}}</td>\n" +
-    "				<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
-    "			</tr>\n" +
-    "	    </tbody>\n" +
-    "	</table>\n" +
-    "\n" +
-    "	<!--EXCHANGE-->\n" +
-    "	\n" +
-    "	<!--<h2>Ask</h2>\n" +
-    "	<form role=\"form\">\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"amount\" placeholder=\"Amount\" title=\"Amount\" type=\"text\"> \n" +
-    "            <i class=\"fa fa-user\"></i>\n" +
-    "        </div>\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"price\" placeholder=\"Price\" title=\"Price\" type=\"text\"> \n" +
-    "            <i class=\"fa fa-user\"></i>\n" +
-    "        </div>\n" +
-    "        <div class=\"align-right\">\n" +
-    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Create Order</button>\n" +
-    "        </div>\n" +
-    "    </form>\n" +
-    "\n" +
-    "	<h2>Bid</h2>\n" +
-    "    <form role=\"form\">\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"amount\" placeholder=\"Amount\" title=\"Amount\" type=\"text\"> \n" +
-    "            <i class=\"fa fa-user\"></i>\n" +
-    "        </div>\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <input class=\"form-control\" name=\"price\" placeholder=\"Price\" title=\"Price\" type=\"text\"> \n" +
-    "            <i class=\"fa fa-user\"></i>\n" +
-    "        </div>\n" +
-    "        <div class=\"align-right\">\n" +
-    "            <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Create Order</button>\n" +
-    "        </div>\n" +
-    "    </form>-->\n" +
-    "	\n" +
     "<div style=\"height:100px;\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +
@@ -725,7 +1086,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
   $templateCache.put("markets/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<h1>markets</h1>\n" +
+    "	<h1>Markets</h1>\n" +
     "\n" +
     "	<!--\n" +
     "	<div ng-repeat=\"pair in tradingPairs\">\n" +
@@ -735,7 +1096,6 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	</div>\n" +
     "	-->\n" +
     "\n" +
-    "	<h5>overlay percentage change</h5>\n" +
     "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
     "	<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
     "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
@@ -824,13 +1184,13 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        <span class=\"icon-bar\"></span>\n" +
     "        <span class=\"icon-bar\"></span>\n" +
     "      </button>\n" +
-    "      <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">collaborative.capital</a>\n" +
+    "      <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
     "      <!--cre8.capital-->\n" +
     "    </div>\n" +
     "    <div class=\"collapse navbar-collapse\">\n" +
     "      <ul class=\"nav navbar-nav\">\n" +
-    "        <li ng-class=\"{ active: isActive('/about')}\" ng-show=\"!currentUser\"><a href=\"/about\">about</a></li>\n" +
-    "        <li ng-class=\"{ active: isActive('/markets')}\"><a href=\"/markets\">markets</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/about')}\" ng-show=\"!currentUser\"><a href=\"/about\">ABOUT</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/markets')}\"><a href=\"/markets\">EXPLORE</a></li>\n" +
     "        <form class=\"navbar-form pull-left\" role=\"search\" action=\"/search/\" onSubmit=\" location.href = 'search/' + document.getElementById('search-link').value; return false;\">\n" +
     "          <div class=\"form-group\">\n" +
     "            <input ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
@@ -839,9 +1199,9 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "      </ul>\n" +
     "      <ul class=\"nav navbar-nav navbar-right\">\n" +
     "        <li ng-class=\"{ active: isActive('/account')}\" ng-show=\"currentUser\"><a href=\"/account\">{{currentUser.username}}</a></li>\n" +
-    "        <li ng-show=\"currentUser\"><a href=\"/logout\">signout</a></li>\n" +
-    "        <li ng-class=\"{ active: isActive('/register')}\" ng-show=\"!currentUser\"><a href=\"/register\">register</a></li>\n" +
-    "        <li ng-class=\"{ active: isActive('/login')}\" ng-show=\"!currentUser\"><a href=\"/login\">login</a></li>\n" +
+    "        <li ng-show=\"currentUser\"><a href=\"/logout\">SIGNOUT</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/register')}\" ng-show=\"!currentUser\"><a href=\"/register\">REGISTER</a></li>\n" +
+    "        <li ng-class=\"{ active: isActive('/login')}\" ng-show=\"!currentUser\"><a href=\"/login\">LOGIN</a></li>\n" +
     "      </ul>\n" +
     "    </div>\n" +
     "  </div>\n" +

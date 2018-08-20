@@ -28,18 +28,16 @@ angular.module( 'investing.about', [
 
     $scope.bidAskChart = {
         chart: {
-            type: 'column',
+            type: 'bar',
             zoomType: 'x',
         },
         title: {
             text: null
         },
         xAxis: {
-            crosshair: true
+            crosshair: true,
         },
         yAxis: {
-            min: 0,
-            max: 100,
             title: {
                 text: null
             },
@@ -133,19 +131,27 @@ angular.module( 'investing.about', [
         console.log($scope.heatMapChart.series[0].data);
     });*/
 
-    OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'LTC').then(function(orderBookModel){
+    OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'ETH').then(function(orderBookModel){
         $scope.orderBook = orderBookModel[0];
-        //var askSum = 0;
-        //var bidSum = 0;
-        for (x in orderBookModel[0].bids.reverse()){
-            //bidSum+=parseFloat(orderBookModel[0].bids[x][1]);
-            $scope.bidAskChart.series[0].data.push([parseFloat(orderBookModel[0].bids[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
+
+        $scope.sumBids = [];
+        $scope.orderBook.bids.reduce(function(a,b,i) {
+            return $scope.sumBids[i] = parseFloat(a) + parseFloat(b[1]);
+        }, 0);
+
+        $scope.sumAsks = [];
+        $scope.orderBook.asks.reduce(function(a,b,i) {
+            return $scope.sumAsks[i] = parseFloat(a) + parseFloat(b[1]);
+        }, 0);
+
+        for (x in $scope.orderBook.bids){
+            $scope.bidAskChart.series[0].data.push([parseFloat(orderBookModel[0].bids[x][0]),$scope.sumBids[x]]);
         }
-        for (x in orderBookModel[0].asks){
-            //askSum+=parseFloat(orderBookModel[0].asks[x][1]);
-            $scope.bidAskChart.series[1].data.push([parseFloat(orderBookModel[0].asks[x][0]),parseFloat(orderBookModel[0].bids[x][1])]);
-            console.log('asks',[parseFloat(orderBookModel[0].asks[x][0]),parseFloat(orderBookModel[0].asks[x][1])])
+        for (x in $scope.orderBook.asks){
+            $scope.bidAskChart.series[1].data.push([parseFloat(orderBookModel[0].asks[x][0]),$scope.sumAsks[x]]);
         }
+        $scope.bidAskChart.series[0].data = $scope.bidAskChart.series[0].data.reverse().slice($scope.bidAskChart.series[0].data.length-250,$scope.bidAskChart.series[0].data.length);
+        $scope.bidAskChart.series[1].data = $scope.bidAskChart.series[1].data.slice(0,250);
     });
 
     //HIGHCHARTS

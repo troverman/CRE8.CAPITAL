@@ -3,7 +3,7 @@ angular.module( 'investing.intro', [
 
 .controller( 'IntroCtrl', ['$scope', 'config', function IntroController( $scope, config ) {
 
-	var ww, wh, renderer, scene, camera, cloud;
+	/*var ww, wh, renderer, scene, camera, cloud;
 
 	var opt = {
 	  radius: 20
@@ -114,6 +114,6 @@ angular.module( 'investing.intro', [
 	  renderer.render(scene, camera);
 	}
 
-	init();
+	init();*/
 
 }]);

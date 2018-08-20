@@ -1,13 +1,364 @@
-<div ng-controller="IntroCtrl" class="intro-container">
+<style>
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700);
+
+.intro {
+    position:relative;
+    top:0;
+    overflow: hidden;
+}
+
+.intro-container {
+    cursor:default;
+    min-height:100vh;
+    min-width:100vw;
+    height:100%;
+    width:100%;
+    z-index:1
+}
+
+.intro-mobile {
+    visibility:hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    min-width:100%;
+    min-height:100%;
+    z-index:-4;
+    overflow:hidden;
+    background-repeat:no-repeat;
+    background:url(https://s3.amazonaws.com/novollc/images/home/mobile.png);
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+    background-size:cover
+}
+
+svg {
+    max-width:100%;
+    max-height:100%;
+    min-width:100%;
+    min-height:100%
+}
+
+.continue-wrap {
+    position:absolute;
+    top:75%;
+    width:100%;
+    margin:0 auto
+}
+
+.svg-wrapper {
+    height:60px;
+    margin:0 auto;
+    width:320px;
+    cursor: pointer;
+}
+
+.text {
+    color:#fff;
+    font-family:'Play',sans-serif;
+    font-size:22px;
+    letter-spacing:8px;
+    line-height:32px;
+    position:relative;
+    top:-48px
+}
+
+#novo-svg {
+    fill:#fff;
+}
+
+.shape {
+    fill:transparent;
+    stroke-dasharray:180 540;
+    stroke-dashoffset:-454;
+    stroke-width:6px;
+    stroke:#fff
+}
+
+@keyframes draw {
+0% {
+    stroke-dasharray:180 540;
+    stroke-dashoffset:-454;
+    stroke-width:6px;
+    stroke:#14B795
+}
+
+100% {
+    stroke-dasharray:760;
+    stroke-dashoffset:0;
+    stroke-width:2px;
+    stroke:#14B795
+}
+}
+
+.svg-wrapper:hover .shape {
+    -webkit-animation:.5s draw linear forwards;
+    animation:.5s draw linear forwards
+}
+
+.svg-wrapper:hover .text {
+    color: #fff;
+}
+
+.box-with-text {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    margin:0 auto
+}
+
+.svg-inverted-mask {
+    margin:0 auto;
+    overflow:auto!important;
+    z-index:2
+}
+
+.text-fill {
+    z-index:-5;
+    margin:auto;
+    overflow:hidden
+}
+
+.video {
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    min-width:100%;
+    min-height:100%;
+    overflow:hidden;
+    z-index:-5
+}
+
+.mask__shape {
+    fill:#fff
+}
+
+.shape--fill {
+    fill:rgba(0,0,0,0.25);
+}
+
+.text--transparent {
+    fill:rgba(255,255,255,0.75);
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.intro-shade {
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    z-index: -1;
+}
+
+.svg-defs {
+    width:0;
+    height:0;
+}
+
+/* media queries */
+@media only screen and (max-width: 1024px) {
+    video {
+        display:none
+    }
+
+    .intro-mobile {
+        visibility:visible;
+        height:100%
+    }
+
+    .port-mobile {
+        visibility:visible
+    }
+
+    .port-box a #fill-hover {
+        fill:rgba(255,255,255,0.1);
+        transition:fill .2s
+    }
+
+    .contact-mobile {
+        visibility:visible;
+        height:100%
+    }
+}
+
+@media only screen and (max-width: 920px) {
+    .intro-container {
+        zoom: 0.8;
+    }
+    .continue-wrap {
+        display: none;
+    }
+}
+@media only screen and (max-width: 850px) {
+    .intro-container {
+        zoom: 0.7;
+    }
+}
+@media only screen and (max-width: 740px) {
+    .intro-container {
+        zoom: 0.6;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .intro-container {
+        zoom: 0.55;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .intro-container {
+        zoom: 0.5;
+    }
+}
+@media only screen and (max-width: 555px) {
+    .intro-container {
+        zoom: 0.45;
+    }
+}
+@media only screen and (max-width: 510px) {
+    .intro-container {
+        zoom: 0.4;
+    }
+}
+@media only screen and (max-width: 460px) {
+    .intro-container {
+        zoom: 0.35;
+    }
+}
+@media only screen and (max-width: 410px) {
+    .intro-container {
+        zoom: 0.325;
+    }
+}
+@media only screen and (max-width: 788px) {
+    .desktop {
+        visibility:hidden
+    }
+
+    .mobile {
+        visibility:visible
+    }
+}
+@media only screen and (max-width: 500px) {
+    .shape--fill {
+        fill: rgba(0,0,0,0.8);
+    }
+}
+/*@media only screen and (max-width: 920px) {
+    html {
+        zoom: 0.8;
+    }
+    .continue-wrap {
+        display: none;
+    }
+}
+@media only screen and (max-width: 850px) {
+    html {
+        zoom: 0.7;
+    }
+}
+@media only screen and (max-width: 740px) {
+    html {
+        zoom: 0.6;
+    }
+}
+@media only screen and (max-width: 640px) {
+    html {
+        zoom: 0.55;
+    }
+}
+@media only screen and (max-width: 600px) {
+    html {
+        zoom: 0.5;
+    }
+}
+@media only screen and (max-width: 555px) {
+    html {
+        zoom: 0.45;
+    }
+}
+@media only screen and (max-width: 510px) {
+    html {
+        zoom: 0.4;
+    }
+}
+@media only screen and (max-width: 460px) {
+    html {
+        zoom: 0.35;
+    }
+}
+@media only screen and (max-width: 410px) {
+    html {
+        zoom: 0.325;
+    }
+}*/
+.imageContainer {
+  background:rgba(26,26,36, 0.84);
+  overflow:hidden;
+  min-height: 500px;
+  font-family: 'Jura', sans-serif;
+  margin:0;padding:0;border:0 none;position: relative;
+}
+.imageContainerDiv {
+  width:100%;
+  height: 35em;
+  display: flex;
+  flex-direction: column;
+}
+.imageContainerDiv h1 {
+  color: rgba(255,255,255,0.9);
+  font-size: 50px;
+  font-weight: 400;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+.imageContainerSmall {
+  background:rgba(36,36,46, 0.84);
+  overflow:hidden;
+  min-height: 200px;
+  font-family: 'Jura', sans-serif;
+  margin:0;padding:0;border:0 none;position: relative;
+}
+.imageContainerSmallDiv {
+  width:100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.imageContainerSmallDiv h1 {
+  color: rgba(255,255,255,0.9);
+  font-size: 50px;
+  font-weight: 400;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  z-index: -5;
+}
+</style>
+<!--Multidimensional Financial Partners-->
+<div ng-show="false" ng-controller="IntroCtrl" class="intro-container">
     <svg style="z-index:10" class="intro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920px" height="1080px" preserveAspectRatio="xMidYMid slice">
         <defs>
             <mask class="intro-mask" id="intro-mask" x="0" y="0" width="100%" height="100%" maskUnits="userSpaceOnUse">
                 <rect class="intro-rect" x="0" y="0" width="1920px" height="1080px"></rect>
-                <!--<text x="960" y="46%" class="medium-text">CRE8.CAPITAL</text>-->
                 <text x="960" y="46%" class="medium-text">collaborative.capital</text>
-                <!--<text x="960" y="51%" class="small-text mantra">Empowered Financial Representation</text>-->
                 <text x="960" y="51%" class="small-text mantra">empowered financial representation</text>
-                <!--Multidimensional Financial Partners-->
                 <text x="960" y="67.5%" class="small-text learn-more">learn more</text>
                 <a href="#about" du-smooth-scroll>
                     <svg class="tri-before" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="883px" y="68%" width="150px" height="150px" viewBox="0 0 723 626" enable-background="new 0 0 723 626" xml:space="preserve">
@@ -40,4 +391,58 @@
         </a>
     </svg>
     <canvas style="position:absolute;top:0%;left:0%;" id="scene"></canvas>
+</div>
+<div ng-show="false" class="imageContainer">
+    <video class='flexible' autoplay="autoplay" muted="muted" preload="auto" loop="loop"><source src="videos/earth.mp4" type="video/mp4" playsinline></video>
+    <div class="imageContainerDiv container">  
+        <h1 style="">MULTIDIMENSIONAL CAPITAL PARTNERS</h1>
+    </div>
+</div>
+<div ng-show="true" class="intro" style="max-height:500px">
+    <div class="intro-container">
+      <svg class="svg-defs" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="intro-desktop-text">
+          <text style="font-size:32px;" text-anchor="middle"
+                x="960"  
+                y="488"
+                dy=".35em"
+                class="medium-text"
+                >
+            CRE8.CAPITAL
+          </text> 
+          <text style="font-size:32px;" text-anchor="middle"
+                x="960"  
+                y="570"
+                dy=".35em"
+                class="medium-text"
+                >
+            MULTIDIMENSIONAL CAPITAL PARTNERS
+          </text> 
+        </symbol>       
+        <div class="intro-shade"></div>  
+      </svg> 
+      <div class="box-with-text">
+        <div class="text-fill">
+          <video itemscope itemtype="VideoObject"
+              class="video" 
+              src="https://s3-us-west-2.amazonaws.com/voetr/washington.mp4"
+              preload="auto" 
+              autoplay="autoplay" 
+              loop="loop" 
+              muted="muted">
+          </video>
+        </div>
+        <svg class="svg-inverted-mask" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" 
+             preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <rect
+            width="100%"
+            height="100%"
+            mask="url(#intro-desktop-mask)"
+            class="shape--fill"/>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-text" class="text--transparent"></use>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-novo" class="text--transparent"></use>
+        </svg> 
+      </div>
+    </div>
+  <div class="intro-mobile"></div>
 </div>
