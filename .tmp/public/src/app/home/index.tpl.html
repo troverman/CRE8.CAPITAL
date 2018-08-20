@@ -186,7 +186,11 @@
 
 			<div ng-repeat="pair in tradingPairs">
 				<div class="col-md-3 col-sm-4 col-xs-6 ">
-					<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+					<div class="card">
+						<div style="padding:16px;">
+							<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+						</div>
+					</div>
 				</div>
 			</div>
 

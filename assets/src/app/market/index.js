@@ -148,67 +148,6 @@ angular.module( 'investing.market', [
         'BLK/XMR'
     ];
 
-    //TODO: MB HIGHCHARTS
-    $scope.marketOptions = {
-        chart: {
-            type: 'lineWithFocusChart',
-            height: 500,
-            margin : {
-                top: 20,
-                right: 0,
-                bottom: 40,
-                left: 70
-            },
-            x: function(d){ 
-                return d[0]; 
-            },
-            y: function(d){ 
-                return d[1]; 
-            },
-            color: d3.scale.category20b().range(),
-            duration: 200,
-            useInteractiveGuideline: true,
-            clipVoronoi: false,
-            //interpolate: 'cardinal-open',
-            xAxis: {
-                //axisLabel: 'Time',
-                tickFormat: function(d) {
-                    return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
-                },
-                staggerLabels: false,
-                showMaxMin : false
-            },
-            yAxis: {
-                axisLabel: $scope.selectedPair[0]+'_'+$scope.selectedPair[1],
-                axisLabelDistance: 50,
-                showMaxMin : false,
-                tickFormat: function(d) {
-                    if (d.toString().split(".")[1]){
-                        var length = d.toString().split(".")[1].length;
-                        //console.log(length)
-                        if (length<8){
-                            return d3.format("."+length+"f")(d);
-                        }
-                        else{return d3.format()(d)}
-                    }
-                    else{return d3.format()(d)}
-                    //return d3.format()(d)
-                },
-            },
-            x2Axis: {
-                tickValues:0,
-                showMaxMin: false
-            },
-            y2Axis: {
-                tickValues:0,
-                axisLabelDistance: 200,
-                showMaxMin : false
-            },
-        }
-    };
-
-    //TODO: HIGH CHARTS
-    //HIGHCHARTS
     $scope.chartConfig = {
         chart: {
             type: 'line',

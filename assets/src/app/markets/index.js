@@ -217,7 +217,6 @@ angular.module( 'investing.markets', [
     //TODO: REDO
     $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
-        //$scope.selectedPair = [asset1, asset2];
         $scope.selectedDelta = delta;
         DataModel.getData(100, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
             $scope.marketDataRender[asset1+'_'+asset2] = {};
@@ -230,7 +229,7 @@ angular.module( 'investing.markets', [
                 if (x > 1){
                     change = $scope.dataMap[asset1+'_'+asset2][x].price - $scope.dataMap[asset1+'_'+asset2][x-1].price;
                     change = change/$scope.dataMap[asset1+'_'+asset2][x].price;
-                    $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);//$scope.dataMap[asset1+'_'+asset2][x].percentChange]);
+                    $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);
                 }
             }
             $scope.iterator++
@@ -247,13 +246,11 @@ angular.module( 'investing.markets', [
                         color:'#'+(Math.random()*0xFFFFFF<<0).toString(16),
                         data: $scope.marketDataRender[Object.keys($scope.marketDataRender)[x]].values
                     };
-                    //$scope.chartConfig.series.push(series);
+                    $scope.chartConfig.series.push(series);
                     $rootScope.stateIsLoading = false;
                     $scope.iterator = 0;
                 }
-
                 console.log($scope.marketDataRenderRender)
-
             }
         });
     };

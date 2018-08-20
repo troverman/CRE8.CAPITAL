@@ -396,7 +396,11 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "			<div ng-repeat=\"pair in tradingPairs\">\n" +
     "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "					<div class=\"card\">\n" +
+    "						<div style=\"padding:16px;\">\n" +
+    "							<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "\n" +
@@ -1086,39 +1090,27 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
   $templateCache.put("markets/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<h1>Markets</h1>\n" +
-    "\n" +
-    "	<!--\n" +
-    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "			<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "		</div>\n" +
+    "	<div class=\"col-md-9\">\n" +
+    "		<h1>Markets</h1>\n" +
+    "		<highchart config=\"chartConfig\"></highchart>\n" +
     "	</div>\n" +
-    "	-->\n" +
-    "\n" +
-    "	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>\n" +
-    "	<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
-    "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
-    "	<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
-    "	<div style=\"height:100px;\"></div>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
-    "	<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>\n" +
-    "\n" +
-    "</div>\n" +
-    "\n" +
-    "<div style=\"height:20px;\"></div>\n" +
-    "\n" +
-    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "	<div class=\"col-md-3\">\n" +
+    "		<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
+    "		<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "		<div class=\"spacing-25\"></div>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "		<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
+    "	</div>\n" +
     "\n" +
     "	<div class=\"col-md-12\">\n" +
     "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
@@ -1128,15 +1120,25 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	</div>\n" +
     "\n" +
     "	<div class=\"col-md-12\">\n" +
-    "		<div style=\"height:20px;\"></div>\n" +
+    "		<div class=\"spacing-25\"></div>\n" +
     "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
     "			<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
     "		</div>\n" +
     "	</div>\n" +
     "\n" +
+    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "			<div class=\"card\">\n" +
+    "				<div style=\"padding:16px;\">\n" +
+    "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
     "</div>\n" +
     "\n" +
-    "<div style=\"height:100px;\"></div>\n" +
+    "<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +

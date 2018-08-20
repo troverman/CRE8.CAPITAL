@@ -1,38 +1,26 @@
 <div class="container" style="text-align:left">
 
-	<h1>Markets</h1>
-
-	<!--
-	<div ng-repeat="pair in tradingPairs">
-		<div class="col-md-3 col-sm-4 col-xs-6 ">
-			<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-		</div>
+	<div class="col-md-9">
+		<h1>Markets</h1>
+		<highchart config="chartConfig"></highchart>
 	</div>
-	-->
-
-	<nvd3 options='marketOptions' data='marketDataRenderRender'></nvd3>
-	<!--<highchart config="chartConfig"></highchart>-->
-	<!--<p class="btn btn-default" ng-click="selectTime(5000,'BTC')">5sec</p>-->
-	<!--<p class="btn btn-default" ng-click="selectTime(30000,'BTC')">30sec</p>-->
-	<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
-	<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
-	<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
-	<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
-	<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
-	<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
-	<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
-	<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
-	<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
-	<div style="height:100px;"></div>
-	<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
-	<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
-	<p class="btn btn-default" ng-click="solvePortfolioPDF('60000', 100)">MultiSolvePDF</p>
-
-</div>
-
-<div style="height:20px;"></div>
-
-<div class="container" style="text-align:left">
+	<div class="col-md-3">
+		<!--<p class="btn btn-default" ng-click="selectTime(5000,'BTC')">5sec</p>-->
+		<!--<p class="btn btn-default" ng-click="selectTime(30000,'BTC')">30sec</p>-->
+		<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
+		<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
+		<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
+		<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
+		<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
+		<div class="spacing-25"></div>
+		<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
+		<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
+		<!--<p class="btn btn-default" ng-click="solvePortfolioPDF('60000', 100)">MultiSolvePDF</p>-->
+	</div>
 
 	<div class="col-md-12">
 		<div ng-repeat="portfolio in portfolioData.portfolioSet">
@@ -42,15 +30,25 @@
 	</div>
 
 	<div class="col-md-12">
-		<div style="height:20px;"></div>
+		<div class="spacing-25"></div>
 		<div ng-repeat="order in portfolioData.orderSet">
 			<p style="color:grey">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>
 		</div>
 	</div>
 
+	<div ng-repeat="pair in tradingPairs">
+		<div class="col-md-3 col-sm-4 col-xs-6 ">
+			<div class="card">
+				<div style="padding:16px;">
+					<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 
-<div style="height:100px;"></div>
+<div class="spacing-50"></div>
 
 <div ng-include="'footer/index.tpl.html'"></div>
 

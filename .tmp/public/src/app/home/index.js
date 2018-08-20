@@ -277,23 +277,12 @@ angular.module( 'investing.home', [
             };
             $scope.chartConfig.series.push(data);
             console.log($scope.chartConfig.series)
-           // $scope.updateMarketData();
         })
-    };
-
-    $scope.updateMarketData = function (n){
-        $scope.marketData.reverse().forEach(function(obj, index){ 
-            var change = 0;
-            if (index > 1){change = (obj.price - $scope.marketData[index-1].price)/obj.price;}
-            $scope.chartConfig.series[n].data.push([new Date(obj.createdAt).getTime(), change])
-        });
     };
 
     for (x in $scope.tradingPairs.splice(0,10)){
         $scope.seletetData($scope.tradingPairs[x].split('/')[1], $scope.tradingPairs[x].split('/')[0], 30000);
     }
-
-    //$scope.updateMarketData();
 
     $sailsSocket.subscribe('order', function (envelope) {
         switch(envelope.verb) {
