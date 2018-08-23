@@ -843,8 +843,17 @@ module.exports = {
 
 
 			                //THIS IS CURRENT PRICE	!!!!!! LAST PRICE IS 'HISTORY!!!!!' NOT CURRENT..
-							if ((model.lowestAsk - models[1].lowestAsk)/model.lowestAsk < -0.10){
+							/*if ((model.currentAsk - models[1].currentAsk)/model.currentAsk < -0.10){
+								//CREATE ORDER AT currentAsk
+								//orderModel.type = 'BUY';
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
 							}
+
+							if ((model.currentBid - models[1].currentBid)/model.currentBid < -0.10){
+								//CREATE ORDER AT currentAsk
+								//orderModel.type = 'BUY';
+								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
+							}/
 
 
 			                //SELL HIGH
