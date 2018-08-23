@@ -22,6 +22,7 @@ angular.module( 'investing.markets', [
 .controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
 	titleService.setTitle('Markets | collaborative.capital');
     $scope.marketData = marketData;
+    $scope.neuralNets = [1,2,3,4,5]
     $scope.selectedDelta = '60000';
      $scope.tradingPairs = [
         'XRP/BTC',

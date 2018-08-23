@@ -1002,18 +1002,18 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "	</div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
-    "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">Live</button>\n" +
-    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5sec </button><!--x6-->\n" +
-    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30sec</button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1min </button><!--x5-->\n" +
-    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5min </button><!--x6-->\n" +
-    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30min</button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1hr  </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2hr  </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4hr  </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6hr  </button><!--x3/2-->\n" +
-    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12hr </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24hr </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">LIVE</button>\n" +
+    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5SEC </button><!--x6-->\n" +
+    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30SEC</button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1MIN </button><!--x5-->\n" +
+    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5MIN </button><!--x6-->\n" +
+    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30MIN</button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1HR </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2HR </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4HR </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6HR </button><!--x3/2-->\n" +
+    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12HR </button><!--x2-->\n" +
+    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24HR </button><!--x2-->\n" +
     "	</div>\n" +
     "	<hr>\n" +
     "	<!--how much data..?-->\n" +
@@ -1090,47 +1090,73 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
   $templateCache.put("markets/index.tpl.html",
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<div class=\"col-md-9\">\n" +
+    "	<div class=\"row\">\n" +
+    "		<div class=\"col-md-9\">\n" +
+    "			<h1>Markets</h1>\n" +
+    "			<highchart config=\"chartConfig\"></highchart>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-md-3\">\n" +
+    "			<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
+    "			<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "			<div class=\"spacing-25\"></div>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "			<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "			<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "		\n" +
+    "		<!--<div class=\"col-md-6\">\n" +
+    "			<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
+    "				{{portfolio}}\n" +
+    "				<br><br>\n" +
+    "			</div>\n" +
+    "		</div>-->\n" +
+    "\n" +
+    "		<div>\n" +
+    "			<div class=\"spacing-25\"></div>\n" +
+    "			<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
+    "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "					<div class=\"card\">\n" +
+    "						<div style=\"padding:16px;\">\n" +
+    "							<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "		<div ng-repeat=\"neuralNet in neuralNets\">\n" +
+    "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "				<div class=\"card\">\n" +
+    "					<div style=\"padding:16px;\">\n" +
+    "						<a href=\"neural/{{neuralNet}}\">{{neuralNet}}</a>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
     "		<h1>Markets</h1>\n" +
-    "		<highchart config=\"chartConfig\"></highchart>\n" +
-    "	</div>\n" +
-    "	<div class=\"col-md-3\">\n" +
-    "		<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
-    "		<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
-    "		<div class=\"spacing-25\"></div>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
-    "		<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class=\"col-md-12\">\n" +
-    "		<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
-    "			{{portfolio}}\n" +
-    "			<br><br>\n" +
-    "		</div>\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class=\"col-md-12\">\n" +
-    "		<div class=\"spacing-25\"></div>\n" +
-    "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
-    "			<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
-    "		</div>\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "		<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "			<div class=\"card\">\n" +
-    "				<div style=\"padding:16px;\">\n" +
-    "					<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "		<div ng-repeat=\"pair in tradingPairs\">\n" +
+    "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
+    "				<div class=\"card\">\n" +
+    "					<div style=\"padding:16px;\">\n" +
+    "						<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
+    "					</div>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +

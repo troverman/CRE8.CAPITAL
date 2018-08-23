@@ -759,7 +759,7 @@ module.exports = {
 						Data.publishCreate(model);
 			            Data.find({assetPair:model.assetPair, delta: model.delta})
 			            .sort('createdAt DESC')
-			            .limit(2)//change this to 100 --> to get trend.. 
+			            .limit(10)//change this to 100 --> to get trend.. 
 			            .then(function (models) {
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
@@ -796,6 +796,32 @@ module.exports = {
 							//IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
 							//Order.find().limit(10)//-->get last 10 orders with pair 
 
+
+
+
+
+							//TODO: REMOVE HARDCODE. LOL!
+							//SINGULAR MARKET
+							if (model.asset1 == 'BTC' && model.asset2 == 'BCN' && delta == '5000'){
+								//if (models[0].currentBid == models[1].currentBid && models[0].currentAsk == models[1].currentAsk){
+
+								//}
+								//else{
+									if (model.percentChange<0){
+										console.log('BUY!');
+										orderModel.type = 'BUY';
+										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
+										//CREATE MARKET ORDER SELL @ currentAsk
+									}
+									if (model.percentChange>0){
+										console.log('SELL!');
+										orderModel.type = 'SELL';
+										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
+										//CREATE MARKET ORDER BUY @ currentBid
+									}
+								//}
+							}
+
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
 			                	//LOOK AT HIGHEST BID
@@ -813,14 +839,11 @@ module.exports = {
 								//logic based on ask, bid change. :)
 								console.log('askChange', (model.lowestAsk - models[1].lowestAsk)/model.lowestAsk)
 								console.log('bidChange', (model.highestBid - models[1].highestBid)/model.highestBid)
-
-
 			                }
 
 
 			                //THIS IS CURRENT PRICE	!!!!!! LAST PRICE IS 'HISTORY!!!!!' NOT CURRENT..
 							if ((model.lowestAsk - models[1].lowestAsk)/model.lowestAsk < -0.10){
-
 							}
 
 
