@@ -802,7 +802,7 @@ module.exports = {
 
 							//TODO: REMOVE HARDCODE. LOL!
 							//SINGULAR MARKET
-							if (model.asset1 == 'BTC' && model.asset2 == 'BCN' && delta == '5000'){
+							if (model.asset1 == 'BTC' && (model.asset2 == 'BCN' || model.asset2 == 'DOGE') && delta == '5000'){
 								//if (models[0].currentBid == models[1].currentBid && models[0].currentAsk == models[1].currentAsk){
 
 								//}
@@ -853,7 +853,7 @@ module.exports = {
 								//CREATE ORDER AT currentAsk
 								//orderModel.type = 'BUY';
 								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
-							}/
+							}*/
 
 
 			                //SELL HIGH
