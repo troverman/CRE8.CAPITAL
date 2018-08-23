@@ -9,7 +9,8 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
     this.getData = function(limit, skip, sort, asset1, asset2, delta) {
         var query = {params:{limit: limit, skip: skip, sort: sort, asset1: asset1, asset2: asset2, delta: delta}};
         var url = utils.prepareUrl('data');
-        return $sailsSocket.get(url, query).then(success, error);
+        return $sailsSocket.get('https://ccutl.herokuapp.com/api/data', query).then(success, error);
+        //return $sailsSocket.get('https://ccutl.herokuapp.com/api/data', query).then(success, error);
     };
 
     //prob should do ticker lol
@@ -34,6 +35,7 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
     };
 
     var success = function(response) {
+        console.log(response)
         return response.data;
     };
 

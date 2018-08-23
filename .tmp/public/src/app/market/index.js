@@ -859,6 +859,7 @@ angular.module( 'investing.market', [
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
+            console.log(envelope.data);
                 //console.log(envelope.data);
                /* if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
                     
