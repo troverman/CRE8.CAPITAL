@@ -834,8 +834,8 @@ angular.module( 'investing.market', [
                 flagModel.id = 'flags';
                 flagModel.shape = 'flag';
 
-                for (x in orders.reverse().slice(0,50)){
-                    if (parseInt(new Date(orders[x].createdAt).getTime()) > parseInt(new Date($scope.marketData.reverse()[0].createdAt).getTime())){
+                for (x in orders.reverse()){//.slice(0,50)){
+                    if (parseInt(new Date(orders[x].createdAt).getTime()) > parseInt(new Date($scope.marketData[0].createdAt).getTime())){
                         var dataModel = {}
                         dataModel.title = orders[x].type.substring(0, 1);
                         dataModel.x = parseInt(new Date(orders[x].createdAt).getTime());
@@ -859,8 +859,7 @@ angular.module( 'investing.market', [
     $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
-            console.log(envelope.data);
-                //console.log(envelope.data);
+                console.log(envelope.data);
                /* if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
                     
                     $scope.marketData.push(envelope.data);
