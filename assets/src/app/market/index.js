@@ -168,31 +168,21 @@ angular.module( 'investing.market', [
         colors: ['#14b794'],
         series: [{
             id: 'price',
-            name: $stateParams.path1.toUpperCase() + ' | ' + $stateParams.path2.toUpperCase(),
+            name: $stateParams.path1.toUpperCase() + ' | ' + $stateParams.path2.toUpperCase()+' Last Price',
             lineWidth: 1.2, 
             data:[],
         },{
             id: 'bid',
-            name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' bid',
+            name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' Selling Price (BID)',
             lineWidth: 1.2, 
             data:[],
             color:'#a94442'
         },{
             id: 'ask',
-            name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' ask',
+            name: ''+ $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' Buying Price (ASK)',
             lineWidth: 1.2, 
             data:[],
             color:'#f94442'
-        },
-        {
-            id: 'change',
-            color:'#a94442',
-            type: 'line',
-            name: $stateParams.path1.toUpperCase() + ' | ' + $stateParams.path2.toUpperCase()+' change',
-            lineWidth: 1.2, 
-            yAxis: 1, 
-            data:[]
-
         }],
         xAxis: {
             type: 'datetime',

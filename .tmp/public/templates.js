@@ -882,7 +882,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"intro-container\">\n" +
     "      <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "        <symbol id=\"intro-desktop-text\">\n" +
-    "          <text style=\"font-size:32px;\" text-anchor=\"middle\"\n" +
+    "          <text style=\"font-size:48px;\" text-anchor=\"middle\"\n" +
     "                x=\"960\"  \n" +
     "                y=\"488\"\n" +
     "                dy=\".35em\"\n" +
@@ -890,7 +890,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "                >\n" +
     "            CRE8.CAPITAL\n" +
     "          </text> \n" +
-    "          <text style=\"font-size:32px;\" text-anchor=\"middle\"\n" +
+    "          <text style=\"font-size:28px;\" text-anchor=\"middle\"\n" +
     "                x=\"960\"  \n" +
     "                y=\"570\"\n" +
     "                dy=\".35em\"\n" +
