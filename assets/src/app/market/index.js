@@ -583,9 +583,9 @@ angular.module( 'investing.market', [
     //TODO: LOL
     $scope.getPdf = function (){
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
+        AnalysisModel.getPdf($scope.marketData.slice(650,1000)).then(function(returnData){
             var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
-            for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x].createdAt));}
+            for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x+649].createdAt));}
             var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});
             sortedKeys = sortedKeys.sort(function(a,b){return a - b});
             sortedKeys = sortedKeys.map(function(obj){
