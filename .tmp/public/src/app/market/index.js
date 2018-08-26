@@ -395,13 +395,12 @@ angular.module( 'investing.market', [
             zoomType: 'xy',
             events: {
                 redraw: function () {
-                    const data = this.series[0].data
-                    const xe = this.xAxis[0].getExtremes()
-                    const ye = this.yAxis[0].getExtremes()
-                      // Filter data
-                    const filteredData = data.filter((point) => {
+                    var data = this.series[0].data
+                    var xe = this.xAxis[0].getExtremes()
+                    var ye = this.yAxis[0].getExtremes()
+                    var filteredData = data.filter(function(point){
                         return point.x <= xe.max && point.x >= xe.min && point.y <= ye.max && point.y >= ye.min
-                    })
+                    });
                 }
             }
         },
@@ -584,7 +583,7 @@ angular.module( 'investing.market', [
     //TODO: LOL
     $scope.getPdf = function (){
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPdf($scope.marketData).then(function(returnData){
+        AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
             var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
             for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x].createdAt));}
             var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});

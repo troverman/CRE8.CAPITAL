@@ -395,13 +395,12 @@ angular.module( 'investing.market', [
             zoomType: 'xy',
             events: {
                 redraw: function () {
-                    const data = this.series[0].data
-                    const xe = this.xAxis[0].getExtremes()
-                    const ye = this.yAxis[0].getExtremes()
-                      // Filter data
-                    const filteredData = data.filter((point) => {
+                    var data = this.series[0].data
+                    var xe = this.xAxis[0].getExtremes()
+                    var ye = this.yAxis[0].getExtremes()
+                    var filteredData = data.filter(function(point){
                         return point.x <= xe.max && point.x >= xe.min && point.y <= ye.max && point.y >= ye.min
-                    })
+                    });
                 }
             }
         },
