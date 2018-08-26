@@ -122,13 +122,13 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"col-sm-6\">\n" +
+    "        <!--<div class=\"col-sm-6\">\n" +
     "            <h3>Mapping the Market</h3>\n" +
     "            <highchart config=\"bidAskChart\"></highchart>\n" +
-    "        </div>\n" +
+    "        </div>-->\n" +
     "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <!--<highchart config=\"heatMapChart\"></highchart>-->\n" +
+    "        <div class=\"col-sm-12\">\n" +
+    "            <highchart config=\"heatMapChart\"></highchart>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
@@ -1054,7 +1054,9 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<div class=\"row\">\n" +
     "		<h2>Probability Density</h2>\n" +
-    "		<canvas id=\"tableHeatmap\" width=\"1200\" height=\"500\"></canvas>\n" +
+    "		<!--<canvas id=\"tableHeatmap\" width=\"1200\" height=\"500\"></canvas>-->\n" +
+    "		<highchart config=\"heatMapChart\"></highchart>\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOT YET EXECUTED-->\n" +

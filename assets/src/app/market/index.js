@@ -176,13 +176,15 @@ angular.module( 'investing.market', [
             name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' Selling Price (BID)',
             lineWidth: 1.2, 
             data:[],
-            color:'#a94442'
+            color:'#a94442',
+            type: 'line',
         },{
             id: 'ask',
             name: ''+ $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase()+' Buying Price (ASK)',
             lineWidth: 1.2, 
             data:[],
-            color:'#f94442'
+            color:'#f94442',
+            type: 'line',
         }],
         xAxis: {
             type: 'datetime',
@@ -384,6 +386,96 @@ angular.module( 'investing.market', [
         },
     };
 
+    $scope.heatMapChart = {
+        chart: {
+            type: 'heatmap',
+            marginTop: 0,
+            marginBottom: 0,
+            plotBorderWidth: 1,
+            zoomType: 'xy',
+            events: {
+                redraw: function () {
+                    const data = this.series[0].data
+                    const xe = this.xAxis[0].getExtremes()
+                    const ye = this.yAxis[0].getExtremes()
+                      // Filter data
+                    const filteredData = data.filter((point) => {
+                        return point.x <= xe.max && point.x >= xe.min && point.y <= ye.max && point.y >= ye.min
+                    })
+                }
+            }
+        },
+        boost: {
+            useGPUTranslations: true
+        },
+        title: {
+            text: null,
+        },
+        xAxis: {
+            categories: [],
+            title: null,
+            type: 'datetime',
+        },
+        yAxis: {
+            categories: [],
+            title: null
+        },
+        tooltip: {
+            formatter: function () {
+                return this.series.xAxis.categories[this.point.x] + ' | ' + this.series.yAxis.categories[this.point.y] + ' | ' + this.point.value+'%';
+            }
+        },
+        colorAxis: {
+            min: -1,
+            minColor: '#FFFFFF',
+            maxColor: '#000000',
+        },
+        legend: {
+            align: 'right',
+            layout: 'vertical',
+            margin: 0,
+            verticalAlign: 'top',
+            y: 25,
+            symbolHeight: 280
+        },
+        colorAxis: {
+            reversed: false,
+            stops: [
+                [0, '#FFFFFF'],
+                [0.01, '#3060cf'],
+                [0.25, '#fffbbc'],
+                [1, '#c4463a']
+            ],
+            min: 0,
+            max: 5,
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                format: '{value}%'
+            }
+        },
+        series: [{
+            boostThreshold: 100,
+            id: 'pdf',
+            name: 'Probability Density Function',
+            borderWidth: 0,
+            data: [],
+            dataLabels: {
+                enabled: false,
+                //color: '#000000'
+            }
+        }/*,{
+            id: 'pdfPercentChange',
+            type: 'line',
+            name: 'Percent Change',
+            data: [],
+            marker: {
+                lineWidth: 1.2,
+            },
+        }*/],
+        credits:{enabled:false},
+    };
+
     $scope.oscillatorChart = {
         chart: {
             type: 'line',
@@ -443,32 +535,6 @@ angular.module( 'investing.market', [
 
     $scope.marketGraphOscillatorDataRender = [];
 
-    //TODO: REFACTOR
-    //HEATMAP
-    var heatmapData = {};
-    heatmapData.labels = [];
-    heatmapData.labels = ['Time1','Time2','Time3','Time4','Time5','Time6','Time7','Time8','Time9','Time10','Time11','Time12','Time13','Time14','Time15','Time16','Time17','Time18','Time19','Time20','Time21','Time22','Time23','Time24','Time25', 'Time26'],
-    //for(var i = 0; i<=100; i++){
-    //   heatmapData.labels.push('Time'+i);
-    //}
-    heatmapData.datasets = [];
-    $scope.clientWidth = document.body.clientWidth;
-    for(var i = 25; i>=-25; i--){
-        var dataInsert = 0;
-        if (i == 0){dataInsert = 100}
-        else if (i == 1 || i == -1){dataInsert = 75}
-        else{dataInsert = Math.abs(parseInt( 1/i * 100 ))}
-        //var dataSet = [];
-        //for(var i = 0; i<=100; i++){
-        //    dataSet.push(dataInsert);
-        //}
-        //heatmapData.datasets.push({label:(1*i).toString(), data:[dataSet]})
-        heatmapData.datasets.push({label:(1*i).toString(), data:[dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert,dataInsert]})
-    }
-
-    var ctx = document.getElementById('tableHeatmap').getContext('2d');
-    var heatmapOptions = {rounded: false, showLabels: false};
-    var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
 
     //ORDERBOOK
     OrderBookModel.getSome(1, 0, 'createdAt DESC', $stateParams.path1.toUpperCase(), $stateParams.path2.toUpperCase()).then(function(orderBookModel){
@@ -505,7 +571,6 @@ angular.module( 'investing.market', [
             console.log(tradeModel);
             //$scope.trades = tradeModel;
             $scope.marketGraphData.values = [];
-            //HIGHCHARTS
             $scope.chartConfig.series = [{
                 name: $stateParams.path1.toUpperCase() + '_' + $stateParams.path2.toUpperCase(),
                 lineWidth: 1.2, 
@@ -519,39 +584,34 @@ angular.module( 'investing.market', [
     //TODO: LOL
     $scope.getPdf = function (){
         $rootScope.stateIsLoading = true;
-        //$scope.marketData.reverse().slice($scope.marketData.length-350, $scope.marketData.length)
         AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
-            
-            //console.log(returnData);
-            var heatmapData = {};
             var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
-            heatmapData.labels = [];
-            heatmapData.datasets = [];
-
-            for(x in pdfData){
-                heatmapData.labels.push(x);//$scope.marketData[x].createdAt);
-            }
-            var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return b - a})
+            for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x].createdAt));}
+            var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});
+            sortedKeys = sortedKeys.sort(function(a,b){return a - b});
+            sortedKeys = sortedKeys.map(function(obj){
+                if(isNaN(parseFloat(obj))){return '1';}
+                else{return obj}
+            });
+            sortedKeys = sortedKeys.filter(function(obj){
+                if (obj < 0.25 && obj > -0.25){return obj}
+            });
             for (x in sortedKeys){ 
                 var dataArray = [];
                 var key = sortedKeys[x];
-                if (key < 0.20 && key > -0.20){
-                    for (z in pdfData){
-                        dataArray.push(pdfData[z][key]*1000);
-                    }
-                    heatmapData.datasets.push({label:key, data:dataArray})
+                $scope.heatMapChart.yAxis.categories.push(key);
+                var heatMapData = [];
+                for (z in pdfData){
+                    $scope.heatMapChart.series[0].data.push([parseFloat(z),parseFloat(x),parseFloat(pdfData[z][key])])
                 }
             }
-
-            console.log(heatmapData);
-            var ctx = document.getElementById('tableHeatmap').getContext('2d');
-            var heatmapOptions = {rounded: false, showLabels: false};
-            var newChart = new Chart(ctx).HeatMap(heatmapData, heatmapOptions);
+            //$scope.marketData.slice(900,1000).forEach(function(obj, index){ 
+            //    $scope.heatMapChart.series[1].data.push(parseFloat(obj.percentChange*100));
+            //});
             $rootScope.stateIsLoading = false;
-
         });
     };
-    //$scope.getPdf();
+    $scope.getPdf();
 
     $scope.getEma = function (periodArray, type){
         $rootScope.stateIsLoading = true;

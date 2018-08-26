@@ -60,15 +60,32 @@ angular.module( 'investing.about', [
         credits:{enabled:false},
     };
 
-    /*$scope.heatMapChart = {
+    $scope.heatMapChart = {
         chart: {
             type: 'heatmap',
-            marginTop: 40,
-            marginBottom: 80,
-            plotBorderWidth: 1
+            marginTop: 0,
+            marginBottom: 0,
+            plotBorderWidth: 1,
+            zoomType: 'xy',
+            events: {
+                redraw: function () {
+                    const data = this.series[0].data
+                    const xe = this.xAxis[0].getExtremes()
+                    const ye = this.yAxis[0].getExtremes()
+                      // Filter data
+                    const filteredData = data.filter((point) => {
+                        return point.x <= xe.max && point.x >= xe.min && point.y <= ye.max && point.y >= ye.min
+                    })
+                    console.log(filteredData)
+                    // You can create your table here and fill it with filtered data
+                }
+            }
+        },
+        boost: {
+            useGPUTranslations: true
         },
         title: {
-            text: 'Probability Density Function of Percent Change for the BTC/LTC Market'
+            text: 'Probability Density of Percent Change'
         },
         xAxis: {
             categories: [],
@@ -81,7 +98,7 @@ angular.module( 'investing.about', [
         colorAxis: {
             min: -1,
             minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
+            maxColor: '#000000',
         },
         legend: {
             align: 'right',
@@ -93,45 +110,68 @@ angular.module( 'investing.about', [
         },
         tooltip: {
             formatter: function () {
-                return this.series.xAxis.categories[this.point.x];
+                return this.point.value;
+            }
+        },
+        colorAxis: {
+            reversed: false,
+            stops: [
+                [0, '#FFFFFF'],
+                [0.01, '#3060cf'],
+                [0.25, '#fffbbc'],
+                [1, '#c4463a']
+            ],
+            min: 0,
+            max: 10,
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                format: '{value}%'
             }
         },
         series: [{
+            boostThreshold: 100,
             name: 'Probability Density Function',
-            borderWidth: 1,
+            borderWidth: 0,
             data: [],
             dataLabels: {
-                enabled: true,
-                color: '#000000'
+                enabled: false,
+                //color: '#000000'
             }
         }],
         credits:{enabled:false},
-    };*/
+    };
 
     //TODO: SAVE PDF
-    /*AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
-        var pdfData = returnData.heatMap.slice(returnData.heatMap.length-20, returnData.heatMap.length);
-        for(x in pdfData){
-            $scope.heatMapChart.xAxis.categories.push(x);
-        }
+    AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
+        
+        var pdfData = returnData.heatMap.slice(returnData.heatMap.length-50, returnData.heatMap.length);
+        for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(x);}
         var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});
-        for (x in Object.keys(pdfData[0])){ 
+        sortedKeys = sortedKeys.sort(function(a,b){return a - b});
+
+        sortedKeys = sortedKeys.map(function(obj){
+            if(isNaN(parseFloat(obj))){return '1';}
+            else{return obj}
+        });
+
+        sortedKeys = sortedKeys.filter(function(obj){
+            if (obj < 0.25 && obj > -0.25){return obj}
+        });
+
+        for (x in sortedKeys){ 
             var dataArray = [];
-            var key = Object.keys(pdfData[0])[x];
-            if (key < 0.20 && key > -0.20){
-                $scope.heatMapChart.yAxis.categories.push(key);
-                //console.log(key)
-                var heatMapData = [];
-                for (z in pdfData){
-                    //console.log(pdfData[z][key])
-                    $scope.heatMapChart.series[0].data.push([parseFloat(z),parseFloat(x),pdfData[z][key]])
-                }
+            var key = sortedKeys[x];
+            $scope.heatMapChart.yAxis.categories.push(key);
+            var heatMapData = [];
+            for (z in pdfData){
+                $scope.heatMapChart.series[0].data.push([parseFloat(z),parseFloat(x), pdfData[z][key]])
             }
         }
-        console.log($scope.heatMapChart.series[0].data);
-    });*/
 
-    OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'ETH').then(function(orderBookModel){
+    });
+
+    OrderBookModel.getSome(1, 0, 'createdAt DESC', 'BTC', 'LTC').then(function(orderBookModel){
         $scope.orderBook = orderBookModel[0];
 
         $scope.sumBids = [];
