@@ -1413,12 +1413,44 @@ module.exports.intervalService = function(){
     //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
     //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
   
+
+
     /*
-    for (x in tradingPairs){
+    const tf = require('@tensorflow/tfjs');
+
+	// Load the binding:
+	require('@tensorflow/tfjs-node');  // Use '@tensorflow/tfjs-node-gpu' if running with GPU.
+
+	// Train a simple model:
+	const model = tf.sequential();
+	model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [10]}));
+	model.add(tf.layers.dense({units: 1, activation: 'linear'}));
+	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
+	const xs = tf.randomNormal([100, 10]);
+	const ys = tf.randomNormal([100, 1]);
+
+	model.fit(xs, ys, {
+	  epochs: 100,
+	  callbacks: {
+	    onEpochEnd: async (epoch, log) => {
+	      console.log(`Epoch ${epoch}: loss = ${log.loss}`);
+	    }
+	  }
+	});
+	*/
+
+
+
+
+
+
+    
+    //for (x in tradingPairs){
 		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-		var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
-		var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
-		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
+		//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
+		//var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
+		//var experimentalNetwork = new Architect.Perceptron(888, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 500, 750, 850, 1250, 1150, 850, 650, 1000);
 
 		//pdf nerural net has 2k output
 		//train by solving top 3 (n) pick assets at time delta.. 
@@ -1427,10 +1459,12 @@ module.exports.intervalService = function(){
 		//aka these are the known best picks -- this is the known attractive fxn -- what then are the pdf(s)
 		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
 
-		var networkJson = initNetwork.toJSON();
-		var experimentalNetworkJson = initNetwork.toJSON();
+		//var networkJson = initNetwork.toJSON();
+		//var experimentalNetworkJson = initNetwork.toJSON();
 
-		NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
+		//NeuralNetwork.create({title:tradingPairs[x]+ ' High Dimensionality Probability Density', delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
+
+		/*NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'30 seconds ' + tradingPairs[x], delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], delta:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], delta:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
@@ -1440,9 +1474,9 @@ module.exports.intervalService = function(){
 		NeuralNetwork.create({title:'4 hr ' + tradingPairs[x], delta:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
 		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-	}
-	*/
+		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})*/
+	//}
+	
 
 
 

@@ -46,8 +46,8 @@
 		<!--<button class="btn btn-default" ng-click="getNn('price')">nn</button>-->
 		<!--<button class="btn btn-default" ng-click="getPdf('price')">pdf</button>--><!--;)-->
 		<hr>
-		<div class="col-md-9"><highchart config="chartConfig"></highchart></div>
-		<div class="col-md-3"><highchart config="bidAskChart"></highchart></div>
+		<div class="col-md-10"><highchart config="chartConfig"></highchart></div>
+		<div class="col-md-2"><highchart config="bidAskChart"></highchart></div>
 		<!--<highchart config="chartConfig"></highchart>-->
 	</div>
 	<!--<h2>Order Book</h2><hr>
@@ -58,7 +58,7 @@
 		<!--<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button>--><!--select periods..?-->
 		<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">BBAND</button><!--select periods / sD..?-->
 		<!--<button class="btn btn-default" ng-click="getNn('change')">nn</button>-->
-		<button class="btn btn-default" ng-click="getPdf('change')">PDF</button><!--;)-->
+		<!--<button class="btn btn-default" ng-click="getPdf('change')">PDF</button>--><!--;)-->
 		<hr>
 		<highchart config="changeChart"></highchart>
 	</div>
@@ -74,6 +74,8 @@
 
 	<div class="row">
 		<h2>Probability Density</h2>
+		<button class="btn btn-default" ng-click="getPdf('change')">PDF</button>
+		<hr>
 		<!--<canvas id="tableHeatmap" width="1200" height="500"></canvas>-->
 		<highchart config="heatMapChart"></highchart>
 		<div class="spacing-10"></div>

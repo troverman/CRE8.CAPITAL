@@ -601,13 +601,21 @@ module.exports = {
 						}
 					}
 
+
 					Order.create(orderModel).then(function(orderModel){/*console.log(orderModel)*/});	
+
+
+					//ORDER BOOK? --> SURE!
+
+
 					Asset.update({user:user, symbol: orderModel.asset1}, {amount:asset1Amount}).then(function(model){/*console.log(model)*/});
 					Asset.find({user:user, symbol: orderModel.asset2}).then(function(asset){
 						var updateAmount = asset[0].amount + orderModel.amount;
 						Asset.update({user:user, symbol: orderModel.asset2}, {amount:updateAmount}).then(function(model){/*console.log(model)*/});
 						emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: BUY ' + orderModel.asset2, {data: orderModel});
 		            });	
+
+
 
 		        });
 	    	}
@@ -798,8 +806,6 @@ module.exports = {
 
 
 
-
-
 							//TODO: REMOVE HARDCODE. LOL!
 							//SINGULAR MARKET
 							if (model.asset1 == 'BTC' && (model.asset2 == 'BCN' || model.asset2 == 'DOGE') && delta == '5000'){
@@ -821,6 +827,15 @@ module.exports = {
 									}
 								//}
 							}
+
+
+
+
+							//FLASH CRASH OF BUYING AND SELLING PRICE
+
+
+
+
 
 			                //BUY LOW
 			                if (model.percentChange < -0.15){

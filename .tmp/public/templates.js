@@ -132,6 +132,17 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <h3>Performance | Analysis </h3>\n" +
+    "            <p style=\"font-style:italic\">How are we doing?</p>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "            <img style=\"max-height:300px;float:right\" src=\"images/1.gif\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "    <highchart config=\"chartConfig\"></highchart>\n" +
     "\n" +
@@ -332,7 +343,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "			    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
-    "			       <h1>Empowered Financial Representation</h1>\n" +
+    "			       <h2>Empowered Financial Representation</h2>\n" +
     "			       <h3 style=\"\">Backed by Sound, Open Data</h3>\n" +
     "			    </div>\n" +
     "			</div>\n" +
@@ -390,7 +401,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div style=\"text-align:left\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"container\" style=\"\">\n" +
-    "			<h1><a href=\"/markets\">Market Exposure</a></h1>\n" +
+    "			<h2><a href=\"/markets\">Market Exposure</a></h2>\n" +
     "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
     "			<div class=\"spacing-10\"></div>\n" +
     "\n" +
@@ -433,7 +444,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"container\">\n" +
-    "			<h1>Activity</h1>\n" +
+    "			<h2>Activity</h2>\n" +
+    "			<div class=\"spacing-10\"></div>\n" +
     "			<highchart config=\"chartConfig\"></highchart>\n" +
     "			<!--daily return vs index..-->\n" +
     "			<div class=\"spacing-50\"></div>\n" +
@@ -442,7 +454,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
-    "		<h1>Order Book</h1>\n" +
+    "		<h2>Order Book</h2>\n" +
     "		<h4>Transparent Investments</h4>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
     "		<table class=\"table table-inverse table-hover\">\n" +
@@ -1026,8 +1038,8 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
     "		<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
     "		<hr>\n" +
-    "		<div class=\"col-md-9\"><highchart config=\"chartConfig\"></highchart></div>\n" +
-    "		<div class=\"col-md-3\"><highchart config=\"bidAskChart\"></highchart></div>\n" +
+    "		<div class=\"col-md-10\"><highchart config=\"chartConfig\"></highchart></div>\n" +
+    "		<div class=\"col-md-2\"><highchart config=\"bidAskChart\"></highchart></div>\n" +
     "		<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
     "	</div>\n" +
     "	<!--<h2>Order Book</h2><hr>\n" +
@@ -1038,7 +1050,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
     "		<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">BBAND</button><!--select periods / sD..?-->\n" +
     "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button><!--;)-->\n" +
+    "		<!--<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>--><!--;)-->\n" +
     "		<hr>\n" +
     "		<highchart config=\"changeChart\"></highchart>\n" +
     "	</div>\n" +
@@ -1054,6 +1066,8 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<div class=\"row\">\n" +
     "		<h2>Probability Density</h2>\n" +
+    "		<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>\n" +
+    "		<hr>\n" +
     "		<!--<canvas id=\"tableHeatmap\" width=\"1200\" height=\"500\"></canvas>-->\n" +
     "		<highchart config=\"heatMapChart\"></highchart>\n" +
     "		<div class=\"spacing-10\"></div>\n" +

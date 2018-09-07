@@ -583,9 +583,15 @@ angular.module( 'investing.market', [
     //TODO: LOL
     $scope.getPdf = function (){
         $rootScope.stateIsLoading = true;
-        AnalysisModel.getPdf($scope.marketData.slice(650,1000)).then(function(returnData){
+        //TODO
+        AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
+        //AnalysisModel.getPdf($scope.marketData.slice(650,1000)).then(function(returnData){
+            $scope.heatMapChart.series[0].data = [];
+            $scope.heatMapChart.xAxis.categories = [];
             var pdfData = returnData.heatMap.slice(returnData.heatMap.length-100, returnData.heatMap.length);
-            for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x+649].createdAt));}
+            //TODO
+            for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData[x].createdAt));}
+            //for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(new Date($scope.marketData.reverse().slice(0,100).reverse()[x].createdAt));}
             var sortedKeys = Object.keys(pdfData[0]).sort(function(a,b){return a - b});
             sortedKeys = sortedKeys.sort(function(a,b){return a - b});
             sortedKeys = sortedKeys.map(function(obj){
@@ -610,7 +616,7 @@ angular.module( 'investing.market', [
             $rootScope.stateIsLoading = false;
         });
     };
-    $scope.getPdf();
+    //$scope.getPdf();
 
     $scope.getEma = function (periodArray, type){
         $rootScope.stateIsLoading = true;
