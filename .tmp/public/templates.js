@@ -1001,18 +1001,16 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "				<div class=\"md-list-item-text\" layout=\"column\">\n" +
     "					<h3><a href=\"/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\"><span class=\"pull-left ct-red\">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>\n" +
     "				</div>\n" +
-    "				<md-divider ></md-divider>\n" +
+    "				<md-divider></md-divider>\n" +
     "			</md-list-item>\n" +
     "		</md-list>\n" +
     "	</md-content>\n" +
     "</md-sidenav>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
-    "	<div class=\"spacing-15\"></div>\n" +
     "	<div class=\"row\">\n" +
     "		<h2><span ng-click=\"sideNavToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i></span> {{selectedPair[0]}} / {{selectedPair[1]}}</h2>\n" +
     "	</div>\n" +
-    "\n" +
     "	<div class=\"row\">\n" +
     "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">LIVE</button>\n" +
     "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5SEC </button><!--x6-->\n" +

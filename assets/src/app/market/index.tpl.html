@@ -9,18 +9,16 @@
 				<div class="md-list-item-text" layout="column">
 					<h3><a href="/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}"><span class="pull-left ct-red">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>
 				</div>
-				<md-divider ></md-divider>
+				<md-divider></md-divider>
 			</md-list-item>
 		</md-list>
 	</md-content>
 </md-sidenav>
 
 <div class="container" style="text-align:left">
-	<div class="spacing-15"></div>
 	<div class="row">
 		<h2><span ng-click="sideNavToggle()"><i style="font-size:24px" class="fa fa-bars"></i></span> {{selectedPair[0]}} / {{selectedPair[1]}}</h2>
 	</div>
-
 	<div class="row">
 		<button ng-class="selectedClass('Live')" ng-click="getLive()">LIVE</button>
 		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5SEC </button><!--x6-->
