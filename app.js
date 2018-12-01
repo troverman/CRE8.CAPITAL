@@ -30,6 +30,8 @@ process.chdir(__dirname);
 
   //TODO: connect wallet to user account to store for ish aka their assets
 
+
+  
   var CoinKey = require('coinkey') //1.0.0
   var coinInfo = require('coininfo')  //0.1.0
   var dogeInfo = coinInfo('DOGE').versions

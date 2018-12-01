@@ -22,9 +22,133 @@ angular.module( 'investing.markets', [
 .controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
 	titleService.setTitle('Markets | collaborative.capital');
     $scope.marketData = marketData;
-    $scope.neuralNets = [1,2,3,4,5]
     $scope.selectedDelta = '60000';
-     $scope.tradingPairs = [
+
+    //STORE AS VECTOR
+    //MATRIX - VECTOR SET WITH 1 TRAVERSAL
+    $scope.vector = {
+        BTC:{
+            BTC:1,
+            LTC:0.1,
+            XMR:0.4,
+            XRP:0.003,
+        }
+    };
+
+    $scope.matrix = {
+        BTC:{
+            BTC:1,
+            LTC:1,
+            XMR:1,
+            XRP:1,
+        },
+        LTC:{
+            BTC:1,
+            LTC:1,
+            XMR:1,
+            XRP:1,
+        },
+        XMR:{
+            BTC:1.7,
+            LTC:0.5,
+            XMR:1,
+            XRP:0.09,
+        },
+        XRP:{
+            BTC:1.7,
+            LTC:0.5,
+            XMR:0.09,
+            XRP:1,
+        }
+    };
+
+    $scope.orderBookMatrix = {
+        BTC:{
+            BTC: null,
+            LTC: {bids:[],asks:[]},
+            XMR: {bids:[],asks:[]},
+            XRP: {bids:[],asks:[]},
+        },
+    };
+
+    $scope.vector = {
+        name:'BTC', 
+        data:[
+            {name:'BTC', data:1},
+            {name:'LTC', data:0.1},
+            {name:'XRP', data:0.4},
+            {name:'XMR', data:0.003},
+        ]
+    };
+
+    $scope.matrix = [{
+        name:'BTC', 
+        data:[
+            {name:'BTC', data:1},
+            {name:'LTC', data:0.1},
+            {name:'XRP', data:0.003},
+            {name:'XMR', data:0.4},
+        ]
+    },{
+        name:'LTC', 
+        data:[
+            {name:'BTC', data:10},
+            {name:'LTC', data:1},
+            {name:'XRP', data:0.3},
+            {name:'XMR', data:17},
+        ]
+    },{
+        name:'XMR', 
+        data:[
+            {name:'BTC', data:1.7},
+            {name:'LTC', data:0.5},
+            {name:'XMR', data:1},
+            {name:'XRP', data:0.09},
+        ]
+    },{
+        name:'XRP', 
+        data:[
+            {name:'BTC', data:10002},
+            {name:'LTC', data:203},
+            {name:'XMR', data:540},
+            {name:'XRP', data:1},
+        ]
+    }];
+
+    $scope.orderBookMatrix = [{
+        name: 'BTC',
+        data:[
+            {name:'LTC', bids:[], asks:[]},
+            {name:'XMR', bids:[], asks:[]},
+            {name:'XRP', bids:[], asks:[]},
+        ],
+    }];
+
+    $scope.orderBook = [{
+        name: 'BTC',
+        data:[
+            {name:'LTC', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+            {name:'XMR', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+            {name:'XRP', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+        ],
+    }];
+
+
+    //LISTEN TO SET OF EXCHANGES
+    //LISTEN TO ORDER BOOK CHANGES --> SOCKET
+
+
+    //^^LIST OR NESTED OBJ?
+    //{"BTC":data:{"BTC":1,"LTC",0.2}}
+    //[{name:'BTC', data:[{name:'BTC', data:1}]}]
+    //NESTED OBJ :)
+
+    //TENSOR IS TRAVERSAL / NEST AND COMBINATIORIAL
+
+    //HODLING 2 AT SAME TIME
+
+    //TODO: NOT STATIC
+    $scope.tradingPairs = [
         'XRP/BTC',
         'ETH/BTC',
         'BTC/USDT',
@@ -116,10 +240,9 @@ angular.module( 'investing.markets', [
 
     $scope.chartConfig = {
         chart: {
-            type: 'spline',
+            type: 'area',
             zoomType: 'x',
             marginLeft: 70,
-            //marginBottom: 40,
             marginTop: 20,
             height: 750
         },
@@ -130,7 +253,6 @@ angular.module( 'investing.markets', [
             }
         },
         title:{text: null},
-        //legend: {enabled: false},
         colors: ['#14b794'],
         series: [],
         xAxis: {
@@ -141,7 +263,6 @@ angular.module( 'investing.markets', [
             crosshair: true,
             gridLineWidth: 0.5,
             gridLineColor: 'grey'
-
         },
         yAxis: {
             title: null,
@@ -165,56 +286,13 @@ angular.module( 'investing.markets', [
         },
     };
 
-    $scope.marketOptions = {
-        chart: {
-            type: 'lineWithFocusChart',
-            height: 850,
-            margin : {
-                top: 20,
-                right: 0,
-                bottom: 50,
-                left: 50
-            },
-            x: function(d){ 
-                return d[0]; 
-            },
-            y: function(d){ 
-                return d[1]; 
-            },
-            color: d3.scale.category20b().range(),
-            duration: 0,
-            interpolate: 'monotone',
-            useInteractiveGuideline: true,
-            clipVoronoi: true,
-            xAxis: {
-                tickFormat: function(d) {
-                    return d3.time.format('%m/%d %H:%M.%S')(new Date(d))
-                },
-                staggerLabels: true,
-                showMaxMin : false
-            },
-            yAxis: {
-                axisLabelDistance: 50,
-                showMaxMin : false
-            },
-            x2Axis: {
-                tickValues:0,
-                showMaxMin: false
-            },
-            y2Axis: {
-                tickValues:0,
-                axisLabelDistance: 200,
-                showMaxMin : false
-            },
-        }
-    };
 
     $scope.marketDataRender = {};
     $scope.marketDataRenderRender = [];
 
     //do an analysis of % change...
-    $scope.dataMap = {}
-    $scope.iterator = 0
+    $scope.dataMap = {};
+    $scope.iterator = 0;
     //TODO: REDO
     $scope.selectData = function (asset1, asset2, delta){
         $rootScope.stateIsLoading = true;
@@ -269,7 +347,7 @@ angular.module( 'investing.markets', [
         }
     };
 
-    $scope.selectTime('60000', 'BTC');
+    //$scope.selectTime('60000', 'BTC');
 
     $scope.solvePortfolio = function(delta, limit){
         $scope.portfolioData = {};

@@ -1,66 +1,117 @@
 <div class="container" style="text-align:left">
 
 	<div class="row">
-		<div class="col-md-9">
-			<h1>Markets</h1>
-			<highchart config="chartConfig"></highchart>
-		</div>
-		<div class="col-md-3">
-			<!--<p class="btn btn-default" ng-click="selectTime(5000,'BTC')">5sec</p>-->
-			<!--<p class="btn btn-default" ng-click="selectTime(30000,'BTC')">30sec</p>-->
-			<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
-			<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
-			<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
-			<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
-			<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
-			<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
-			<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
-			<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
-			<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
-			<div class="spacing-25"></div>
-			<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
-			<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
-			<!--<p class="btn btn-default" ng-click="solvePortfolioPDF('60000', 100)">MultiSolvePDF</p>-->
-		</div>
+
+		<!--BTC VALUE VECTOR OVER TIME-->
+		<h1>Markets</h1>
+
+		<!--TODO: MORE EXCHANGES; PAIRS-->
+		<highchart config="chartConfig"></highchart>
+		<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
+		<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
+		<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
+		<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
+		<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
+
+		<div class="spacing-25"></div>
+
+		<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
+		<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
+		<!--<p class="btn btn-default" ng-click="solvePortfolioPDF('60000', 100)">MultiSolvePDF</p>-->
+
 	</div>
 
-	<div class="row">
+	<div class="row" ng-show="portfolioData.orderSet.length > 0">
 		
-		<!--<div class="col-md-6">
+		<!--
+		<h3>Portfolio Set Over Time</h3>
+		<div class="col-md-6">
 			<div ng-repeat="portfolio in portfolioData.portfolioSet">
 				{{portfolio}}
 				<br><br>
 			</div>
-		</div>-->
-
-		<div>
-			<div class="spacing-25"></div>
-			<div ng-repeat="order in portfolioData.orderSet">
-				<div class="col-md-3 col-sm-4 col-xs-6 ">
-					<div class="card">
-						<div style="padding:16px;">
-							<p style="color:grey">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
-	</div>
+		-->
 
-	<div class="row">
-		<div ng-repeat="neuralNet in neuralNets">
+		<div class="spacing-25"></div>
+
+		<h3>Order Set</h3>
+		<div ng-repeat="order in portfolioData.orderSet">
 			<div class="col-md-3 col-sm-4 col-xs-6 ">
 				<div class="card">
 					<div style="padding:16px;">
-						<a href="neural/{{neuralNet}}">{{neuralNet}}</a>
+						<p style="color:grey">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<div class="row">
-		<h1>Markets</h1>
+
+		<h3>Value Vectors</h3>
+		<!--SEARCH-->
+		<table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                	<th>Asset</th>
+                	<th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="asset in vector.data">
+                    <td><a href="market/{{asset}}">{{asset.name}}</a></td>
+					<td>{{asset.data}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+		<h3>Value Matrix</h3>
+		<!--SELECTED SET-->
+		<table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                	<th ng-repeat="vector in matrix">{{vector.name}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vector in matrix">
+					<td ng-repeat="asset in vector.data"><a href="market/{{asset}}">{{asset.data}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--MULT BY PORTFOLIO VECTOR-->
+
+        <h3>Order Book Tensor</h3>
+        <!--SELECTED SET & EXCHANGE-->
+		<table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                	<th ng-repeat="vector in matrix">{{vector.name}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vector in matrix">
+					<td ng-repeat="asset in vector.data"><a href="market/{{asset}}">[{{asset.data}}, {{asset.data}}]</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Neural Networks</h3>
+        
+
+
+	</div>
+
+	<div class="row">
+
+		<h1>Market Pairs</h1>
 		<div ng-repeat="pair in tradingPairs">
 			<div class="col-md-3 col-sm-4 col-xs-6 ">
 				<div class="card">
@@ -70,6 +121,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 </div>

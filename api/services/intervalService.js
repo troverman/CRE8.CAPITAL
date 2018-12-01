@@ -11,6 +11,9 @@ var regression = require('regression');
 var fs = require('fs');
 var tulind = require('tulind');
 
+//const tf = require('@tensorflow/tfjs');
+//require('@tensorflow/tfjs-node');
+
 var tradingPairs = [
     'XRP/BTC',
     'ETH/BTC',
@@ -1142,6 +1145,8 @@ function createPredictionSolve(){
 				var changeHigh = (high - lastPrice)/high;
 				var changeLow = (low - lastPrice)/low;
 				if (changeHigh > 0 && changeLow > 0){
+
+					//A NOW PICK BASED ON TSF | WHY NOT PLUG IN? --> TIME ?
 					
 				}
 			});
@@ -1256,6 +1261,44 @@ function initPortfolio(user){
 
 module.exports.intervalService = function(){
 
+	//TENSORFLOW
+	/*
+	const model = tf.sequential();
+	model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [10]}));
+	model.add(tf.layers.dense({units: 10, activation: 'linear'}));
+	model.add(tf.layers.dense({units: 20, activation: 'linear'}));
+	model.add(tf.layers.dense({units: 30, activation: 'linear'}));
+	model.add(tf.layers.dense({units: 1, activation: 'linear'}));
+
+	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
+	const xs = tf.randomNormal([100, 10]);
+	const ys = tf.randomNormal([100, 1]);
+
+	model.fit(xs, ys, {
+		epochs: 100,
+		callbacks: {
+			onEpochEnd: async (epoch, log) => {
+				//console.log(`Epoch ${epoch}: loss = ${log.loss}`);
+			}
+		}
+	});
+
+	const model = tf.sequential();
+	model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
+	// Generate some synthetic data for training.
+	const xs = tf.tensor2d([[1], [2], [3], [4]], [4, 1]);
+	const ys = tf.tensor2d([[1], [3], [5], [7]], [4, 1]);
+
+	// Train model with fit().
+	await model.fit(xs, ys, {epochs: 1000});
+
+	// Run inference with predict().
+	model.predict(tf.tensor2d([[5]], [1, 1])).print();
+	*/
+
 	//initPortfolio('591a95d935ab691100c584ce');
 	//dataService.returnBalances('5a83602d5ac735000488e8f7');
 	//Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
@@ -1276,7 +1319,6 @@ module.exports.intervalService = function(){
 	//tradingPairs.forEach(function(tradingPair, index){
 		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
 	//});
-
 
 	//createPrediction(100, '1800000');
 	//portfolioBalanceMulti('30000', 100);
@@ -1343,7 +1385,6 @@ module.exports.intervalService = function(){
 		});
     });*/
 	
-
 	/*
 	var timeAgnosticNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
 	var timeAgnosticNetworkJson = timeAgnosticNetwork.toJSON();
@@ -1355,8 +1396,6 @@ module.exports.intervalService = function(){
 	}
 	*/
 
-
-	
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
@@ -1395,9 +1434,6 @@ module.exports.intervalService = function(){
 
 	//timer(dataService.cullTrade.bind(null, 86400000), 100000);//keep for one day
 
-
-
-
 	//NEURALNETWORKS
 	//POPULATE NETWORKS
     //TODO:check
@@ -1412,40 +1448,7 @@ module.exports.intervalService = function(){
     //combined neural net experiment? --> def
     //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
     //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-  
 
-
-    /*
-    const tf = require('@tensorflow/tfjs');
-
-	// Load the binding:
-	require('@tensorflow/tfjs-node');  // Use '@tensorflow/tfjs-node-gpu' if running with GPU.
-
-	// Train a simple model:
-	const model = tf.sequential();
-	model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [10]}));
-	model.add(tf.layers.dense({units: 1, activation: 'linear'}));
-	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-
-	const xs = tf.randomNormal([100, 10]);
-	const ys = tf.randomNormal([100, 1]);
-
-	model.fit(xs, ys, {
-	  epochs: 100,
-	  callbacks: {
-	    onEpochEnd: async (epoch, log) => {
-	      console.log(`Epoch ${epoch}: loss = ${log.loss}`);
-	    }
-	  }
-	});
-	*/
-
-
-
-
-
-
-    
     //for (x in tradingPairs){
 		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
 		//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
@@ -1477,7 +1480,4 @@ module.exports.intervalService = function(){
 		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})*/
 	//}
 	
-
-
-
 };

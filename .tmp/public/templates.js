@@ -258,7 +258,6 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			</md-content>\n" +
     "		</md-sidenav>\n" +
     "\n" +
-    "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-md-12\">\n" +
     "				<canvas id=\"doughnut\" class=\"chart chart-doughnut\" chart-data=\"portfolioData\" chart-labels=\"portfolioLabels\"></canvas>\n" +
@@ -970,12 +969,6 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
     "                    <div class=\"align-right\">\n" +
     "                        <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Sign in</button>\n" +
     "                    </div>\n" +
-    "                    <br><br>\n" +
-    "                    <div class=\"social-log\">\n" +
-    "                        <a class=\"btn btn-facebook\" href=\"#\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
-    "                        <a class=\"btn btn-twitter\" href=\"#\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
-    "                        <a class=\"btn btn-google\" href=\"#\"><i class=\"fa fa-google\"></i> Google</a>\n" +
-    "                    </div>\n" +
     "                    <br><hr>\n" +
     "                    <div class=\"\">\n" +
     "                        <a style=\"text-align:center\" href=\"/register\">Need an account?</a>\n" +
@@ -1105,66 +1098,113 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<div class=\"row\">\n" +
-    "		<div class=\"col-md-9\">\n" +
-    "			<h1>Markets</h1>\n" +
-    "			<highchart config=\"chartConfig\"></highchart>\n" +
-    "		</div>\n" +
-    "		<div class=\"col-md-3\">\n" +
-    "			<!--<p class=\"btn btn-default\" ng-click=\"selectTime(5000,'BTC')\">5sec</p>-->\n" +
-    "			<!--<p class=\"btn btn-default\" ng-click=\"selectTime(30000,'BTC')\">30sec</p>-->\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
-    "			<div class=\"spacing-25\"></div>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "			<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
-    "			<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
-    "		</div>\n" +
+    "\n" +
+    "		<!--BTC VALUE VECTOR OVER TIME-->\n" +
+    "		<h1>Markets</h1>\n" +
+    "\n" +
+    "		<!--TODO: MORE EXCHANGES; PAIRS-->\n" +
+    "		<highchart config=\"chartConfig\"></highchart>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "\n" +
+    "		<div class=\"spacing-25\"></div>\n" +
+    "\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "		<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
+    "	<div class=\"row\" ng-show=\"portfolioData.orderSet.length > 0\">\n" +
     "		\n" +
-    "		<!--<div class=\"col-md-6\">\n" +
+    "		<!--\n" +
+    "		<h3>Portfolio Set Over Time</h3>\n" +
+    "		<div class=\"col-md-6\">\n" +
     "			<div ng-repeat=\"portfolio in portfolioData.portfolioSet\">\n" +
     "				{{portfolio}}\n" +
     "				<br><br>\n" +
     "			</div>\n" +
-    "		</div>-->\n" +
-    "\n" +
-    "		<div>\n" +
-    "			<div class=\"spacing-25\"></div>\n" +
-    "			<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
-    "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "					<div class=\"card\">\n" +
-    "						<div style=\"padding:16px;\">\n" +
-    "							<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
-    "						</div>\n" +
-    "					</div>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
     "		</div>\n" +
-    "	</div>\n" +
+    "		-->\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
-    "		<div ng-repeat=\"neuralNet in neuralNets\">\n" +
+    "		<div class=\"spacing-25\"></div>\n" +
+    "\n" +
+    "		<h3>Order Set</h3>\n" +
+    "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
     "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "				<div class=\"card\">\n" +
     "					<div style=\"padding:16px;\">\n" +
-    "						<a href=\"neural/{{neuralNet}}\">{{neuralNet}}</a>\n" +
+    "						<p style=\"color:grey\">{{order.amount}} {{order.asset1}} ==@{{order.price}}==> {{order.amount / order.price}} {{order.asset2}} @ {{order.createdAt}}</p>\n" +
     "					</div>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
-    "		<h1>Markets</h1>\n" +
+    "\n" +
+    "		<h3>Value Vectors</h3>\n" +
+    "		<!--SEARCH-->\n" +
+    "		<table class=\"table table-striped table-hover\">\n" +
+    "            <thead>\n" +
+    "                <tr>\n" +
+    "                	<th>Asset</th>\n" +
+    "                	<th>Value</th>\n" +
+    "                </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "                <tr ng-repeat=\"asset in vector.data\">\n" +
+    "                    <td><a href=\"market/{{asset}}\">{{asset.name}}</a></td>\n" +
+    "					<td>{{asset.data}}</td>\n" +
+    "                </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "		<h3>Value Matrix</h3>\n" +
+    "		<!--SELECTED SET-->\n" +
+    "		<table class=\"table table-striped table-hover\">\n" +
+    "            <thead>\n" +
+    "                <tr>\n" +
+    "                	<th ng-repeat=\"vector in matrix\">{{vector.name}}</th>\n" +
+    "                </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "                <tr ng-repeat=\"vector in matrix\">\n" +
+    "					<td ng-repeat=\"asset in vector.data\"><a href=\"market/{{asset}}\">{{asset.data}}</a></td>\n" +
+    "                </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "        <!--MULT BY PORTFOLIO VECTOR-->\n" +
+    "\n" +
+    "        <h3>Order Book Tensor</h3>\n" +
+    "        <!--SELECTED SET & EXCHANGE-->\n" +
+    "		<table class=\"table table-striped table-hover\">\n" +
+    "            <thead>\n" +
+    "                <tr>\n" +
+    "                	<th ng-repeat=\"vector in matrix\">{{vector.name}}</th>\n" +
+    "                </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "                <tr ng-repeat=\"vector in matrix\">\n" +
+    "					<td ng-repeat=\"asset in vector.data\"><a href=\"market/{{asset}}\">[{{asset.data}}, {{asset.data}}]</a></td>\n" +
+    "                </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "		<h1>Market Pairs</h1>\n" +
     "		<div ng-repeat=\"pair in tradingPairs\">\n" +
     "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
     "				<div class=\"card\">\n" +
@@ -1174,6 +1214,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
     "</div>\n" +
@@ -1284,12 +1325,14 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function($t
     "                    <div class=\"align-right\">\n" +
     "                        <button class=\"btn btn-default log-btn\" type=\"submit\" value=\"submit\">Sign up</button>\n" +
     "                    </div>\n" +
+    "                    <!--\n" +
     "                    <br><br>\n" +
     "                    <div class=\"social-log\">\n" +
     "                        <a class=\"btn btn-facebook\" ng-click=\"\"><i class=\"fa fa-facebook\"></i> Facebook</a>\n" +
     "                        <a class=\"btn btn-twitter\" ng-click=\"\"><i class=\"fa fa-twitter\"></i> Twitter</a>\n" +
     "                        <a class=\"btn btn-google\" ng-click=\"\"><i class=\"fa fa-google\"></i> Google</a>\n" +
     "                    </div>\n" +
+    "                    -->\n" +
     "                    <br><hr>\n" +
     "                    <div class=\"social-log\">\n" +
     "                        <a href=\"/login\">Already have an account?</a>\n" +
