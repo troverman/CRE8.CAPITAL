@@ -1,15 +1,76 @@
+<style>
+
+	.member-tabs li{
+	    display: inline;
+	    font-size: 20px;
+	    font-family:'Titillium Web',sans-serif;
+	}
+
+	.member-tabs > li > a{
+	    padding:10px 15px;
+	    color:rgb(125,125,125);
+	}
+
+	.member-tabs > li > a:hover{
+	    background-color: #eee;
+	    border-radius:3px;
+	}
+
+	.member-tab-container ul{
+	    margin:10px 15px;
+	}
+
+</style>
+
+<div style="background-color:black;color:white;text-align:left">
+
+    <div class="spacing-25"></div>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-transform:uppercase">{{member.username}}</h1>
+        </div>
+    </div>
+    <div class="spacing-25"></div>
+    
+</div>
+
+<div class="spacing-15"></div>
+
 <div class="container" style="text-align:left">
 	
-	<h1>member</h1>
-	<p>representing $1,000,000,000</p> 
-	<!--or array calc-->
-	<!--being more innovation at the pos-->
-	<p>return %</p>
-	<p>portfolio</p>
-	<p>positions</p>
-	<p>trade history</p>
-	<p>select as representative</p><!--pay commission to copy trades-->
-	<!--for x $$$$ or array etc-->
+	<div class="row">
+		<div style="text-align:left" class="member-tab-container">
+			<ul class="member-tabs subNav" style="padding-inline-start: 0px;">
+				<li><a href="member/{{member.username}}">Activity</a></li>
+				<li><a href="member/{{member.username}}">{{member.followerCount}} Followers</a></li>
+				<li><a href="member/{{member.username}}">{{member.followingCount}} Following</a></li>
+				<li><a href="member/{{member.username}}">Positions</a></li>
+				<li ng-show="currentUser.id != member.id">
+					<a ng-show="!isFollowing" class="btn btn-default" ng-click="follow()">Follow</a>
+					<a ng-show="isFollowing" class="btn btn-default" ng-click="unfollow()">UnFollow</a>
+				</li>
+				<li ng-show="currentUser.id == member.id"><a class="btn btn-default" href="account">Edit Profile</a></li>
+				<li ng-click="subNavToggle()"><a style="color:black" href="#"><i class="fa fa-bars"></i></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="spacing-15"></div>
+
+	<div class="row">
+		<p>Representing $1,000,000,000</p> 
+		<!--or array calc-->
+		<!--being more innovation at the pos-->
+
+		<p>Return %</p>
+		<p>Portfolio</p>
+		<p>Positions</p>
+		<p>Trade History</p>
+		<p>Select as Representative</p>
+
+		<!--pay commission to copy trades-->
+		<!--for x $$$$ or array etc-->
+	</div>
 
 </div>
 <div style="height:100px;"></div>

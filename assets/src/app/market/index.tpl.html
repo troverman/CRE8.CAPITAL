@@ -1,25 +1,18 @@
+<div style="background-color:black;color:white;text-align:left">
 
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
-	<md-toolbar style="background-color:rgb(35, 170, 159)" class="md-primary md-hue-2">
-		<h1 class="md-toolbar-tools">Markets</h1>
-	</md-toolbar>
-	<md-content>
-		<md-list>
-			<md-list-item ng-repeat="pair in tradingPairs" class="menu-select md-3-line" md-ink-ripple="#101010" style="background:#e8e8e8;">
-				<div class="md-list-item-text" layout="column">
-					<h3><a href="/market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}"><span class="pull-left ct-red">{{pair.split('/')[1]}} / {{pair.split('/')[0]}}</span></a></h3>
-				</div>
-				<md-divider></md-divider>
-			</md-list-item>
-		</md-list>
-	</md-content>
-</md-sidenav>
+    <div class="spacing-25"></div>
+    <div class="container">
+    	<div class="row"><h1 ng-click="marketsToggle()"><i style="font-size:30px" class="fa fa-bars"></i> {{selectedPair[0]}} / {{selectedPair[1]}}</h1></div>
+    </div>
+    <div class="spacing-25"></div>
 
-<div class="container" style="text-align:left">
-	<div class="row">
-		<h2><span ng-click="sideNavToggle()"><i style="font-size:24px" class="fa fa-bars"></i></span> {{selectedPair[0]}} / {{selectedPair[1]}}</h2>
-	</div>
-	<div class="row">
+</div>
+
+<div class="container">
+
+	<div class="row" style="text-align:left">
+		<div class="spacing-25"></div>
+		<!--<button class="btn-default" ng-click="marketsToggle()"><i style="font-size:24px" class="fa fa-bars"></i> MARKETS</button>-->
 		<button ng-class="selectedClass('Live')" ng-click="getLive()">LIVE</button>
 		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5SEC </button><!--x6-->
 		<button ng-class="selectedClass('30000')" ng-click="selectData(stateParams.path1, stateParams.path2, '30000')">30SEC</button><!--x2-->
@@ -32,11 +25,14 @@
 		<button ng-class="selectedClass('21600000')" ng-click="selectData(stateParams.path1, stateParams.path2, '21600000')">6HR </button><!--x3/2-->
 		<button ng-class="selectedClass('43200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '43200000')">12HR </button><!--x2-->
 		<button ng-class="selectedClass('86400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '86400000')">24HR </button><!--x2-->
+		<div class="spacing-10"></div>
 	</div>
+
 	<hr>
+
 	<!--how much data..?-->
 	<!--zoom out ability.. a lot-->
-	<div class="row">
+	<div class="row" style="text-align:left">
 		<h2>Price Data</h2>
 		<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'price')">EMA</button><!--select periods..?-->
 		<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'price')">TSF</button><!--select periods..?-->
@@ -48,9 +44,10 @@
 		<div class="col-md-2"><highchart config="bidAskChart"></highchart></div>
 		<!--<highchart config="chartConfig"></highchart>-->
 	</div>
+
 	<!--<h2>Order Book</h2><hr>
 	<highchart config="bidAskChart"></highchart>-->
-	<div class="row">
+	<div class="row" style="text-align:left">
 		<h2>Market Change</h2>
 		<!--<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button>--><!--select periods..?-->
 		<!--<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button>--><!--select periods..?-->
@@ -61,7 +58,7 @@
 		<highchart config="changeChart"></highchart>
 	</div>
 
-	<div class="row">
+	<div class="row" style="text-align:left">
 		<h2>Oscillator</h2>
 		<button class="btn btn-default" ng-click="getMacd([20,40,80,160,320,640],'change')">MACD</button>
 		<button class="btn btn-default" ng-click="getFosc([20,40,80,160,320,640],'change')">FOSC</button>
@@ -70,17 +67,16 @@
 		<highchart config="oscillatorChart"></highchart>
 	</div>
 
-	<div class="row">
+	<div class="row" style="text-align:left">
 		<h2>Probability Density</h2>
 		<button class="btn btn-default" ng-click="getPdf('change')">PDF</button>
 		<hr>
-		<!--<canvas id="tableHeatmap" width="1200" height="500"></canvas>-->
 		<highchart config="heatMapChart"></highchart>
 		<div class="spacing-10"></div>
 	</div>
 
 	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOT YET EXECUTED-->
-	<div class="row">
+	<div class="row" style="text-align:left">
 		<h2>Market Orders</h2>
 		<table class="table table-inverse table-hover">
 		    <thead>
@@ -102,6 +98,6 @@
 		</table>
 	</div>
 
-<div style="height:100px;"></div>
-<div ng-include="'footer/index.tpl.html'"></div>
+<div class="spacing-50"></div>
 
+<div ng-include="'footer/index.tpl.html'"></div>

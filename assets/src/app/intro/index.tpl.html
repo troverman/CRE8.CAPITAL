@@ -77,19 +77,19 @@ svg {
 }
 
 @keyframes draw {
-0% {
-    stroke-dasharray:180 540;
-    stroke-dashoffset:-454;
-    stroke-width:6px;
-    stroke:#14B795
-}
+    0% {
+        stroke-dasharray:180 540;
+        stroke-dashoffset:-454;
+        stroke-width:6px;
+        stroke:#14B795
+    }
 
-100% {
-    stroke-dasharray:760;
-    stroke-dashoffset:0;
-    stroke-width:2px;
-    stroke:#14B795
-}
+    100% {
+        stroke-dasharray:760;
+        stroke-dashoffset:0;
+        stroke-width:2px;
+        stroke:#14B795
+    }
 }
 
 .svg-wrapper:hover .shape {
@@ -131,10 +131,6 @@ svg {
     min-height:100%;
     overflow:hidden;
     z-index:-5
-}
-
-.mask__shape {
-    fill:#fff
 }
 
 .shape--fill {
@@ -301,148 +297,90 @@ svg {
     }
 }*/
 .imageContainer {
-  background:rgba(26,26,36, 0.84);
-  overflow:hidden;
-  min-height: 500px;
-  font-family: 'Jura', sans-serif;
-  margin:0;padding:0;border:0 none;position: relative;
+    background:rgba(26,26,36, 0.84);
+    overflow:hidden;
+    min-height: 500px;
+    font-family: 'Jura', sans-serif;
+    margin:0;padding:0;border:0 none;position: relative;
 }
 .imageContainerDiv {
-  width:100%;
-  height: 35em;
-  display: flex;
-  flex-direction: column;
+    width:100%;
+    height: 35em;
+    display: flex;
+    flex-direction: column;
 }
 .imageContainerDiv h1 {
-  color: rgba(255,255,255,0.9);
-  font-size: 50px;
-  font-weight: 400;
-  margin-top:auto;
-  margin-bottom:auto;
+    color: rgba(255,255,255,0.9);
+    font-size: 50px;
+    font-weight: 400;
+    margin-top:auto;
+    margin-bottom:auto;
 }
 .imageContainerSmall {
-  background:rgba(36,36,46, 0.84);
-  overflow:hidden;
-  min-height: 200px;
-  font-family: 'Jura', sans-serif;
-  margin:0;padding:0;border:0 none;position: relative;
+    background:rgba(36,36,46, 0.84);
+    overflow:hidden;
+    min-height: 200px;
+    font-family: 'Jura', sans-serif;
+    margin:0;padding:0;border:0 none;position: relative;
 }
 .imageContainerSmallDiv {
-  width:100%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
+    width:100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
 }
 .imageContainerSmallDiv h1 {
-  color: rgba(255,255,255,0.9);
-  font-size: 50px;
-  font-weight: 400;
-  margin-top:auto;
-  margin-bottom:auto;
+    color: rgba(255,255,255,0.9);
+    font-size: 50px;
+    font-weight: 400;
+    margin-top:auto;
+    margin-bottom:auto;
 }
 video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  z-index: -5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    z-index: -5;
 }
+
 </style>
+
 <!--Multidimensional Financial Partners-->
-<div ng-show="false" ng-controller="IntroCtrl" class="intro-container">
-    <svg style="z-index:10" class="intro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920px" height="1080px" preserveAspectRatio="xMidYMid slice">
-        <defs>
-            <mask class="intro-mask" id="intro-mask" x="0" y="0" width="100%" height="100%" maskUnits="userSpaceOnUse">
-                <rect class="intro-rect" x="0" y="0" width="1920px" height="1080px"></rect>
-                <text x="960" y="46%" class="medium-text">collaborative.capital</text>
-                <text x="960" y="51%" class="small-text mantra">empowered financial representation</text>
-                <text x="960" y="67.5%" class="small-text learn-more">learn more</text>
-                <a href="#about" du-smooth-scroll>
-                    <svg class="tri-before" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="883px" y="68%" width="150px" height="150px" viewBox="0 0 723 626" enable-background="new 0 0 723 626" xml:space="preserve">
-                        <g>
-                          <path fill="#232322" d="M0,0h723v1.58c-3.72,4.37-5.58,9.96-8.89,14.62C596.69,219.439,479.44,422.79,361.96,626h-0.6
-                            C243.45,421.77,125.54,217.55,7.63,13.32C5.09,9.061,2.85,4.62,0,0.55V0z"></path>
-                          <path fill="#FFFFFF" d="M86.57,48.002c183.289,0.01,366.569-0.02,549.859,0.02c-40.779,70.681-81.6,141.33-122.39,212.01
-                            c-7.36,12.841-14.91,25.58-22.11,38.521l-0.229-0.01c-86.79-0.09-173.59-0.06-260.38-0.011h-0.211
-                            c-20.239-35.569-40.899-70.899-61.289-106.379C142.061,144.111,114.359,96.031,86.57,48.002z"></path>
-                          <path fill="#21B795" d="M231.311,298.599c86.79-0.049,173.59-0.079,260.38,0.011c-19.42,34.3-39.36,68.31-59,102.479
-                            c-23.71,41.091-47.44,82.16-71.15,123.25c-20.92-36.039-41.68-72.17-62.55-108.229C276.48,376.909,253.65,337.89,231.311,298.599z"></path>
-                        </g>
-                    </svg>
-                </a>
-            </mask>
-        </defs>
-        <rect class="intro-rect" x="0" y="0" width="1920px" height="1080px"></rect>
-        <a href="#about" class="hvr-bob" du-smooth-scroll>
-            <svg class="tri-after" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="883px" y="68%" width="150px" height="150px" viewBox="0 0 723 626" enable-background="new 0 0 723 626" xml:space="preserve">
-                <g>
-                  <path fill="#232322" d="M0,0h723v1.58c-3.72,4.37-5.58,9.96-8.89,14.62C596.69,219.439,479.44,422.79,361.96,626h-0.6
-                    C243.45,421.77,125.54,217.55,7.63,13.32C5.09,9.061,2.85,4.62,0,0.55V0z"></path>
-                  <path fill="#FFFFFF" d="M86.57,48.002c183.289,0.01,366.569-0.02,549.859,0.02c-40.779,70.681-81.6,141.33-122.39,212.01
-                    c-7.36,12.841-14.91,25.58-22.11,38.521l-0.229-0.01c-86.79-0.09-173.59-0.06-260.38-0.011h-0.211
-                    c-20.239-35.569-40.899-70.899-61.289-106.379C142.061,144.111,114.359,96.031,86.57,48.002z"></path>
-                  <path fill="#21B795" d="M231.311,298.599c86.79-0.049,173.59-0.079,260.38,0.011c-19.42,34.3-39.36,68.31-59,102.479
-                    c-23.71,41.091-47.44,82.16-71.15,123.25c-20.92-36.039-41.68-72.17-62.55-108.229C276.48,376.909,253.65,337.89,231.311,298.599z"></path>
-                </g>
-            </svg>
-        </a>
-    </svg>
-    <canvas style="position:absolute;top:0%;left:0%;" id="scene"></canvas>
-</div>
-<div ng-show="false" class="imageContainer">
-    <video class='flexible' autoplay="autoplay" muted="muted" preload="auto" loop="loop"><source src="videos/earth.mp4" type="video/mp4" playsinline></video>
-    <div class="imageContainerDiv container">  
-        <h1 style="">MULTIDIMENSIONAL CAPITAL PARTNERS</h1>
-    </div>
-</div>
-<div ng-show="true" class="intro" style="max-height:500px">
+<div class="intro" style="max-height:500px">
+
     <div class="intro-container">
-      <svg class="svg-defs" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <symbol id="intro-desktop-text">
-          <text style="font-size:48px;" text-anchor="middle"
-                x="960"  
-                y="488"
-                dy=".35em"
-                class="medium-text"
-                >
-            CRE8.CAPITAL
-          </text> 
-          <text style="font-size:28px;" text-anchor="middle"
-                x="960"  
-                y="570"
-                dy=".35em"
-                class="medium-text"
-                >
-            MULTIDIMENSIONAL CAPITAL PARTNERS
-          </text> 
-        </symbol>       
-        <div class="intro-shade"></div>  
-      </svg> 
-      <div class="box-with-text">
-        <div class="text-fill">
-          <video itemscope itemtype="VideoObject"
-              class="video" 
-              src="https://s3-us-west-2.amazonaws.com/voetr/washington.mp4"
-              preload="auto" 
-              autoplay="autoplay" 
-              loop="loop" 
-              muted="muted">
-          </video>
-        </div>
-        <svg class="svg-inverted-mask" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" 
-             preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <rect
-            width="100%"
-            height="100%"
-            mask="url(#intro-desktop-mask)"
-            class="shape--fill"/>
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-text" class="text--transparent"></use>
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-novo" class="text--transparent"></use>
+
+        <svg class="svg-defs" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+
+            <symbol id="intro-desktop-text">
+                <text style="font-size:108px;" text-anchor="middle" x="960" y="488" dy=".35em" class="medium-text">CRE8.CAPITAL</text> 
+                <text style="font-size:28px;" text-anchor="middle" x="960" y="570" dy=".35em" class="medium-text">MULTIDIMENSIONAL CAPITAL PARTNERS</text> 
+            </symbol>  
+
+            <div class="intro-shade"></div>  
+
         </svg> 
-      </div>
+
+        <div class="box-with-text">
+
+            <div class="text-fill">
+                <video itemscope itemtype="VideoObject" class="video" src="https://s3-us-west-2.amazonaws.com/voetr/washington.mp4" preload="auto"autoplay="autoplay" loop="loop" muted="muted"></video>
+            </div>
+
+            <svg class="svg-inverted-mask" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" mask="url(#intro-desktop-mask)" class="shape--fill"/>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-text" class="text--transparent"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-novo" class="text--transparent"></use>
+            </svg> 
+
+        </div>
+
     </div>
-  <div class="intro-mobile"></div>
+
+    <div class="intro-mobile"></div>
+
 </div>

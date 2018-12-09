@@ -1,22 +1,16 @@
 module.exports = {
-	getAll: function(req, res) {
-		User.getAll()
-		.spread(function(models) {
-			res.json(models);
-		})
-		.fail(function(err) {
-			// An error occured
-		});
-	},
 
-	getOne: function(req, res) {
-		User.getOne(req.param('id'))
-		.spread(function(model) {
-			res.json(model);
-		})
-		.fail(function(err) {
-			// res.send(404);
-		});
+	getSome: function(req, res) {
+		if (req.query.type=='username'){
+			User.find({username:req.query.filter})
+			.limit(req.query.limit)
+			.skip(req.query.skip)
+			.sort(req.query.sort)
+			.then(function(model) {
+				res.json(model[0]);
+			});
+		}
+		else{res.json({})}
 	},
 
 	getMine: function(req,res){

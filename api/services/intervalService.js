@@ -1,3 +1,5 @@
+//const ccxt = require ('ccxt')
+
 var request = require('request');
 var Q = require('q');
 var async = require('async');
@@ -621,40 +623,6 @@ function neuralNetComplex(networkModel, asset1, asset2, delta, limit){
 
 function neuralNetMarketToPair(networkModel, asset1, asset2, delta, limit){};
 
-
-//OLD
-function order(){
-
-	var assetMap = {'BTC':10, 'LTC':10, 'ETC':10, 'XMR':10};
-
-	//make 10 trades in 10 min
-
-	//10 BTC - a set of .... find in set equality.
-	//assetArrayLinearCombinationEquality()
-	//Asset.find()
-	console.log(Object.keys(assetMap))
-	Data.find({delta:'5000'})
-	.limit(100)
-	.then(function(models){
-
-		for (x in models){
-			//Object.keys(assetMap).includes(models[x].asset1);
-			//console.log(Object.keys(assetMap))
-			if (Object.keys(assetMap).includes(models[x].asset1)){
-				//if strategy.. make trade.. -->>>>>>>>> (y)
-				console.log(models[x], assetMap[models[x].asset1])
-				assetMap[models[x].asset1] = assetMap[models[x].asset1] - models[x].price*10;
-				assetMap[models[x].asset2] = 10;
-			}
-		}
-
-		console.log(assetMap)
-
-	});
-
-	//Asset.find()
-};
-
 function portfolioBalance(delta, limit){
 
 	//limit to btc for now.. 
@@ -876,7 +844,7 @@ function portfolioBalanceMulti(delta, limit, strat){
 };
 
 function createPrediction(limit, delta){
-	console.log(limit, delta)
+
 	var predictions = [];
 	var promises = [];
 	var exchangeMap = [];
@@ -1119,7 +1087,7 @@ function createPrediction(limit, delta){
 	*/
 };
 
-//TODO:DO THIS WHEN I WANT $
+//TODO: DO THIS WHEN I WANT $
 //MB I should build the pdf solve 1st. . . . .. . . . . . .
 //wanna start the $
 //nap time
@@ -1258,8 +1226,57 @@ function initPortfolio(user){
 	//Asset.create({user:user, symbol:'USDT',amount:1111111}).then(function(model){})
 };
 
+function buildMarketImage(){
+
+	console.log(ccxt.exchanges);
+
+	//INIT PROGRAMATIC OBJ
+	const marketImage = [];
+	for (x in ccxt.exchanges){
+		ccxt.exchanges
+		const exchange = new ccxt[ccxt.exchanges[x]]()
+		marketImage.push(exchange)
+	}
+	console.log(marketImage);
+
+	//BUILD WITH TICKERS;
+	//CREATE WS CONNECTIONS;
+	//PLUG IN 
+
+	const marketObj = {};
+
+	//UPDATE WITH WS
+	const orderBook = [{
+        name: 'BTC',
+        data:[
+            {name:'LTC', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+            {name:'XMR', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+            {name:'XRP', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+        ],
+    }];
+
+
+};
+
 
 module.exports.intervalService = function(){
+
+	//buildMarketImage();
+	
+	//const kraken = new ccxt.kraken();
+    //console.log(kraken.currencies);
+    //kracken.fetchOrderBook;
+
+    //NEED TO STORE THE MARKET STATE IN MEMORY
+    //kraken.fetch_tickers().then(function(data){
+    //	consle.log(data)
+    //});
+
+	//BUILD MAP..
+	//{big time based obj}
+	//stream update
+	//store events 
+
 
 	//TENSORFLOW
 	/*

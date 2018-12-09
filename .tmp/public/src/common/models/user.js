@@ -2,9 +2,9 @@ angular.module('models.user', ['lodash', 'services', 'sails.io',])
 
 .service('UserModel', ['$sailsSocket', 'utils', function($sailsSocket, utils) {
 
-    this.getSome = function(limit, skip, sort) {
+    this.getSome = function(type, filter, limit, skip, sort) {
         var url = utils.prepareUrl('user');
-        var query = {params:{limit:limit, skip:skip, sort: sort}};
+        var query = {params:{type:type, filter:filter, limit:limit, skip:skip, sort: sort}};
         return $sailsSocket.get(url, query).then(success, error);
     };
 
