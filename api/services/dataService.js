@@ -333,7 +333,7 @@ module.exports = {
 	createOrderPoloniex: function(model, user, type, percent, percentChange){
 
 		//TODO: REMOVE API KEYS
-		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		var poloniex = new Poloniex('KEY', 'SECRET');  
 
 		//TODO: DATA AS A MODEL
 		//TODO: REFACTOR
@@ -679,7 +679,7 @@ module.exports = {
 	//TODO: logic based on open orders //returnCompleteBalances
 	returnBalances: function(user){
 		//TODO: REMOVE API KEYS
-		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		var poloniex = new Poloniex('KEY', 'SECRET');  
 		poloniex.returnBalances(function(err, model){
 			if (!err && model){
 				for (x in Object.keys(model)){
@@ -730,7 +730,7 @@ module.exports = {
 
 	returnOpenOrders: function(model, pair){
 		//TODO: REMOVE API KEYS
-		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		var poloniex = new Poloniex('KEY', 'SECRET');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);//-->goes from open to history; 
 		});
@@ -738,7 +738,7 @@ module.exports = {
 
 	returnTradeHistory: function(model, pair){
 		//TODO: REMOVE API KEYS
-		var poloniex = new Poloniex('2QVU6DC3-N2H1KRGS-UX29G3S3-LX06N7DF', 'fe4137fa70b12d72b80fcb881bf4ffa9675a7ceec0aff0ffe33f867eeb850c6c01076d809062efaabeed7f54aa9d540ea8ebc7cba9aeaeda9f0eb5f4eecf1206');  
+		var poloniex = new Poloniex('KEY', 'SECRET');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);
 		});
