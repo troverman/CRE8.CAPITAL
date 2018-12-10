@@ -1540,7 +1540,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white; text-transform:uppercase\"><a href=\"member/{{currentUser.username}}\">{{currentUser.username}}</a></h3>\n" +
     "                <h3 class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/markets\">EXPLORE</a></h3>\n" +
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white;\"><a href=\"/\">PORTFOLIO</a></h3>\n" +
-    "                <h3 class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/account\">SETTINGS</a></h3>\n" +
+    "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/account\">SETTINGS</a></h3>\n" +
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/logout\">LOGOUT</a></h3>\n" +
     "                <h3 ng-show=\"!currentUser\" class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"/login\">LOGIN</a></h3>\n" +
     "                <h3 ng-show=\"!currentUser\"class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"/register\">REGISTER</a></h3>\n" +
