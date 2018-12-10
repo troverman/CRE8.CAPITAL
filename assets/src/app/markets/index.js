@@ -147,97 +147,6 @@ angular.module( 'investing.markets', [
 
     //HODLING 2 AT SAME TIME
 
-    //TODO: NOT STATIC
-    $scope.tradingPairs = [
-        'XRP/BTC',
-        'ETH/BTC',
-        'BTC/USDT',
-        'LTC/BTC',
-        'BCH/BTC',
-        'STR/BTC',
-        'XRP/USDT',
-        'XLM/BTC',
-        'ETH/USDT',
-        'BCH/USDT',
-        'XMR/BTC',
-        'ZEC/BTC',
-        'LTC/USDT',
-        'DASH/BTC',
-        'ETC/BTC',
-        'XEM/BTC',
-        'ZEC/USDT',
-        'FCT/BTC',
-        'ETC/USDT',
-        'BTS/BTC',
-        'LSK/BTC',
-        'DGB/BTC',  
-        'EMC2/BTC',
-        'NXT/BTC',
-        'SC/BTC',
-        'POT/BTC',  
-        'STRAT/BTC',
-        'NXT/USDT',
-        'DOGE/BTC',
-        'DASH/USDT',
-        'XMR/USDT',
-        'BCH/ETH',
-        'ZRX/BTC',  
-        'ARDR/BTC',
-        'VTC/BTC',
-        'BTM/BTC',  
-        'OMG/BTC',
-        'MAID/BTC',
-        'VRC/BTC',  
-        'GNT/BTC',  
-        'GAME/BTC',
-        'CVC/BTC',  
-        'REP/BTC',
-        'STEEM/BTC',
-        'SYS/BTC',
-        'BCN/BTC',
-        'LBC/BTC',
-        'DCR/BTC',
-        'ZEC/ETH',
-        'REP/USDT',
-        'ETC/ETH',
-        'LTC/XMR',
-        'ZRX/ETH',
-        'GNO/BTC',
-        'PPC/BTC',
-        'GAS/BTC',
-        'BURST/BTC',
-        'PASC/BTC', 
-        'VIA/BTC',
-        'NEOS/BTC', 
-        'OMG/ETH',
-        'STORJ/BTC',
-        'GNT/ETH',
-        'CLAM/BTC', 
-        'NAV/BTC',
-        'XCP/BTC',
-        'LSK/ETH',
-        'XBC/BTC',
-        'AMP/BTC',
-        'OMNI/BTC', 
-        'EXP/BTC',
-        'GRC/BTC',
-        'SBD/BTC',
-        'NMC/BTC',
-        'GNO/ETH',
-        'CVC/ETH',
-        'NXT/XMR',
-        'ZEC/XMR',
-        'XPM/BTC',
-        'BTCD/BTC', 
-        'REP/ETH',
-        'MAID/XMR', 
-        'DASH/XMR', 
-        'HUC/BTC',
-        'STEEM/ETH',
-        'BCN/XMR',
-        'BTCD/XMR', 
-    ];
-
     $scope.chartConfig = {
         chart: {
             type: 'area',
@@ -286,51 +195,32 @@ angular.module( 'investing.markets', [
         },
     };
 
-
     $scope.marketDataRender = {};
     $scope.marketDataRenderRender = [];
 
     //do an analysis of % change...
     $scope.dataMap = {};
-    $scope.iterator = 0;
     //TODO: REDO
+
+    $scope.matrix = [];
     $scope.selectData = function (asset1, asset2, delta){
+
         $rootScope.stateIsLoading = true;
         $scope.selectedDelta = delta;
-        DataModel.getData(100, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
-            $scope.marketDataRender[asset1+'_'+asset2] = {};
-            $scope.marketDataRender[asset1+'_'+asset2].values = [];
-            $scope.marketDataRender[asset1+'_'+asset2].key = asset1+'_'+asset2;
-            $scope.marketDataRender[asset1+'_'+asset2].color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-            $scope.dataMap[asset1+'_'+asset2] = model;
-            var change = 0;
-            for (x in $scope.dataMap[asset1+'_'+asset2].reverse()){
-                if (x > 1){
-                    change = $scope.dataMap[asset1+'_'+asset2][x].price - $scope.dataMap[asset1+'_'+asset2][x-1].price;
-                    change = change/$scope.dataMap[asset1+'_'+asset2][x].price;
-                    $scope.marketDataRender[asset1+'_'+asset2].values.push([parseInt(new Date($scope.dataMap[asset1+'_'+asset2][x].createdAt).getTime()), change]);
-                }
-            }
-            $scope.iterator++
-            console.log($scope.iterator, $scope.selectedPairs.length)
-            if ($scope.iterator == $scope.selectedPairs.length){
 
-                for (x in Object.keys($scope.marketDataRender)){
-                    console.log(Object.keys($scope.marketDataRender)[x]);
-                    $scope.marketDataRenderRender.push($scope.marketDataRender[Object.keys($scope.marketDataRender)[x]]);
-                    var series = {
-                        id: Object.keys($scope.marketDataRender)[x],
-                        name: Object.keys($scope.marketDataRender)[x],
-                        lineWidth: 1.2,
-                        color:'#'+(Math.random()*0xFFFFFF<<0).toString(16),
-                        data: $scope.marketDataRender[Object.keys($scope.marketDataRender)[x]].values
-                    };
-                    $scope.chartConfig.series.push(series);
-                    $rootScope.stateIsLoading = false;
-                    $scope.iterator = 0;
-                }
-                console.log($scope.marketDataRenderRender)
-            }
+        var row = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset1);
+        var row1 = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset2);
+
+        DataModel.getData(100, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
+
+            $scope.dataMap[asset1+'_'+asset2] = model;
+
+            var column = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset2);
+            var column1 = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset1);
+
+            $scope.matrix[row].data[column].data = parseFloat(model[0].price);
+            $scope.matrix[row1].data[column1].data = 1/parseFloat(model[0].price);
+
         });
     };
 
@@ -346,8 +236,6 @@ angular.module( 'investing.markets', [
             $scope.selectData($scope.selectedPairs[x].split('/')[1], $scope.selectedPairs[x].split('/')[0], delta);
         }
     };
-
-    //$scope.selectTime('60000', 'BTC');
 
     $scope.solvePortfolio = function(delta, limit){
         $scope.portfolioData = {};
@@ -379,32 +267,43 @@ angular.module( 'investing.markets', [
         });
     };
 
-    /*
-    $scope.updatePortfolio = function(data){
-        for (y in data){
-            $scope.portfolioData.portfolioSet[y].data = [];
-            $scope.portfolioData.portfolioSet[y].labels = [];
-            for (x in Object.keys(data[y])){
-                $scope.portfolioData.portfolioSet[y].data.push(data[y][Object.keys(data[y])[x]])
-                $scope.portfolioData.portfolioSet[y].labels.push(Object.keys(data[y])[x])
-            }
-        }
-    };
 
-    $scope.selectedPortfolioIndex = 0;
-    $scope.selectedPortfolio = {};
-    $scope.selectPortfolioSet = function(number){
-        $scope.selectedPortfolioIndex ++//= parseInt(number);  
-        $selectedPortfolio = $scope.portfolioData.portfolioSet[$scope.selectedPortfolioIndex];
-        //console.log($selectedPortfolio)
-    }
-    */
+    $scope.uniqueMarkets = $rootScope.tradingPairs.map(function(obj){return obj.split('/');});
+    $scope.uniqueMarkets = [].concat.apply([], $scope.uniqueMarkets);
+    $scope.uniqueMarkets = $scope.uniqueMarkets.filter(function(item, pos) {return $scope.uniqueMarkets.indexOf(item) == pos});
+    $scope.uniqueMarkets.sort(function(a, b){
+        if(a < b) { return -1; }
+        if(a > b) { return 1; }
+        return 0;
+    });
+
+    $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("XMR"), 1); $scope.uniqueMarkets.unshift('XMR');
+    $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("ETH"), 1); $scope.uniqueMarkets.unshift('ETH');
+    $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("USDT"), 1); $scope.uniqueMarkets.unshift('USDT');
+    $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("BTC"), 1); $scope.uniqueMarkets.unshift('BTC');
+    
+    $scope.uniqueMarkets.forEach(function(obj){
+        $scope.matrix.push({name:obj.split('/')[0], data:[]});
+        $scope.uniqueMarkets.forEach(function(obj1){
+            var index = $scope.matrix.map(function(obj2){return obj2.name}).indexOf(obj.split('/')[0]);
+            var data = '--';
+            if (obj == obj1){data = 1}
+            $scope.matrix[index].data.push({name:obj1.split('/')[0], data:data});
+        });
+    });
+
+    $scope.selectTime('60000', 'XMR');
+    $scope.selectTime('60000', 'ETH');
+    $scope.selectTime('60000', 'USDT');
+    $scope.selectTime('60000', 'BTC');
+
 
     //AnalysisModel.getPortfolioSolve('30000', 100).then(function(data){
     //    console.log(data);
     //})
 
-    /*$sailsSocket.subscribe('data', function (envelope) {
+    /*
+    $sailsSocket.subscribe('data', function (envelope) {
         switch(envelope.verb) {
             case 'created':
                 if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
@@ -418,7 +317,8 @@ angular.module( 'investing.markets', [
                     $scope.marketGraphDataRender = [$scope.marketGraphData];
                 }
         }
-    });*/
+    });
+    */
     
 
 }]);

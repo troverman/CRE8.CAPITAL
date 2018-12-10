@@ -8,14 +8,16 @@
     
 </div>
 
+<div class="spacing-15"></div>
+
 <div class="container" style="text-align:left">
 
 	<div class="row">
 
 		<!--BTC VALUE VECTOR OVER TIME-->
-
 		<!--TODO: MORE EXCHANGES; PAIRS-->
-		<highchart config="chartConfig"></highchart>
+		<!--<highchart config="chartConfig"></highchart>-->
+
 		<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
 		<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
 		<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
@@ -25,9 +27,6 @@
 		<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
 		<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
 		<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
-
-		<div class="spacing-25"></div>
-
 		<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
 		<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
 		<!--<p class="btn btn-default" ng-click="solvePortfolioPDF('60000', 100)">MultiSolvePDF</p>-->
@@ -35,6 +34,8 @@
 	</div>
 
 	<div class="row" ng-show="portfolioData.orderSet.length > 0">
+
+		<div class="spacing-15"></div>
 		
 		<!--
 		<h3>Portfolio Set Over Time</h3>
@@ -45,8 +46,6 @@
 			</div>
 		</div>
 		-->
-
-		<div class="spacing-25"></div>
 
 		<h3>Order Set</h3>
 		<div ng-repeat="order in portfolioData.orderSet">
@@ -59,12 +58,15 @@
 			</div>
 		</div>
 
+		<div class="spacing-15"></div>
+
 	</div>
 
 	<div class="row">
 
-		<h3>Value Vectors</h3>
+		<!--<h3>Value Vectors</h3>-->
 		<!--SEARCH-->
+		<!--
 		<table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -79,56 +81,70 @@
                 </tr>
             </tbody>
         </table>
-
-		<h3>Value Matrix</h3>
-		<!--SELECTED SET-->
-		<table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                	<th ng-repeat="vector in matrix">{{vector.name}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="vector in matrix">
-					<td ng-repeat="asset in vector.data"><a href="market/{{asset}}">{{asset.data}}</a></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!--MULT BY PORTFOLIO VECTOR-->
-
-        <h3>Order Book Tensor</h3>
-        <!--SELECTED SET & EXCHANGE-->
-		<table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                	<th ng-repeat="vector in matrix">{{vector.name}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="vector in matrix">
-					<td ng-repeat="asset in vector.data"><a href="market/{{asset}}">[{{asset.data}}, {{asset.data}}]</a></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Neural Networks</h3>
-        
+    	-->
 	</div>
+
+	<div class="spacing-15"></div>
 
 	<div class="row">
 
-		<h1>Market Pairs</h1>
-		<div ng-repeat="pair in tradingPairs">
-			<div class="col-md-3 col-sm-4 col-xs-6 ">
-				<div class="card">
-					<div style="padding:16px;">
-						<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		<h3>Value Matrix</h3>
+		<!--SELECTED SET-->
+		<div style="overflow:scroll">
+			<table class="table table-striped table-hover">
+	            <thead>
+	                <tr>
+	                	<th></th>
+	                	<th ng-repeat="vector in matrix">
+	                		<a href="market/{{vector.name}}">{{vector.name}}</a>
+	                	</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="vector in matrix">
+	                	<td><b><a href="market/{{vector.name}}">{{vector.name}}</a></b></td>
+						<td style="max-width:50px;overflow:scroll" ng-repeat="asset in vector.data"><a href="market/{{vector.name}}/{{asset.name}}">{{asset.data}}</a></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
 
+        <!--MULT BY PORTFOLIO VECTOR-->
+
+	</div>
+
+	<div class="spacing-15"></div>
+
+	<div class="row">
+
+        <h3>Order Book Tensor</h3>
+        <!--SELECTED SET & EXCHANGE-->
+        <div style="overflow:scroll">
+			<table class="table table-striped table-hover">
+	            <thead>
+	                <tr>
+	                	<th ng-repeat="vector in matrix"><a href="market/{{vector.name}}">{{vector.name}}</a></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="vector in matrix">
+						<td style="max-width:50px;overflow:scroll" ng-repeat="asset in vector.data">
+							<a ng-if="asset.data != '--' && asset.data != 1" href="market/{{vector.name}}/{{asset.name}}">[[{{asset.data}}], [{{asset.data}}]]</a>
+							<a ng-if="asset.data == '--' || asset.data == 1">{{asset.data}}</a>
+						</td>
+	                </tr>
+	            </tbody>
+	        </table>
+       	</div>
+
+    </div>
+
+    <div class="spacing-15"></div>
+ 	
+	<div class="row">
+
+        <h3>Neural Networks</h3>
+        
 	</div>
 
 </div>

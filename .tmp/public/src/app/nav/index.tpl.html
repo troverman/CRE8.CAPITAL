@@ -2,12 +2,11 @@
 
     .md-sidenav-backdrop {opacity: 0 !important;}
 
-    .navbar-custom{background-color: #fff; text-align: left;}//border-bottom:1px solid #15b593;}
+    .navbar-custom{background-color: #fff; text-align: left;}
     .navbar-custom .navbar-brand:focus{color:#424242}
     .navbar-custom .navbar-toggle {border-color: white;}
     .navbar-custom .navbar-toggle .icon-bar{background-color:#424242;}
     .navbar-custom .navbar-toggle:hover .icon-bar{background-color:#000;}
-    //.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:black }
 
     .navIcon{
         position: relative;
@@ -181,7 +180,7 @@
                     <li ng-class="{ active: isActive('/register')}" ng-show="!currentUser"><a href="/register">REGISTER</a></li>
                     <li ng-click="loginToggle()" ng-class="{ active: isActive('/login')}" ng-show="!currentUser"><a>LOGIN</a></li>
                     <li ng-click="navToggle()">
-                        <button class="navIcon" type="button">
+                        <button class="navIcon" type="button" style="margin-top:4px;">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>

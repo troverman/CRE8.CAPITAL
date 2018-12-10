@@ -1,4 +1,4 @@
-angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html", "search/index.tpl.html"]);
+angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "marketPair/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html", "search/index.tpl.html"]);
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
@@ -959,6 +959,131 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "    <div class=\"spacing-25\"></div>\n" +
     "    <div class=\"container\">\n" +
+    "    	<div class=\"row\"><h1 ng-click=\"marketsToggle()\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> {{market}}</h1></div>\n" +
+    "    </div>\n" +
+    "    <div class=\"spacing-25\"></div>\n" +
+    "    \n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"spacing-15\"></div>\n" +
+    "\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"spacing-10\"></div>\n" +
+    "	<hr>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "		<highchart config=\"chart\"></highchart>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"spacing-10\"></div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "		<h3>Value Vector</h3>\n" +
+    "		<!--SEARCH-->\n" +
+    "		<table class=\"table table-striped table-hover\">\n" +
+    "            <thead>\n" +
+    "                <tr>\n" +
+    "                	<th>Asset</th>\n" +
+    "                	<th>Value</th>\n" +
+    "                </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "                <tr ng-repeat=\"asset in vector.data\" ng-if=\"asset.data != '--'\">\n" +
+    "                    <td><a href=\"market/{{market}}/{{asset.name}}\">{{asset.name}}</a></td>\n" +
+    "					<td>{{asset.data}}</td>\n" +
+    "                </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "\n" +
+    "	<div class=\"spacing-10\"></div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "		<h3>Value Matrix</h3>\n" +
+    "		<!--SELECTED SET-->\n" +
+    "		<div style=\"overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "	            <thead>\n" +
+    "	                <tr>\n" +
+    "	                	<th></th>\n" +
+    "	                	<th ng-repeat=\"vector in matrix\">\n" +
+    "	                		<a href=\"market/{{vector.name}}\">{{vector.name}}</a>\n" +
+    "	                	</th>\n" +
+    "	                </tr>\n" +
+    "	            </thead>\n" +
+    "	            <tbody>\n" +
+    "	                <tr ng-repeat=\"vector in matrix\">\n" +
+    "	                	<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
+    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\">{{asset.data}}</a></td>\n" +
+    "	                </tr>\n" +
+    "	            </tbody>\n" +
+    "	        </table>\n" +
+    "	    </div>\n" +
+    "\n" +
+    "		<!--MULT BY PORTFOLIO VECTOR-->\n" +
+    "\n" +
+    "	</div>\n" +
+    "\n" +
+    "    <div class=\"spacing-10\"></div>\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <h3>Order Book Tensor</h3>\n" +
+    "        <!--SELECTED SET & EXCHANGE-->\n" +
+    "        <div style=\"overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "	            <thead>\n" +
+    "	                <tr>\n" +
+    "	                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "	                </tr>\n" +
+    "	            </thead>\n" +
+    "	            <tbody>\n" +
+    "	                <tr ng-repeat=\"vector in matrix\">\n" +
+    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
+    "							<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
+    "							<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
+    "						</td>\n" +
+    "	                </tr>\n" +
+    "	            </tbody>\n" +
+    "	        </table>\n" +
+    "       	</div>\n" +
+    "\n" +
+    "	</div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"spacing-50\"></div>\n" +
+    "\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("marketPair/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("marketPair/index.tpl.html",
+    "<div style=\"background-color:black;color:white;text-align:left\">\n" +
+    "\n" +
+    "    <div class=\"spacing-25\"></div>\n" +
+    "    <div class=\"container\">\n" +
     "    	<div class=\"row\"><h1 ng-click=\"marketsToggle()\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> {{selectedPair[0]}} / {{selectedPair[1]}}</h1></div>\n" +
     "    </div>\n" +
     "    <div class=\"spacing-25\"></div>\n" +
@@ -982,9 +1107,9 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6HR </button><!--x3/2-->\n" +
     "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12HR </button><!--x2-->\n" +
     "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24HR </button><!--x2-->\n" +
-    "		<div class=\"spacing-10\"></div>\n" +
     "	</div>\n" +
     "\n" +
+    "	<div class=\"spacing-10\"></div>\n" +
     "	<hr>\n" +
     "\n" +
     "	<!--how much data..?-->\n" +
@@ -1072,14 +1197,16 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "    \n" +
     "</div>\n" +
     "\n" +
+    "<div class=\"spacing-15\"></div>\n" +
+    "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "\n" +
     "		<!--BTC VALUE VECTOR OVER TIME-->\n" +
-    "\n" +
     "		<!--TODO: MORE EXCHANGES; PAIRS-->\n" +
-    "		<highchart config=\"chartConfig\"></highchart>\n" +
+    "		<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
+    "\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
@@ -1089,9 +1216,6 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
-    "\n" +
-    "		<div class=\"spacing-25\"></div>\n" +
-    "\n" +
     "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
     "		<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
@@ -1099,6 +1223,8 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	</div>\n" +
     "\n" +
     "	<div class=\"row\" ng-show=\"portfolioData.orderSet.length > 0\">\n" +
+    "\n" +
+    "		<div class=\"spacing-15\"></div>\n" +
     "		\n" +
     "		<!--\n" +
     "		<h3>Portfolio Set Over Time</h3>\n" +
@@ -1109,8 +1235,6 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "			</div>\n" +
     "		</div>\n" +
     "		-->\n" +
-    "\n" +
-    "		<div class=\"spacing-25\"></div>\n" +
     "\n" +
     "		<h3>Order Set</h3>\n" +
     "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
@@ -1123,12 +1247,15 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
+    "		<div class=\"spacing-15\"></div>\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "\n" +
-    "		<h3>Value Vectors</h3>\n" +
+    "		<!--<h3>Value Vectors</h3>-->\n" +
     "		<!--SEARCH-->\n" +
+    "		<!--\n" +
     "		<table class=\"table table-striped table-hover\">\n" +
     "            <thead>\n" +
     "                <tr>\n" +
@@ -1143,56 +1270,70 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "                </tr>\n" +
     "            </tbody>\n" +
     "        </table>\n" +
-    "\n" +
-    "		<h3>Value Matrix</h3>\n" +
-    "		<!--SELECTED SET-->\n" +
-    "		<table class=\"table table-striped table-hover\">\n" +
-    "            <thead>\n" +
-    "                <tr>\n" +
-    "                	<th ng-repeat=\"vector in matrix\">{{vector.name}}</th>\n" +
-    "                </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "                <tr ng-repeat=\"vector in matrix\">\n" +
-    "					<td ng-repeat=\"asset in vector.data\"><a href=\"market/{{asset}}\">{{asset.data}}</a></td>\n" +
-    "                </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "\n" +
-    "        <!--MULT BY PORTFOLIO VECTOR-->\n" +
-    "\n" +
-    "        <h3>Order Book Tensor</h3>\n" +
-    "        <!--SELECTED SET & EXCHANGE-->\n" +
-    "		<table class=\"table table-striped table-hover\">\n" +
-    "            <thead>\n" +
-    "                <tr>\n" +
-    "                	<th ng-repeat=\"vector in matrix\">{{vector.name}}</th>\n" +
-    "                </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "                <tr ng-repeat=\"vector in matrix\">\n" +
-    "					<td ng-repeat=\"asset in vector.data\"><a href=\"market/{{asset}}\">[{{asset.data}}, {{asset.data}}]</a></td>\n" +
-    "                </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "\n" +
-    "        <h3>Neural Networks</h3>\n" +
-    "        \n" +
+    "    	-->\n" +
     "	</div>\n" +
+    "\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "\n" +
-    "		<h1>Market Pairs</h1>\n" +
-    "		<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "				<div class=\"card\">\n" +
-    "					<div style=\"padding:16px;\">\n" +
-    "						<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "					</div>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
+    "		<h3>Value Matrix</h3>\n" +
+    "		<!--SELECTED SET-->\n" +
+    "		<div style=\"overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "	            <thead>\n" +
+    "	                <tr>\n" +
+    "	                	<th></th>\n" +
+    "	                	<th ng-repeat=\"vector in matrix\">\n" +
+    "	                		<a href=\"market/{{vector.name}}\">{{vector.name}}</a>\n" +
+    "	                	</th>\n" +
+    "	                </tr>\n" +
+    "	            </thead>\n" +
+    "	            <tbody>\n" +
+    "	                <tr ng-repeat=\"vector in matrix\">\n" +
+    "	                	<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
+    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\">{{asset.data}}</a></td>\n" +
+    "	                </tr>\n" +
+    "	            </tbody>\n" +
+    "	        </table>\n" +
+    "	    </div>\n" +
     "\n" +
+    "        <!--MULT BY PORTFOLIO VECTOR-->\n" +
+    "\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
+    "\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "        <h3>Order Book Tensor</h3>\n" +
+    "        <!--SELECTED SET & EXCHANGE-->\n" +
+    "        <div style=\"overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "	            <thead>\n" +
+    "	                <tr>\n" +
+    "	                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "	                </tr>\n" +
+    "	            </thead>\n" +
+    "	            <tbody>\n" +
+    "	                <tr ng-repeat=\"vector in matrix\">\n" +
+    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
+    "							<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
+    "							<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
+    "						</td>\n" +
+    "	                </tr>\n" +
+    "	            </tbody>\n" +
+    "	        </table>\n" +
+    "       	</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"spacing-15\"></div>\n" +
+    " 	\n" +
+    "	<div class=\"row\">\n" +
+    "\n" +
+    "        <h3>Neural Networks</h3>\n" +
+    "        \n" +
     "	</div>\n" +
     "\n" +
     "</div>\n" +
@@ -1293,12 +1434,11 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "    .md-sidenav-backdrop {opacity: 0 !important;}\n" +
     "\n" +
-    "    .navbar-custom{background-color: #fff; text-align: left;}//border-bottom:1px solid #15b593;}\n" +
+    "    .navbar-custom{background-color: #fff; text-align: left;}\n" +
     "    .navbar-custom .navbar-brand:focus{color:#424242}\n" +
     "    .navbar-custom .navbar-toggle {border-color: white;}\n" +
     "    .navbar-custom .navbar-toggle .icon-bar{background-color:#424242;}\n" +
     "    .navbar-custom .navbar-toggle:hover .icon-bar{background-color:#000;}\n" +
-    "    //.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:black }\n" +
     "\n" +
     "    .navIcon{\n" +
     "        position: relative;\n" +
@@ -1472,7 +1612,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                    <li ng-class=\"{ active: isActive('/register')}\" ng-show=\"!currentUser\"><a href=\"/register\">REGISTER</a></li>\n" +
     "                    <li ng-click=\"loginToggle()\" ng-class=\"{ active: isActive('/login')}\" ng-show=\"!currentUser\"><a>LOGIN</a></li>\n" +
     "                    <li ng-click=\"navToggle()\">\n" +
-    "                        <button class=\"navIcon\" type=\"button\">\n" +
+    "                        <button class=\"navIcon\" type=\"button\" style=\"margin-top:4px;\">\n" +
     "                            <span class=\"sr-only\">Toggle navigation</span>\n" +
     "                            <span class=\"icon-bar\"></span>\n" +
     "                            <span class=\"icon-bar\"></span>\n" +

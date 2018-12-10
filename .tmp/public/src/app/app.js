@@ -22,6 +22,7 @@ angular.module( 'investing', [
     'investing.login',
     'investing.market',
     'investing.markets',
+    'investing.marketPair',
     'investing.member',
     'investing.nav',
     'investing.register',

@@ -2,102 +2,119 @@
 
     <div class="spacing-25"></div>
     <div class="container">
-    	<div class="row"><h1 ng-click="marketsToggle()"><i style="font-size:30px" class="fa fa-bars"></i> {{selectedPair[0]}} / {{selectedPair[1]}}</h1></div>
+    	<div class="row"><h1 ng-click="marketsToggle()"><i style="font-size:30px" class="fa fa-bars"></i> {{market}}</h1></div>
     </div>
     <div class="spacing-25"></div>
-
+    
 </div>
 
-<div class="container">
+<div class="spacing-15"></div>
 
-	<div class="row" style="text-align:left">
-		<div class="spacing-25"></div>
-		<!--<button class="btn-default" ng-click="marketsToggle()"><i style="font-size:24px" class="fa fa-bars"></i> MARKETS</button>-->
-		<button ng-class="selectedClass('Live')" ng-click="getLive()">LIVE</button>
-		<button ng-class="selectedClass('5000')" ng-click="selectData(stateParams.path1, stateParams.path2, '5000')">5SEC </button><!--x6-->
-		<button ng-class="selectedClass('30000')" ng-click="selectData(stateParams.path1, stateParams.path2, '30000')">30SEC</button><!--x2-->
-		<button ng-class="selectedClass('60000')" ng-click="selectData(stateParams.path1, stateParams.path2, '60000')">1MIN </button><!--x5-->
-		<button ng-class="selectedClass('300000')" ng-click="selectData(stateParams.path1, stateParams.path2, '300000')">5MIN </button><!--x6-->
-		<button ng-class="selectedClass('1800000')" ng-click="selectData(stateParams.path1, stateParams.path2, '1800000')">30MIN</button><!--x2-->
-		<button ng-class="selectedClass('3600000')" ng-click="selectData(stateParams.path1, stateParams.path2, '3600000')">1HR </button><!--x2-->
-		<button ng-class="selectedClass('7200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '7200000')">2HR </button><!--x2-->
-		<button ng-class="selectedClass('14400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '14400000')">4HR </button><!--x2-->
-		<button ng-class="selectedClass('21600000')" ng-click="selectData(stateParams.path1, stateParams.path2, '21600000')">6HR </button><!--x3/2-->
-		<button ng-class="selectedClass('43200000')" ng-click="selectData(stateParams.path1, stateParams.path2, '43200000')">12HR </button><!--x2-->
-		<button ng-class="selectedClass('86400000')" ng-click="selectData(stateParams.path1, stateParams.path2, '86400000')">24HR </button><!--x2-->
-		<div class="spacing-10"></div>
+<div class="container" style="text-align:left">
+
+	<div class="row">
+
+		<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
+		<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
+		<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
+		<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
+		<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
+		<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
+		<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>
+		<p class="btn btn-default" ng-click="solvePortfolioMulti('60000', 100)">MultiSolve</p>
+
 	</div>
 
+	<div class="spacing-10"></div>
 	<hr>
 
-	<!--how much data..?-->
-	<!--zoom out ability.. a lot-->
-	<div class="row" style="text-align:left">
-		<h2>Price Data</h2>
-		<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'price')">EMA</button><!--select periods..?-->
-		<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'price')">TSF</button><!--select periods..?-->
-		<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'price')">BBAND</button><!--select periods / stD.?-->
-		<!--<button class="btn btn-default" ng-click="getNn('price')">nn</button>-->
-		<!--<button class="btn btn-default" ng-click="getPdf('price')">pdf</button>--><!--;)-->
-		<hr>
-		<div class="col-md-10"><highchart config="chartConfig"></highchart></div>
-		<div class="col-md-2"><highchart config="bidAskChart"></highchart></div>
-		<!--<highchart config="chartConfig"></highchart>-->
+	<div class="row">
+		<highchart config="chart"></highchart>
 	</div>
 
-	<!--<h2>Order Book</h2><hr>
-	<highchart config="bidAskChart"></highchart>-->
-	<div class="row" style="text-align:left">
-		<h2>Market Change</h2>
-		<!--<button class="btn btn-default" ng-click="getEma([20,40,80,160,320,640],'change')">ema</button>--><!--select periods..?-->
-		<!--<button class="btn btn-default" ng-click="getTsf([20,40,80,160,320,640],'change')">tsf</button>--><!--select periods..?-->
-		<button class="btn btn-default" ng-click="getBband([10],[1,2,3],'change')">BBAND</button><!--select periods / sD..?-->
-		<!--<button class="btn btn-default" ng-click="getNn('change')">nn</button>-->
-		<!--<button class="btn btn-default" ng-click="getPdf('change')">PDF</button>--><!--;)-->
-		<hr>
-		<highchart config="changeChart"></highchart>
+	<div class="spacing-10"></div>
+
+	<div class="row">
+
+		<h3>Value Vector</h3>
+		<!--SEARCH-->
+		<table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                	<th>Asset</th>
+                	<th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="asset in vector.data" ng-if="asset.data != '--'">
+                    <td><a href="market/{{market}}/{{asset.name}}">{{asset.name}}</a></td>
+					<td>{{asset.data}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+	<div class="spacing-10"></div>
+
+	<div class="row">
+
+		<h3>Value Matrix</h3>
+		<!--SELECTED SET-->
+		<div style="overflow:scroll">
+			<table class="table table-striped table-hover">
+	            <thead>
+	                <tr>
+	                	<th></th>
+	                	<th ng-repeat="vector in matrix">
+	                		<a href="market/{{vector.name}}">{{vector.name}}</a>
+	                	</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="vector in matrix">
+	                	<td><b><a href="market/{{vector.name}}">{{vector.name}}</a></b></td>
+						<td style="max-width:50px;overflow:scroll" ng-repeat="asset in vector.data"><a href="market/{{vector.name}}/{{asset.name}}">{{asset.data}}</a></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+
+		<!--MULT BY PORTFOLIO VECTOR-->
+
 	</div>
 
-	<div class="row" style="text-align:left">
-		<h2>Oscillator</h2>
-		<button class="btn btn-default" ng-click="getMacd([20,40,80,160,320,640],'change')">MACD</button>
-		<button class="btn btn-default" ng-click="getFosc([20,40,80,160,320,640],'change')">FOSC</button>
-		<button class="btn btn-default" ng-click="getRsi([20,40,80,160,320,640],'change')">RSI</button>
-		<hr>
-		<highchart config="oscillatorChart"></highchart>
+    <div class="spacing-10"></div>
+
+    <div class="row">
+
+        <h3>Order Book Tensor</h3>
+        <!--SELECTED SET & EXCHANGE-->
+        <div style="overflow:scroll">
+			<table class="table table-striped table-hover">
+	            <thead>
+	                <tr>
+	                	<th ng-repeat="vector in matrix"><a href="market/{{vector.name}}">{{vector.name}}</a></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="vector in matrix">
+						<td style="max-width:50px;overflow:scroll" ng-repeat="asset in vector.data">
+							<a ng-if="asset.data != '--' && asset.data != 1" href="market/{{vector.name}}/{{asset.name}}">[[{{asset.data}}], [{{asset.data}}]]</a>
+							<a ng-if="asset.data == '--' || asset.data == 1">{{asset.data}}</a>
+						</td>
+	                </tr>
+	            </tbody>
+	        </table>
+       	</div>
+
 	</div>
 
-	<div class="row" style="text-align:left">
-		<h2>Probability Density</h2>
-		<button class="btn btn-default" ng-click="getPdf('change')">PDF</button>
-		<hr>
-		<highchart config="heatMapChart"></highchart>
-		<div class="spacing-10"></div>
-	</div>
-
-	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOT YET EXECUTED-->
-	<div class="row" style="text-align:left">
-		<h2>Market Orders</h2>
-		<table class="table table-inverse table-hover">
-		    <thead>
-				<tr>
-					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->
-					<th></th>
-					<th></th>
-					<th>Date</th>
-				</tr>
-		    </thead>
-		    <tbody>
-				<tr ng-repeat="order in orders">
-					<td>{{order.type}}</td>
-					<td>{{order.amount}} {{order.asset2}}</td>
-					<td>{{order.price}} {{order.asset1}}</td>
-					<td>{{order.createdAt | date :  "y MM-dd hh:mm.ss a"}}</td>
-				</tr>
-		    </tbody>
-		</table>
-	</div>
+</div>
 
 <div class="spacing-50"></div>
 
 <div ng-include="'footer/index.tpl.html'"></div>
+
