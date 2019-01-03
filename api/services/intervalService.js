@@ -1,4 +1,4 @@
-//const ccxt = require ('ccxt')
+const ccxt = require ('ccxt')
 
 var request = require('request');
 var Q = require('q');
@@ -1228,20 +1228,7 @@ function initPortfolio(user){
 
 function buildMarketImage(){
 
-	console.log(ccxt.exchanges);
-
-	//INIT PROGRAMATIC OBJ
-	const marketImage = [];
-	for (x in ccxt.exchanges){
-		ccxt.exchanges
-		const exchange = new ccxt[ccxt.exchanges[x]]()
-		marketImage.push(exchange)
-	}
-	console.log(marketImage);
-
-	//BUILD WITH TICKERS;
-	//CREATE WS CONNECTIONS;
-	//PLUG IN 
+	//console.log(ccxt.exchanges);
 
 	const marketObj = {};
 
@@ -1249,19 +1236,112 @@ function buildMarketImage(){
 	const orderBook = [{
         name: 'BTC',
         data:[
-            {name:'LTC', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
+            {name:'LTC', orderBooks:[
+            	{name:'EXHANGE', information:{}, bids:[], asks:[]}
+            ]},
             {name:'XMR', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
             {name:'XRP', orderBooks:[{name:'EXHANGE', information:{}, bids:[], asks:[]}]},
         ],
     }];
 
+	const immutableMarketImage = {};
+	//GET ALL POSSIBLE PAIRS
+
+	//INIT PROGRAMATIC OBJ
+	const marketImage = [];
+
+	for (x in ccxt.exchanges){
+		const exchange = new ccxt[ccxt.exchanges[x]]()
+		marketImage.push(exchange)
+	}
+
+	//console.log(marketImage);
+	var currencies = [];
+	for (x in marketImage){
+		currencies.push({exchange:marketImage[x].name, currencies:marketImage[x].commonCurrencies})
+		//console.log(marketImage[x].name, marketImage[x].commonCurrencies);
+		//DEFINE ASSETS SPACE... LIMIT THIS
+	}
+
+	//for (x in currencies){
+		//for (y in Object.keys(currencies[x].currencies)){
+			//console.log(currencies[x].currencies[Object.keys(currencies[x].currencies)[x]], currencies[x].currencies[Object.keys(currencies[x].currencies)[y]])
+		//}
+		//console.log(currencies[x].currencies)
+	//}
+
+	//console.log(currencies)
+
+	//BUNCH OF PROMISES.. NEED TICKER WS CONNECTIONS WOWO
+	for (x in marketImage){
+
+		//console.log(marketImage[x].hasFetchOrderBook, marketImage[x].hasFetchOrderBooks);//, marketImage[x].commonCurrencies);
+
+		//TEST
+		//DO WITH INDIV BOOKS
+		if (marketImage[x].hasFetchOrderBooks){
+			//console.log(marketImage[x].name);
+
+			//DO BETTER
+			//WE ALSO HAVE TO INVERT TO IMMUTABLE OBJECTS
+			//BUILD BEFORE..
+			//SOLUTION IS HERE --> JUST SOME CODE 
+
+			(function(x,marketImage){
+				marketImage[x].fetchOrderBooks().then(function(orderBooks){
+
+					//console.log(marketImage[x].name);
+					//var immutable = [{exchange: marketImage[x].name, marketImage[x].name, data:[]}];
+
+					for (y in Object.keys(orderBooks)){
+
+						var obj = {
+							name:Object.keys(orderBooks)[y].split('/')[0],
+							data:[{
+								name:Object.keys(orderBooks)[y].split('/')[1], 
+								orderBooks:[{
+									name:marketImage[x].name,
+									information: {},
+									bids: orderBooks[Object.keys(orderBooks)[y]].bids,
+									asks: orderBooks[Object.keys(orderBooks)[y]].asks
+								}]
+							}],
+						};
+
+						//console.log(obj);
+
+						//if ! contains 
+						//immutable.data.push(obj)
+						//Object.keys(orderBooks)[y].split('/'), orderBooks[Object.keys(orderBooks)[y]].bids, orderBooks[Object.keys(orderBooks)[y]].asks
+
+					}
+
+
+				});
+			})(x,marketImage)
+
+
+		}
+
+		//publicGetAssetsPairs, publicGetOrderbook
+
+
+	}
+
+	//BUILD WITH TICKERS;
+	//CREATE WS CONNECTIONS;
+	//PLUG IN 
+	//TRAVERSE THE MARKET
+
+    //LETS BUILD UP ONE ORDERBOOK 
 
 };
 
 
 module.exports.intervalService = function(){
 
-	//buildMarketImage();
+	//WOW
+	buildMarketImage();
 	
 	//const kraken = new ccxt.kraken();
     //console.log(kraken.currencies);

@@ -20,7 +20,7 @@ angular.module( 'investing.markets', [
 }])
 
 .controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
-	titleService.setTitle('Markets | collaborative.capital');
+	titleService.setTitle('Markets | CRE8.CAPITAL');
     $scope.marketData = marketData;
     $scope.selectedDelta = '60000';
 
@@ -301,24 +301,6 @@ angular.module( 'investing.markets', [
     //AnalysisModel.getPortfolioSolve('30000', 100).then(function(data){
     //    console.log(data);
     //})
-
-    /*
-    $sailsSocket.subscribe('data', function (envelope) {
-        switch(envelope.verb) {
-            case 'created':
-                if (envelope.data.assetPair==$scope.selectedPair[0]+'_'+$scope.selectedPair[1] && envelope.data.delta == $scope.selectedDelta){
-                    $scope.marketData.push(envelope.data);                   
-                    $scope.marketGraphData.values.push([parseInt(new Date(envelope.data.createdAt).getTime()), envelope.data.price]);
-                    $scope.marketGraphDataRender = [$scope.marketGraphData]
-                }
-                if ($scope.marketData.length >= 1000){
-                    $scope.marketData.shift();
-                    $scope.marketGraphData.values.shift()
-                    $scope.marketGraphDataRender = [$scope.marketGraphData];
-                }
-        }
-    });
-    */
     
 
 }]);

@@ -804,38 +804,7 @@ module.exports = {
 							//IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
 							//Order.find().limit(10)//-->get last 10 orders with pair 
 
-
-
-							//TODO: REMOVE HARDCODE. LOL!
-							//SINGULAR MARKET
-							if (model.asset1 == 'BTC' && (model.asset2 == 'BCN' || model.asset2 == 'DOGE') && delta == '5000'){
-								//if (models[0].currentBid == models[1].currentBid && models[0].currentAsk == models[1].currentAsk){
-
-								//}
-								//else{
-									if (model.percentChange<0){
-										console.log('BUY!');
-										orderModel.type = 'BUY';
-										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
-										//CREATE MARKET ORDER SELL @ currentAsk
-									}
-									if (model.percentChange>0){
-										console.log('SELL!');
-										orderModel.type = 'SELL';
-										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
-										//CREATE MARKET ORDER BUY @ currentBid
-									}
-								//}
-							}
-
-
-
-
 							//FLASH CRASH OF BUYING AND SELLING PRICE
-
-
-
-
 
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
