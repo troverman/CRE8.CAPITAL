@@ -1,130 +1,15 @@
-var request = require('request');
-//var sylvester = require('sylvester'),  
-	//Matrix = sylvester.Matrix,  
-	//Vector = sylvester.Vector;  
+var request = require('request'); 
 var Poloniex = require('poloniex-api-node');
 var movingAverages = require('moving-averages');
 var bollingerBands = require('bollinger-bands').boll;
 var tulind = require('tulind');
 var Q = require('q');
 
-var tradingPairs = [
-    'XRP/BTC',
-    'ETH/BTC',
-    'BTC/USDT',
-    'LTC/BTC',
-    'BCH/BTC',
-	'STR/BTC',
-    'XRP/USDT',
-    'ETH/USDT',
-    'BCH/USDT',
-    'XMR/BTC',
-    'ZEC/BTC',
-    'LTC/USDT',
-    'DASH/BTC',
-    'ETC/BTC',
-    'XEM/BTC',
-    'ZEC/USDT',
-    'FCT/BTC',
-    'ETC/USDT',
-    'BTS/BTC',
-    'LSK/BTC',
-    'DGB/BTC',  
-    'EMC2/BTC',
-    'NXT/BTC',
-    'SC/BTC',
-    'POT/BTC',  
-    'STRAT/BTC',
-    'NXT/USDT',
-    'DOGE/BTC',
-    'DASH/USDT',
-    'XMR/USDT',
-    'BCH/ETH',
-    'ZRX/BTC',  
-    'ARDR/BTC',
-    'VTC/BTC',
-    'BTM/BTC',  
-    'OMG/BTC',
-    'MAID/BTC',
-    'VRC/BTC',  
-    'GNT/BTC',  
-    'GAME/BTC',
-    'CVC/BTC',  
-    'REP/BTC',
-    'STEEM/BTC',
-    'SYS/BTC',
-    'BCN/BTC',
-    'LBC/BTC',
-    'DCR/BTC',
-    'ZEC/ETH',
-    'REP/USDT',
-    'ETC/ETH',
-    'LTC/XMR',
-    'ZRX/ETH',
-    'GNO/BTC',
-    'PPC/BTC',
-    'GAS/BTC',
-    'BURST/BTC',
-    'PASC/BTC', 
-    'VIA/BTC',
-    'NEOS/BTC', 
-    'OMG/ETH',
-    'STORJ/BTC',
-    'GNT/ETH',
-    'CLAM/BTC', 
-    'NAV/BTC',
-    'XCP/BTC',
-    'LSK/ETH',
-    'XBC/BTC',
-    'AMP/BTC',
-    'OMNI/BTC', 
-    'EXP/BTC',
-    'GRC/BTC',
-    'SBD/BTC',
-    'NMC/BTC',
-    'GNO/ETH',
-    'CVC/ETH',
-    'NXT/XMR',
-    'ZEC/XMR',
-    'XPM/BTC',
-    'BTCD/BTC', 
-    'REP/ETH',
-    'MAID/XMR', 
-    'DASH/XMR', 
-    'HUC/BTC',
-    'STEEM/ETH',
-    'BCN/XMR',
-    'BTCD/XMR', 
-];
-
-
 module.exports = {
-
-	legacyStockTicker: function(){
-		var url = "http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json"
-		request({url: url,json: true}, function (error, response, body) {
-		    if (!error && response.statusCode === 200) {
-		        var currencyData = body.list.resources;
-				for (var key in currencyData) {
-		        	var pairData = currencyData[key].resource.fields;
-					var name = pairData.name.split("/");
-					var price = pairData.price;
-					var symbol = pairData.symbol;
-					var timeStamp = pairData.ts;
-					var utctime = pairData.utctime;
-					console.log(name);
-					if (name[0] == 'USD'){
-						//sails.log(name[1]);
-					}
-		    	}
-		    }
-		});
-	},
 
 	//TODO: -- get list of TSF - w periods - for pairs
 	//USE IN SOLVER!
 	//wanna get the pick(s) for next time delta. :~)
-	//wanna start by doing this for the next hour time delta.. start making manual bets..
 	getTSF: function(data, period, type){
 		var deferred = Q.defer();
 		var price = data.map(function(obj){return obj.price});
@@ -206,7 +91,6 @@ module.exports = {
 			
 	    	//console.log(result);
 	    	//console.log(result.predict(dataArray[dataArray.length-1][0] + 100));
-
 	    	//console.log(ema(models.map(function(obj){return obj.price})));
 			//console.log(dma.ma(models.map(function(obj){return obj.percentChange}),2))
 	    	//console.log(movingAverages.ma(models.map(function(obj){return obj.percentChange}),2))
@@ -227,21 +111,13 @@ module.exports = {
 	    		//}
 				//var result = regression.polynomial(dataArray, { order: order, precision: precision });
 	    		//console.log(result);
-
 			});  
 		
 			//tulind.indicators.sma.start([change])
 			//console.log(tulind.indicators.stoch.start([5,3,3]))
-
 			//console.log(models.map(function(obj){return obj.percentChange}))
 
 	    	return result;
-
-	    	//Analysis.create()
-	    	//insert into db??
-	    	//var predict = result.predict((Date.parse(new Date()) - yesterday)/1000-1000);
-	    	//console.log(predict)
-	    	//console.log(models);
 
 	    });
 	},
@@ -275,12 +151,8 @@ module.exports = {
 					string+=a*x+'cos('+a*x+'*x) + ' + b*x + 'sin('+b*x+'*x) + '
 				}
 			}
-			//console.log(dataArray[0][0], dataArray[dataArray.length-1][0])
 			console.log(phasors);
-			//console.log(string);
 			return phasors;
-			//Analysis.create()
-			//store fft in db for time periods..
 	    });
 	},
 
@@ -320,6 +192,7 @@ module.exports = {
 	    });  
 	},
 
+	//I can place continuous orders at the bband indicator
 	//createOrderContinual:function(){
 		//create order with 15% down on price at every delta. 
 		//cancel last order id if not fuilfilled--> atomic switch to the next. 
@@ -327,17 +200,13 @@ module.exports = {
 	//}
 
 	//TODO: REFACTOR AND PACKAGE
-	//I can place continuous orders at the bband indicator
 	//-->when filled 'cre8 the order'
 	//TODO: order percent system wide. re:duplic8
 	createOrderPoloniex: function(model, user, type, percent, percentChange){
-
-		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('KEY', 'SECRET');  
-
 		//TODO: DATA AS A MODEL
 		//TODO: REFACTOR
-		//TODO.. really should be using lowest ask as the denominator vs price of last trade.. esp  BTC-RIC experience
+		//TODO.. really should be using lowest ask as the denominator vs price of last trade
 		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
 		orderModel.asset1 = model.asset1;
@@ -345,7 +214,6 @@ module.exports = {
 		orderModel.price = model.price;
 		orderModel.delta = model.delta;
 		orderModel.type = type;
-
 		dataService.returnOrderBook(model.assetPair, 10).then(function(orderBook){
 
 	        if (orderModel.type=='BUY'){
@@ -377,7 +245,6 @@ module.exports = {
 					//-- gotta make sure there is enought volume on book
 					//parseFloat(orderBook.asks[0][0])+parseFloat(orderBook.asks[0][0])*.001
 
-
 					//if latest orderBook price !differ from price by x percent..
 					//lowestAsk - OrderModel.price
 
@@ -386,7 +253,6 @@ module.exports = {
 						//TODO: FACTOR INTO ORDERMODEL
 						console.log(orderModel.assetPair, lowestAsk.toString(), orderModel.amount.toString());
 						console.log('compare', lowestAsk, orderModel.price, (orderModel.price-lowestAsk)/orderModel.price);
-
 
 						//PRICE MUSH BE WITHIN 0.3 percent diff of price percent change.... 
 						//should just do on Lowest Ask change? !! TRY IT!
@@ -421,6 +287,7 @@ module.exports = {
 										//ratio of delta to percent
 										//golden ratio 1.61803398875
 										//TODO: CHECK LOGS..
+
 										var sellPrice = parseFloat(model.resultingTrades[0].rate)+parseFloat(model.resultingTrades[0].rate)*Math.abs(percentChange/1.5);
 										var sellAmount = orderModel.amount - (orderModel.amount)*0.0025
 										console.log('ONBOOKS', 'PRICE', sellPrice, 'AMOUNT', sellAmount);
@@ -446,16 +313,10 @@ module.exports = {
 				            				//});
 
 										});
-
 						            });
-
 								}
-
 							});
-
 						}
-
-
 					}
 
 					//TODO: ORDER BOOK ANALYSIS FOR LRG BUYS AND SELLS
@@ -477,7 +338,6 @@ module.exports = {
 			            	});
 						}
 						else{
-
 							//BUY price needs to be above or at lowest ask;
 							//parseFloat(orderBook.asks[0][0])+parseFloat(orderBook.asks[0][0])*.001
 							poloniex.buy(orderModel.assetPair, orderBook.asks[x][0].toString(), orderAmount.toString(), 0, 1, 0, function(err, model){
@@ -502,7 +362,6 @@ module.exports = {
 								//	dataService.returnBalances();
 								//}
 							//});
-
 						}
 					}
 					*/
@@ -561,14 +420,8 @@ module.exports = {
 	    	}
 
 		});
-
-        
+   	 	//if flash crash --- SUPER MARGIN BUY LOL
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
-		//buy(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
-		//sell(currencyPair, rate, amount, fillOrKill, immediateOrCancel, postOnly [, callback])
-		//cancelOrder(orderNumber [, callback])
-		//ex if flash crash --- SUPER MARGIN BUY LOL
-
 	},
 
 	//TODO: REFACTOR PARAMETERS
@@ -650,7 +503,6 @@ module.exports = {
 
 
 		});
-
 	},
 
 	//save order book? --> orderbook analysis.. can manipulate the price.. hmmm  ie. how real is book
@@ -725,23 +577,120 @@ module.exports = {
 				}
 			}
 		});
-
 	},
 
 	returnOpenOrders: function(model, pair){
-		//TODO: REMOVE API KEYS
-		var poloniex = new Poloniex('KEY', 'SECRET');  
-		poloniex.returnOpenOrders('all', function(err, model){
-			console.log(model);//-->goes from open to history; 
-		});
-	},
-
-	returnTradeHistory: function(model, pair){
-		//TODO: REMOVE API KEYS
 		var poloniex = new Poloniex('KEY', 'SECRET');  
 		poloniex.returnOpenOrders('all', function(err, model){
 			console.log(model);
 		});
+	},
+
+	returnTradeHistory: function(model, pair){
+		var poloniex = new Poloniex('KEY', 'SECRET');  
+		poloniex.returnOpenOrders('all', function(err, model){
+			console.log(model);
+		});
+	},
+
+	marketImage: function(){
+		const ccxt = require ('ccxt');
+	    const orderBookTensorObj = [];
+		const marketImage = [];
+		var initPromiseSet = [];
+		for (x in ccxt.exchanges){
+			if (ccxt.exchanges[x] == 'poloniex'){
+				const exchange = new ccxt[ccxt.exchanges[x]]();
+				if (exchange.hasFetchOrderBook){
+					initPromiseSet.push(exchange.loadMarkets().catch((err) => {console.log('shh', exchange.id)}));
+					exchange.orderBooks = [];
+					marketImage.push(exchange);
+				}
+			}
+		}
+		Q.all(initPromiseSet).then(()=>{
+			var marketSpace = [];
+			for (x in marketImage){
+				if (marketImage[x].markets){
+					var markets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+					markets = [].concat.apply([], markets);
+					marketSpace.push(markets);
+					var uniqueMarkets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+					uniqueMarkets = [].concat.apply([], uniqueMarkets);
+					uniqueMarkets = Array.from(new Set(uniqueMarkets));
+					marketImage[x].uniqueMarkets = uniqueMarkets;
+					var orderBookPromiseSet = [];
+					for (const z in Object.keys(marketImage[x].markets)){
+						var orderBookPromise = marketImage[x].fetchOrderBook(Object.keys(marketImage[x].markets)[z])
+						.then((data)=>{
+							var obj = {
+								market:Object.keys(marketImage[x].markets)[z], 
+								data:data, 
+								exchange:marketImage[x].id
+							};
+							marketImage[x].orderBooks.push(obj)
+							return obj;
+						})
+						.catch((err) => {console.log('shh', err)});
+						orderBookPromiseSet.push(orderBookPromise);
+					}
+				}
+			}
+			marketSpace = [].concat.apply([], marketSpace);
+			marketSpace = Array.from(new Set(marketSpace));
+			for (y in marketSpace){
+				orderBookTensorObj.push({name:marketSpace[y], data:[]});
+				for (z in marketSpace){
+					orderBookTensorObj[y].data.push({name:marketSpace[z], orderBooks:[]})
+				}
+			}
+			Q.all(orderBookPromiseSet).then((orderBooks)=>{
+				for (x in marketImage){
+					for (y in marketImage[x].uniqueMarkets){
+						var rootIndex = orderBookTensorObj.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[y]);
+						for (z in marketImage[x].uniqueMarkets){
+							var pairIndex = orderBookTensorObj[rootIndex].data.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[z]);
+							var pair = marketImage[x].uniqueMarkets[y]+'/'+marketImage[x].uniqueMarkets[z];
+							var pairInverse = marketImage[x].uniqueMarkets[z]+'/'+marketImage[x].uniqueMarkets[y];
+							var orderBookIndex = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pair);
+							var orderBookIndexInverse = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pairInverse);
+							if (orderBookIndex != -1){
+								orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+									name:marketImage[x].id, 
+									information:{}, 
+									bids:marketImage[x].orderBooks[orderBookIndex].data.bids, 
+									asks:marketImage[x].orderBooks[orderBookIndex].data.asks
+								});
+							}
+							if (orderBookIndexInverse != -1){
+								orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+									name:marketImage[x].id, 
+									information:{}, 
+									bids:marketImage[x].orderBooks[orderBookIndexInverse].data.asks.map(obj=>{return 1/obj[0]}), 
+									asks:marketImage[x].orderBooks[orderBookIndexInverse].data.bids.map(obj=>{return 1/obj[0]})
+								});
+							}
+						}
+					}
+				}
+				//need to sort keys by albpabetical order . . . 
+				//convert to tensor :> 
+				//TRAIN SOON!
+				var model = {
+					delta:300000,
+					orderBook:orderBookTensorObj
+					//change is pointwise subtraction
+					//lastPrice / /
+				};
+				MarketImage.create(model).then(function(){
+					console.log('CREATED')
+				});
+			});
+		});
+	},
+
+	getMarketImage:function(delta, amount){
+
 	},
 
 	//WANT CASH?? DO THIS
@@ -760,52 +709,42 @@ module.exports = {
 						currentBid:data.highestBid,
 						currentAsk:data.lowestAsk,
 						delta:delta,
-						//baseVolume:baseVolume
-						//quoteVolume:quoteVolume
 					};
 					Data.create(model).then(function(model){
 						Data.publishCreate(model);
 			            Data.find({assetPair:model.assetPair, delta: model.delta})
 			            .sort('createdAt DESC')
-			            .limit(10)//change this to 100 --> to get trend.. 
+			            .limit(100)
 			            .then(function (models) {
+
 			                model.absoluteChange = model.price - models[1].price;
 			                model.percentChange = model.absoluteChange/model.price;
 			                model.absoluteChangeChange = model.absoluteChange - models[1].absoluteChange;
-			                //model.percentChangeChange = (model.absoluteChange - models[1].absoluteChange)/model.absoluteChange;
-
 			                Data.update({id:model.id}, model).exec(function afterwards(err, updated){/*console.log(updated[0]);*/});
 
-			          
 			                //TODO: MASTOR REFACTOR. 
 			                //TODO: REFACTOR BASED ON ORDER BUY SELL PAIR -- TOTAL POSITION :)
-							//TODO: WORK ON ORDER....
 							//TODO: INJECT SOME INDICATORS?? ANALYIS ~ PDF? --> if saved..
-							//THIS IS THE HEARTBEAT.. EVERY DELTA
-							//IF STRONG CONFIDENCE
+							//TODO:REFACTOR SECTION..
+
 			                var orderModel = {};
 			                orderModel.assetPair = model.assetPair;
 			                orderModel.asset1 = model.asset1;
 			                orderModel.asset2 = model.asset2;
 							orderModel.delta = model.delta;
-			                orderModel.price = model.price; // this has to do with current bid ask spread.. place order price above/at highest/lowest bid/ask 
-			                								// look at market depth -- > to fill order w confidence
-			                								// BUY price needs to be above lowest ask
-			                								// SELL price needs to be below highest bid
+
+							// BUY price needs to be above lowest ask
+							// SELL price needs to be below highest bid
+			                orderModel.price = model.price; 
+
 							orderModel.delta = delta;
 			                var emailList = ['mphillipsmusic@gmail.com', 'lourens1@ad.unc.edu', 'camcook88@gmail.com', 'jawestgard@gmail.com', 'vazio92@gmail.com', 'evolvedus@gmail.com', 'lahari.ganti.19@gmail.com', 'troverman@gmail.com'];
 
-							//TODO:REFACTOR SECTION..
-			                //if model.percentChange < average of last 60 --> floating point
-			                //this is based on delta.. do period calc. 
+ 							//this is based on delta.. do period calc. 
 			                //tier based on sD..
 			                //dataService.getBband...
-			                //mb mix too.
-							//IT SHOULD BE BASED ON ORDER N STUFF # too COMPLEX
-							//Order.find().limit(10)//-->get last 10 orders with pair 
-
 							//FLASH CRASH OF BUYING AND SELLING PRICE
-
+							
 			                //BUY LOW
 			                if (model.percentChange < -0.15){
 			                	//LOOK AT HIGHEST BID
@@ -827,19 +766,6 @@ module.exports = {
 
 
 			                //THIS IS CURRENT PRICE	!!!!!! LAST PRICE IS 'HISTORY!!!!!' NOT CURRENT..
-							/*if ((model.currentAsk - models[1].currentAsk)/model.currentAsk < -0.10){
-								//CREATE ORDER AT currentAsk
-								//orderModel.type = 'BUY';
-								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
-							}
-
-							if ((model.currentBid - models[1].currentBid)/model.currentBid < -0.10){
-								//CREATE ORDER AT currentAsk
-								//orderModel.type = 'BUY';
-								dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
-							}*/
-
-
 			                //SELL HIGH
 			                if (model.percentChange > 0.15){
 			                    for (x in emailList){
@@ -858,6 +784,7 @@ module.exports = {
 			                if (delta == '300000'){
 			                	//BUY LOW
 								if (model.percentChange <= -0.035){
+
 									for (x in emailList){
 										emailService.sendTemplate('marketUpdate', emailList[x], 'MARKET UPDATE: BUY, '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 				                    }
@@ -889,7 +816,6 @@ module.exports = {
 								if (model.percentChange <= -0.035 && model.percentChange > -0.10){
 									emailService.sendTemplate('marketUpdate', 'troverman@gmail.com', 'FLASH DIP: '+ model.assetPair+' has changed '+model.percentChange*100+'% in '+model.delta/1000+' seconds', {data: model});
 									orderModel.type = 'BUY';
-									//TODO: dynamic percent risk
 									//SIMULATION
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 								}
@@ -903,9 +829,7 @@ module.exports = {
 									dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.5);
 									//LIVE
 									dataService.createOrderPoloniex(orderModel, '5a83602d5ac735000488e8f7', 'BUY', 0.15, model.percentChange);
-									//User.find().then(function(userModel){
-										//dataService.createOrder(orderModel, userModel, 'BUY');
-									//})
+
 								}
 								//SELL HIGH
 								if (model.percentChange >= 0.08){//|| or total price incease is some amount of profit
@@ -917,30 +841,15 @@ module.exports = {
 								}
 			                }
 
-			                //TODO.. THIS COULD BE MULTIPLE TIME INTERVALS AFTER ~ rather than just the next. take profit if..?
-			                //TODO: LOGIC.. CANT SELL IF DIDNT BUY OR HAVE THE ASSET. 
-			                //delta
-			                //Order.find({asset1:orderModel.asset1, asset2:orderModel.asset2})
-			                //.sort('createdAt DESC')
-			                //.limit(2)
-			                //.then(function(orders){
-
-			                	//orders[0].price;
-			                	//change~ l8r
-			                //});
-
 			                if (models[1].percentChange < -0.05){
 								if (models[1].delta == '5000' || models[1].delta == '30000' || models[1].delta == '300000'){
-									//if multiple intervals --> create profit taking logic 
 									//GET PROTFOLIO.. SAMPLE. to make trading logic.
 									if (model.percentChange > 0.05){//|| or totoal price incease is some amount of profit
-										//mb hold hold -- 50/50 if 5000-> for more gain
 										for (x in emailList){
 											emailService.sendTemplate('marketUpdate', emailList[x], 'YOU BOUGHT THE DIP AND TOOK ' + model.percentChange*100 +'% profit', {data: model});
 			                    		}
 										orderModel.type = 'SELL';
 										//SIMULATION,
-										//TODO: SYSTEM WIDE?? PERCENT
 										dataService.createOrderSimulation(orderModel, '591a95d935ab691100c584ce', 0.88);
 									}
 								}
@@ -954,27 +863,20 @@ module.exports = {
 			}
 
 		});
-
 	},
 
-	//IM GETTING INFINTE GRANULARITY.
+	//STORE ALL ACTIONS --> AT SOME GRANULARITY
+	//USE TO BUILD HISTORY OF 'IMMUTABLE OBJECT'
+	//build a polynominal as a signal
 	ticker: function(){
+
 	    var poloniex = new Poloniex();  
-
-		//poloniex.subscribe('footer');
-		//poloniex.subscribe('BTC_ETH');
-		//poloniex.subscribe('ticker');
-
 		for (x in tradingPairs){
 			poloniex.subscribe(tradingPairs[x].split('/')[1]+'_'+tradingPairs[x].split('/')[0]);
 		}
 
-		//var sum = 0;
-		//TODO: SAVE DATA based on TRANSACTION / TICKER -- with caviet of type TICKER / TRANSACTION
-		//for delta delieniations cnahge the query logic
 		poloniex.on('message', (channelName, data, seq) => {
 
-			//if (channelName === 'BTC_ETH') {
 			for (x in data){
 				if (data[x].type=='orderBook'){
 					var orderBookModel = {
@@ -997,9 +899,9 @@ module.exports = {
 						}
 					});
 				}
-				//TODO: SCALE ``COMPUTATIONALLY EXPENSIVE ``almost toomuch
-				/*if (data[x].type=='orderBookModify' || data[x].type=='orderBookRemove'){
-					//could copy the entire order book for x intervals to have in db.. 
+
+				if (data[x].type=='orderBookModify' || data[x].type=='orderBookRemove'){
+					//should copy the entire order book for x intervals to have in db.. 
 					var orderBookModel = {
 						exchange: 'poloniex',
 						assetPair: channelName,
@@ -1007,25 +909,17 @@ module.exports = {
 						asset2: channelName.split('_')[1],
 					};
 					OrderBook.find(orderBookModel).then(function(model){
-						//orderBookModel[0][data[x].data.type]== [n,n]
-						//orderBookModel[0][data[x].data.type];
 						if (data[x] && data[x].data){
 							var index = model[0][data[x].data.type+'s'].map(function(value,index) {return value[0]}).indexOf(data[x].data.rate);
 							console.log(index);
 							if (index!=-1){
 								model[0][data[x].data.type+'s'][index][1]=data[x].data.amount;
 								console.log(model[0][data[x].data.type+'s'][index])
-								//if 0 -->cut it
-								//data[x].data.rate;
-								//data[x].data.amount;
-								//format data in orderBook
-								//OrderBook.update({id:model[0].id}, model[0]).then(function(orderBook){
-								//	console.log(orderBook);
-								//});
 							}
 						}
 					});
-				}*/
+				}
+
 				if (data[x].type=='newTrade'){
 					var orderModel = {
 						exchange: 'poloniex',
@@ -1039,77 +933,18 @@ module.exports = {
 						amount: data[x].data.total,
 					};
 					Trade.create(orderModel).then(function(trade){
-						//console.log(trade);
+						console.log(trade);
 					});
-					//update orderBook?
-					//sum++;
-					//console.log(sum, orderModel.tradeId);
-					
+					//update orderBook?					
 				}
 			}
-			//}
-
-			if (channelName === 'footer') {
-				//console.log(data)
-			}
-
-			//too slow
-			//or it's for every change?? on the market?? -- store a db here/ 
-			if (channelName === 'ticker') {
-				//if (data.currencyPair == 'BTC_ETH'){
-					//console.log(data);
-					//sum++;
-					//console.log(sum);
-				//}
-			}
-
-			//test++
-			//console.log(data);
-			//var date1 = new Date();
-			//console.log(date1-date)
-			//setTimeout(
-			/*var model = {
-				assetPair:data.currencyPair,
-				asset1:data.currencyPair.split('_')[0],
-				asset2:data.currencyPair.split('_')[1],
-				price:data.last,
-				currentBid:data.highestBid,
-				currentAsk:data.lowestAsk,
-				percentChange:data.percentChange,
-			};*/
-
-			//console.log(data.currencyPair, data.percentChange);
-			//Data.create(model).then(function(model){console.log(model)});
-
-			//if % change in past 10 min is >0 and predicted to rise.. trade into it
-			//1 min% 5 min%, 
-			//derivitive of exchange fxn
-			//second derivitive of exchange fxn -- if positive.. buy asset.. sell when 2nd derivitive is neg-- 
-			//buy order when second derivitive of asset exchange rate is positive
-			//sell order when second derivitive of asset exchange rate goes from positive to negative. 
-			//build fxn out of exchange fxn - build a polynominal ,, -- websocket exchange value . 
-			//,1000);
 
 		});
 
-		poloniex.on('open', () => {
-		  console.log('Poloniex WebSocket connection open');
-		});
-
-		poloniex.on('close', (reason, details) => {
-		  console.log('Poloniex WebSocket connection disconnected:', reason, details);
-		  poloniex.openWebSocket({ version: 2 });
-		});
-
-		poloniex.on('error', (error) => {
-		  console.log('An error has occured');
-		});
-
+		poloniex.on('open', () => {console.log('Poloniex WebSocket connection open');});
+		poloniex.on('close', (reason, details) => {console.log('Poloniex WebSocket connection disconnected:', reason, details);poloniex.openWebSocket({ version: 2 });});
+		poloniex.on('error', (error) => {console.log('An error has occured');});
 		poloniex.openWebSocket({ version: 2 });
 	}
 
 };
-
-
-
-

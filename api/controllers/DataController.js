@@ -2,105 +2,7 @@ var request = require('request');
 var Poloniex = require('poloniex-api-node');
 var tulind = require('tulind');
 var Q = require('q');
-
-var tradingPairs = [
-    'XRP/BTC',
-    'ETH/BTC',
-    'BTC/USDT',
-    'LTC/BTC',
-    'BCH/BTC',
-    'STR/BTC',
-    'XRP/USDT',
-    'ETH/USDT',
-    'BCH/USDT',
-    'XMR/BTC',
-    'ZEC/BTC',
-    'LTC/USDT',
-    'DASH/BTC',
-    'ETC/BTC',
-    'XEM/BTC',
-    'ZEC/USDT',
-    'FCT/BTC',
-    'ETC/USDT',
-    'BTS/BTC',
-    'LSK/BTC',
-    'DGB/BTC',  
-    'EMC2/BTC',
-    'NXT/BTC',
-    'SC/BTC',
-    'POT/BTC',  
-    'STRAT/BTC',
-    'NXT/USDT',
-    'DOGE/BTC',
-    'DASH/USDT',
-    'XMR/USDT',
-    'BCH/ETH',
-    'ZRX/BTC',  
-    'ARDR/BTC',
-    'VTC/BTC',
-    'BTM/BTC',  
-    'OMG/BTC',
-    'MAID/BTC',
-    'VRC/BTC',  
-    'GNT/BTC',  
-    'GAME/BTC',
-    'CVC/BTC',  
-    'REP/BTC',
-    'STEEM/BTC',
-    'SYS/BTC',
-    'BCN/BTC',
-    'LBC/BTC',
-    'DCR/BTC',
-    'ZEC/ETH',
-    'REP/USDT',
-    'ETC/ETH',
-    'LTC/XMR',
-    'ZRX/ETH',
-    'RIC/BTC',
-    'GNO/BTC',
-    'PPC/BTC',
-    'GAS/BTC',
-    'BURST/BTC',
-    'PASC/BTC', 
-    'VIA/BTC',
-    'FLO/BTC',
-    'FLDC/BTC',
-    'NEOS/BTC', 
-    'OMG/ETH',
-    'STORJ/BTC',
-    'GNT/ETH',
-    'CLAM/BTC', 
-    'NAV/BTC',
-    'XCP/BTC',
-    'LSK/ETH',
-    'XBC/BTC',
-    'AMP/BTC',
-    'OMNI/BTC', 
-    'EXP/BTC',
-    'GRC/BTC',
-    'BLK/BTC',  
-    'SBD/BTC',
-    'PINK/BTC',
-    'NMC/BTC',
-    'RADS/BTC', 
-    'GNO/ETH',
-    'NXC/BTC',
-    'XVC/BTC',
-    'CVC/ETH',
-    'NXT/XMR',
-    'ZEC/XMR',
-    'XPM/BTC',
-    'BTCD/BTC', 
-    'REP/ETH',
-    'BCY/BTC',
-    'MAID/XMR', 
-    'DASH/XMR', 
-    'HUC/BTC',
-    'STEEM/ETH',
-    'BCN/XMR',
-    'BTCD/XMR', 
-    'BLK/XMR'
-];
+const ccxt = require ('ccxt')
 
 function getData(limit, delta, tradingPair){
     var defered = Q.defer();
@@ -122,11 +24,10 @@ module.exports = {
 		var asset2 = req.query.asset2;
 		var limit = req.query.limit;
 		var skip = req.query.skip;
-		var sort = 'createdAt DESC';//req.query.filter;
+		var sort = 'createdAt DESC';
 		var indicator = req.query.indicator;
 		var indicatorOption = req.query.indicatorOption;
-		console.log(req.query)
-		//var filter;
+
 		//TODO: max limit query size DDOS
 		Data.find({delta:req.query.delta, asset1:req.query.asset1, asset2:req.query.asset2})
 		.limit(limit)
@@ -137,6 +38,112 @@ module.exports = {
 			Data.watch(req);
 			res.json(dataModel);
 		});
+	},
+
+	buildMarketImage: function(req, res){
+
+	    const orderBookTensorObj = [];
+		const marketImage = [];
+
+		var initPromiseSet = [];
+		for (x in ccxt.exchanges){
+			if (ccxt.exchanges[x] == 'poloniex'){
+				const exchange = new ccxt[ccxt.exchanges[x]]();
+				if (exchange.hasFetchOrderBook){
+					initPromiseSet.push(exchange.loadMarkets().catch((err) => {console.log('shh', exchange.id)}));
+					exchange.orderBooks = [];
+					marketImage.push(exchange);
+				}
+			}
+		}
+
+		Q.all(initPromiseSet).then(()=>{
+			var marketSpace = [];
+			for (x in marketImage){
+				if (marketImage[x].markets){
+					var markets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+					markets = [].concat.apply([], markets);
+					marketSpace.push(markets);
+					var uniqueMarkets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+					uniqueMarkets = [].concat.apply([], uniqueMarkets);
+					uniqueMarkets = Array.from(new Set(uniqueMarkets));
+					marketImage[x].uniqueMarkets = uniqueMarkets;
+					var orderBookPromiseSet = [];
+					for (const z in Object.keys(marketImage[x].markets)){
+						var orderBookPromise = marketImage[x].fetchOrderBook(Object.keys(marketImage[x].markets)[z])
+						.then((data)=>{
+							var obj = {
+								market:Object.keys(marketImage[x].markets)[z], 
+								data:data, 
+								exchange:marketImage[x].id
+							};
+							marketImage[x].orderBooks.push(obj)
+							return obj;
+						})
+						.catch((err) => {console.log('shh', err)});
+						orderBookPromiseSet.push(orderBookPromise);
+					}
+				}
+			}
+
+			marketSpace = [].concat.apply([], marketSpace);
+			marketSpace = Array.from(new Set(marketSpace));
+
+			for (y in marketSpace){
+				orderBookTensorObj.push({name:marketSpace[y], data:[]});
+				for (z in marketSpace){
+					orderBookTensorObj[y].data.push({name:marketSpace[z], orderBooks:[]})
+				}
+			}
+
+			Q.all(orderBookPromiseSet).then((orderBooks)=>{
+				for (x in marketImage){
+					for (y in marketImage[x].uniqueMarkets){
+						var rootIndex = orderBookTensorObj.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[y]);
+						for (z in marketImage[x].uniqueMarkets){
+							var pairIndex = orderBookTensorObj[rootIndex].data.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[z]);
+							var pair = marketImage[x].uniqueMarkets[y]+'/'+marketImage[x].uniqueMarkets[z];
+							var pairInverse = marketImage[x].uniqueMarkets[z]+'/'+marketImage[x].uniqueMarkets[y];
+							var orderBookIndex = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pair);
+							var orderBookIndexInverse = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pairInverse);
+							if (orderBookIndex != -1){
+								orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+									name:marketImage[x].id, 
+									information:{}, 
+									bids:marketImage[x].orderBooks[orderBookIndex].data.bids, 
+									asks:marketImage[x].orderBooks[orderBookIndex].data.asks
+								});
+							}
+							if (orderBookIndexInverse != -1){
+								orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+									name:marketImage[x].id, 
+									information:{}, 
+									bids:marketImage[x].orderBooks[orderBookIndexInverse].data.asks.map(obj=>{return 1/obj[0]}), 
+									asks:marketImage[x].orderBooks[orderBookIndexInverse].data.bids.map(obj=>{return 1/obj[0]})
+								});
+							}
+						}
+					}
+				}
+
+				res.json(orderBookTensorObj)
+
+			});
+
+		});
+
+	},
+
+	getSomeMarketImage:function(req, res){
+
+		MarketImage.find({delta:req.query.delta})
+		.limit(parseInt(req.query.limit))
+		.skip(parseInt(req.query.skip))
+		.sort(parseInt(req.query.sort))
+		.then((marketImageModels)=>{
+			res.json(marketImageModels);
+		});	
+
 	},
 
 	getLatestData: function(req, res){
@@ -197,42 +204,6 @@ module.exports = {
 
 		poloniex.openWebSocket({ version: 2 });
 		
-	},
-
-	getCurrency: function(req, res) {
-		var model= {
-			url: 'http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json',
-			json: true
-		};
-		request(model , function (error, response, body) {
-		    if (!error && response.statusCode === 200) {
-		        var currencyData = body.list.resources;
-		        var nodeArray = [{name: 'USD', price:1}];
-		        var linkArray = [];
-				for (var key in currencyData) {
-		        	var pairData = currencyData[key].resource.fields;
-					var name = pairData.name.split("/");
-					var price = pairData.price;
-					var symbol = pairData.symbol;
-					var timeStamp = pairData.ts;
-					var utctime = pairData.utctime;
-					//if (nodeArray.indexOf({name: name[0]}) != -1){
-						//nodeArray.push({name: name[0]});
-					//}
-					//if (nodeArray.indexOf({name: name[1]}) != -1){
-						//nodeArray.push({name: name[1]});
-					//}
-					nodeArray.push({name: name[1], price: price});
-					linkArray.push({source: 0, target: parseInt(key) + 1, value: 1});
-		    	}
-				//linkArray.push({source: 0, target: 1, value: 1});
-		    	console.log(nodeArray.length);
-		    	console.log(linkArray.length)
-
-				var model = {nodes:nodeArray, links:linkArray}
-		    }
-			res.json(model);
-		});
 	},
 
 };

@@ -11,99 +11,11 @@ var Neuron = synaptic.Neuron,
 	Architect = synaptic.Architect;
 var regression = require('regression');
 var fs = require('fs');
-var tulind = require('tulind');
 
-//const tf = require('@tensorflow/tfjs');
-//require('@tensorflow/tfjs-node');
-
-var tradingPairs = [
-    'XRP/BTC',
-    'ETH/BTC',
-    'BTC/USDT',
-    'LTC/BTC',
-    'BCH/BTC',
-	'STR/BTC',
-    'XRP/USDT',
-    'ETH/USDT',
-    'BCH/USDT',
-    'XMR/BTC',
-    'ZEC/BTC',
-    'LTC/USDT',
-    'DASH/BTC',
-    'ETC/BTC',
-    'XEM/BTC',
-    'ZEC/USDT',
-    'FCT/BTC',
-    'ETC/USDT',
-    'BTS/BTC',
-    'LSK/BTC',
-    'DGB/BTC',  
-    'EMC2/BTC',
-    'NXT/BTC',
-    'SC/BTC',
-    'POT/BTC',  
-    'STRAT/BTC',
-    'NXT/USDT',
-    'DOGE/BTC',
-    'DASH/USDT',
-    'XMR/USDT',
-    'BCH/ETH',
-    'ZRX/BTC',  
-    'ARDR/BTC',
-    'VTC/BTC',
-    'BTM/BTC',  
-    'OMG/BTC',
-    'MAID/BTC',
-    'VRC/BTC',  
-    'GNT/BTC',  
-    'GAME/BTC',
-    'CVC/BTC',  
-    'REP/BTC',
-    'STEEM/BTC',
-    'SYS/BTC',
-    'BCN/BTC',
-    'LBC/BTC',
-    'DCR/BTC',
-    'ZEC/ETH',
-    'REP/USDT',
-    'ETC/ETH',
-    'LTC/XMR',
-    'ZRX/ETH',
-    'GNO/BTC',
-    'PPC/BTC',
-    'GAS/BTC',
-    'BURST/BTC',
-    'PASC/BTC', 
-    'VIA/BTC',
-    'NEOS/BTC', 
-    'OMG/ETH',
-    'STORJ/BTC',
-    'GNT/ETH',
-    'CLAM/BTC', 
-    'NAV/BTC',
-    'XCP/BTC',
-    'LSK/ETH',
-    'XBC/BTC',
-    'AMP/BTC',
-    'OMNI/BTC', 
-    'EXP/BTC',
-    'GRC/BTC',
-    'SBD/BTC',
-    'NMC/BTC',
-    'GNO/ETH',
-    'CVC/ETH',
-    'NXT/XMR',
-    'ZEC/XMR',
-    'XPM/BTC',
-    'BTCD/BTC', 
-    'REP/ETH',
-    'MAID/XMR', 
-    'DASH/XMR', 
-    'HUC/BTC',
-    'STEEM/ETH',
-    'BCN/XMR',
-    'BTCD/XMR', 
-];
+//EXTREMLY ANNOYING
+//var tulind = require('tulind');
+const tf = require('@tensorflow/tfjs');
+require('@tensorflow/tfjs-node');
 
 function hasUndefined(a) {return a.indexOf() !== -1;};
 function clone(a) {return JSON.parse(JSON.stringify(a));};
@@ -128,105 +40,9 @@ function getData(limit, delta, tradingPair){
 	.limit(limit)
 	.sort('createdAt DESC')
 	.then(function(models){
-		console.log(tradingPair);
 		defered.resolve(models.reverse());
 	});
     return defered.promise;
-};
-
-function assetArrayLinearCombinationEquality(currentPortfolio, allocationWeight){
-	var exchangeMap = [];
-	var exchangeMap1 = {};
-	console.log('assetArrayLinearCombinationEquality');
-	async.eachSeries(tradingPairs, function (tradingPair, nextIteration){ 
-		//or instant ticker..
-		//TODO: convert data into exchangeMap 
-		Data.find({asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0], delta: '5000'})
-		.limit(1)
-		.then(function(currencyData){
-
-
-			if (!exchangeMap1[tradingPair.split('/')[0]]){exchangeMap1[tradingPair.split('/')[0]]={}}
-			if (!exchangeMap1[tradingPair.split('/')[1]]){exchangeMap1[tradingPair.split('/')[1]]={}}
-
-			exchangeMap1[tradingPair.split('/')[0]][tradingPair.split('/')[1]] = currencyData[0].price;
-			exchangeMap1[tradingPair.split('/')[1]][tradingPair.split('/')[0]] = 1/currencyData[0].price;
-			exchangeMap1[tradingPair.split('/')[1]][tradingPair.split('/')[1]] = 1;
-			exchangeMap1[tradingPair.split('/')[0]][tradingPair.split('/')[0]] = 1;
-
-
-
-
-			exchangeMap.push({asset1:tradingPair.split('/')[0], asset2: tradingPair.split('/')[1], price: currencyData[0].price});
-			exchangeMap.push({asset1:tradingPair.split('/')[1], asset2: tradingPair.split('/')[0], price: 1/currencyData[0].price});
-			//exchangeMap.push({asset1:tradingPair.split('/')[0], asset2: tradingPair.split('/')[0], price: 1});
-			//exchangeMap.push({asset1:tradingPair.split('/')[1], asset2: tradingPair.split('/')[1], price: 1});
-
-
-
-
-			process.nextTick(nextIteration);
-		});
-	}, 
-	function(err) {
-		//console.log(exchangeMap);
-		//console.log(exchangeMap1);
-		var currentPortfolio = {USD:75, LTC:3, ETH:1, BTC:0};
-		//recursiveDecomposition(exchangeMap1)
-		//var currentPortfolio = currentPortfolio;
-		var BTC = 0;
-		for (x in exchangeMap){
-			if(exchangeMap[x].asset2=='BTC'){
-				if(exchangeMap[x].asset1=='ETH'){
-					BTC += currentPortfolio.ETH*exchangeMap[x].price;
-					console.log(BTC)
-				}
-				if(exchangeMap[x].asset1=='LTC'){
-					BTC += currentPortfolio.LTC*exchangeMap[x].price;
-					console.log(BTC)
-				}
-				if(exchangeMap[x].asset1=='USD'){
-					BTC += currentPortfolio.USD*exchangeMap[x].price;
-					console.log(BTC)
-				}
-			}
-		}
-
-		//remember the shortest path.. this method converts to btc
-		//render these as a graph? 
-		//as in this is [USD, LTC, ETH, BTC] --> [BTC] --> [USD, LTC, ETH, BTC] ^^^
-		//if we rep them as [], then we mult by each rate vvv
-		//resursiveDecomposition(exchangeMap);
-
-		var allocationWeight = {ETH:0.5, BTC:0.1, USD:0.2, LTC:0.2}
-		//var allocationWeight = allocationWeight;
-
-		//TODO!
-		//TURN REWEIGHTING INTO ORDERS
-		exchangeMap.map(function(obj){
-			for (x in Object.keys(allocationWeight)){
-				if(obj.asset1 == 'BTC' && obj.asset2 == Object.keys(allocationWeight)[x]){
-					console.log(Object.keys(allocationWeight)[x] + ' : ' + BTC*obj.price*allocationWeight[Object.keys(allocationWeight)[x]])
-					//allocationWeight[Object.keys(allocationWeight)[x]]
-				}
-			}
-		});
-	});
-
-	//1btc --> 
-	//var btcExchange = exchangeMap.map(function(obj){
-		//obj.asset1 == 'BTC'
-	//})
-	//1 btc = btcExchange = [.001$, 23LTC, ... ]
-
-	//==--> [1BTC, 1750$, 23LTC]
-
-	//==--~~--> 1BTC = [], 1LTC = [], ...
-	//==> [] + [] + []
-	
-
-	//Portfolio.find() --> multiply weights 
-	// --> find equalities : ) 
 };
 
 function recursiveDecomposition(dataObj){
@@ -392,6 +208,7 @@ function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
 
 			//TODO: get in lockset with the time interval
 			//TODO: seperate trainig from perdicting. 
+
 			//make sure interval of delta
 			//var lockStepTime = Date.parse(new Date()) - Date.parse(data[0].createdAt);
 			//console.log(lockStepTime);
@@ -465,12 +282,6 @@ function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
 					console.log(predictionModel)
 					Prediction.publishCreate(predictionModel);
 
-					//if prediction hits the lowest in some time scale....
-					//place buy order
-
-					//if prediction hits the highest in some time scale.... (and then go down)
-					//find actual pair time-->
-
 					//TODO: Update prediction in data create -- eg if there is a prediction in the previous interval. 
 					setTimeout(function () {
 						//find created after
@@ -496,7 +307,6 @@ function neuralNet(networkModel, asset1, asset2, delta, limit, agnostic){
 };
 
 //TODO: THINK
-//MARKET TO MARKET TOTAL -- INNACURATE
 //NEED HUGE MEMORY
 function neuralNetComplex(networkModel, asset1, asset2, delta, limit){
 
@@ -620,7 +430,6 @@ function neuralNetComplex(networkModel, asset1, asset2, delta, limit){
 //MARKET TO PAIR DIMENSIONALITY REDUCTION
 //MARKET + INDICATORS DIMENSIONALITY REDUCTION
 //MARKET + INDICATORS + DELTA GAP DIMENSIONALITY REDUCTION
-
 function neuralNetMarketToPair(networkModel, asset1, asset2, delta, limit){};
 
 function portfolioBalance(delta, limit){
@@ -779,9 +588,6 @@ function portfolioBalanceMulti(delta, limit, strat){
 
 				var totalChange = predictionArray.reduce(function (s, a) {return s + a.percentChange;}, 0);
 
-				//console.log(y, mostPositiveChange, mostNegativeChange, totalChange);
-				//console.log(y, totalPositiveChange, totalNegativeChange);
-
 				//MULTIPICK -- prob best to cap from 3-7
 				var cap = 4;
 				var capPositiveChange = predictionArray.slice(0, cap).reduce(function (s, a) {return s + a.percentChange}, 0);
@@ -844,20 +650,14 @@ function portfolioBalanceMulti(delta, limit, strat){
 };
 
 function createPrediction(limit, delta){
-
 	var predictions = [];
 	var promises = [];
 	var exchangeMap = [];
-
-	tradingPairs = tradingPairs.filter(function(obj){
-        if (obj.split('/')[1]=='BTC'){return obj}
-    });
-
+	tradingPairs = tradingPairs.filter(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
 	tradingPairs.forEach(function(tradingPair, index){
 	    var promise = getData(limit, delta, tradingPair);
 	    promises.push(promise);
 	});
-
 	Q.all(promises)
 	.then(function(data){
 		exchangeMap = data;
@@ -865,28 +665,20 @@ function createPrediction(limit, delta){
 		for (x in exchangeMap){
 			var dataArray = [];
 			var pairData = exchangeMap[x];
-
-			//var periodArray = [3,5,10,20,40,80,160,320,640,1000];
 			var periodArray = [3,5,10,20,40,80];
-			//var periodArray = [];
-			//for (var i=-0; i < limit; i++){
-			//	periodArray.push(i);
-			//}
-
 			var tsfPredictionData = [];
-
-			//may have to structure as promises..
-
 			//TODO: use tsf occlicator to find error with tsf --> build prob / confidence score / range
 			for (y in periodArray){
-			//for (y = 0; y <= 1000; y+=5) { 
-				tsfPredictionData.push(dataService.getTSF(pairData, periodArray[y]));//get last element.. 
+				tsfPredictionData.push(dataService.getTSF(pairData, periodArray[y]));
 			}
+
 			(function(pairData){
 				Q.all(tsfPredictionData)
 				.then(function(data){
-					//console.log(data);
-					//gotta fire at the delta to lock in the price.. -- perhaps fire a slights cheaper.. eg market maker.... --> market make at a guess of high. ~> take if over estimate --> dont wanna under!  
+
+					//gotta fire at the delta to lock in the price.. -
+					//- perhaps fire a slights cheaper.. eg market maker.... 
+					//--> market make at a guess of high. ~> take if over estimate --> dont wanna under!  
 
 					var sortedData = data.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
 					var low = sortedData[sortedData.length-1];
@@ -895,11 +687,6 @@ function createPrediction(limit, delta){
 					var lastPrice = pairData[pairData.length-1].price;
 					var changeHigh = (high - lastPrice)/high;
 					var changeLow = (low - lastPrice)/low;
-
-					//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
-					//console.log(sortedData);
-					//console.log(lastPrice, high, low, range);
-					//console.log(changeHigh, changeLow);
 
 					if (changeHigh > 0 && changeLow > 0){
 						console.log('PICK', pairData[0].asset1, pairData[0].asset2);
@@ -915,39 +702,20 @@ function createPrediction(limit, delta){
 						console.log(orderModel);
 					}
 					
-					//console.log(data)
-					//TODO.. heatmap, in data.. have period?
-					//need to translate predictions into PDF
-					//FINAL -- map %change to %
-					//+-100 granularity
-					//range of 2 --> .001 gran --> 2000 descrete data pts 
-					//for (x in data){
-					//	if (data[x]){console.log(data[x]);}
-					//}
-
 					//INIT PDF
-					//might need to save pdfs as prediction db
+					//TODO: save pdfs as prediction db
 					//populate oppropiately ~ normal dist around 0? liner relation..
+
 					var pdfMap = {};
 					for (var i=-1000; i <=1000; i++){
-						//all values sum to 1
-						//pdfMap[i/1000] = 2.4455/Math.abs(i);
 						pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
-
 					}
 
-					//TEST
 					var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
-					//console.log(sortedData, testData);
 
 					for (x in testData){
-						//console.log(testData[x].toFixed(3))
 						pdfMap[parseFloat(testData[x].toFixed(3))] += 0.1
-						//pdfMap[parseFloat(testData[x].toFixed(3)+0.001)] += 0.05
-						//pdfMap[parseFloat(testData[x].toFixed(3)-0.001)] += 0.05
 					}
-
-					//console.log(pdfMap);
 
 				});
 			})(pairData)
@@ -1074,23 +842,9 @@ function createPrediction(limit, delta){
 
 	});
 
-	/*
-	tradingPairs.forEach(function(tradingPair, index){
-		dataService.predictiveModelPolynomial(tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 4, 100).then(function(prediction){
-			predictions.push(prediction);
-			//console.log(prediction.r2)
-			//prediction.points[prediction.points.length-1][0]+60000
-			console.log(prediction.predict(prediction.points[prediction.points.length-1][0]+60000))
-		});
-
-	});	
-	*/
 };
 
-//TODO: DO THIS WHEN I WANT $
-//MB I should build the pdf solve 1st. . . . .. . . . . . .
-//wanna start the $
-//nap time
+//TODO:
 function createPredictionSolve(){
 	var exchangeMap = data;
 	var predictionArray = [];
@@ -1113,9 +867,7 @@ function createPredictionSolve(){
 				var changeHigh = (high - lastPrice)/high;
 				var changeLow = (low - lastPrice)/low;
 				if (changeHigh > 0 && changeLow > 0){
-
-					//A NOW PICK BASED ON TSF | WHY NOT PLUG IN? --> TIME ?
-					
+					//A NOW PICK BASED ON TSF | WHY NOT PLUG IN? --> TIME ?	
 				}
 			});
 		})(pairData)
@@ -1129,10 +881,6 @@ function getCurrentPrediction(delta, asset1, asset2) {
 	NeuralNetwork.find({delta:delta, asset1: asset1, asset2:asset2})
 	.then(function(neuralNetworkModel) {
 		var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
-
-		//console.log(myNetwork)
-		//get current price to denormalize
-
 		Data.find({asset1:asset1, asset2:asset2})
 		.limit(1)
 		.sort('createdAt DESC')
@@ -1157,12 +905,9 @@ function getCurrentPrediction(delta, asset1, asset2) {
 					var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
 					var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
 					model.output = [denormalizeBid, denormalizeAsk];
-
 					//TODO - catalog moving average of error in perdictions to generate confidence score for picks 
 					//Probability Density Functions ~ as a prediction?? 
-
 					console.log(model.output[0], model.output[1], asset1, asset2, delta, model.data.currentBid, model.data.currentAsk, (model.data.currentAsk - model.output[0])/model.data.currentAsk, (model.data.currentAsk - model.output[1])/model.data.currentAsk, model.data.percentChange, model.data.percentChange -  (model.data.currentAsk - model.output[1])/model.data.currentAsk);
-
 				}
 			});
 		});
@@ -1216,23 +961,45 @@ function initPortfolio(user){
 
 	});
 
-
 	//Asset.update({user: user, symbol:'BTC'}, {amount:100}).then(function(model){console.log(model)});
 	//Asset.update({user: user, symbol:'ETH'}, {amount:1000}).then(function(model){console.log(model)});
 	//Asset.update({user: user, symbol:'XMR'}, {amount:1500}).then(function(model){console.log(model)});
-
 	//Asset.update({user: user, symbol:'BTC'}, {amount:100}).then(function(model){console.log(model)});
 	//Asset.update({user: user, symbol:'USDT'}, {amount:0}).then(function(model){console.log(model)});
 	//Asset.create({user:user, symbol:'USDT',amount:1111111}).then(function(model){})
+
 };
 
 function buildMarketImage(){
 
-	//console.log(ccxt.exchanges);
+	function searchObject(object, matchCallback, currentPath, result, searched) {
+        currentPath = currentPath || '';
+        result = result || [];
+        searched = searched || [];
+        if (searched.indexOf(object) !== -1 && object === Object(object)) {return;}
+        searched.push(object);
+        if (matchCallback(object)) {result.push({path: currentPath, value: object});}
+        try {
+            if (object === Object(object)) {
+                for (var property in object) {
+                    if (property.indexOf("$") !== 0) {
+                        searchObject(object[property], matchCallback, currentPath + "." + property, result, searched);
+                    }
+                }
+            }
+        }
+        catch (e) {console.log(object); throw e;}
+        return result;
+    };
+
+    function updateObject(object, newValue, path){
+        var stack = path.split('.');
+        stack.shift();
+        while(stack.length>1){object = object[stack.shift()];}
+        object[stack.shift()] = newValue;
+    };
 
 	const marketObj = {};
-
-	//UPDATE WITH WS
 	const orderBook = [{
         name: 'BTC',
         data:[
@@ -1244,96 +1011,265 @@ function buildMarketImage(){
         ],
     }];
 
-	const immutableMarketImage = {};
-	//GET ALL POSSIBLE PAIRS
-
-	//INIT PROGRAMATIC OBJ
+    const orderBookTensorObj = [];
 	const marketImage = [];
 
+	//var exchanges = ccxt.exchanges.diff(['yunbi','coingi','bcex','allcoin','bibox','wex','flowbtc','xbtce','cointiger','bitfinex'])
+
+	var initPromiseSet = [];
 	for (x in ccxt.exchanges){
-		const exchange = new ccxt[ccxt.exchanges[x]]()
-		marketImage.push(exchange)
+
+		//if (ccxt.exchanges[x] != 'bitfinex'){
+		if (ccxt.exchanges[x] == 'poloniex'){
+
+			const exchange = new ccxt[ccxt.exchanges[x]]();
+			//console.log(ccxt.exchanges[x]);
+			if (exchange.hasFetchOrderBook){
+				initPromiseSet.push(exchange.loadMarkets().catch((err) => {console.log('shh', exchange.id)}));
+				exchange.orderBooks = [];
+				marketImage.push(exchange);
+			}
+		}
+
+
 	}
 
-	//console.log(marketImage);
-	var currencies = [];
-	for (x in marketImage){
-		currencies.push({exchange:marketImage[x].name, currencies:marketImage[x].commonCurrencies})
-		//console.log(marketImage[x].name, marketImage[x].commonCurrencies);
-		//DEFINE ASSETS SPACE... LIMIT THIS
-	}
+	//console.log(initPromiseSet.length)
 
-	//for (x in currencies){
-		//for (y in Object.keys(currencies[x].currencies)){
-			//console.log(currencies[x].currencies[Object.keys(currencies[x].currencies)[x]], currencies[x].currencies[Object.keys(currencies[x].currencies)[y]])
-		//}
-		//console.log(currencies[x].currencies)
-	//}
+	Q.all(initPromiseSet).then(()=>{
 
-	//console.log(currencies)
+		//MB SCOPEING ISSUE. RE: ASYNC
+		var marketSpace = [];
 
-	//BUNCH OF PROMISES.. NEED TICKER WS CONNECTIONS WOWO
-	for (x in marketImage){
+		for (x in marketImage){
 
-		//console.log(marketImage[x].hasFetchOrderBook, marketImage[x].hasFetchOrderBooks);//, marketImage[x].commonCurrencies);
+			if (marketImage[x].markets){
 
-		//TEST
-		//DO WITH INDIV BOOKS
-		if (marketImage[x].hasFetchOrderBooks){
-			//console.log(marketImage[x].name);
+				var markets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+				//Flatten
+				markets = [].concat.apply([], markets);
+				marketSpace.push(markets);
 
-			//DO BETTER
-			//WE ALSO HAVE TO INVERT TO IMMUTABLE OBJECTS
-			//BUILD BEFORE..
-			//SOLUTION IS HERE --> JUST SOME CODE 
+				//MIGHT DEPRECIATE
+				var uniqueMarkets = Object.keys(marketImage[x].markets).map((obj)=>obj.split('/'));
+				//Flatten
+				uniqueMarkets = [].concat.apply([], uniqueMarkets);
+				//REMOVE DUPS
+				uniqueMarkets = Array.from(new Set(uniqueMarkets));
+				marketImage[x].uniqueMarkets = uniqueMarkets;
 
-			(function(x,marketImage){
-				marketImage[x].fetchOrderBooks().then(function(orderBooks){
+				//1st order books leaning into 2nd order traversals. 
+				//TODO: RATE LIMIT.. ASYNC ETC.
+				var orderBookPromiseSet = [];
 
-					//console.log(marketImage[x].name);
-					//var immutable = [{exchange: marketImage[x].name, marketImage[x].name, data:[]}];
-
-					for (y in Object.keys(orderBooks)){
-
+				for (const z in Object.keys(marketImage[x].markets)){
+					//if (z < 2){
+					//STORE IN MARKET IMAGE DUDE
+					//REPRESENT AS MAPPINGS | ie math; soon
+					var orderBookPromise = marketImage[x].fetchOrderBook(Object.keys(marketImage[x].markets)[z])
+					.then((data)=>{
 						var obj = {
-							name:Object.keys(orderBooks)[y].split('/')[0],
-							data:[{
-								name:Object.keys(orderBooks)[y].split('/')[1], 
-								orderBooks:[{
-									name:marketImage[x].name,
-									information: {},
-									bids: orderBooks[Object.keys(orderBooks)[y]].bids,
-									asks: orderBooks[Object.keys(orderBooks)[y]].asks
-								}]
-							}],
+							market:Object.keys(marketImage[x].markets)[z], 
+							data:data, 
+							exchange:marketImage[x].id
 						};
+						marketImage[x].orderBooks.push(obj)
+						return obj;
+					})
+					.catch((err) => {console.log('shh', err)});
+					//setTimeout(()=>{
+						orderBookPromiseSet.push(
+							orderBookPromise
+						);
+					//},500*z)
+					//}
+				}
 
-						//console.log(obj);
+				//TEST
+				//if (marketImage[x].hasFetchOrderBooks){
+				//	var orderBookPromise = marketImage[x].fetchOrderBooks()
+				//	.then((data)=>{
+				//		return {
+				//			market:Object.keys(marketImage[x].markets)[z], 
+				//			data:data, 
+				//			exchange:marketImage[x].id
+				//		}
+				//	})
+				//	.catch((err) => {console.log('shh', err)});
+				//	orderBookPromiseSet.push(orderBookPromise);
+				//}
 
-						//if ! contains 
-						//immutable.data.push(obj)
-						//Object.keys(orderBooks)[y].split('/'), orderBooks[Object.keys(orderBooks)[y]].bids, orderBooks[Object.keys(orderBooks)[y]].asks
-
-					}
-
-
-				});
-			})(x,marketImage)
-
+			}
 
 		}
 
-		//publicGetAssetsPairs, publicGetOrderbook
+		marketSpace = [].concat.apply([], marketSpace);
+		//REMOVE DUPS
+		marketSpace = Array.from(new Set(marketSpace));
+
+		//BUILD TENSOR
+		for (y in marketSpace){
+			orderBookTensorObj.push({name:marketSpace[y], data:[]});
+			for (z in marketSpace){
+				orderBookTensorObj[y].data.push({name:marketSpace[z], orderBooks:[]})
+			}
+		}
 
 
-	}
+		Q.all(orderBookPromiseSet).then((orderBooks)=>{
 
+			console.log('did you make it ?');
+			//console.log(orderBooks)
+			//DO WITH ORDER BOOK
+			//for (x in orderBooks){
+				//console.log(orderBooks[x]);
+			//}
+
+
+			//OLD REFRENCE
+			//ABSTRACT --> LINKAGES FOR 2ND ORDER
+
+			//TODO: IMPROVE EFFFECIENCY
+			for (x in marketImage){
+				for (y in marketImage[x].uniqueMarkets){
+					var rootIndex = orderBookTensorObj.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[y]);
+					for (z in marketImage[x].uniqueMarkets){
+						var pairIndex = orderBookTensorObj[rootIndex].data.map(obj=>(obj.name)).indexOf(marketImage[x].uniqueMarkets[z]);
+						
+						var pair = marketImage[x].uniqueMarkets[y]+'/'+marketImage[x].uniqueMarkets[z];
+						var pairInverse = marketImage[x].uniqueMarkets[z]+'/'+marketImage[x].uniqueMarkets[y];
+
+						var orderBookIndex = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pair);
+						var orderBookIndexInverse = marketImage[x].orderBooks.map(obj=>(obj.market)).indexOf(pairInverse);
+
+						if (orderBookIndex != -1){
+							//console.log(orderBookIndex, pair)
+							orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+								name:marketImage[x].id, 
+								information:{}, 
+								bids:marketImage[x].orderBooks[orderBookIndex].data.bids, 
+								asks:marketImage[x].orderBooks[orderBookIndex].data.asks
+							});
+						}
+
+						if (orderBookIndexInverse != -1){
+							//console.log(orderBookIndex, pair)
+							orderBookTensorObj[rootIndex].data[pairIndex].orderBooks.push({
+								name:marketImage[x].id, 
+								information:{}, 
+
+								//1/ swap.. rn same.
+								//THIS IS NOT ALWAYS GOOD.............
+
+								bids:marketImage[x].orderBooks[orderBookIndexInverse].data.asks.map(obj=>{return 1/obj[0]}), 
+								asks:marketImage[x].orderBooks[orderBookIndexInverse].data.bids.map(obj=>{return 1/obj[0]})
+							});
+						}
+
+					}
+				}
+			}
+
+			//console.log(orderBookTensorObj);
+			//console.dir(orderBookTensorObj,{depth:null});
+			//console.log(JSON.stringify(orderBookTensorObj, null, 4));
+
+			//BREAK DOWN TO TENSOR
+			const tensor = [];
+
+			for (x in orderBookTensorObj){
+				tensor.push([]);
+				for (y in orderBookTensorObj[x].data){
+					tensor[x].push([]);
+					if (orderBookTensorObj[x].data[y].orderBooks.length > 0 && orderBookTensorObj[x].data[y].orderBooks[0].bids.length > 0){
+						for (z in orderBookTensorObj[x].data[y].orderBooks){
+							tensor[x][y].push([])
+							//TODO: SECOND ORDER
+							tensor[x][y][z].push(orderBookTensorObj[x].data[y].orderBooks[z].bids.slice(0, 10),orderBookTensorObj[x].data[y].orderBooks[z].asks.slice(0, 10))
+						}
+					}
+					//HACK
+					//TODO: SECOND ORDER
+					else{
+						tensor[x][y].push([]);
+						var bids = [];
+						var asks = [];
+						for (var i = 0; i < 10; i++){
+							bids.push([0,0])
+							asks.push([0,0])
+						}
+						tensor[x][y][0].push(bids,asks);
+					}
+				}
+			}
+
+			//console.log(JSON.stringify(tensor, null, 4));
+
+			//input
+			const marketTensor = tf.tensor(tensor[0]);
+			console.log(marketTensor)
+			console.log('HELLO!!11');
+
+			//SOLVED PDF FOR EACH DELTA 
+			//output
+			const random = tf.randomNormal([ 63, 1, 2, 10, 2 ]);
+
+			//NOW SECOND ORDER..
+			//BCN --> BTS
+			//BCN --> BTC --> BTS
+
+			//const model = tf.sequential();
+			//model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [63, 1, 2, 10, 2] }));
+			//model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+			//model.predict(tf.ones([63, 1, 2, 10, 2] )).print();
+
+			const input = tf.input({shape: [63, 1, 2, 10, 2]});
+			const denseLayer1 = tf.layers.dense({units: 400, activation: 'relu'});
+			const denseLayer2 = tf.layers.dense({units: 200, activation: 'softmax'});
+			const output = denseLayer2.apply(denseLayer1.apply(input));
+			const model = tf.model({inputs: input, outputs: output});
+
+			model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+			model.summary();
+			console.log('HELLO000000!!11');
+
+			//TRAIN ON TIME DOMAIN TOO
+
+			//model.fit(marketTensor, random, {
+			//	epochs: 100,
+			//	callbacks: {
+			//		onEpochEnd: async (epoch, log) => {
+			//			console.log(`Epoch ${epoch}: loss = ${log.loss}`);
+			//		}
+			//	}
+			//});
+
+
+		});
+
+
+	});
+
+	//AFTER WE HAVE THE OBJECT BUILT
 	//BUILD WITH TICKERS;
 	//CREATE WS CONNECTIONS;
 	//PLUG IN 
+	//for (x in marketImage){
+	//	if (marketImage[x].markets){
+	//		for (y in marketImage[x].markets){
+	//			console.log(marketImage[x].hasfetchTicker);
+	//		}
+	//	}
+	//}
+
 	//TRAVERSE THE MARKET
 
-    //LETS BUILD UP ONE ORDERBOOK 
+	//TRANS EXCHANGE . INNEREXCHANGE; if no direct. require some formalism in obj. need pluralistic concept for create; array travers do transitive mult 
+
+	// i should do this 
+
+	//MAP THE TIME DOMAIN
+	
 
 };
 
@@ -1341,25 +1277,12 @@ function buildMarketImage(){
 module.exports.intervalService = function(){
 
 	//WOW
-	buildMarketImage();
-	
-	//const kraken = new ccxt.kraken();
-    //console.log(kraken.currencies);
-    //kracken.fetchOrderBook;
+	//buildMarketImage();
 
-    //NEED TO STORE THE MARKET STATE IN MEMORY
-    //kraken.fetch_tickers().then(function(data){
-    //	consle.log(data)
-    //});
-
-	//BUILD MAP..
-	//{big time based obj}
-	//stream update
-	//store events 
+	timer(dataService.marketImage.bind(null), 300000);//5 MIN
 
 
 	//TENSORFLOW
-	/*
 	const model = tf.sequential();
 	model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [10]}));
 	model.add(tf.layers.dense({units: 10, activation: 'linear'}));
@@ -1372,6 +1295,8 @@ module.exports.intervalService = function(){
 	const xs = tf.randomNormal([100, 10]);
 	const ys = tf.randomNormal([100, 1]);
 
+	model.summary();
+
 	model.fit(xs, ys, {
 		epochs: 100,
 		callbacks: {
@@ -1381,51 +1306,8 @@ module.exports.intervalService = function(){
 		}
 	});
 
-	const model = tf.sequential();
-	model.add(tf.layers.dense({units: 1, inputShape: [1]}));
-	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-
-	// Generate some synthetic data for training.
-	const xs = tf.tensor2d([[1], [2], [3], [4]], [4, 1]);
-	const ys = tf.tensor2d([[1], [3], [5], [7]], [4, 1]);
-
-	// Train model with fit().
-	await model.fit(xs, ys, {epochs: 1000});
-
-	// Run inference with predict().
-	model.predict(tf.tensor2d([[5]], [1, 1])).print();
-	*/
-
-	//initPortfolio('591a95d935ab691100c584ce');
-	//dataService.returnBalances('5a83602d5ac735000488e8f7');
-	//Asset.find({user:'591a95d935ab691100c584ce'}).then(function(model){
-	//	for (x in model){
-	//		Asset.update({user: '591a95d935ab691100c584ce', symbol:model[x].symbol}, {amountOnOrders:0}).then(function(model){console.log(model)});
-	//	}
-	//});
-
-	//assetArrayLinearCombinationEquality();
-	//Asset.find({user:'5a83602d5ac735000488e8f7'}).then(function(model){
-	//	console.log(model)
-	//});
-
-	//tradingPairs.forEach(function(tradingPair, index){
-	//	getCurrentPrediction('300000', tradingPair.split('/')[1], tradingPair.split('/')[0]);
-	//});
-
-	//tradingPairs.forEach(function(tradingPair, index){
-		//timer(dataService.predictiveModelPolynomial.bind(null, tradingPair.split('/')[1], tradingPair.split('/')[0], '60000', 100, 5, 32), 5000);//30 seconds
-	//});
-
-	//createPrediction(100, '1800000');
-	//portfolioBalanceMulti('30000', 100);
-	//get some training ---
-	//timer(portfolioBalanceMulti.bind(null, '30000', 128), 60000);
-	//timer(dataService.predictiveModelPolynomial.bind(null, 'BTC', 'LTC', '60000', 100, 5, 32), 5000);//30 seconds
-	//timer(dataService.predictiveModelFFT.bind(null, 'BTC', 'LTC', '60000', 32), 5000);//30 seconds
-
-	//assetArrayLinearCombinationEquality();
-	//order();
+	//nns for the power set of markets and possible traversal paths
+	
 
 	//EXPERIMENTAL NETWORK!
 	//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
@@ -1493,6 +1375,11 @@ module.exports.intervalService = function(){
 	}
 	*/
 
+
+
+
+
+
 	//CCUTL
 	//POPULATE DATA
 	//timer(dataService.tickerREST.bind(null, 1000), 1000);//second
@@ -1508,7 +1395,7 @@ module.exports.intervalService = function(){
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2), 1000*5*12*5*6*2*2*3*2);//12hr
 	timer(dataService.tickerREST.bind(null, 1000*5*12*5*6*2*2*3*2*2), 1000*5*12*5*6*2*2*3*2*2);//24hr
 
-	//UPDATE REAL BALANCES.. UPDATE THIS-- REFACTOR.. MEH
+	//UPDATE REAL BALANCES.. UPDATE THIS -- REFACTOR.. MEH
 	timer(dataService.returnBalances.bind(null, '5a83602d5ac735000488e8f7'), 1000*5*6);//30 seconds*/
 	
 	//CCUTL2
@@ -1531,50 +1418,8 @@ module.exports.intervalService = function(){
 
 	//timer(dataService.cullTrade.bind(null, 86400000), 100000);//keep for one day
 
-	//NEURALNETWORKS
-	//POPULATE NETWORKS
-    //TODO:check
-    //combined neural net? --> def
-    //var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-    //NeuralNetwork.create({title:'1 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'5 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'30 min btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'1 hr btc network', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'1 hr market', delta:'60000', networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
 
-    //combined neural net experiment? --> def
-    //NeuralNetwork.create({title:'experimental time agnostic total market network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-    //NeuralNetwork.create({title:'experimental time agnostic total btc network, delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
 
-    //for (x in tradingPairs){
-		//var initNetwork = new Architect.Perceptron(2, 4, 3, 2);
-		//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
-		//var experimentalNetwork = new Architect.Perceptron(3, 10, 8, 6, 4, 2);
-		//var experimentalNetwork = new Architect.Perceptron(888, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 500, 750, 850, 1250, 1150, 850, 650, 1000);
 
-		//pdf nerural net has 2k output
-		//train by solving top 3 (n) pick assets at time delta.. 
-		//need to figure the ideal output
-		//general idea pdf .. -- based on known picks and reverse solving of attractive pdf
-		//aka these are the known best picks -- this is the known attractive fxn -- what then are the pdf(s)
-		//lol var experimentalNetwork = new Architect.Perceptron(500, 750, 1000, 1250, 1500, 1250, 1000, 750, 500, 250, 150, 100, 50, 25, 15, 10, 8, 5, 3, 100);
 
-		//var networkJson = initNetwork.toJSON();
-		//var experimentalNetworkJson = initNetwork.toJSON();
-
-		//NeuralNetwork.create({title:tradingPairs[x]+ ' High Dimensionality Probability Density', delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-
-		/*NeuralNetwork.create({title:'experimental ' + tradingPairs[x], delta:'experimental', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:experimentalNetworkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'30 seconds ' + tradingPairs[x], delta:'30000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'1 min ' + tradingPairs[x], delta:'60000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'5 min ' + tradingPairs[x], delta:'300000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'30 min ' + tradingPairs[x], delta:'1800000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'1 hr ' + tradingPairs[x], delta:'3600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'2 hr ' + tradingPairs[x], delta:'7200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'4 hr ' + tradingPairs[x], delta:'21600000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'6 hr ' + tradingPairs[x], delta:'14400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'12 hr ' + tradingPairs[x], delta:'43200000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})
-		NeuralNetwork.create({title:'24 hr ' + tradingPairs[x], delta:'86400000', assetPair: tradingPairs[x], asset1:tradingPairs[x].split('/')[1], asset2:tradingPairs[x].split('/')[0], networkJson:networkJson }).then(function(){console.log('HI')})*/
-	//}
-	
 };

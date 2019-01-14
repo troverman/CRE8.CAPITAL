@@ -1304,19 +1304,20 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "	<div class=\"spacing-15\"></div>\n" +
     "\n" +
+    "	<!--\n" +
     "	<div class=\"row\">\n" +
-    "\n" +
     "        <h3>Order Book Tensor</h3>\n" +
-    "        <!--SELECTED SET & EXCHANGE-->\n" +
     "        <div style=\"overflow:scroll\">\n" +
     "			<table class=\"table table-striped table-hover\">\n" +
     "	            <thead>\n" +
     "	                <tr>\n" +
+    "						<th></th>\n" +
     "	                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
     "	                </tr>\n" +
     "	            </thead>\n" +
     "	            <tbody>\n" +
     "	                <tr ng-repeat=\"vector in matrix\">\n" +
+    "						<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
     "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
     "							<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
     "							<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
@@ -1325,8 +1326,36 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "	            </tbody>\n" +
     "	        </table>\n" +
     "       	</div>\n" +
+    "    </div>\n" +
+    "	-->\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <h3>Market Image</h3>\n" +
+    "        <!--SELECTED SET & EXCHANGE-->\n" +
+    "        <div style=\"overflow:scroll\">\n" +
+    "			<table class=\"table table-striped table-hover\">\n" +
+    "	            <thead>\n" +
+    "	                <tr>\n" +
+    "						<th></th>\n" +
+    "	                	<th ng-repeat=\"vector in marketImage\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "	                </tr>\n" +
+    "	            </thead>\n" +
+    "	            <tbody>\n" +
+    "	                <tr style=\"max-height:50px;overflow:scroll\" ng-repeat=\"vector in marketImage\">\n" +
+    "						<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
+    "						<td style=\"max-width:50px;overflow:scroll;max-height:50px;\" ng-repeat=\"asset in vector.data\">\n" +
+    "							<a ng-if=\"vector.name == asset.name\">1</a>\n" +
+    "							<a ng-if=\"vector.name != asset.name && !asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">CIRCUIT<a>\n" +
+    "							<a ng-if=\"vector.name != asset.name && asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">TENSOR</a>\n" +
+    "						</td>\n" +
+    "	                </tr>\n" +
+    "	            </tbody>\n" +
+    "	        </table>\n" +
+    "       	</div>\n" +
     "\n" +
     "    </div>\n" +
+    "\n" +
     "\n" +
     "    <div class=\"spacing-15\"></div>\n" +
     " 	\n" +

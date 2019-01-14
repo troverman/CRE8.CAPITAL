@@ -13,6 +13,11 @@ angular.module('models.data', ['lodash', 'services', 'sails.io',])
         //return $sailsSocket.get('https://ccutl.herokuapp.com/api/data', query).then(success, error);
     };
 
+    this.getMarketImage = function() {
+        var url = utils.prepareUrl('data/marketImage');
+        return $sailsSocket.get(url).then(success, error);
+    };
+
     //prob should do ticker lol
     this.getLatestData = function() {
         var url = utils.prepareUrl('data/latest');

@@ -11,18 +11,23 @@ angular.module( 'investing.markets', [
 			}
 		},
         resolve:{
-            marketData: ['$stateParams', 'DataModel', function(DataModel) {
+            marketImage: ['$stateParams', 'DataModel', function(DataModel) {
+                //return DataModel.getMarketImage();
                 return null;
-                //return DataModel.getData(100, 0, 'createdAt DESC', 60000);
-            }]
+            }],
         }
 	});
 }])
 
-.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketData, titleService ) {
+.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketImage', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketImage, titleService ) {
 	titleService.setTitle('Markets | CRE8.CAPITAL');
-    $scope.marketData = marketData;
+    $scope.marketImage = marketImage;
     $scope.selectedDelta = '60000';
+
+    DataModel.getMarketImage().then(function(data){
+        $scope.marketImage = data;
+        console.log($scope.marketImage);
+    });
 
     //STORE AS VECTOR
     //MATRIX - VECTOR SET WITH 1 TRAVERSAL

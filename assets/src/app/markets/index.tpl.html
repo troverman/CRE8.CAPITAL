@@ -115,19 +115,20 @@
 
 	<div class="spacing-15"></div>
 
+	<!--
 	<div class="row">
-
         <h3>Order Book Tensor</h3>
-        <!--SELECTED SET & EXCHANGE-->
         <div style="overflow:scroll">
 			<table class="table table-striped table-hover">
 	            <thead>
 	                <tr>
+						<th></th>
 	                	<th ng-repeat="vector in matrix"><a href="market/{{vector.name}}">{{vector.name}}</a></th>
 	                </tr>
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="vector in matrix">
+						<td><b><a href="market/{{vector.name}}">{{vector.name}}</a></b></td>
 						<td style="max-width:50px;overflow:scroll" ng-repeat="asset in vector.data">
 							<a ng-if="asset.data != '--' && asset.data != 1" href="market/{{vector.name}}/{{asset.name}}">[[{{asset.data}}], [{{asset.data}}]]</a>
 							<a ng-if="asset.data == '--' || asset.data == 1">{{asset.data}}</a>
@@ -136,8 +137,36 @@
 	            </tbody>
 	        </table>
        	</div>
+    </div>
+	-->
+
+    <div class="row">
+
+        <h3>Market Image</h3>
+        <!--SELECTED SET & EXCHANGE-->
+        <div style="overflow:scroll">
+			<table class="table table-striped table-hover">
+	            <thead>
+	                <tr>
+						<th></th>
+	                	<th ng-repeat="vector in marketImage"><a href="market/{{vector.name}}">{{vector.name}}</a></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr style="max-height:50px;overflow:scroll" ng-repeat="vector in marketImage">
+						<td><b><a href="market/{{vector.name}}">{{vector.name}}</a></b></td>
+						<td style="max-width:50px;overflow:scroll;max-height:50px;" ng-repeat="asset in vector.data">
+							<a ng-if="vector.name == asset.name">1</a>
+							<a ng-if="vector.name != asset.name && !asset.orderBooks[0].name" href="market/{{vector.name}}/{{asset.name}}">CIRCUIT<a>
+							<a ng-if="vector.name != asset.name && asset.orderBooks[0].name" href="market/{{vector.name}}/{{asset.name}}">TENSOR</a>
+						</td>
+	                </tr>
+	            </tbody>
+	        </table>
+       	</div>
 
     </div>
+
 
     <div class="spacing-15"></div>
  	
