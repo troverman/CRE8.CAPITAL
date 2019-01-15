@@ -136,12 +136,12 @@ module.exports = {
 
 	getSomeMarketImage:function(req, res){
 
-		var delta = toString(req.query.delta) || '300000'; //5MIN
-		var limit = parseInt(req.query.delta) || 288; //PAST DAY IN 5MIN
+		var delta = req.query.delta || '300000'; //5MIN
+		var limit = parseInt(req.query.delta) || 12; //12 PAST HOUR //288 PAST DAY
 		var skip = parseInt(req.query.delta) || 0;
 		var sort = req.query.delta || 'createdAt DESC';
 
-		console.log(delta,limit,skip,sort)
+		console.log(delta,limit,skip,sort);
 
 		MarketImage.find({delta:delta})
 		.limit(limit)
