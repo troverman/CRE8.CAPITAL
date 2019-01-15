@@ -971,6 +971,8 @@ function initPortfolio(user){
 };
 
 function buildMarketImage(){
+	
+	var defered = Q.defer();
 
 	function searchObject(object, matchCallback, currentPath, result, searched) {
         currentPath = currentPath || '';
@@ -1174,111 +1176,22 @@ function buildMarketImage(){
 			//console.dir(orderBookTensorObj,{depth:null});
 			//console.log(JSON.stringify(orderBookTensorObj, null, 4));
 
-			//RETURN ORDERBOOKTENSOR
+			defered.resolve(orderBookTensorObj);
 
-			//REPACKAGE NN
-			//BREAK DOWN TO TENSOR
-			const tensor = [];
-
-			for (x in orderBookTensorObj){
-				tensor.push([]);
-				for (y in orderBookTensorObj[x].data){
-					tensor[x].push([]);
-					if (orderBookTensorObj[x].data[y].orderBooks.length > 0 && orderBookTensorObj[x].data[y].orderBooks[0].bids.length > 0){
-						for (z in orderBookTensorObj[x].data[y].orderBooks){
-							tensor[x][y].push([])
-							//TODO: SECOND ORDER
-							tensor[x][y][z].push(orderBookTensorObj[x].data[y].orderBooks[z].bids.slice(0, 10),orderBookTensorObj[x].data[y].orderBooks[z].asks.slice(0, 10))
-						}
-					}
-					//HACK
-					//TODO: SECOND ORDER
-					else{
-						tensor[x][y].push([]);
-						var bids = [];
-						var asks = [];
-						for (var i = 0; i < 10; i++){
-							bids.push([0,0])
-							asks.push([0,0])
-						}
-						tensor[x][y][0].push(bids,asks);
-					}
-				}
-			}
-
-
-			//TRAIN ON TIME DOMAIN TOO
-
-			//console.log(JSON.stringify(tensor, null, 4));
-
-			//INPUT; FLATTENED MAKRET TENSOR OVER TIME 
-
-				//ENCODE INDICATORS
-				//ENCODE PAINED (WEIGHTED) PROBABILITY DENSITIES OF GOOD PAST PICS 
-					//(BASED ON PDF --> THATS THE FEED FORWARD SELF TRAIN)
-
-				//CONNECTS THE MARKET DATA TO PICK INFERRANCE BASED ON ASSET APPRECIATION
-
-			//SAUCE
-
-			//OUTPUT; PROBABILITY DENSITY OF ASSETS
-
-			//ALG TO TRADE --> TURN INTO ORDERS
-
-			//input
-			//const marketTensor = tf.tensor(tensor[0]);
-			//:)))))
-
-			const marketTensor = tf.randomNormal([ 63, 1, 2, 10, 2 ]);
-
-			console.log(marketTensor);
-
-			console.log('HELLO!!11');
-
-			//SOLVED PDF FOR EACH DELTA 
-			//output
-			const random = tf.randomNormal([ 63, 1, 2, 10, 2 ]);
-
-			//NOW SECOND ORDER..
-			//BCN --> BTS
-			//BCN --> BTC --> BTS
-			const flattenInput = marketTensor.flatten();
-			const flattenOutput = random.flatten();
-
-			//const model = tf.sequential();
-			//model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [63, 1, 2, 10, 2] }));
-			//model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-			//model.predict(tf.ones([63, 1, 2, 10, 2] )).print();
-
-			const input = tf.input({shape: [ 2520 ]});
-			const denseLayer1 = tf.layers.dense({units: 2520, activation: 'relu'});
-			const denseLayer2 = tf.layers.dense({units: 2520, activation: 'softmax'});
-			const output = denseLayer2.apply(denseLayer1.apply(input));
-			const model = tf.model({inputs: input, outputs: output});
-
-			model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-
-			model.summary();
-
-			console.log('HELLO000000!!11');
-			model.fit(flattenInput.expandDims(), flattenInput.expandDims(), {
-				epochs: 1000000,
-				callbacks: {
-					onEpochEnd: async (epoch, log) => {
-						console.log(`Epoch ${epoch}: loss = ${log.loss}`);
-					}
-				}
-			});
-			//Flattening the output of a convolution+pooling layer pair before a dense layer is another common pattern in neural networks:
 		});
 
-
 	});
+
+	return defered.promise;
+
 
 	//AFTER WE HAVE THE OBJECT BUILT
 	//BUILD WITH TICKERS;
 	//CREATE WS CONNECTIONS;
 	//PLUG IN 
+	//START UP THE DATA FLOW 
+		//START UP THE . . .
+
 	//for (x in marketImage){
 	//	if (marketImage[x].markets){
 	//		for (y in marketImage[x].markets){
@@ -1288,13 +1201,96 @@ function buildMarketImage(){
 	//}
 
 	//TRAVERSE THE MARKET
-
 	//TRANS EXCHANGE . INNEREXCHANGE; if no direct. require some formalism in obj. need pluralistic concept for create; array travers do transitive mult 
+	//i should do this 
+	//MAP THE TIME DOMAI
 
-	// i should do this 
+};
 
-	//MAP THE TIME DOMAIN
-	
+function neuralNetBuild(){
+
+	buildMarketImage().then((orderBookTensorObj)=>{
+
+		//REPACKAGE NN
+		//BREAK DOWN TO TENSOR
+		const tensor = [];
+
+		for (x in orderBookTensorObj){
+			tensor.push([]);
+			for (y in orderBookTensorObj[x].data){
+				tensor[x].push([]);
+				if (orderBookTensorObj[x].data[y].orderBooks.length > 0 && orderBookTensorObj[x].data[y].orderBooks[0].bids.length > 0){
+					for (z in orderBookTensorObj[x].data[y].orderBooks){
+						tensor[x][y].push([])
+						//TODO: SECOND ORDER
+						tensor[x][y][z].push(orderBookTensorObj[x].data[y].orderBooks[z].bids.slice(0, 10),orderBookTensorObj[x].data[y].orderBooks[z].asks.slice(0, 10))
+					}
+				}
+				//HACK
+				//TODO: SECOND ORDER
+				else{
+					tensor[x][y].push([]);
+					var bids = [];
+					var asks = [];
+					for (var i = 0; i < 10; i++){
+						bids.push([0,0])
+						asks.push([0,0])
+					}
+					tensor[x][y][0].push(bids,asks);
+				}
+			}
+		}
+
+		//NOW SECOND ORDER..
+		//BCN --> BTS
+		//BCN --> BTC --> BTS
+
+		//TRAIN ON TIME DOMAIN TOO
+		//console.log(JSON.stringify(tensor, null, 4));
+		//INPUT; FLATTENED MAKRET TENSOR OVER TIME 
+			//ENCODE INDICATORS
+			//ENCODE PAINED (WEIGHTED) PROBABILITY DENSITIES OF GOOD PAST PICS 
+				//(BASED ON PDF --> THATS THE FEED FORWARD SELF TRAIN)
+			//CONNECTS THE MARKET DATA TO PICK INFERRANCE BASED ON ASSET APPRECIATION
+		//SAUCE
+		//OUTPUT; PROBABILITY DENSITY OF ASSETS
+		//ALG TO TRADE --> TURN INTO ORDERS
+
+		//INPUT
+		//MARKET TENSOR TIME DOMAIN
+		const marketTensor = tf.tensor(tensor[0]);
+		console.log(marketTensor);
+
+		//OUTPUT
+		//SOLVED PDF TIME DOMAIN
+		const random = tf.randomNormal([ 63, 1, 2, 10, 2 ]);
+
+		//FLATTEN INPUT / OUTPUT (PER DOMAIN)
+		const flattenInput = marketTensor.flatten();
+		const flattenOutput = random.flatten();
+
+		//Flattening the output of a convolution+pooling layer pair before a dense layer is another common pattern in neural networks:
+
+		const input = tf.input({shape: [ 2520 ]});
+		const denseLayer1 = tf.layers.dense({units: 2520, activation: 'relu'});
+		const denseLayer2 = tf.layers.dense({units: 2520, activation: 'softmax'});
+		const output = denseLayer2.apply(denseLayer1.apply(input));
+		const model = tf.model({inputs: input, outputs: output});
+
+		model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+		model.summary();
+
+		//BATCH SIZE BASED.. 
+		model.fit(flattenInput.expandDims(), flattenInput.expandDims(), {
+			epochs: 1000000,
+			callbacks: {
+				onEpochEnd: async (epoch, log) => {
+					console.log(`Epoch ${epoch}: loss = ${log.loss}`);
+				}
+			}
+		});
+
+	});
 
 };
 
@@ -1302,7 +1298,9 @@ function buildMarketImage(){
 module.exports.intervalService = function(){
 
 	//WOW
-	//buildMarketImage();
+	//buildMarketImage().then((test)=>{console.log(test)});
+
+	//neuralNetBuild();
 
 	timer(dataService.marketImage.bind(null), 300000);//5 MIN
 
@@ -1311,11 +1309,8 @@ module.exports.intervalService = function(){
 	//nn for delta strategy pick
 	//nns for the power set of markets and possible traversal paths for time deltas
 	//it's simple
-
 	//^^ would thes be enoconded in high dim -> hgh dim interaction? ; we can make sure. ofc
 	
-
-
 
 	//EXPERIMENTAL NETWORK!
 	//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);
