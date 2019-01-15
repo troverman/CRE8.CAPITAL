@@ -1174,6 +1174,9 @@ function buildMarketImage(){
 			//console.dir(orderBookTensorObj,{depth:null});
 			//console.log(JSON.stringify(orderBookTensorObj, null, 4));
 
+			//RETURN ORDERBOOKTENSOR
+
+			//REPACKAGE NN
 			//BREAK DOWN TO TENSOR
 			const tensor = [];
 
@@ -1239,9 +1242,7 @@ function buildMarketImage(){
 			//NOW SECOND ORDER..
 			//BCN --> BTS
 			//BCN --> BTC --> BTS
-
 			const flattenInput = marketTensor.flatten();
-
 			const flattenOutput = random.flatten();
 
 			//const model = tf.sequential();
@@ -1268,10 +1269,7 @@ function buildMarketImage(){
 					}
 				}
 			});
-
 			//Flattening the output of a convolution+pooling layer pair before a dense layer is another common pattern in neural networks:
-
-
 		});
 
 
@@ -1309,21 +1307,7 @@ module.exports.intervalService = function(){
 	timer(dataService.marketImage.bind(null), 300000);//5 MIN
 
 
-	//TENSORFLOW
-	const model = tf.sequential();
-	model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [10]}));
-	model.add(tf.layers.dense({units: 10, activation: 'linear'}));
-	model.add(tf.layers.dense({units: 20, activation: 'linear'}));
-	model.add(tf.layers.dense({units: 30, activation: 'linear'}));
-	model.add(tf.layers.dense({units: 1, activation: 'linear'}));
-
-	model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-
-	const xs = tf.randomNormal([100, 10]);
-	const ys = tf.randomNormal([100, 1]);
-
-	model.summary();
-
+	//NN STRAT
 	//nn for delta strategy pick
 	//nns for the power set of markets and possible traversal paths for time deltas
 	//it's simple
