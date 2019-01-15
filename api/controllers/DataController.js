@@ -136,8 +136,8 @@ module.exports = {
 
 	getSomeMarketImage:function(req, res){
 
-		var delta = toString(req.query.delta) || '300000';
-		var limit = parseInt(req.query.delta) || 10;
+		var delta = toString(req.query.delta) || '300000'; //5MIN
+		var limit = parseInt(req.query.delta) || 288; //PAST DAY IN 5MIN
 		var skip = parseInt(req.query.delta) || 0;
 		var sort = req.query.delta || 'createdAt DESC';
 
