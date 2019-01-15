@@ -53,7 +53,8 @@ module.exports.routes = {
    * Data routes
    */
   'get /api/data': 'DataController.getData',
-  'get /api/data/marketImage': 'DataController.getMarketImage',
+  'get /api/data/buildMarketImage': 'DataController.buildMarketImage',
+  'get /api/data/marketImage': 'DataController.getSomeMarketImage',
   'get /api/data/latest': 'DataController.getLatestData',
   'get /api/data/map': 'DataController.getExchangeMap',
   'get /api/data/currency': 'DataController.getCurrency',

@@ -1203,11 +1203,33 @@ function buildMarketImage(){
 				}
 			}
 
+
+			//TRAIN ON TIME DOMAIN TOO
+
 			//console.log(JSON.stringify(tensor, null, 4));
 
+			//INPUT; FLATTENED MAKRET TENSOR OVER TIME 
+
+				//ENCODE INDICATORS
+				//ENCODE PAINED (WEIGHTED) PROBABILITY DENSITIES OF GOOD PAST PICS 
+					//(BASED ON PDF --> THATS THE FEED FORWARD SELF TRAIN)
+
+				//CONNECTS THE MARKET DATA TO PICK INFERRANCE BASED ON ASSET APPRECIATION
+
+			//SAUCE
+
+			//OUTPUT; PROBABILITY DENSITY OF ASSETS
+
+			//ALG TO TRADE --> TURN INTO ORDERS
+
 			//input
-			const marketTensor = tf.tensor(tensor[0]);
-			console.log(marketTensor)
+			//const marketTensor = tf.tensor(tensor[0]);
+			//:)))))
+
+			const marketTensor = tf.randomNormal([ 63, 1, 2, 10, 2 ]);
+
+			console.log(marketTensor);
+
 			console.log('HELLO!!11');
 
 			//SOLVED PDF FOR EACH DELTA 
@@ -1218,31 +1240,36 @@ function buildMarketImage(){
 			//BCN --> BTS
 			//BCN --> BTC --> BTS
 
+			const flattenInput = marketTensor.flatten();
+
+			const flattenOutput = random.flatten();
+
 			//const model = tf.sequential();
 			//model.add(tf.layers.dense({units: 100, activation: 'relu', inputShape: [63, 1, 2, 10, 2] }));
 			//model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
 			//model.predict(tf.ones([63, 1, 2, 10, 2] )).print();
 
-			const input = tf.input({shape: [63, 1, 2, 10, 2]});
-			const denseLayer1 = tf.layers.dense({units: 400, activation: 'relu'});
-			const denseLayer2 = tf.layers.dense({units: 200, activation: 'softmax'});
+			const input = tf.input({shape: [ 2520 ]});
+			const denseLayer1 = tf.layers.dense({units: 2520, activation: 'relu'});
+			const denseLayer2 = tf.layers.dense({units: 2520, activation: 'softmax'});
 			const output = denseLayer2.apply(denseLayer1.apply(input));
 			const model = tf.model({inputs: input, outputs: output});
 
 			model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
 			model.summary();
+
 			console.log('HELLO000000!!11');
+			model.fit(flattenInput.expandDims(), flattenInput.expandDims(), {
+				epochs: 1000000,
+				callbacks: {
+					onEpochEnd: async (epoch, log) => {
+						console.log(`Epoch ${epoch}: loss = ${log.loss}`);
+					}
+				}
+			});
 
-			//TRAIN ON TIME DOMAIN TOO
-
-			//model.fit(marketTensor, random, {
-			//	epochs: 100,
-			//	callbacks: {
-			//		onEpochEnd: async (epoch, log) => {
-			//			console.log(`Epoch ${epoch}: loss = ${log.loss}`);
-			//		}
-			//	}
-			//});
+			//Flattening the output of a convolution+pooling layer pair before a dense layer is another common pattern in neural networks:
 
 
 		});
@@ -1297,17 +1324,14 @@ module.exports.intervalService = function(){
 
 	model.summary();
 
-	model.fit(xs, ys, {
-		epochs: 100,
-		callbacks: {
-			onEpochEnd: async (epoch, log) => {
-				//console.log(`Epoch ${epoch}: loss = ${log.loss}`);
-			}
-		}
-	});
+	//nn for delta strategy pick
+	//nns for the power set of markets and possible traversal paths for time deltas
+	//it's simple
 
-	//nns for the power set of markets and possible traversal paths
+	//^^ would thes be enoconded in high dim -> hgh dim interaction? ; we can make sure. ofc
 	
+
+
 
 	//EXPERIMENTAL NETWORK!
 	//var initNetwork = new Architect.Perceptron(2, 10, 8, 6, 4, 2);

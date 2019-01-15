@@ -136,10 +136,17 @@ module.exports = {
 
 	getSomeMarketImage:function(req, res){
 
-		MarketImage.find({delta:req.query.delta})
-		.limit(parseInt(req.query.limit))
-		.skip(parseInt(req.query.skip))
-		.sort(parseInt(req.query.sort))
+		var delta = toString(req.query.delta) || '300000';
+		var limit = parseInt(req.query.delta) || 10;
+		var skip = parseInt(req.query.delta) || 0;
+		var sort = req.query.delta || 'createdAt DESC';
+
+		console.log(delta,limit,skip,sort)
+
+		MarketImage.find({delta:delta})
+		.limit(limit)
+		.skip(skip)
+		.sort(sort)
 		.then((marketImageModels)=>{
 			res.json(marketImageModels);
 		});	
