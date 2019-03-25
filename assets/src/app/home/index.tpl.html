@@ -110,12 +110,11 @@
 
 </div>
 
-<div ng-show="!currentUser" >
-	<div ng-include="'intro/index.tpl.html'"></div>
-	<!--<nvd3 options='options' data='data'></nvd3>
-	<nvd3 options='directedOptions' data='directedData'></nvd3>-->
+<div ng-show="!currentUser">
 
+	<div ng-include="'intro/index.tpl.html'"></div>
 	<div class="container" id="about">
+
 		<div class="spacing-50"></div>
 		<div class="row">
 			<div class="col-sm-12">
@@ -126,111 +125,77 @@
 			</div>
 		</div>
 		<div class="spacing-50"></div>
+
 	</div>
 
 	<div class="container" style="text-align:left">
-		<div class="spacing-50"></div>
+
 		<div class="row">
 			<div class="col-sm-6">
-				<h3>A Financial Intellligence Continually Learning</h3>
-				<p>Guided by a Community of Analysts; Select Your Representation</p>
+
+				<h3>CRE8.CAPITAL is <a>continually learning and growing</a>.</h3>
+				<!--<h3>Financial Intellligence Continually Learning & Growing</h3>-->
+				<!--<p>Guided by our Community of Analysts; Select Your Representation</p>-->
+				<p>Our Community of analysts work together to support another.</p>
+
+				<h3>Open & Shared Intelligence</h3>
+				<p>Data we use, data we prouduce, together.</p>
+
+				<h3>Transparent Results</h3>
+				<p>Backed with strict data.</p>
+
 			</div>
 			<div class="col-sm-6" style="text-align:right">
 				<img style="max-height:300px;" src="images/1.gif">
 			</div>
 		</div>
+
 		<div class="spacing-50"></div>
+
 		<div class="row">
 			<div class="col-sm-4">
 				<img src="images/tesseract-bg.png">
 			</div>
+
 			<div class="col-sm-8" style="text-align:right">
+
 				<h3>Collaboration and Contribution</h3>
-				<p>The collaborative.capital engine is continually learning from intelligence produced from your machienes and analytic insight.</p>
+				<p>The CRE8.CAPITAL engine is continually learning from intelligence produced from your computational contrubition and analytic insight.</p>
 				<p>Deep Learning Techniques create actionable intelligence.</p>
+
 				<h3>Cutting Edge Analysis at Scale</h3>
-				<p>Distributed Networks work to give you the cutting edge</p>
+				<p>Peer to Peer Distributed Networks work to give you the cutting edge.</p>
 				<p>Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>
-			</div>
-		</div>
-		<div class="spacing-50"></div>
-		<div class="row">
-			<div class="col-sm-12">
-				<h3>Open Intelligence</h3>
-				<p>Data we use, data we prouduce, together.</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<h3>Transparent Results </h3>
-				<p>Data-backed with proven results.</p>
-			</div>
-		</div>
-		<div class="spacing-50"></div>
-		<div class="row">
-			<div class="col-sm-12">
-				<a href="/about" class="btn btn-default log-btn">Learn More</a>
+
+				<h3>Tensor Algebra & Details</h3>
+				<p>Take a look into how it all works.</p>
+
 				<div class="spacing-10"></div>
-			</div>
-		</div>
-	</div>
+				<a href="/about" class="btn btn-default log-btn">Learn More</a>
 
-	<div style="text-align:left">
-		<div class="spacing-50"></div>
-		<div class="container" style="">
-			<h2><a href="/markets">Market Exposure</a></h2>
-			<!--<nvd3 options='options' data='data'></nvd3>-->
-			<div class="spacing-10"></div>
-
-			<div ng-repeat="pair in tradingPairs">
-				<div class="col-md-3 col-sm-4 col-xs-6 ">
-					<div class="card">
-						<div style="padding:16px;">
-							<a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>
-						</div>
-					</div>
-				</div>
 			</div>
-
-			<!--
-			<div class="col-md-4">
-				<table class="table table-inverse table-hover">
-				    <thead>
-						<tr>
-							<th>Market</th>
-							<th>Price</th>
-							<th>Percent Change</th>
-						</tr>
-				    </thead>
-				    <tbody>
-						<tr ng-repeat="pair in tradingPairs">
-							<td><a href="market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a></td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-				    </tbody>
-				</table>
-			</div>
-			-->
 
 		</div>
+
 		<div class="spacing-50"></div>
+
 	</div>
 
 	<div style="text-align:left;color:gray;background-color:black;">
-		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>
 		<div class="spacing-50"></div>
+
 		<div class="container">
 			<h2>Activity</h2>
 			<div class="spacing-10"></div>
-			<highchart config="chartConfig"></highchart>
-			<!--daily return vs index..-->
-			<div class="spacing-50"></div>
+			<highchart config="chartConfig"></highchart><!--daily return vs index..-->
 		</div>
+
+		<div class="spacing-50"></div>
 	</div>
 
 	<div style="text-align:left;" class="container">
 		<div class="spacing-50"></div>
+
 		<h2>Order Book</h2>
 		<h4>Transparent Investments</h4>
 		<div class="spacing-10"></div>
@@ -238,7 +203,7 @@
 		    <thead>
 				<tr>
 					<th>Market</th>
-					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->
+					<th>Type</th>
 					<th></th>
 					<th></th>
 					<th>Date</th>
@@ -251,11 +216,10 @@
 					<td>{{order.amount}} {{order.asset2}}</td>
 					<td>{{order.price}} {{order.asset1}}</td>
 					<td>{{order.createdAt | date :  "y MM-dd hh:mm.ss a"}}</td>
-					<!--<td>{{order.createdAt | date :  "s.m.h.dd.MM.y"}}</td>-->
-					<!--<td>{{order.createdAt | date :  "medium"}}</td>-->
 				</tr>
 		    </tbody>
 		</table>
+
 		<div class="spacing-50"></div>
 	</div>
 

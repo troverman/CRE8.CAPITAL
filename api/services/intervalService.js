@@ -1267,7 +1267,7 @@ function neuralNetBuild(){
 
 		//FLATTEN INPUT / OUTPUT (PER DOMAIN)
 		const flattenInput = marketTensor.flatten();
-		const flattenOutput = random.flatten();
+		const flattenOutput = marketTensor.flatten().reverse();
 
 		//Flattening the output of a convolution+pooling layer pair before a dense layer is another common pattern in neural networks:
 
@@ -1300,9 +1300,10 @@ module.exports.intervalService = function(){
 	//WOW
 	//buildMarketImage().then((test)=>{console.log(test)});
 
+	//THIS
 	//neuralNetBuild();
 
-	timer(dataService.marketImage.bind(null), 300000);//5 MIN
+	//timer(dataService.marketImage.bind(null), 300000);//5 MIN
 
 
 	//NN STRAT

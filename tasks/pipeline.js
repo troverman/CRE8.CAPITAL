@@ -18,7 +18,6 @@ var cssFilesToInject = [
   'styles/**/*.css',
   'bower_components/nvd3/build/nv.d3.css',
   'bower_components/angular-material/angular-material.css',
-  //'bower_components/highcharts/css/highcharts.css',
   'bower_components/highcharts-ng/dist/highcharts-ng.css',
 ];
 

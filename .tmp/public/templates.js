@@ -366,12 +366,11 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "</div>\n" +
     "\n" +
-    "<div ng-show=\"!currentUser\" >\n" +
-    "	<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
-    "	<!--<nvd3 options='options' data='data'></nvd3>\n" +
-    "	<nvd3 options='directedOptions' data='directedData'></nvd3>-->\n" +
+    "<div ng-show=\"!currentUser\">\n" +
     "\n" +
+    "	<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
     "	<div class=\"container\" id=\"about\">\n" +
+    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
@@ -382,111 +381,77 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			</div>\n" +
     "		</div>\n" +
     "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
-    "				<h3>A Financial Intellligence Continually Learning</h3>\n" +
-    "				<p>Guided by a Community of Analysts; Select Your Representation</p>\n" +
+    "\n" +
+    "				<h3>CRE8.CAPITAL is <a>continually learning and growing</a>.</h3>\n" +
+    "				<!--<h3>Financial Intellligence Continually Learning & Growing</h3>-->\n" +
+    "				<!--<p>Guided by our Community of Analysts; Select Your Representation</p>-->\n" +
+    "				<p>Our Community of analysts work together to support another.</p>\n" +
+    "\n" +
+    "				<h3>Open & Shared Intelligence</h3>\n" +
+    "				<p>Data we use, data we prouduce, together.</p>\n" +
+    "\n" +
+    "				<h3>Transparent Results</h3>\n" +
+    "				<p>Backed with strict data.</p>\n" +
+    "\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-6\" style=\"text-align:right\">\n" +
     "				<img style=\"max-height:300px;\" src=\"images/1.gif\">\n" +
     "			</div>\n" +
     "		</div>\n" +
+    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-4\">\n" +
     "				<img src=\"images/tesseract-bg.png\">\n" +
     "			</div>\n" +
+    "\n" +
     "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
+    "\n" +
     "				<h3>Collaboration and Contribution</h3>\n" +
-    "				<p>The collaborative.capital engine is continually learning from intelligence produced from your machienes and analytic insight.</p>\n" +
+    "				<p>The CRE8.CAPITAL engine is continually learning from intelligence produced from your computational contrubition and analytic insight.</p>\n" +
     "				<p>Deep Learning Techniques create actionable intelligence.</p>\n" +
+    "\n" +
     "				<h3>Cutting Edge Analysis at Scale</h3>\n" +
-    "				<p>Distributed Networks work to give you the cutting edge</p>\n" +
+    "				<p>Peer to Peer Distributed Networks work to give you the cutting edge.</p>\n" +
     "				<p>Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
-    "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-12\">\n" +
-    "				<h3>Open Intelligence</h3>\n" +
-    "				<p>Data we use, data we prouduce, together.</p>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-12\">\n" +
-    "				<h3>Transparent Results </h3>\n" +
-    "				<p>Data-backed with proven results.</p>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
-    "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-12\">\n" +
-    "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
+    "\n" +
+    "				<h3>Tensor Algebra & Details</h3>\n" +
+    "				<p>Take a look into how it all works.</p>\n" +
+    "\n" +
     "				<div class=\"spacing-10\"></div>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "	</div>\n" +
+    "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
     "\n" +
-    "	<div style=\"text-align:left\">\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
-    "		<div class=\"container\" style=\"\">\n" +
-    "			<h2><a href=\"/markets\">Market Exposure</a></h2>\n" +
-    "			<!--<nvd3 options='options' data='data'></nvd3>-->\n" +
-    "			<div class=\"spacing-10\"></div>\n" +
-    "\n" +
-    "			<div ng-repeat=\"pair in tradingPairs\">\n" +
-    "				<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
-    "					<div class=\"card\">\n" +
-    "						<div style=\"padding:16px;\">\n" +
-    "							<a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a>\n" +
-    "						</div>\n" +
-    "					</div>\n" +
-    "				</div>\n" +
     "			</div>\n" +
-    "\n" +
-    "			<!--\n" +
-    "			<div class=\"col-md-4\">\n" +
-    "				<table class=\"table table-inverse table-hover\">\n" +
-    "				    <thead>\n" +
-    "						<tr>\n" +
-    "							<th>Market</th>\n" +
-    "							<th>Price</th>\n" +
-    "							<th>Percent Change</th>\n" +
-    "						</tr>\n" +
-    "				    </thead>\n" +
-    "				    <tbody>\n" +
-    "						<tr ng-repeat=\"pair in tradingPairs\">\n" +
-    "							<td><a href=\"market/{{pair.split('/')[1]}}/{{pair.split('/')[0]}}\">{{pair.split('/')[1]}}/{{pair.split('/')[0]}}</a></td>\n" +
-    "							<td>0</td>\n" +
-    "							<td>0</td>\n" +
-    "						</tr>\n" +
-    "				    </tbody>\n" +
-    "				</table>\n" +
-    "			</div>\n" +
-    "			-->\n" +
     "\n" +
     "		</div>\n" +
+    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
-    "		<style>.nvd3 text{color:gray;fill:gray;}.nvd3 .nv-axis line{stroke:gray;}</style>\n" +
     "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "		<div class=\"container\">\n" +
     "			<h2>Activity</h2>\n" +
     "			<div class=\"spacing-10\"></div>\n" +
-    "			<highchart config=\"chartConfig\"></highchart>\n" +
-    "			<!--daily return vs index..-->\n" +
-    "			<div class=\"spacing-50\"></div>\n" +
+    "			<highchart config=\"chartConfig\"></highchart><!--daily return vs index..-->\n" +
     "		</div>\n" +
+    "\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "		<h2>Order Book</h2>\n" +
     "		<h4>Transparent Investments</h4>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
@@ -494,7 +459,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		    <thead>\n" +
     "				<tr>\n" +
     "					<th>Market</th>\n" +
-    "					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "					<th>Type</th>\n" +
     "					<th></th>\n" +
     "					<th></th>\n" +
     "					<th>Date</th>\n" +
@@ -507,11 +472,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "					<td>{{order.amount}} {{order.asset2}}</td>\n" +
     "					<td>{{order.price}} {{order.asset1}}</td>\n" +
     "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
-    "					<!--<td>{{order.createdAt | date :  \"s.m.h.dd.MM.y\"}}</td>-->\n" +
-    "					<!--<td>{{order.createdAt | date :  \"medium\"}}</td>-->\n" +
     "				</tr>\n" +
     "		    </tbody>\n" +
     "		</table>\n" +
+    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
