@@ -140,7 +140,7 @@ angular.module( 'investing.about', [
     };
 
     //TODO: SAVE PDF
-    AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
+    /*AnalysisModel.getPdf($scope.marketData.slice(0,350)).then(function(returnData){
         
         var pdfData = returnData.heatMap.slice(returnData.heatMap.length-50, returnData.heatMap.length);
         for(x in pdfData){$scope.heatMapChart.xAxis.categories.push(x);}
@@ -189,7 +189,7 @@ angular.module( 'investing.about', [
         }
         $scope.bidAskChart.series[0].data = $scope.bidAskChart.series[0].data.reverse().slice($scope.bidAskChart.series[0].data.length-250,$scope.bidAskChart.series[0].data.length);
         $scope.bidAskChart.series[1].data = $scope.bidAskChart.series[1].data.slice(0,250);
-    });
+    });*/
 
     //HIGHCHARTS
     $scope.chartConfig = {

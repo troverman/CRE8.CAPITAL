@@ -2,44 +2,6 @@ angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
-    "<!--<img src=\"images/3.jpg\">\n" +
-    "<img src=\"images/4.jpg\">\n" +
-    "<img src=\"images/5.jpg\">\n" +
-    "<img src=\"images/6.jpg\">\n" +
-    "<img src=\"images/7.jpg\">\n" +
-    "<img src=\"images/8.jpg\">\n" +
-    "<img src=\"images/9.jpg\">\n" +
-    "<img src=\"images/10.jpg\">\n" +
-    "<img src=\"images/11.jpg\">\n" +
-    "<img src=\"images/12.jpg\">\n" +
-    "<img src=\"images/13.jpg\">\n" +
-    "<img src=\"images/14.jpg\">\n" +
-    "<img src=\"images/15.jpg\">\n" +
-    "<img src=\"images/16.jpg\">\n" +
-    "<img src=\"images/17.jpg\">\n" +
-    "<img src=\"images/18.jpg\">\n" +
-    "<img src=\"images/19.jpg\">\n" +
-    "<img src=\"images/20.jpg\">\n" +
-    "<img src=\"images/21.jpg\">\n" +
-    "<img src=\"images/22.jpg\">\n" +
-    "<img src=\"images/23.jpg\">\n" +
-    "<img src=\"images/24.jpg\">\n" +
-    "<img src=\"images/25.jpg\">\n" +
-    "<img src=\"images/26.jpg\">\n" +
-    "<img src=\"images/27.jpg\">\n" +
-    "<img src=\"images/28.jpg\">\n" +
-    "<img src=\"images/29.jpg\">\n" +
-    "<img src=\"images/30.jpg\">\n" +
-    "<img src=\"images/31.jpg\">\n" +
-    "<img src=\"images/32.jpg\">\n" +
-    "<img src=\"images/33.jpg\">\n" +
-    "<img src=\"images/34.jpg\">\n" +
-    "<img src=\"images/35.jpg\">-->\n" +
-    "\n" +
-    "<!--<img src=\"images/2.gif\">\n" +
-    "<img src=\"images/3.gif\">\n" +
-    "<img src=\"images/4.gif\">\n" +
-    "<img src=\"images/5.gif\">-->\n" +
     "<div style=\"height:20vh;overflow:hidden\">\n" +
     "    <!--<h1 style=\"color:white;position:absolute\">create the next wave</h1>-->\n" +
     "    <img src=\"images/24.jpg\" style=\"width:100%\">\n" +
@@ -67,12 +29,9 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"container\" style=\"text-align:left\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
-    "                <!--<h3><i class=\"fa fa-file-o\"></i> Open Data</h3>\n" +
-    "                <p style=\"font-style:italic\">Data, we use. Data we produce, together.</p>-->\n" +
     "                <h3>Cutting Edge Analysis at Scale</h4>\n" +
     "                <h3>Open Intelligence</h3>\n" +
-    "                                <h3>Collaboration and Contribution</h3>\n" +
-    "\n" +
+    "                <h3>Collaboration and Contribution</h3>\n" +
     "            </div>\n" +
     "            <div class=\"col-sm-6\" style=\"overflow:hidden; text-align:right\">\n" +
     "                <img style=\"height:200px\"src=\"images/2.gif\">\n" +
@@ -84,63 +43,57 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "    <!--<img src=\"images/24.jpg\" style=\"max-width:100%\">-->\n" +
-    "    <!--<img src=\"images/25.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/26.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/13.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/30.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/34.jpg\" style=\"width:100%\">-->\n" +
-    "\n" +
-    "\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
+    "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Open Intelligence</h3>\n" +
+    "            <h3>Market Information & Analysis</h3>\n" +
     "            <h5>Community Analysts</h5>\n" +
-    "            <img style=\"max-height:300px\" src=\"images/heatmap.png\">\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <highchart config=\"bidAskChart\"></highchart>\n" +
     "        </div>\n" +
+    "\n" +
     "    </div>\n" +
     "    \n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
+    "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <h3>Transparent Finance </h3>\n" +
     "            <p style=\"font-style:italic\">We Create Valuable Intelligence</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <img style=\"max-height:300px;float:right\" src=\"images/1.gif\">\n" +
     "        </div>\n" +
+    "\n" +
     "    </div>\n" +
     "\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
-    "        <!--<div class=\"col-sm-6\">\n" +
+    "\n" +
+    "        <div class=\"col-sm-6\">\n" +
     "            <h3>Mapping the Market</h3>\n" +
-    "            <highchart config=\"bidAskChart\"></highchart>\n" +
-    "        </div>-->\n" +
+    "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-12\">\n" +
-    "            <highchart config=\"heatMapChart\"></highchart>\n" +
     "        </div>\n" +
+    "\n" +
     "    </div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
+    "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <h3>Performance | Analysis </h3>\n" +
     "            <p style=\"font-style:italic\">How are we doing?</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <img style=\"max-height:300px;float:right\" src=\"images/1.gif\">\n" +
     "        </div>\n" +
+    "\n" +
     "    </div>\n" +
     "\n" +
     "    <div class=\"spacing-50\"></div>\n" +
@@ -371,16 +324,16 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
     "	<div class=\"container\" id=\"about\">\n" +
     "\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
+    "		<div class=\"spacing-100\"></div>\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
     "			    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
     "			       <h2>Empowered Financial Representation</h2>\n" +
-    "			       <h3 style=\"\">Backed by Sound, Open Data</h3>\n" +
+    "			       <p style=\"color:gray;font-style:italic\">Backed by Sound, Open Data</p>\n" +
     "			    </div>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
+    "		<div class=\"spacing-100\"></div>\n" +
     "\n" +
     "	</div>\n" +
     "\n" +
@@ -389,42 +342,61 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-6\">\n" +
     "\n" +
-    "				<h3>CRE8.CAPITAL is <a>continually learning and growing</a>.</h3>\n" +
-    "				<!--<h3>Financial Intellligence Continually Learning & Growing</h3>-->\n" +
-    "				<!--<p>Guided by our Community of Analysts; Select Your Representation</p>-->\n" +
-    "				<p>Our Community of analysts work together to support another.</p>\n" +
+    "				<h3>We <a href=\"#\">continually learn and grow</a>.</h3>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Our Community of analysts work together to support another.</p>\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "				<h3>Open & Shared Intelligence</h3>\n" +
-    "				<p>Data we use, data we prouduce, together.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Data we use, data we prouduce, together.</p>\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "				<h3>Transparent Results</h3>\n" +
-    "				<p>Backed with strict data.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Always backed by data.</p>\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-6\" style=\"text-align:right\">\n" +
-    "				<img style=\"max-height:300px;\" src=\"images/1.gif\">\n" +
+    "				<div class=\"block\">\n" +
+    "                    <div class=\"shape\">\n" +
+    "                        <div class=\"cube outer\">\n" +
+    "                            <div class=\"side left\"></div>\n" +
+    "                            <div class=\"side right\"></div>\n" +
+    "                            <div class=\"side top\"></div>\n" +
+    "                            <div class=\"side bottom\"></div>\n" +
+    "                            <div class=\"side front\"></div>\n" +
+    "                            <div class=\"side back\"></div>\n" +
+    "                            <div class=\"cube\">\n" +
+    "                                <div class=\"side left\"></div>\n" +
+    "                                <div class=\"side right\"></div>\n" +
+    "                                <div class=\"side top\"></div>\n" +
+    "                                <div class=\"side bottom\"></div>\n" +
+    "                                <div class=\"side front\"></div>\n" +
+    "                                <div class=\"side back\"></div>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
+    "		<div class=\"spacing-100\"></div>\n" +
     "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-4\">\n" +
-    "				<img src=\"images/tesseract-bg.png\">\n" +
+    "				<!--<img src=\"images/tesseract-bg.png\">-->\n" +
+    "				<img style=\"max-height:300px;\" src=\"images/1.gif\">\n" +
     "			</div>\n" +
     "\n" +
-    "			<div class=\"col-sm-8\" style=\"text-align:right\">\n" +
+    "			<div class=\"col-sm-8\" style=\"\">\n" +
     "\n" +
     "				<h3>Collaboration and Contribution</h3>\n" +
-    "				<p>The CRE8.CAPITAL engine is continually learning from intelligence produced from your computational contrubition and analytic insight.</p>\n" +
-    "				<p>Deep Learning Techniques create actionable intelligence.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">We continually learn from intelligence produced from your computational contrubition and analytic insight.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Deep Learning Techniques create actionable intelligence.</p>\n" +
+    "				<div class=\"spacing-10\"></div>\n" +
     "\n" +
-    "				<h3>Cutting Edge Analysis at Scale</h3>\n" +
-    "				<p>Peer to Peer Distributed Networks work to give you the cutting edge.</p>\n" +
-    "				<p>Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>\n" +
-    "\n" +
-    "				<h3>Tensor Algebra & Details</h3>\n" +
-    "				<p>Take a look into how it all works.</p>\n" +
+    "				<h3>Decrentralized Analysis at Scale</h3>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Peer to Peer Distributed Networks performing computation together.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Creating Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>\n" +
     "\n" +
     "				<div class=\"spacing-10\"></div>\n" +
     "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
@@ -433,11 +405,11 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "		</div>\n" +
     "\n" +
-    "		<div class=\"spacing-50\"></div>\n" +
+    "		<div class=\"spacing-100\"></div>\n" +
     "\n" +
     "	</div>\n" +
     "\n" +
-    "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
+    "	<div ng-show=\"false\" style=\"text-align:left;color:gray;background-color:black;\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "		<div class=\"container\">\n" +
@@ -838,8 +810,7 @@ angular.module("intro/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "</style>\n" +
     "\n" +
-    "<!--Multidimensional Financial Partners-->\n" +
-    "<div class=\"intro\" style=\"max-height:500px\">\n" +
+    "<div class=\"intro\" style=\"\">\n" +
     "\n" +
     "    <div class=\"intro-container\">\n" +
     "\n" +
@@ -1581,40 +1552,15 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "    <div class=\"navbar navbar-custom navbar-fixed-top\" role=\"navigation\">\n" +
     "        <div class=\"container\">\n" +
     "\n" +
-    "            <div class=\"navbar-header\">\n" +
-    "                <button class=\"navbar-toggle\" type=\"button\" ng-click=\"navToggle()\">\n" +
-    "                    <span class=\"sr-only\">Toggle navigation</span>\n" +
-    "                    <span class=\"icon-bar\"></span>\n" +
-    "                    <span class=\"icon-bar\"></span>\n" +
-    "                    <span class=\"icon-bar\"></span>\n" +
-    "                </button>\n" +
-    "                <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
-    "            </div>\n" +
+    "            <button class=\"navIcon\" type=\"button\" ng-click=\"navToggle()\">\n" +
+    "                <span class=\"sr-only\">Toggle navigation</span>\n" +
+    "                <span class=\"icon-bar\"></span>\n" +
+    "                <span class=\"icon-bar\"></span>\n" +
+    "                <span class=\"icon-bar\"></span>\n" +
+    "            </button>\n" +
+    "            <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
     "\n" +
-    "            <div class=\"collapse navbar-collapse\">\n" +
-    "                <ul class=\"nav navbar-nav\">\n" +
-    "                    <li ng-class=\"{ active: isActive('/about')}\" ng-show=\"!currentUser\"><a href=\"/about\">ABOUT</a></li>\n" +
-    "                    <li ng-class=\"{ active: isActive('/markets')}\"><a href=\"/markets\">EXPLORE</a></li>\n" +
-    "                    <form class=\"navbar-form pull-left\" role=\"search\" action=\"/search/\" onSubmit=\" location.href = 'search/' + document.getElementById('search-link').value; return false;\">\n" +
-    "                        <div class=\"form-group\">\n" +
-    "                            <input ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
-    "                        </div>\n" +
-    "                    </form>\n" +
-    "                </ul>\n" +
-    "                <ul class=\"nav navbar-nav navbar-right\">\n" +
-    "                    <li ng-class=\"{ active: isActive('/register')}\" ng-show=\"!currentUser\"><a href=\"/register\">REGISTER</a></li>\n" +
-    "                    <li ng-click=\"loginToggle()\" ng-class=\"{ active: isActive('/login')}\" ng-show=\"!currentUser\"><a>LOGIN</a></li>\n" +
-    "                    <li ng-click=\"navToggle()\">\n" +
-    "                        <button class=\"navIcon\" type=\"button\" style=\"margin-top:4px;\">\n" +
-    "                            <span class=\"sr-only\">Toggle navigation</span>\n" +
-    "                            <span class=\"icon-bar\"></span>\n" +
-    "                            <span class=\"icon-bar\"></span>\n" +
-    "                            <span class=\"icon-bar\"></span>\n" +
-    "                        </button>\n" +
-    "                    </li>\n" +
-    "                </ul>\n" +
-    "            </div>\n" +
-    "            \n" +
+    "\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
