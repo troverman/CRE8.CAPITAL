@@ -22,7 +22,7 @@ angular.module( 'investing.market', [
     $scope.marketData = marketData;
     $scope.market = $stateParams.path.toUpperCase();
 
-    titleService.setTitle($scope.market + ' | collaborative.capital');
+    titleService.setTitle($scope.market + ' | CRE8.CAPITAL');
 
     $scope.chart = {
         chart: {

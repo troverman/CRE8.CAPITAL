@@ -19,7 +19,7 @@ angular.module( 'investing.account', [
 }])
 
 .controller( 'AccountCtrl', ['$location', '$rootScope', '$scope', 'config', 'member', 'titleService', 'UserModel', function AccountController( $location, $rootScope, $scope, config, member, titleService, UserModel ) {
-	titleService.setTitle('Account | collaborative.capital');
+	titleService.setTitle('Account | CRE8.CAPITAL');
 	if (!config.currentUser){$location.path('/login')}
 	$scope.currentUser = config.currentUser;
 	$scope.member = member[0];

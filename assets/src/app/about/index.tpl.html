@@ -1,14 +1,32 @@
-<div style="height:20vh;overflow:hidden">
-    <!--<h1 style="color:white;position:absolute">create the next wave</h1>-->
-    <img src="images/24.jpg" style="width:100%">
+<div class="intro" style="">
+    <div class="intro-container">
+        <svg class="svg-defs" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <symbol id="intro-desktop-text">
+                <text style="font-size:108px;" text-anchor="middle" x="960" y="488" dy=".35em" class="medium-text">CRE8.CAPITAL</text> 
+                <text style="font-size:28px;" text-anchor="middle" x="960" y="570" dy=".35em" class="medium-text">ABOUT</text> 
+            </symbol>  
+            <div class="intro-shade"></div>  
+        </svg> 
+        <div class="box-with-text">
+            <div class="text-fill">
+                <video itemscope itemtype="VideoObject" class="video" src="https://www.cre8.xyz/videos/galaxys.mp4" preload="auto"autoplay="autoplay" loop="loop" muted="muted"></video>
+            </div>
+            <svg class="svg-inverted-mask" viewBox="0 0 1920 1080" viewPort="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" mask="url(#intro-desktop-mask)" class="shape--fill"/>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-text" class="text--transparent"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#intro-desktop-novo" class="text--transparent"></use>
+            </svg> 
+        </div>
+    </div>
+    <div class="intro-mobile"></div>
 </div>
 
 <div class="container" style="text-align:left">
     <div class="spacing-25"></div>
-    <h2>CRE8.CAPITAL</h2>
-    <p>A network consisting of thousands of companies and individuals spanning the globe.</p> 
-    <p>Intelligence that learns and works with you to create value and amass wealth.</p>
-    <p>A network of analysts spanning the globe. A strong team.</p>
+    <h3>Clout</h3>
+    <p style="font-style:italic;color:gray">A network consisting of thousands of companies and individuals spanning the globe.</p> 
+    <p style="font-style:italic;color:gray">Intelligence that learns and works with you to create value and amass wealth.</p>
+    <p style="font-style:italic;color:gray">A network of analysts spanning the globe. A strong team.</p>
     <div class="spacing-25"></div>
     <img src="images/3.jpg" style="max-width:100%">
     <img src="images/4.jpg" style="max-width:100%">
@@ -16,21 +34,16 @@
     <div class="spacing-50"></div>
 </div>
 
-<!--<div style="height:20vh;overflow:hidden">
-    <img src="images/25.jpg" style="width:100%">
-</div>-->
-
 <div style="color:white;background-color:black">
     <div class="spacing-50"></div>
     <div class="container" style="text-align:left">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Cutting Edge Analysis at Scale</h4>
-                <h3>Open Intelligence</h3>
-                <h3>Collaboration and Contribution</h3>
+                <h3>Analysis at Scale</h3>
+                <h5>Open Intelligence & Market Information</h5>
             </div>
             <div class="col-sm-6" style="overflow:hidden; text-align:right">
-                <img style="height:200px"src="images/2.gif">
+                <img style="height:100px"src="images/2.gif">
             </div>
         </div>
     </div>
@@ -44,8 +57,14 @@
     <div class="row">
 
         <div class="col-sm-6">
-            <h3>Market Information & Analysis</h3>
-            <h5>Community Analysts</h5>
+            <h3>Collaboration and Contribution</h3>
+            <p style="font-style:italic;color:gray">The Ethos of CRE8 reflects collaboration. www.CRE8.xyz</p>
+            <div class="spacing-5"></div>
+
+            <h4>Community Analysts</h4>
+            <p style="font-style:italic;color:gray">We all thrive when we share intelligence. Earn Tokens for Contribution.</p>
+
+
         </div>
 
         <div class="col-sm-6">
@@ -58,8 +77,17 @@
     <div class="row">
 
         <div class="col-sm-6">
-            <h3>Transparent Finance </h3>
-            <p style="font-style:italic">We Create Valuable Intelligence</p>
+            <h3>Transparent Finance</h3>
+            <p style="font-style:italic;color:gray">We Create Valuable Intelligence Together. A shared ledger of communical financaial assets.</p>
+            <div class="spacing-5"></div>
+
+            <h4>Mapping the Market</h4>
+            <p style="font-style:italic;color:gray">Multidimensional Market Traversal facilitated through Peer-to-Peer Machine Learning</p>
+            <div class="spacing-5"></div>
+
+            <h4>Machine Learning</h4>
+            <p style="font-style:italic;color:gray">Shared information creates intelligence</p>
+
         </div>
 
         <div class="col-sm-6">
@@ -72,19 +100,8 @@
     <div class="row">
 
         <div class="col-sm-6">
-            <h3>Mapping the Market</h3>
-        </div>
-
-        <div class="col-sm-12">
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-6">
-            <h3>Performance | Analysis </h3>
-            <p style="font-style:italic">How are we doing?</p>
+            <h3>Investment Performance</h3>
+            <p style="font-style:italic;color:gray">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful</p>
         </div>
 
         <div class="col-sm-6">
@@ -95,7 +112,7 @@
     <div class="spacing-50"></div>
     <highchart config="chartConfig"></highchart>
 
-
+    <a href="/markets" class="btn btn-default log-btn">Explore</a>
 
 </div>
 <div class="spacing-50"></div>

@@ -1,18 +1,36 @@
-angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "intro/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "marketPair/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html", "search/index.tpl.html"]);
+angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html", "footer/index.tpl.html", "home/index.tpl.html", "login/index.tpl.html", "market/index.tpl.html", "marketPair/index.tpl.html", "markets/index.tpl.html", "member/index.tpl.html", "nav/index.tpl.html", "register/index.tpl.html", "search/index.tpl.html"]);
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
-    "<div style=\"height:20vh;overflow:hidden\">\n" +
-    "    <!--<h1 style=\"color:white;position:absolute\">create the next wave</h1>-->\n" +
-    "    <img src=\"images/24.jpg\" style=\"width:100%\">\n" +
+    "<div class=\"intro\" style=\"\">\n" +
+    "    <div class=\"intro-container\">\n" +
+    "        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "            <symbol id=\"intro-desktop-text\">\n" +
+    "                <text style=\"font-size:108px;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
+    "                <text style=\"font-size:28px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">ABOUT</text> \n" +
+    "            </symbol>  \n" +
+    "            <div class=\"intro-shade\"></div>  \n" +
+    "        </svg> \n" +
+    "        <div class=\"box-with-text\">\n" +
+    "            <div class=\"text-fill\">\n" +
+    "                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"https://www.cre8.xyz/videos/galaxys.mp4\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
+    "            </div>\n" +
+    "            <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "                <rect width=\"100%\" height=\"100%\" mask=\"url(#intro-desktop-mask)\" class=\"shape--fill\"/>\n" +
+    "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
+    "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
+    "            </svg> \n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"intro-mobile\"></div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "    <div class=\"spacing-25\"></div>\n" +
-    "    <h2>CRE8.CAPITAL</h2>\n" +
-    "    <p>A network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
-    "    <p>Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
-    "    <p>A network of analysts spanning the globe. A strong team.</p>\n" +
+    "    <h3>Clout</h3>\n" +
+    "    <p style=\"font-style:italic;color:gray\">A network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
+    "    <p style=\"font-style:italic;color:gray\">Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
+    "    <p style=\"font-style:italic;color:gray\">A network of analysts spanning the globe. A strong team.</p>\n" +
     "    <div class=\"spacing-25\"></div>\n" +
     "    <img src=\"images/3.jpg\" style=\"max-width:100%\">\n" +
     "    <img src=\"images/4.jpg\" style=\"max-width:100%\">\n" +
@@ -20,21 +38,16 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
     "\n" +
-    "<!--<div style=\"height:20vh;overflow:hidden\">\n" +
-    "    <img src=\"images/25.jpg\" style=\"width:100%\">\n" +
-    "</div>-->\n" +
-    "\n" +
     "<div style=\"color:white;background-color:black\">\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "    <div class=\"container\" style=\"text-align:left\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
-    "                <h3>Cutting Edge Analysis at Scale</h4>\n" +
-    "                <h3>Open Intelligence</h3>\n" +
-    "                <h3>Collaboration and Contribution</h3>\n" +
+    "                <h3>Analysis at Scale</h3>\n" +
+    "                <h5>Open Intelligence & Market Information</h5>\n" +
     "            </div>\n" +
     "            <div class=\"col-sm-6\" style=\"overflow:hidden; text-align:right\">\n" +
-    "                <img style=\"height:200px\"src=\"images/2.gif\">\n" +
+    "                <img style=\"height:100px\"src=\"images/2.gif\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -48,8 +61,14 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Market Information & Analysis</h3>\n" +
-    "            <h5>Community Analysts</h5>\n" +
+    "            <h3>Collaboration and Contribution</h3>\n" +
+    "            <p style=\"font-style:italic;color:gray\">The Ethos of CRE8 reflects collaboration. www.CRE8.xyz</p>\n" +
+    "            <div class=\"spacing-5\"></div>\n" +
+    "\n" +
+    "            <h4>Community Analysts</h4>\n" +
+    "            <p style=\"font-style:italic;color:gray\">We all thrive when we share intelligence. Earn Tokens for Contribution.</p>\n" +
+    "\n" +
+    "\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
@@ -62,8 +81,17 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Transparent Finance </h3>\n" +
-    "            <p style=\"font-style:italic\">We Create Valuable Intelligence</p>\n" +
+    "            <h3>Transparent Finance</h3>\n" +
+    "            <p style=\"font-style:italic;color:gray\">We Create Valuable Intelligence Together. A shared ledger of communical financaial assets.</p>\n" +
+    "            <div class=\"spacing-5\"></div>\n" +
+    "\n" +
+    "            <h4>Mapping the Market</h4>\n" +
+    "            <p style=\"font-style:italic;color:gray\">Multidimensional Market Traversal facilitated through Peer-to-Peer Machine Learning</p>\n" +
+    "            <div class=\"spacing-5\"></div>\n" +
+    "\n" +
+    "            <h4>Machine Learning</h4>\n" +
+    "            <p style=\"font-style:italic;color:gray\">Shared information creates intelligence</p>\n" +
+    "\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
@@ -76,19 +104,8 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Mapping the Market</h3>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"col-sm-12\">\n" +
-    "        </div>\n" +
-    "\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"row\">\n" +
-    "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Performance | Analysis </h3>\n" +
-    "            <p style=\"font-style:italic\">How are we doing?</p>\n" +
+    "            <h3>Investment Performance</h3>\n" +
+    "            <p style=\"font-style:italic;color:gray\">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful</p>\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
@@ -99,7 +116,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"spacing-50\"></div>\n" +
     "    <highchart config=\"chartConfig\"></highchart>\n" +
     "\n" +
-    "\n" +
+    "    <a href=\"/markets\" class=\"btn btn-default log-btn\">Explore</a>\n" +
     "\n" +
     "</div>\n" +
     "<div class=\"spacing-50\"></div>\n" +
@@ -199,9 +216,8 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function($tem
     "	{{date | date:'yyyy'}} <a href=\"/\">collaborative.capital</a>\n" +
     "	<a href=\"/about\">about</a>\n" +
     "	<a href=\"#\">terms</a>\n" +
-    "	<a href=\"https://www.twitter.com/cre8capital\"><i class=\"fa fa-twitter\"></i></a>\n" +
     "	<a href=\"https://www.instagram.com/cre8capital\"><i class=\"fa fa-instagram\"></i></a>\n" +
-    "	\n" +
+    "	<a href=\"https://www.twitter.com/cre8capital\"><i class=\"fa fa-twitter\"></i></a>\n" +
     "</div>");
 }]);
 
@@ -321,7 +337,29 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "<div ng-show=\"!currentUser\">\n" +
     "\n" +
-    "	<div ng-include=\"'intro/index.tpl.html'\"></div>\n" +
+    "	<div class=\"intro\" style=\"\">\n" +
+    "	    <div class=\"intro-container\">\n" +
+    "	        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "	            <symbol id=\"intro-desktop-text\">\n" +
+    "	                <text style=\"font-size:108px;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
+    "	                <text style=\"font-size:28px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
+    "	            </symbol>  \n" +
+    "	            <div class=\"intro-shade\"></div>  \n" +
+    "	        </svg> \n" +
+    "	        <div class=\"box-with-text\">\n" +
+    "	            <div class=\"text-fill\">\n" +
+    "	                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"https://s3-us-west-2.amazonaws.com/voetr/washington.mp4\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
+    "	            </div>\n" +
+    "	            <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+    "	                <rect width=\"100%\" height=\"100%\" mask=\"url(#intro-desktop-mask)\" class=\"shape--fill\"/>\n" +
+    "	                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
+    "	                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
+    "	            </svg> \n" +
+    "	        </div>\n" +
+    "	    </div>\n" +
+    "	    <div class=\"intro-mobile\"></div>\n" +
+    "	</div>\n" +
+    "	\n" +
     "	<div class=\"container\" id=\"about\">\n" +
     "\n" +
     "		<div class=\"spacing-100\"></div>\n" +
@@ -424,8 +462,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
-    "		<h2>Order Book</h2>\n" +
-    "		<h4>Transparent Investments</h4>\n" +
+    "		<h2>Transparent Orders</h2>\n" +
+    "		<h4>Accountability in Investment</h4>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
     "		<table class=\"table table-inverse table-hover\">\n" +
     "		    <thead>\n" +
@@ -455,395 +493,6 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "</div>\n" +
     "\n" +
     "");
-}]);
-
-angular.module("intro/index.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("intro/index.tpl.html",
-    "<style>\n" +
-    "@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700);\n" +
-    "\n" +
-    ".intro {\n" +
-    "    position:relative;\n" +
-    "    top:0;\n" +
-    "    overflow: hidden;\n" +
-    "}\n" +
-    "\n" +
-    ".intro-container {\n" +
-    "    cursor:default;\n" +
-    "    min-height:100vh;\n" +
-    "    min-width:100vw;\n" +
-    "    height:100%;\n" +
-    "    width:100%;\n" +
-    "    z-index:1\n" +
-    "}\n" +
-    "\n" +
-    ".intro-mobile {\n" +
-    "    visibility:hidden;\n" +
-    "    position:absolute;\n" +
-    "    top:0;\n" +
-    "    left:0;\n" +
-    "    min-width:100%;\n" +
-    "    min-height:100%;\n" +
-    "    z-index:-4;\n" +
-    "    overflow:hidden;\n" +
-    "    background-repeat:no-repeat;\n" +
-    "    background:url(https://s3.amazonaws.com/novollc/images/home/mobile.png);\n" +
-    "    -webkit-background-size:cover;\n" +
-    "    -moz-background-size:cover;\n" +
-    "    -o-background-size:cover;\n" +
-    "    background-size:cover\n" +
-    "}\n" +
-    "\n" +
-    "svg {\n" +
-    "    max-width:100%;\n" +
-    "    max-height:100%;\n" +
-    "    min-width:100%;\n" +
-    "    min-height:100%\n" +
-    "}\n" +
-    "\n" +
-    ".continue-wrap {\n" +
-    "    position:absolute;\n" +
-    "    top:75%;\n" +
-    "    width:100%;\n" +
-    "    margin:0 auto\n" +
-    "}\n" +
-    "\n" +
-    ".svg-wrapper {\n" +
-    "    height:60px;\n" +
-    "    margin:0 auto;\n" +
-    "    width:320px;\n" +
-    "    cursor: pointer;\n" +
-    "}\n" +
-    "\n" +
-    ".text {\n" +
-    "    color:#fff;\n" +
-    "    font-family:'Play',sans-serif;\n" +
-    "    font-size:22px;\n" +
-    "    letter-spacing:8px;\n" +
-    "    line-height:32px;\n" +
-    "    position:relative;\n" +
-    "    top:-48px\n" +
-    "}\n" +
-    "\n" +
-    "#novo-svg {\n" +
-    "    fill:#fff;\n" +
-    "}\n" +
-    "\n" +
-    ".shape {\n" +
-    "    fill:transparent;\n" +
-    "    stroke-dasharray:180 540;\n" +
-    "    stroke-dashoffset:-454;\n" +
-    "    stroke-width:6px;\n" +
-    "    stroke:#fff\n" +
-    "}\n" +
-    "\n" +
-    "@keyframes draw {\n" +
-    "    0% {\n" +
-    "        stroke-dasharray:180 540;\n" +
-    "        stroke-dashoffset:-454;\n" +
-    "        stroke-width:6px;\n" +
-    "        stroke:#14B795\n" +
-    "    }\n" +
-    "\n" +
-    "    100% {\n" +
-    "        stroke-dasharray:760;\n" +
-    "        stroke-dashoffset:0;\n" +
-    "        stroke-width:2px;\n" +
-    "        stroke:#14B795\n" +
-    "    }\n" +
-    "}\n" +
-    "\n" +
-    ".svg-wrapper:hover .shape {\n" +
-    "    -webkit-animation:.5s draw linear forwards;\n" +
-    "    animation:.5s draw linear forwards\n" +
-    "}\n" +
-    "\n" +
-    ".svg-wrapper:hover .text {\n" +
-    "    color: #fff;\n" +
-    "}\n" +
-    "\n" +
-    ".box-with-text {\n" +
-    "    position:absolute;\n" +
-    "    top:0;\n" +
-    "    left:0;\n" +
-    "    width:100%;\n" +
-    "    height:100%;\n" +
-    "    margin:0 auto\n" +
-    "}\n" +
-    "\n" +
-    ".svg-inverted-mask {\n" +
-    "    margin:0 auto;\n" +
-    "    overflow:auto!important;\n" +
-    "    z-index:2\n" +
-    "}\n" +
-    "\n" +
-    ".text-fill {\n" +
-    "    z-index:-5;\n" +
-    "    margin:auto;\n" +
-    "    overflow:hidden\n" +
-    "}\n" +
-    "\n" +
-    ".video {\n" +
-    "    position:absolute;\n" +
-    "    top:0;\n" +
-    "    left:0;\n" +
-    "    bottom:0;\n" +
-    "    min-width:100%;\n" +
-    "    min-height:100%;\n" +
-    "    overflow:hidden;\n" +
-    "    z-index:-5\n" +
-    "}\n" +
-    "\n" +
-    ".shape--fill {\n" +
-    "    fill:rgba(0,0,0,0.25);\n" +
-    "}\n" +
-    "\n" +
-    ".text--transparent {\n" +
-    "    fill:rgba(255,255,255,0.75);\n" +
-    "    font-family: 'Titillium Web', sans-serif;\n" +
-    "    font-weight: bold;\n" +
-    "    letter-spacing: 1px;\n" +
-    "}\n" +
-    "\n" +
-    ".intro-shade {\n" +
-    "    background: rgba(0,0,0,0.5);\n" +
-    "    position: absolute;\n" +
-    "    top: 0;\n" +
-    "    left: 0;\n" +
-    "    width: 100%;\n" +
-    "    height: 100%;\n" +
-    "    margin: 0 auto;\n" +
-    "    z-index: -1;\n" +
-    "}\n" +
-    "\n" +
-    ".svg-defs {\n" +
-    "    width:0;\n" +
-    "    height:0;\n" +
-    "}\n" +
-    "\n" +
-    "/* media queries */\n" +
-    "@media only screen and (max-width: 1024px) {\n" +
-    "    video {\n" +
-    "        display:none\n" +
-    "    }\n" +
-    "\n" +
-    "    .intro-mobile {\n" +
-    "        visibility:visible;\n" +
-    "        height:100%\n" +
-    "    }\n" +
-    "\n" +
-    "    .port-mobile {\n" +
-    "        visibility:visible\n" +
-    "    }\n" +
-    "\n" +
-    "    .port-box a #fill-hover {\n" +
-    "        fill:rgba(255,255,255,0.1);\n" +
-    "        transition:fill .2s\n" +
-    "    }\n" +
-    "\n" +
-    "    .contact-mobile {\n" +
-    "        visibility:visible;\n" +
-    "        height:100%\n" +
-    "    }\n" +
-    "}\n" +
-    "\n" +
-    "@media only screen and (max-width: 920px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.8;\n" +
-    "    }\n" +
-    "    .continue-wrap {\n" +
-    "        display: none;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 850px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.7;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 740px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.6;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 640px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.55;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 600px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.5;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 555px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.45;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 510px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.4;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 460px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.35;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 410px) {\n" +
-    "    .intro-container {\n" +
-    "        zoom: 0.325;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 788px) {\n" +
-    "    .desktop {\n" +
-    "        visibility:hidden\n" +
-    "    }\n" +
-    "\n" +
-    "    .mobile {\n" +
-    "        visibility:visible\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 500px) {\n" +
-    "    .shape--fill {\n" +
-    "        fill: rgba(0,0,0,0.8);\n" +
-    "    }\n" +
-    "}\n" +
-    "/*@media only screen and (max-width: 920px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.8;\n" +
-    "    }\n" +
-    "    .continue-wrap {\n" +
-    "        display: none;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 850px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.7;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 740px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.6;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 640px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.55;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 600px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.5;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 555px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.45;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 510px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.4;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 460px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.35;\n" +
-    "    }\n" +
-    "}\n" +
-    "@media only screen and (max-width: 410px) {\n" +
-    "    html {\n" +
-    "        zoom: 0.325;\n" +
-    "    }\n" +
-    "}*/\n" +
-    ".imageContainer {\n" +
-    "    background:rgba(26,26,36, 0.84);\n" +
-    "    overflow:hidden;\n" +
-    "    min-height: 500px;\n" +
-    "    font-family: 'Jura', sans-serif;\n" +
-    "    margin:0;padding:0;border:0 none;position: relative;\n" +
-    "}\n" +
-    ".imageContainerDiv {\n" +
-    "    width:100%;\n" +
-    "    height: 35em;\n" +
-    "    display: flex;\n" +
-    "    flex-direction: column;\n" +
-    "}\n" +
-    ".imageContainerDiv h1 {\n" +
-    "    color: rgba(255,255,255,0.9);\n" +
-    "    font-size: 50px;\n" +
-    "    font-weight: 400;\n" +
-    "    margin-top:auto;\n" +
-    "    margin-bottom:auto;\n" +
-    "}\n" +
-    ".imageContainerSmall {\n" +
-    "    background:rgba(36,36,46, 0.84);\n" +
-    "    overflow:hidden;\n" +
-    "    min-height: 200px;\n" +
-    "    font-family: 'Jura', sans-serif;\n" +
-    "    margin:0;padding:0;border:0 none;position: relative;\n" +
-    "}\n" +
-    ".imageContainerSmallDiv {\n" +
-    "    width:100%;\n" +
-    "    height: 200px;\n" +
-    "    display: flex;\n" +
-    "    flex-direction: column;\n" +
-    "}\n" +
-    ".imageContainerSmallDiv h1 {\n" +
-    "    color: rgba(255,255,255,0.9);\n" +
-    "    font-size: 50px;\n" +
-    "    font-weight: 400;\n" +
-    "    margin-top:auto;\n" +
-    "    margin-bottom:auto;\n" +
-    "}\n" +
-    "video {\n" +
-    "    position: absolute;\n" +
-    "    top: 0;\n" +
-    "    left: 0;\n" +
-    "    bottom: 0;\n" +
-    "    min-width: 100%;\n" +
-    "    min-height: 100%;\n" +
-    "    overflow: hidden;\n" +
-    "    z-index: -5;\n" +
-    "}\n" +
-    "\n" +
-    "</style>\n" +
-    "\n" +
-    "<div class=\"intro\" style=\"\">\n" +
-    "\n" +
-    "    <div class=\"intro-container\">\n" +
-    "\n" +
-    "        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-    "\n" +
-    "            <symbol id=\"intro-desktop-text\">\n" +
-    "                <text style=\"font-size:108px;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
-    "                <text style=\"font-size:28px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
-    "            </symbol>  \n" +
-    "\n" +
-    "            <div class=\"intro-shade\"></div>  \n" +
-    "\n" +
-    "        </svg> \n" +
-    "\n" +
-    "        <div class=\"box-with-text\">\n" +
-    "\n" +
-    "            <div class=\"text-fill\">\n" +
-    "                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"https://s3-us-west-2.amazonaws.com/voetr/washington.mp4\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-    "                <rect width=\"100%\" height=\"100%\" mask=\"url(#intro-desktop-mask)\" class=\"shape--fill\"/>\n" +
-    "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
-    "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
-    "            </svg> \n" +
-    "\n" +
-    "        </div>\n" +
-    "\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"intro-mobile\"></div>\n" +
-    "\n" +
-    "</div>");
 }]);
 
 angular.module("login/index.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -1408,9 +1057,9 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "        position: relative;\n" +
     "        float: right;\n" +
     "        padding: 9px 10px;\n" +
-    "        margin-top: 8px;\n" +
+    "        margin-top: 5px;\n" +
     "        margin-right: 15px;\n" +
-    "        margin-bottom: 8px;\n" +
+    "        //margin-bottom: 8px;\n" +
     "        background-color: transparent;\n" +
     "        background-image: none;\n" +
     "        border: 1px solid transparent;\n" +

@@ -12,17 +12,17 @@ angular.module( 'investing.about', [
 		},
         resolve:{
             marketData: ['DataModel', function(DataModel) {
-                return DataModel.getData(1000, 0, 'createdAt DESC','BTC', 'LTC', 21600000);
+                return DataModel.getData(100, 0, 'createdAt DESC','BTC', 'LTC', 21600000);
             }],
             predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(1000, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'});
+                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'});
             }],
         }
 	});
 }])
 
 .controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'predictionData', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, predictionData, titleService ) {
-	titleService.setTitle('About | collaborative.capital');
+	titleService.setTitle('About | CRE8.CAPITAL');
     $scope.marketData = marketData;
     $scope.predictionData = predictionData;
 

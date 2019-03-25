@@ -14,6 +14,6 @@ angular.module( 'investing.login', [
 }])
 
 .controller( 'LoginCtrl', ['$scope', 'config', 'titleService', function LoginController( $scope, config, titleService ) {
-	titleService.setTitle('Login | collaborative.capital');
+	titleService.setTitle('Login | CRE8.CAPITAL');
 	$scope.currentUser = config.currentUser;
 }]);

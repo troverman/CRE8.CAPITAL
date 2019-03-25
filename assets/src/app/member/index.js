@@ -21,5 +21,5 @@ angular.module( 'investing.member', [
 .controller( 'MemberCtrl', ['$scope', 'config', 'member', 'titleService', function MemberController( $scope, config, member, titleService ) {
 	$scope.currentUser = config.currentUser;
 	$scope.member = member;
-	titleService.setTitle($scope.member.username + ' | collaborative.capital');
+	titleService.setTitle($scope.member.username + ' | CRE8.CAPITAL');
 }]);

@@ -23,7 +23,7 @@ angular.module( 'investing.home', [
 }])
 
 .controller( 'HomeCtrl', [ '$mdSidenav', '$sailsSocket', '$scope', 'titleService', 'config', 'DataModel', 'marketData', 'orders', 'PortfolioModel', function HomeController( $mdSidenav, $sailsSocket, $scope, titleService, config, DataModel, marketData, orders, PortfolioModel) {
-    titleService.setTitle('collaborative.capital');
+    titleService.setTitle('CRE8.CAPITAL');
     $scope.currentUser = config.currentUser;
     $scope.marketData = marketData;
     $scope.selectedPair = ['BTC','LTC'];

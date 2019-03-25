@@ -13,16 +13,13 @@ angular.module( 'investing.about', [
         resolve:{
             marketData: ['DataModel', function(DataModel) {
                 return DataModel.getData(100, 0, 'createdAt DESC','BTC', 'LTC', 21600000);
-            }],
-            predictionData: ['PredictionModel', function(PredictionModel) {
-                return PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'});
-            }],
+            }]
         }
 	});
 }])
 
-.controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'predictionData', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, predictionData, titleService ) {
-	titleService.setTitle('About | collaborative.capital');
+.controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'PredictionModel', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, PredictionModel, titleService ) {
+	titleService.setTitle('About | CRE8.CAPITAL');
     $scope.marketData = marketData;
     $scope.predictionData = predictionData;
 
@@ -31,17 +28,9 @@ angular.module( 'investing.about', [
             type: 'bar',
             zoomType: 'x',
         },
-        title: {
-            text: null
-        },
-        xAxis: {
-            crosshair: true,
-        },
-        yAxis: {
-            title: {
-                text: null
-            },
-        },
+        title: {text: null},
+        xAxis: {crosshair: true,},
+        yAxis: {title: {text: null}},
         plotOptions: {
             column: {
                 pointPadding: 0.2,
@@ -78,12 +67,8 @@ angular.module( 'investing.about', [
                 }
             }
         },
-        boost: {
-            useGPUTranslations: true
-        },
-        title: {
-            text: 'Probability Density of Percent Change'
-        },
+        boost: {useGPUTranslations: true},
+        title: {text: 'Probability Density of Percent Change'},
         xAxis: {
             categories: [],
             title: null
@@ -122,19 +107,14 @@ angular.module( 'investing.about', [
             max: 10,
             startOnTick: false,
             endOnTick: false,
-            labels: {
-                format: '{value}%'
-            }
+            labels: {format: '{value}%'}
         },
         series: [{
             boostThreshold: 100,
             name: 'Probability Density Function',
             borderWidth: 0,
             data: [],
-            dataLabels: {
-                enabled: false,
-                //color: '#000000'
-            }
+            dataLabels: {enabled: false}
         }],
         credits:{enabled:false},
     };
@@ -285,34 +265,26 @@ angular.module( 'investing.about', [
     };
 
 
-    $scope.predictionData.reverse().forEach(function(obj){ 
+    PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'}).then(function(predictionData){
+        
+        $scope.predictionData = predictionData;
+        $scope.predictionData.reverse().forEach(function(obj){ 
 
-        //if (obj.actualAsk == 0){obj.actualAsk = null}
-        //if (obj.actualBid == 0){obj.actualBid = null}
+            var predictionAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedAsk)];
+            var predictionBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedBid)];
+            var actualAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualAsk)];
+            var actualBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualBid)];
+            var errorBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualAsk - obj.predictedAsk)/obj.actualAsk))];
+            var errorAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualBid - obj.predictedBid)/obj.actualBid))];
 
-        //console.log(parseFloat(100*Math.abs((obj.actualBid - obj.predictedBid)/obj.actualBid)))
-        //console.log(parseFloat(100*Math.abs((obj.predictedBid - obj.actualBid)/obj.predictedBid)))
+            $scope.chartConfig.series[0].data.push(predictionAskModel);
+            $scope.chartConfig.series[1].data.push(predictionBidModel);
+            $scope.chartConfig.series[2].data.push(actualAskModel);
+            $scope.chartConfig.series[3].data.push(actualBidModel);
+            $scope.chartConfig.series[4].data.push(errorAskModel);
+            $scope.chartConfig.series[5].data.push(errorBidModel);
 
-        var predictionAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedAsk)];
-        var predictionBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedBid)];
-        var actualAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualAsk)];
-        var actualBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.actualBid)];
-        var errorBidModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualAsk - obj.predictedAsk)/obj.actualAsk))];
-        var errorAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(100*Math.abs((obj.actualBid - obj.predictedBid)/obj.actualBid))];
-
-        //var priceChangeModel = 0;
-        //if (){
-        //    priceChangeModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat((obj.actualBid - obj.predictedBid)/obj.actualBid)];
-        //}
-
-        $scope.chartConfig.series[0].data.push(predictionAskModel);
-        $scope.chartConfig.series[1].data.push(predictionBidModel);
-        $scope.chartConfig.series[2].data.push(actualAskModel);
-        $scope.chartConfig.series[3].data.push(actualBidModel);
-        $scope.chartConfig.series[4].data.push(errorAskModel);
-        $scope.chartConfig.series[5].data.push(errorBidModel);
-
-        //$scope.chartConfig.series[6].data.push(errorBidModel)
+        });
 
     });
 
