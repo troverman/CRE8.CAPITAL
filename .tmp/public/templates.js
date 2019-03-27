@@ -25,16 +25,14 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"intro-mobile\"></div>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"container\" style=\"text-align:left\">\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    <h3>Clout</h3>\n" +
-    "    <p style=\"font-style:italic;color:gray\">A network consisting of thousands of companies and individuals spanning the globe.</p> \n" +
-    "    <p style=\"font-style:italic;color:gray\">Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
-    "    <p style=\"font-style:italic;color:gray\">A network of analysts spanning the globe. A strong team.</p>\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    <img src=\"images/3.jpg\" style=\"max-width:100%\">\n" +
-    "    <img src=\"images/4.jpg\" style=\"max-width:100%\">\n" +
-    "    <!--<img src=\"images/5.jpg\" style=\"max-width:100%\">-->\n" +
+    "<div class=\"container\">\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
+    "    <div class=\"row\">\n" +
+    "        <h3>The Network Effects Of Coming Together</h3>\n" +
+    "        <p style=\"font-style:italic;color:gray\">Consisting of thousands of companies and individuals spanning the globe.</p> \n" +
+    "        <p style=\"font-style:italic;color:gray\">Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
+    "        <p style=\"font-style:italic;color:gray\">A network of analysts spanning the globe. A strong team.</p>\n" +
+    "    </div>\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
     "\n" +
@@ -463,7 +461,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "		<h2>Transparent Orders</h2>\n" +
-    "		<h4>Accountability in Investment</h4>\n" +
+    "		<h5>Accountability in Investment</h5>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
     "		<table class=\"table table-inverse table-hover\">\n" +
     "		    <thead>\n" +
@@ -555,15 +553,15 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "\n" +
     "	<div class=\"row\">\n" +
     "\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(60000,'BTC')\">1min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(300000,'BTC')\">5min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(1800000,'BTC')\">30min</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(3600000,'BTC')\">1hr</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(7200000,'BTC')\">2hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(14400000,'BTC')\">4hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(21600000,'BTC')\">6hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(43200000,'BTC')\">12hrs</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(86400000,'BTC')\">24hrs</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
     "\n" +
@@ -1043,39 +1041,6 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
 
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("nav/index.tpl.html",
-    "<style>\n" +
-    "\n" +
-    "    .md-sidenav-backdrop {opacity: 0 !important;}\n" +
-    "\n" +
-    "    .navbar-custom{background-color: #fff; text-align: left;}\n" +
-    "    .navbar-custom .navbar-brand:focus{color:#424242}\n" +
-    "    .navbar-custom .navbar-toggle {border-color: white;}\n" +
-    "    .navbar-custom .navbar-toggle .icon-bar{background-color:#424242;}\n" +
-    "    .navbar-custom .navbar-toggle:hover .icon-bar{background-color:#000;}\n" +
-    "\n" +
-    "    .navIcon{\n" +
-    "        position: relative;\n" +
-    "        float: right;\n" +
-    "        padding: 9px 10px;\n" +
-    "        margin-top: 5px;\n" +
-    "        margin-right: 15px;\n" +
-    "        //margin-bottom: 8px;\n" +
-    "        background-color: transparent;\n" +
-    "        background-image: none;\n" +
-    "        border: 1px solid transparent;\n" +
-    "        border-radius: 4px;\n" +
-    "    }\n" +
-    "\n" +
-    "    .navIcon .icon-bar{\n" +
-    "        background-color: #424242;\n" +
-    "        display: block;\n" +
-    "        width: 22px;\n" +
-    "        height: 2px;\n" +
-    "        border-radius: 1px;\n" +
-    "        margin-top: 4px;\n" +
-    "    }\n" +
-    "\n" +
-    "</style>\n" +
     "<div ng-controller=\"NavCtrl\">\n" +
     "\n" +
     "    <md-sidenav class=\"md-sidenav-right md-whiteframe-z2\" md-component-id=\"login\" md-is-locked-open=\"false\" style=\"text-align:center;position:fixed;background-color:white;width:70%;max-width:100%\">\n" +

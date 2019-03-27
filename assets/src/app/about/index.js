@@ -21,7 +21,6 @@ angular.module( 'investing.about', [
 .controller( 'AboutCtrl', ['$scope', 'AnalysisModel', 'marketData', 'OrderBookModel', 'PredictionModel', 'titleService', function AboutController( $scope, AnalysisModel, marketData, OrderBookModel, PredictionModel, titleService ) {
 	titleService.setTitle('About | CRE8.CAPITAL');
     $scope.marketData = marketData;
-    $scope.predictionData = predictionData;
 
     $scope.bidAskChart = {
         chart: {
@@ -268,6 +267,7 @@ angular.module( 'investing.about', [
     PredictionModel.getSome(100, 0, 'createdAt DESC', {asset1:'BTC', asset2:'LTC', delta:'3600000'}).then(function(predictionData){
         
         $scope.predictionData = predictionData;
+
         $scope.predictionData.reverse().forEach(function(obj){ 
 
             var predictionAskModel = [ parseInt(new Date(obj.timeStamp).getTime() + parseInt(obj.delta)), parseFloat(obj.predictedAsk)];

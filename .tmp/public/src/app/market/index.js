@@ -9,17 +9,12 @@ angular.module( 'investing.market', [
 				controller: 'MarketCtrl',
 				templateUrl: 'market/index.tpl.html'
 			}
-		},
-        resolve:{
-            marketData: ['$stateParams', 'DataModel', function(DataModel) {
-                return null;
-            }]
-        }
+		}
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'marketData', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, marketData, titleService ) {
-    $scope.marketData = marketData;
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, titleService ) {
+
     $scope.market = $stateParams.path.toUpperCase();
 
     titleService.setTitle($scope.market + ' | CRE8.CAPITAL');
@@ -191,7 +186,11 @@ angular.module( 'investing.market', [
     };
 
     $scope.matrix = [];
+
+    //FIX THIS MESS.
     $scope.selectData = function (asset1, asset2, delta){
+
+        console.log(asset1,asset2,delta)
 
         $scope.selectedDelta = delta;
         var row = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset1);
@@ -204,6 +203,7 @@ angular.module( 'investing.market', [
 
             $scope.matrix[row].data[column].data = parseFloat(model[0].price);
             $scope.matrix[row1].data[column1].data = parseFloat(model[0].price);
+
 
             if ($scope.market == asset1){
                 $scope.chart.series.push({
@@ -234,6 +234,14 @@ angular.module( 'investing.market', [
 
     };
 
+    //YEEEEEp
+    $scope.selectTimeBad = function(delta){
+        $scope.selectTime(delta, 'XMR');
+        $scope.selectTime(delta, 'ETH');
+        $scope.selectTime(delta, 'USDT');
+        $scope.selectTime(delta, 'BTC');
+    };
+
     $scope.selectTime = function(delta, asset){
 
         $rootScope.stateIsLoading = true;
@@ -242,12 +250,14 @@ angular.module( 'investing.market', [
             else{if(asset == 'all'){return obj}}
         });
         
+        //VERY BAD .. LOL 
         for (x in $scope.selectedPairs){
             $scope.selectData($scope.selectedPairs[x].split('/')[1], $scope.selectedPairs[x].split('/')[0], delta);
         }
 
     };
 
+    //USING WHOLE MARKET..
     $scope.uniqueMarkets = $rootScope.tradingPairs.map(function(obj){return obj.split('/');});
     $scope.uniqueMarkets = [].concat.apply([], $scope.uniqueMarkets);
     $scope.uniqueMarkets = $scope.uniqueMarkets.filter(function(item, pos) {return $scope.uniqueMarkets.indexOf(item) == pos});
@@ -257,11 +267,12 @@ angular.module( 'investing.market', [
         return 0;
     });
 
+    //console.log( $scope.uniqueMarkets)
     $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("XMR"), 1); $scope.uniqueMarkets.unshift('XMR');
     $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("ETH"), 1); $scope.uniqueMarkets.unshift('ETH');
     $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("USDT"), 1); $scope.uniqueMarkets.unshift('USDT');
     $scope.uniqueMarkets.splice($scope.uniqueMarkets.indexOf("BTC"), 1); $scope.uniqueMarkets.unshift('BTC');
-    
+
     $scope.uniqueMarkets.forEach(function(obj){
         $scope.matrix.push({name:obj.split('/')[0], data:[]});
         $scope.uniqueMarkets.forEach(function(obj1){
@@ -272,6 +283,7 @@ angular.module( 'investing.market', [
         });
     });
 
+    //VALUE MATRIX...
     $scope.selectTime('60000', 'XMR');
     $scope.selectTime('60000', 'ETH');
     $scope.selectTime('60000', 'USDT');
