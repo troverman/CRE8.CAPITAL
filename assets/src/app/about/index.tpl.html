@@ -32,12 +32,14 @@
     <div class="spacing-50"></div>
 </div>
 
+
+<!--
 <div style="color:white;background-color:black">
     <div class="spacing-50"></div>
     <div class="container" style="text-align:left">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Analysis at Scale</h3>
+                <h1>Analysis at Scale</h1>
                 <h5>Open Intelligence & Market Information</h5>
             </div>
             <div class="col-sm-6" style="overflow:hidden; text-align:right">
@@ -46,6 +48,18 @@
         </div>
     </div>
     <div class="spacing-50"></div>
+</div>
+-->
+
+<div style="background:url('https://source.unsplash.com/1600x900/?finance,code')" class="imageContainerSmall">
+    <div style="background:rgba(0,0,0,0.75)" class="imageContainerSmallDiv">  
+        <div style="margin-top: auto;margin-bottom: auto;">
+            <div class="container">
+                <h1 style="text-align:left;color:rgba(255,255,255,0.9);font-weight:400;">Analysis at Scale</h1>
+                <h5 style="color:white;text-align:left">Open Intelligence & Market Information</h5>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container" style="text-align:left">
@@ -94,24 +108,33 @@
     </div>
 
     <div class="spacing-50"></div>
-
-    <div class="row">
-
-        <div class="col-sm-6">
-            <h3>Investment Performance</h3>
-            <p style="font-style:italic;color:gray">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful.</p>
-        </div>
-
-        <div class="col-sm-6">
-        </div>
-
-    </div>
-
+    
+    <!--
     <div class="spacing-50"></div>
     <highchart config="chartConfig"></highchart>
-
     <a href="/markets" class="btn btn-default log-btn">Explore</a>
+    -->
 
 </div>
+
+<div style="background:url('https://source.unsplash.com/1600x900/?finance,code')" class="imageContainerSmall">
+    <div style="background:rgba(0,0,0,0.75)" class="imageContainerSmallDiv">  
+        <div style="margin-top: auto;margin-bottom: auto;">
+            <div class="container">
+                <h1 style="text-align:left;color:rgba(255,255,255,0.9);font-weight:400;">Investment Performance</h1>
+                <h5 style="color:white;text-align:left">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful.</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="text-align:left">
+    <div class="row">
+        <div class="spacing-50"></div>
+        <highchart config="chartConfig"></highchart>
+        <a href="/markets" class="btn btn-default log-btn">Explore</a>
+    </div>
+</div>
+
 <div class="spacing-50"></div>
 <div ng-include="'register/index.tpl.html'"></div>

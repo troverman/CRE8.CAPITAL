@@ -1303,7 +1303,7 @@ module.exports.intervalService = function(){
 	//THIS
 	//neuralNetBuild();
 
-	//timer(dataService.marketImage.bind(null), 300000);//5 MIN
+	timer(dataService.marketImage.bind(null), 300000);//5 MIN
 
 
 	//NN STRAT

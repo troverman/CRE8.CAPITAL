@@ -30,18 +30,20 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "        <h3>The Network Effects Of Coming Together</h3>\n" +
     "        <p style=\"font-style:italic;color:gray\">Consisting of thousands of companies and individuals spanning the globe.</p> \n" +
-    "        <p style=\"font-style:italic;color:gray\">Intelligence that learns and works with you to create value and amass wealth.</p>\n" +
-    "        <p style=\"font-style:italic;color:gray\">A network of analysts spanning the globe. A strong team.</p>\n" +
+    "        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence learns and works to create value and amass wealth.</p>\n" +
+    "        <p style=\"font-style:italic;color:gray\">This network of analysts spans the globe. A strong team.</p>\n" +
     "    </div>\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
     "\n" +
+    "\n" +
+    "<!--\n" +
     "<div style=\"color:white;background-color:black\">\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "    <div class=\"container\" style=\"text-align:left\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-sm-6\">\n" +
-    "                <h3>Analysis at Scale</h3>\n" +
+    "                <h1>Analysis at Scale</h1>\n" +
     "                <h5>Open Intelligence & Market Information</h5>\n" +
     "            </div>\n" +
     "            <div class=\"col-sm-6\" style=\"overflow:hidden; text-align:right\">\n" +
@@ -50,6 +52,18 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"spacing-50\"></div>\n" +
+    "</div>\n" +
+    "-->\n" +
+    "\n" +
+    "<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code')\" class=\"imageContainerSmall\">\n" +
+    "    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "            <div class=\"container\">\n" +
+    "                <h1 style=\"text-align:left;color:rgba(255,255,255,0.9);font-weight:400;\">Analysis at Scale</h1>\n" +
+    "                <h5 style=\"color:white;text-align:left\">Open Intelligence & Market Information</h5>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
@@ -60,7 +74,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
     "            <h3>Collaboration and Contribution</h3>\n" +
-    "            <p style=\"font-style:italic;color:gray\">The Ethos of CRE8 reflects collaboration. www.CRE8.xyz</p>\n" +
+    "            <p style=\"font-style:italic;color:gray\">The Ethos of CRE8 reflects collaboration. <a href=\"https://www.cre8.xyz\">CRE8.XYZ</a></p>\n" +
     "            <div class=\"spacing-5\"></div>\n" +
     "\n" +
     "            <h4>Community Analysts</h4>\n" +
@@ -84,11 +98,11 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "            <div class=\"spacing-5\"></div>\n" +
     "\n" +
     "            <h4>Mapping the Market</h4>\n" +
-    "            <p style=\"font-style:italic;color:gray\">Multidimensional Market Traversal facilitated through Peer-to-Peer Machine Learning</p>\n" +
+    "            <p style=\"font-style:italic;color:gray\">Multidimensional Market Traversal facilitated through Peer-to-Peer Machine Learning.</p>\n" +
     "            <div class=\"spacing-5\"></div>\n" +
     "\n" +
     "            <h4>Machine Learning</h4>\n" +
-    "            <p style=\"font-style:italic;color:gray\">Shared information creates intelligence</p>\n" +
+    "            <p style=\"font-style:italic;color:gray\">Shared information creates intelligence.</p>\n" +
     "\n" +
     "        </div>\n" +
     "\n" +
@@ -98,25 +112,34 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    </div>\n" +
     "\n" +
     "    <div class=\"spacing-50\"></div>\n" +
-    "\n" +
-    "    <div class=\"row\">\n" +
-    "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "            <h3>Investment Performance</h3>\n" +
-    "            <p style=\"font-style:italic;color:gray\">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful</p>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"col-sm-6\">\n" +
-    "        </div>\n" +
-    "\n" +
-    "    </div>\n" +
-    "\n" +
+    "    \n" +
+    "    <!--\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "    <highchart config=\"chartConfig\"></highchart>\n" +
-    "\n" +
     "    <a href=\"/markets\" class=\"btn btn-default log-btn\">Explore</a>\n" +
+    "    -->\n" +
     "\n" +
     "</div>\n" +
+    "\n" +
+    "<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code')\" class=\"imageContainerSmall\">\n" +
+    "    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "            <div class=\"container\">\n" +
+    "                <h1 style=\"text-align:left;color:rgba(255,255,255,0.9);font-weight:400;\">Investment Performance</h1>\n" +
+    "                <h5 style=\"color:white;text-align:left\">With {memberCount} Members, {trandeCount} trades, and over {capitalAppreciation}% Capital Appreciation. We are Successful.</h5>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"spacing-50\"></div>\n" +
+    "        <highchart config=\"chartConfig\"></highchart>\n" +
+    "        <a href=\"/markets\" class=\"btn btn-default log-btn\">Explore</a>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
     "<div class=\"spacing-50\"></div>\n" +
     "<div ng-include=\"'register/index.tpl.html'\"></div>\n" +
     "");
@@ -357,29 +380,56 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	    </div>\n" +
     "	    <div class=\"intro-mobile\"></div>\n" +
     "	</div>\n" +
+    "\n" +
+    "	<div class=\"container\">\n" +
+    "	    <div class=\"spacing-50\"></div>\n" +
+    "	    <div class=\"row\">\n" +
+    "	        <h3>The Network Effects Of Coming Together</h3>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">Consisting of thousands of companies and individuals spanning the globe.</p> \n" +
+    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence learns and works to create value and shared wealth.</p>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>\n" +
+    "	    </div>\n" +
+    "	    <div class=\"spacing-50\"></div>\n" +
+    "	</div>\n" +
     "	\n" +
     "	<div class=\"container\" id=\"about\">\n" +
     "\n" +
-    "		<div class=\"spacing-100\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
+    "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "			    <div style=\"text-align:left;\" id=\"header-text-area\">\n" +
+    "\n" +
+    "\n" +
+    "				<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code')\" class=\"imageContainerSmall\">\n" +
+    "                    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "                        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "                            <div class=\"container\">\n" +
+    "                                <h1 style=\"text-align:left;font-size:50px;color:rgba(255,255,255,0.9);font-weight:400;\">Empowered Financial Representation</h1>\n" +
+    "                                <h5 style=\"color:white;text-align:left\">Backed by Sound, Open Data</h5>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "\n" +
+    "\n" +
+    "			    <!--<div style=\"text-align:left;\" id=\"header-text-area\">\n" +
     "			       <h2>Empowered Financial Representation</h2>\n" +
     "			       <p style=\"color:gray;font-style:italic\">Backed by Sound, Open Data</p>\n" +
-    "			    </div>\n" +
+    "			    </div>-->\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "		<div class=\"spacing-100\"></div>\n" +
+    "\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "		<div class=\"row\">\n" +
+    "		<div class=\"row\" style=\"padding:16px;\">\n" +
     "			<div class=\"col-sm-6\">\n" +
     "\n" +
     "				<h3>We <a href=\"#\">continually learn and grow</a>.</h3>\n" +
-    "				<p style=\"color:gray;font-style:italic\">Our Community of analysts work together to support another.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Our Community of analysts work together to support another. <!--A network of peers--></p>\n" +
     "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "				<h3>Open & Shared Intelligence</h3>\n" +
@@ -426,13 +476,13 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			<div class=\"col-sm-8\" style=\"\">\n" +
     "\n" +
     "				<h3>Collaboration and Contribution</h3>\n" +
-    "				<p style=\"color:gray;font-style:italic\">We continually learn from intelligence produced from your computational contrubition and analytic insight.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">We continually learn from intelligence produced from your computational contribution and analytic insight.</p>\n" +
     "				<p style=\"color:gray;font-style:italic\">Deep Learning Techniques create actionable intelligence.</p>\n" +
     "				<div class=\"spacing-10\"></div>\n" +
     "\n" +
-    "				<h3>Decrentralized Analysis at Scale</h3>\n" +
+    "				<h3>Decentralized Analysis at Scale</h3>\n" +
     "				<p style=\"color:gray;font-style:italic\">Peer to Peer Distributed Networks performing computation together.</p>\n" +
-    "				<p style=\"color:gray;font-style:italic\">Creating Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Creating Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns.</p>\n" +
     "\n" +
     "				<div class=\"spacing-10\"></div>\n" +
     "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
@@ -941,7 +991,7 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "    <div class=\"spacing-15\"></div>\n" +
     " 	\n" +
-    "	<div class=\"row\">\n" +
+    "	<div ng-show=\"false\" class=\"row\">\n" +
     "\n" +
     "        <h3>Neural Networks</h3>\n" +
     "        \n" +
