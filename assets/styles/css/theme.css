@@ -426,3 +426,39 @@ input:-ms-input-placeholder {
     #search-link{width:100%;}
 }
 
+
+@media only screen and (max-width: 1024px) {
+  video {display:none}
+  .intro-mobile {
+    visibility:visible;
+    height:100%
+  }
+}
+
+@media only screen and (max-width: 920px) {
+  //.intro-container {zoom: 0.8}
+}
+@media only screen and (max-width: 850px) {
+  //.intro-container {zoom: 0.7}
+  //body{zoom: 1}
+}
+@media only screen and (max-width: 740px) {
+  //.intro-container {zoom: 0.6}
+  //body{zoom: 1}
+}
+@media only screen and (max-width: 640px) {
+  //.intro-container {zoom: 0.55}
+  //body{zoom: 1}
+}
+@media only screen and (max-width: 600px) {
+  //.intro-container {zoom: 0.5}
+  //body{zoom: 0.97}
+}
+@media only screen and (max-width: 555px) {
+  //.intro-container {zoom: 0.45}
+  //body{zoom: 0.94}
+}
+@media only screen and (max-width: 510px) {
+  //.intro-container {zoom: 0.4}
+  //body{zoom: 0.91}
+

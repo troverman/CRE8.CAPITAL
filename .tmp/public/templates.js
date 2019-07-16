@@ -362,8 +362,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	    <div class=\"intro-container\">\n" +
     "	        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "	            <symbol id=\"intro-desktop-text\">\n" +
-    "	                <text style=\"font-size:108px;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
-    "	                <text style=\"font-size:28px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
+    "	                <text style=\"font-size:62px;font-family:Titillium Web,Helvetica,Arial,sans-serif;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
+    "	                <text style=\"font-size:22px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
     "	            </symbol>  \n" +
     "	            <div class=\"intro-shade\"></div>  \n" +
     "	        </svg> \n" +
@@ -385,42 +385,30 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	    <div class=\"spacing-50\"></div>\n" +
     "	    <div class=\"row\">\n" +
     "	        <h3>The Network Effects Of Coming Together</h3>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">Consisting of thousands of companies and individuals spanning the globe.</p> \n" +
-    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence learns and works to create value and shared wealth.</p>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence continually creates value.</p>\n" +
+    "	       	<!--<p style=\"font-style:italic;color:gray\">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->\n" +
+    "	        <!--<p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>-->\n" +
     "	    </div>\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "	\n" +
     "	<div class=\"container\" id=\"about\">\n" +
-    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
-    "\n" +
     "		<div class=\"row\">\n" +
     "			<div class=\"col-sm-12\">\n" +
-    "\n" +
-    "\n" +
     "				<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code')\" class=\"imageContainerSmall\">\n" +
     "                    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
     "                        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
     "                            <div class=\"container\">\n" +
-    "                                <h1 style=\"text-align:left;font-size:50px;color:rgba(255,255,255,0.9);font-weight:400;\">Empowered Financial Representation</h1>\n" +
+    "                                <h1 style=\"text-align:left;font-size:35px;color:rgba(255,255,255,0.9);font-weight:400;\">Empowered Financial Representation</h1>\n" +
     "                                <h5 style=\"color:white;text-align:left\">Backed by Sound, Open Data</h5>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
-    "\n" +
-    "\n" +
-    "			    <!--<div style=\"text-align:left;\" id=\"header-text-area\">\n" +
-    "			       <h2>Empowered Financial Representation</h2>\n" +
-    "			       <p style=\"color:gray;font-style:italic\">Backed by Sound, Open Data</p>\n" +
-    "			    </div>-->\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
-    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"container\" style=\"text-align:left\">\n" +
@@ -437,8 +425,8 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "				<h3>Transparent Results</h3>\n" +
-    "				<p style=\"color:gray;font-style:italic\">Always backed by data.</p>\n" +
-    "				<div class=\"spacing-5\"></div>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Always backed with hard-data.</p>\n" +
+    "				<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-6\" style=\"text-align:right\">\n" +
@@ -465,18 +453,19 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
-    "		<div class=\"spacing-100\"></div>\n" +
+    "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "		<div class=\"row\">\n" +
-    "			<div class=\"col-sm-4\">\n" +
-    "				<!--<img src=\"images/tesseract-bg.png\">-->\n" +
+    "			<div class=\"col-sm-5\" style=\"text-align:center\">\n" +
     "				<img style=\"max-height:300px;\" src=\"images/1.gif\">\n" +
+    "				<div class=\"spacing-50\"></div>\n" +
     "			</div>\n" +
     "\n" +
-    "			<div class=\"col-sm-8\" style=\"\">\n" +
+    "			<div class=\"col-sm-7\" style=\"\">\n" +
     "\n" +
     "				<h3>Collaboration and Contribution</h3>\n" +
-    "				<p style=\"color:gray;font-style:italic\">We continually learn from intelligence produced from your computational contribution and analytic insight.</p>\n" +
+    "				<!-- and analytic insight ? -->\n" +
+    "				<p style=\"color:gray;font-style:italic\">We continually learn from intelligence produced from your computational contribution.</p>\n" +
     "				<p style=\"color:gray;font-style:italic\">Deep Learning Techniques create actionable intelligence.</p>\n" +
     "				<div class=\"spacing-10\"></div>\n" +
     "\n" +
@@ -485,7 +474,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "				<p style=\"color:gray;font-style:italic\">Creating Computational Intelligence Designed to Normalize Risk and Equalize Investment Returns.</p>\n" +
     "\n" +
     "				<div class=\"spacing-10\"></div>\n" +
-    "				<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>\n" +
+    "				<!--<a href=\"/about\" class=\"btn btn-default log-btn\">Learn More</a>-->\n" +
     "\n" +
     "			</div>\n" +
     "\n" +
@@ -495,44 +484,50 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	</div>\n" +
     "\n" +
-    "	<div ng-show=\"false\" style=\"text-align:left;color:gray;background-color:black;\">\n" +
+    "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
-    "\n" +
     "		<div class=\"container\">\n" +
-    "			<h2>Activity</h2>\n" +
-    "			<div class=\"spacing-10\"></div>\n" +
-    "			<highchart config=\"chartConfig\"></highchart><!--daily return vs index..-->\n" +
+    "			<highchart config=\"chartConfig\"></highchart>\n" +
     "		</div>\n" +
-    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
-    "		<h2>Transparent Orders</h2>\n" +
-    "		<h5>Accountability in Investment</h5>\n" +
+    "		<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code,data,analysis,forex')\" class=\"imageContainerSmall\">\n" +
+    "            <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "                <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "                    <div class=\"container\">\n" +
+    "                        <h1 style=\"text-align:left;font-size:35px;color:rgba(255,255,255,0.9);font-weight:400;\">Transparent Orders</h1>\n" +
+    "                        <h5 style=\"color:white;text-align:left\">Accountability in Investment</h5>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
-    "		<table class=\"table table-inverse table-hover\">\n" +
-    "		    <thead>\n" +
-    "				<tr>\n" +
-    "					<th>Market</th>\n" +
-    "					<th>Type</th>\n" +
-    "					<th></th>\n" +
-    "					<th></th>\n" +
-    "					<th>Date</th>\n" +
-    "				</tr>\n" +
-    "		    </thead>\n" +
-    "		    <tbody>\n" +
-    "				<tr ng-repeat=\"order in orders\">\n" +
-    "					<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
-    "					<td>{{order.type}}</td>\n" +
-    "					<td>{{order.amount}} {{order.asset2}}</td>\n" +
-    "					<td>{{order.price}} {{order.asset1}}</td>\n" +
-    "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
-    "				</tr>\n" +
-    "		    </tbody>\n" +
-    "		</table>\n" +
+    "		<div style=\"padding:16px\">\n" +
+    "			<table class=\"table table-inverse table-hover\">\n" +
+    "			    <thead>\n" +
+    "					<tr>\n" +
+    "						<th>Market</th>\n" +
+    "						<th>Type</th>\n" +
+    "						<th></th>\n" +
+    "						<th></th>\n" +
+    "						<th>Date</th>\n" +
+    "					</tr>\n" +
+    "			    </thead>\n" +
+    "			    <tbody>\n" +
+    "					<tr ng-repeat=\"order in orders\">\n" +
+    "						<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
+    "						<td>{{order.type}}</td>\n" +
+    "						<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "						<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "						<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "					</tr>\n" +
+    "			    </tbody>\n" +
+    "			</table>\n" +
+    "		</div>\n" +
     "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +

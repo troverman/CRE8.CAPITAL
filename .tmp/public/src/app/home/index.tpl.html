@@ -139,21 +139,17 @@
 	    <div class="spacing-50"></div>
 	    <div class="row">
 	        <h3>The Network Effects Of Coming Together</h3>
-	        <p style="font-style:italic;color:gray">Consisting of thousands of companies and individuals spanning the globe.</p> 
-	        <p style="font-style:italic;color:gray">Our Shared Intelligence learns and works to create value and shared wealth.</p>
-	        <p style="font-style:italic;color:gray">This network of intelligence spans the globe. A strong team.</p>
+	        <p style="font-style:italic;color:gray">Our Shared Intelligence continually creates value.</p>
+	       	<!--<p style="font-style:italic;color:gray">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->
+	        <!--<p style="font-style:italic;color:gray">This network of intelligence spans the globe. A strong team.</p>-->
 	    </div>
 	    <div class="spacing-50"></div>
 	</div>
 	
 	<div class="container" id="about">
-
 		<div class="spacing-50"></div>
-
 		<div class="row">
 			<div class="col-sm-12">
-
-
 				<div style="background:url('https://source.unsplash.com/1600x900/?finance,code')" class="imageContainerSmall">
                     <div style="background:rgba(0,0,0,0.75)" class="imageContainerSmallDiv">  
                         <div style="margin-top: auto;margin-bottom: auto;">
@@ -164,17 +160,9 @@
                         </div>
                     </div>
                 </div>
-
-
-			    <!--<div style="text-align:left;" id="header-text-area">
-			       <h2>Empowered Financial Representation</h2>
-			       <p style="color:gray;font-style:italic">Backed by Sound, Open Data</p>
-			    </div>-->
 			</div>
 		</div>
-
 		<div class="spacing-50"></div>
-
 	</div>
 
 	<div class="container" style="text-align:left">
@@ -191,7 +179,7 @@
 				<div class="spacing-5"></div>
 
 				<h3>Transparent Results</h3>
-				<p style="color:gray;font-style:italic">Always backed by data.</p>
+				<p style="color:gray;font-style:italic">Always backed with hard-data.</p>
 				<div class="spacing-5"></div>
 
 			</div>
@@ -230,7 +218,8 @@
 			<div class="col-sm-8" style="">
 
 				<h3>Collaboration and Contribution</h3>
-				<p style="color:gray;font-style:italic">We continually learn from intelligence produced from your computational contribution and analytic insight.</p>
+				<!-- and analytic insight ? -->
+				<p style="color:gray;font-style:italic">We continually learn from intelligence produced from your computational contribution.</p>
 				<p style="color:gray;font-style:italic">Deep Learning Techniques create actionable intelligence.</p>
 				<div class="spacing-10"></div>
 
@@ -264,29 +253,39 @@
 	<div style="text-align:left;" class="container">
 		<div class="spacing-50"></div>
 
-		<h2>Transparent Orders</h2>
-		<h5>Accountability in Investment</h5>
+		<div style="background:url('https://source.unsplash.com/1600x900/?finance,code,data,analysis,forex')" class="imageContainerSmall">
+            <div style="background:rgba(0,0,0,0.75)" class="imageContainerSmallDiv">  
+                <div style="margin-top: auto;margin-bottom: auto;">
+                    <div class="container">
+                        <h1 style="text-align:left;font-size:50px;color:rgba(255,255,255,0.9);font-weight:400;">Transparent Orders</h1>
+                        <h5 style="color:white;text-align:left">Accountability in Investment</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<div class="spacing-10"></div>
-		<table class="table table-inverse table-hover">
-		    <thead>
-				<tr>
-					<th>Market</th>
-					<th>Type</th>
-					<th></th>
-					<th></th>
-					<th>Date</th>
-				</tr>
-		    </thead>
-		    <tbody>
-				<tr ng-repeat="order in orders">
-					<td><a style="color:gray" href="market/{{order.asset1}}/{{order.asset2}}">{{order.asset1}}/{{order.asset2}}</a></td>
-					<td>{{order.type}}</td>
-					<td>{{order.amount}} {{order.asset2}}</td>
-					<td>{{order.price}} {{order.asset1}}</td>
-					<td>{{order.createdAt | date :  "y MM-dd hh:mm.ss a"}}</td>
-				</tr>
-		    </tbody>
-		</table>
+		<div style="padding:16px">
+			<table class="table table-inverse table-hover">
+			    <thead>
+					<tr>
+						<th>Market</th>
+						<th>Type</th>
+						<th></th>
+						<th></th>
+						<th>Date</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr ng-repeat="order in orders">
+						<td><a style="color:gray" href="market/{{order.asset1}}/{{order.asset2}}">{{order.asset1}}/{{order.asset2}}</a></td>
+						<td>{{order.type}}</td>
+						<td>{{order.amount}} {{order.asset2}}</td>
+						<td>{{order.price}} {{order.asset1}}</td>
+						<td>{{order.createdAt | date :  "y MM-dd hh:mm.ss a"}}</td>
+					</tr>
+			    </tbody>
+			</table>
+		</div>
 
 		<div class="spacing-50"></div>
 	</div>
