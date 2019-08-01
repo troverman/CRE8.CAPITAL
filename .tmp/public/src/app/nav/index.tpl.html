@@ -41,6 +41,8 @@
 
                 <div ng-include="'footer/index.tpl.html'"></div>  
 
+                <div class="spacing-25"></div>
+
             </div>
         </div>
     </md-sidenav>
@@ -87,42 +89,8 @@
         </div>
     </md-sidenav>
 
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="subNav" md-is-locked-open="false" style="text-align:center;position:fixed;background-color:white;width:70%;max-width:100%">
-        <md-toolbar style="background-color:rgb(35, 170, 159)" class="md-primary md-hue-2">
-        </md-toolbar>
-        <md-content>
-            <md-list>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" style="background:#e8e8e8;">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref=""><span class="pull-left ct-red">Home</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('/markets')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Markets</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('member/troverman')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Portfolio</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Trades</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-            </md-list>
-        </md-content>
-    </md-sidenav>
-
     <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
-
             <button class="navIcon" type="button" ng-click="navToggle()">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -130,10 +98,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/"><img src="images/tesseract.png" style="height:32px;float:left;margin-top:-3px;margin-right:10px">CRE8.CAPITAL</a>
-
-
         </div>
     </div>
-
     <md-progress-linear ng-if="stateIsLoading" md-mode="indeterminate"></md-progress-linear>
 </div>

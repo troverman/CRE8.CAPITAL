@@ -37,7 +37,7 @@ module.exports = {
 
     //AfterCreate --> tweet via investinfor perdictionBot --~~>
 
-     afterCreate: function (model, next) {
+    afterCreate: function (model, next) {
         return next(null, model);
     },
 

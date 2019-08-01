@@ -136,7 +136,7 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"row\">\n" +
     "        <div class=\"spacing-50\"></div>\n" +
     "        <highchart config=\"chartConfig\"></highchart>\n" +
-    "        <a href=\"/markets\" class=\"btn btn-default log-btn\">Explore</a>\n" +
+    "        <a href=\"/markets\" ui-sref=\"markets\" class=\"btn btn-default log-btn\">Explore</a>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
@@ -234,9 +234,13 @@ angular.module("footer/index.tpl.html", []).run(["$templateCache", function($tem
   $templateCache.put("footer/index.tpl.html",
     "<div class=\"footer\" ng-controller=\"FooterCtrl\">\n" +
     "\n" +
-    "	{{date | date:'yyyy'}} <a href=\"/\">collaborative.capital</a>\n" +
-    "	<a href=\"/about\">about</a>\n" +
+    "	{{date | date:'yyyy'}} <a style=\"color:gray\" href=\"/\">collaborative.capital</a>\n" +
+    "	<br>\n" +
+    "	<!--<a href=\"/about\">about</a>\n" +
     "	<a href=\"#\">terms</a>\n" +
+    "	<br>-->\n" +
+    "	<span style=\"font-size:10px\"><a style=\"color:gray\" href=\"https://www.cre8.xyz/project/cre8capital\">a CRE8 project</a></span>\n" +
+    "	<br>\n" +
     "	<a href=\"https://www.instagram.com/cre8capital\"><i class=\"fa fa-instagram\"></i></a>\n" +
     "	<a href=\"https://www.twitter.com/cre8capital\"><i class=\"fa fa-twitter\"></i></a>\n" +
     "</div>");
@@ -250,7 +254,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	    <div class=\"spacing-25\"></div>\n" +
     "	    <div class=\"container\">\n" +
     "	        <div class=\"row\">\n" +
-    "	            <h1 ng-click=\"subNavToggle()\" style=\"text-transform:uppercase\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> Dashboard</h1>\n" +
+    "	            <h1 style=\"text-transform:uppercase\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> Dashboard</h1>\n" +
     "	        </div>\n" +
     "	    </div>\n" +
     "	    <div class=\"spacing-25\"></div>\n" +
@@ -385,7 +389,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	    <div class=\"spacing-50\"></div>\n" +
     "	    <div class=\"row\">\n" +
     "	        <h3>The Network Effects Of Coming Together</h3>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence continually creates value.</p>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence Creates Value.</p>\n" +
     "	       	<!--<p style=\"font-style:italic;color:gray\">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->\n" +
     "	        <!--<p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>-->\n" +
     "	    </div>\n" +
@@ -425,7 +429,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
     "				<h3>Transparent Results</h3>\n" +
-    "				<p style=\"color:gray;font-style:italic\">Always backed with hard-data.</p>\n" +
+    "				<p style=\"color:gray;font-style:italic\">Always backed by hard-data.</p>\n" +
     "				<div class=\"spacing-50\"></div>\n" +
     "\n" +
     "			</div>\n" +
@@ -480,9 +484,21 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "		</div>\n" +
     "\n" +
-    "		<div class=\"spacing-100\"></div>\n" +
+    "	    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "	</div>\n" +
+    "\n" +
+    "	<div class=\"container\">\n" +
+    "	    <div class=\"spacing-50\"></div>\n" +
+    "	    <div class=\"row\">\n" +
+    "	        <h3>A Transparent Paradigm</h3>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">With nothing to to hide, we have everything to gain.</p>\n" +
+    "	        <p style=\"font-style:italic;color:gray\">Our performance defines us.</p>\n" +
+    "	    </div>\n" +
+    "	    <div class=\"spacing-50\"></div>\n" +
+    "	</div>\n" +
+    "\n" +
+    "    <div class=\"spacing-50\"></div>\n" +
     "\n" +
     "	<div style=\"text-align:left;color:gray;background-color:black;\">\n" +
     "		<div class=\"spacing-50\"></div>\n" +
@@ -493,9 +509,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "	</div>\n" +
     "\n" +
     "	<div style=\"text-align:left;\" class=\"container\">\n" +
+    "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
     "\n" +
-    "		<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code,data,analysis,forex')\" class=\"imageContainerSmall\">\n" +
+    "		<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code,data,forex')\" class=\"imageContainerSmall\">\n" +
     "            <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
     "                <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
     "                    <div class=\"container\">\n" +
@@ -576,123 +593,256 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "");
 }]);
 
 angular.module("market/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("market/index.tpl.html",
-    "<div style=\"background-color:black;color:white;text-align:left\">\n" +
-    "\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    <div class=\"container\">\n" +
-    "    	<div class=\"row\"><h1 ng-click=\"marketsToggle()\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> {{market}}</h1></div>\n" +
+    "<div class=\"container\" style=\"padding:0px\">\n" +
+    "    <div class=\"card\" ng-click=\"marketsToggle()\">\n" +
+    "        <div class=\"row\" style=\"margin:0px\">\n" +
+    "            <div ng-class=\"{'col-sm-9 col-xs-8': markers.length > 0}\" class=\"imageContainerSmall\" style=\"background:url('https://source.unsplash.com/1600x900/?finance,code,{{market}}');\">\n" +
+    "                <div style=\"background:rgba(0,0,0,0.75);\" class=\"imageContainerSmallDiv\">  \n" +
+    "                    <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "                        <div style=\"padding:15px\">\n" +
+    "                            <h1 style=\"text-align:left;\">\n" +
+    "                            	<!--<img style=\"height:50px;width:50px;border-radius:100%\" ng-src=\"https://raw.githubusercontent.com/dziungles/cryptocurrency-logos/master/coins/32x32/bitcoin.png\"/>-->\n" +
+    "                                {{market}}\n" +
+    "                            </h1>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div style=\"background-color:white\">\n" +
+    "            <div class=\"member-tab-container container\" style=\"padding-left:0px\">\n" +
+    "                <div style=\"text-align:left\">\n" +
+    "                    <ul style=\"padding:0px;\" class=\"member-tabs subNav\">\n" +
+    "                        <li><a ng-click=\"$event.stopPropagation();selectTab('INFORMATION')\">Information</a></li>\n" +
+    "                        <li><a ng-click=\"$event.stopPropagation();selectTab('INFORMATION')\"><!--<i class=\"fa fa-exchange\"></i>--> Markets</a></li>\n" +
+    "                        <li><a ng-click=\"$event.stopPropagation();selectTab('ANALYSIS')\"><!--i class=\"fas fa-project-diagram\"></i>--> Analysis</a></li>\n" +
+    "                        <li><a ng-click=\"$event.stopPropagation();selectTab('POSITIONS')\">Positions</a></li>\n" +
+    "                        <li style=\"float:right;margin-top:0px\"><a style=\"color:black\"><i class=\"fa fa-bars\"></i></a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    \n" +
     "</div>\n" +
+    "\n" +
     "\n" +
     "<div class=\"spacing-15\"></div>\n" +
     "\n" +
     "<div class=\"container\" style=\"text-align:left\">\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
-    "\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(60000,'BTC')\">1min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(300000,'BTC')\">5min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(1800000,'BTC')\">30min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(3600000,'BTC')\">1hr</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(7200000,'BTC')\">2hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(14400000,'BTC')\">4hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(21600000,'BTC')\">6hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(43200000,'BTC')\">12hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTimeBad(86400000,'BTC')\">24hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
-    "\n" +
+    "	<div class=\"row\" ng-if=\"selectedTab=='INFORMATION'\">\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<h1>{{market}} Information</h1>\n" +
+    "				<h5>{{vector.data.length}}</h5>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
-    "	<div class=\"spacing-10\"></div>\n" +
-    "	<hr>\n" +
+    "	<div class=\"row\" ng-if=\"selectedTab=='ANALYSIS'\">\n" +
+    "		\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
-    "		<highchart config=\"chart\"></highchart>\n" +
-    "	</div>\n" +
+    "		<div class=\"card\">\n" +
     "\n" +
-    "	<div class=\"spacing-10\"></div>\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,graph,{{market}}');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Market Graph</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
+    "			<div style=\"padding:16px\">\n" +
     "\n" +
-    "		<h3>Value Vector</h3>\n" +
-    "		<!--SEARCH-->\n" +
-    "		<table class=\"table table-striped table-hover\">\n" +
-    "            <thead>\n" +
-    "                <tr>\n" +
-    "                	<th>Asset</th>\n" +
-    "                	<th>Value</th>\n" +
-    "                </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "                <tr ng-repeat=\"asset in vector.data\" ng-if=\"asset.data != '--'\">\n" +
-    "                    <td><a href=\"market/{{market}}/{{asset.name}}\">{{asset.name}}</a></td>\n" +
-    "					<td>{{asset.data}}</td>\n" +
-    "                </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "    </div>\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
     "\n" +
-    "	<div class=\"spacing-10\"></div>\n" +
+    "				<div class=\"\">\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(60000,'BTC')\">1min</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(300000,'BTC')\">5min</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(1800000,'BTC')\">30min</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(3600000,'BTC')\">1hr</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(7200000,'BTC')\">2hrs</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(14400000,'BTC')\">4hrs</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(21600000,'BTC')\">6hrs</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(43200000,'BTC')\">12hrs</p>\n" +
+    "					<p class=\"btn btn-default\" ng-click=\"selectTimeBad(86400000,'BTC')\">24hrs</p>\n" +
+    "				</div>\n" +
     "\n" +
-    "	<div class=\"row\">\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
+    "				<hr>\n" +
     "\n" +
-    "		<h3>Value Matrix</h3>\n" +
-    "		<!--SELECTED SET-->\n" +
-    "		<div style=\"overflow:scroll\">\n" +
-    "			<table class=\"table table-striped table-hover\">\n" +
-    "	            <thead>\n" +
-    "	                <tr>\n" +
-    "	                	<th></th>\n" +
-    "	                	<th ng-repeat=\"vector in matrix\">\n" +
-    "	                		<a href=\"market/{{vector.name}}\">{{vector.name}}</a>\n" +
-    "	                	</th>\n" +
-    "	                </tr>\n" +
-    "	            </thead>\n" +
-    "	            <tbody>\n" +
-    "	                <tr ng-repeat=\"vector in matrix\">\n" +
-    "	                	<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
-    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\">{{asset.data}}</a></td>\n" +
-    "	                </tr>\n" +
-    "	            </tbody>\n" +
-    "	        </table>\n" +
+    "				<highchart config=\"chart\"></highchart>\n" +
+    "			</div>\n" +
+    "\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,vector');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Value Vector</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<table class=\"table table-striped table-hover\">\n" +
+    "		            <thead>\n" +
+    "		                <tr>\n" +
+    "		                	<th>Asset</th>\n" +
+    "		                	<th>Value</th>\n" +
+    "		                </tr>\n" +
+    "		            </thead>\n" +
+    "		            <tbody>\n" +
+    "		                <tr ng-repeat=\"asset in vector.data\" ng-if=\"asset.data != '--'\">\n" +
+    "		                    <td><a href=\"market/{{market}}/{{asset.name}}\">{{asset.name}}</a></td>\n" +
+    "							<td>{{asset.data}}</td>\n" +
+    "		                </tr>\n" +
+    "		            </tbody>\n" +
+    "		        </table>\n" +
+    "		    </div>\n" +
     "	    </div>\n" +
     "\n" +
-    "		<!--MULT BY PORTFOLIO VECTOR-->\n" +
+    "		<div class=\"spacing-10\"></div>\n" +
     "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Value Matrix</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<div style=\"overflow:scroll\">\n" +
+    "					<table class=\"table table-striped table-hover\">\n" +
+    "			            <thead>\n" +
+    "			                <tr>\n" +
+    "			                	<th></th>\n" +
+    "			                	<th ng-repeat=\"vector in matrix\">\n" +
+    "			                		<a href=\"market/{{vector.name}}\">{{vector.name}}</a>\n" +
+    "			                	</th>\n" +
+    "			                </tr>\n" +
+    "			            </thead>\n" +
+    "			            <tbody>\n" +
+    "			                <tr ng-repeat=\"vector in matrix\">\n" +
+    "			                	<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
+    "								<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\">{{asset.data}}</a></td>\n" +
+    "			                </tr>\n" +
+    "			            </tbody>\n" +
+    "			        </table>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<!--MULT BY PORTFOLIO VECTOR-->\n" +
+    "		</div>\n" +
+    "\n" +
+    "	    <div class=\"spacing-10\"></div>\n" +
+    "\n" +
+    "	    <div class=\"card\">\n" +
+    "\n" +
+    "	    	<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code,tensor,algebra,chalkboard');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Order Book Tensor</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "\n" +
+    "		        <!--SELECTED SET & EXCHANGE-->\n" +
+    "		        <div style=\"overflow:scroll\">\n" +
+    "					<table class=\"table table-striped table-hover\">\n" +
+    "			            <thead>\n" +
+    "			                <tr>\n" +
+    "			                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "			                </tr>\n" +
+    "			            </thead>\n" +
+    "			            <tbody>\n" +
+    "			                <tr ng-repeat=\"vector in matrix\">\n" +
+    "								<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
+    "									<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
+    "									<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
+    "								</td>\n" +
+    "			                </tr>\n" +
+    "			            </tbody>\n" +
+    "			        </table>\n" +
+    "		       	</div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
-    "    <div class=\"spacing-10\"></div>\n" +
+    "	<div class=\"row\" ng-if=\"selectedTab=='POSITIONS'\">\n" +
     "\n" +
-    "    <div class=\"row\">\n" +
+    "		<!--\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code,tensor,algebra,chalkboard,portfolio');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>{{market}} portfolio</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		-->\n" +
     "\n" +
-    "        <h3>Order Book Tensor</h3>\n" +
-    "        <!--SELECTED SET & EXCHANGE-->\n" +
-    "        <div style=\"overflow:scroll\">\n" +
-    "			<table class=\"table table-striped table-hover\">\n" +
-    "	            <thead>\n" +
-    "	                <tr>\n" +
-    "	                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
-    "	                </tr>\n" +
-    "	            </thead>\n" +
-    "	            <tbody>\n" +
-    "	                <tr ng-repeat=\"vector in matrix\">\n" +
-    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
-    "							<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
-    "							<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
-    "						</td>\n" +
-    "	                </tr>\n" +
-    "	            </tbody>\n" +
-    "	        </table>\n" +
-    "       	</div>\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code,tensor,algebra,chalkboard');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Market Orders</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<table class=\"table table-inverse table-hover\">\n" +
+    "				    <thead>\n" +
+    "						<tr>\n" +
+    "							<th>Type</th>\n" +
+    "							<th></th>\n" +
+    "							<th></th>\n" +
+    "							<th>Date</th>\n" +
+    "						</tr>\n" +
+    "				    </thead>\n" +
+    "				    <tbody>\n" +
+    "						<tr ng-repeat=\"order in orders\">\n" +
+    "							<td>{{order.type}}</td>\n" +
+    "							<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "							<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "							<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "						</tr>\n" +
+    "				    </tbody>\n" +
+    "				</table>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
     "	</div>\n" +
     "\n" +
@@ -707,133 +857,188 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
 
 angular.module("marketPair/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("marketPair/index.tpl.html",
-    "<div style=\"background-color:black;color:white;text-align:left\">\n" +
-    "\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    <div class=\"container\">\n" +
-    "    	<div class=\"row\"><h1 ng-click=\"marketsToggle()\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> {{selectedPair[0]}} / {{selectedPair[1]}}</h1></div>\n" +
+    "<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,tensor,algebra,chalkboard,portfolio,data');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "        	<div class=\"container\">\n" +
+    "				<h1>{{selectedPair[0]}} / {{selectedPair[1]}}</h1>				\n" +
+    "        	</div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"container\">\n" +
+    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "	<div class=\"row\">\n" +
     "\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<div class=\"spacing-25\"></div>\n" +
-    "		<!--<button class=\"btn-default\" ng-click=\"marketsToggle()\"><i style=\"font-size:24px\" class=\"fa fa-bars\"></i> MARKETS</button>-->\n" +
-    "		<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">LIVE</button>\n" +
-    "		<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5SEC </button><!--x6-->\n" +
-    "		<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30SEC</button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1MIN </button><!--x5-->\n" +
-    "		<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5MIN </button><!--x6-->\n" +
-    "		<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30MIN</button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1HR </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2HR </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4HR </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6HR </button><!--x3/2-->\n" +
-    "		<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12HR </button><!--x2-->\n" +
-    "		<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24HR </button><!--x2-->\n" +
-    "	</div>\n" +
+    "		<div style=\"text-align:center\">\n" +
+    "			<div class=\"spacing-25\"></div>\n" +
+    "			<button ng-class=\"selectedClass('Live')\" ng-click=\"getLive()\">LIVE</button>\n" +
+    "			<button ng-class=\"selectedClass('5000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '5000')\">5SEC </button><!--x6-->\n" +
+    "			<button ng-class=\"selectedClass('30000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '30000')\">30SEC</button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('60000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '60000')\">1MIN </button><!--x5-->\n" +
+    "			<button ng-class=\"selectedClass('300000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '300000')\">5MIN </button><!--x6-->\n" +
+    "			<button ng-class=\"selectedClass('1800000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '1800000')\">30MIN</button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('3600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '3600000')\">1HR </button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('7200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '7200000')\">2HR </button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('14400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '14400000')\">4HR </button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('21600000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '21600000')\">6HR </button><!--x3/2-->\n" +
+    "			<button ng-class=\"selectedClass('43200000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '43200000')\">12HR </button><!--x2-->\n" +
+    "			<button ng-class=\"selectedClass('86400000')\" ng-click=\"selectData(stateParams.path1, stateParams.path2, '86400000')\">24HR </button><!--x2-->\n" +
+    "		</div>\n" +
     "\n" +
-    "	<div class=\"spacing-10\"></div>\n" +
-    "	<hr>\n" +
-    "\n" +
-    "	<!--how much data..?-->\n" +
-    "	<!--zoom out ability.. a lot-->\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<h2>Price Data</h2>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'price')\">EMA</button><!--select periods..?-->\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'price')\">TSF</button><!--select periods..?-->\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">BBAND</button><!--select periods / stD.?-->\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
-    "		<hr>\n" +
-    "		<div class=\"col-md-10\"><highchart config=\"chartConfig\"></highchart></div>\n" +
-    "		<div class=\"col-md-2\"><highchart config=\"bidAskChart\"></highchart></div>\n" +
-    "		<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<!--<h2>Order Book</h2><hr>\n" +
-    "	<highchart config=\"bidAskChart\"></highchart>-->\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<h2>Market Change</h2>\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">BBAND</button><!--select periods / sD..?-->\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
-    "		<!--<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>--><!--;)-->\n" +
-    "		<hr>\n" +
-    "		<highchart config=\"changeChart\"></highchart>\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<h2>Oscillator</h2>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">MACD</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">FOSC</button>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">RSI</button>\n" +
-    "		<hr>\n" +
-    "		<highchart config=\"oscillatorChart\"></highchart>\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<h2>Probability Density</h2>\n" +
-    "		<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>\n" +
-    "		<hr>\n" +
-    "		<highchart config=\"heatMapChart\"></highchart>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
+    "		<hr>\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,tensor,algebra,chalkboard,portfolio,data');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Price Data</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'price')\">EMA</button><!--select periods..?-->\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'price')\">TSF</button><!--select periods..?-->\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'price')\">BBAND</button><!--select periods / stD.?-->\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getNn('price')\">nn</button>-->\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getPdf('price')\">pdf</button>--><!--;)-->\n" +
+    "				<hr>\n" +
+    "				<div class=\"col-md-10\"><highchart config=\"chartConfig\"></highchart></div>\n" +
+    "				<div class=\"col-md-2\"><highchart config=\"bidAskChart\"></highchart></div>\n" +
+    "				<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<!--\n" +
+    "		<h2>Order Book</h2><hr>\n" +
+    "		<highchart config=\"bidAskChart\"></highchart>\n" +
+    "		-->\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,portfolio,data');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Market Change</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getEma([20,40,80,160,320,640],'change')\">ema</button>--><!--select periods..?-->\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getTsf([20,40,80,160,320,640],'change')\">tsf</button>--><!--select periods..?-->\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getBband([10],[1,2,3],'change')\">BBAND</button><!--select periods / sD..?-->\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getNn('change')\">nn</button>-->\n" +
+    "				<!--<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>--><!--;)-->\n" +
+    "				<hr>\n" +
+    "				<highchart config=\"changeChart\"></highchart>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,portfolio,data,oscillator,wave');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Oscillator</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getMacd([20,40,80,160,320,640],'change')\">MACD</button>\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getFosc([20,40,80,160,320,640],'change')\">FOSC</button>\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getRsi([20,40,80,160,320,640],'change')\">RSI</button>\n" +
+    "				<hr>\n" +
+    "				<highchart config=\"oscillatorChart\"></highchart>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,portfolio,data,oscillator,wave,probability');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Probability Density Analysis</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<div class=\"spacing-5\"></div>\n" +
+    "				<button class=\"btn btn-default\" ng-click=\"getPdf('change')\">PDF</button>\n" +
+    "				<hr>\n" +
+    "				<highchart config=\"heatMapChart\"></highchart>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,portfolio,data,order,position');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Market Orders</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<table class=\"table table-inverse table-hover\">\n" +
+    "				    <thead>\n" +
+    "						<tr>\n" +
+    "							<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
+    "							<th></th>\n" +
+    "							<th></th>\n" +
+    "							<th>Date</th>\n" +
+    "						</tr>\n" +
+    "				    </thead>\n" +
+    "				    <tbody>\n" +
+    "						<tr ng-repeat=\"order in orders\">\n" +
+    "							<td>{{order.type}}</td>\n" +
+    "							<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "							<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "							<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "						</tr>\n" +
+    "				    </tbody>\n" +
+    "				</table>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
     "	</div>\n" +
+    "</div>\n" +
     "\n" +
-    "	<!--TODO: POSITIONS.. LONG SHORT.. SELL THIS AMOUNT AT THIS PRICE.. ETC. NOT YET EXECUTED-->\n" +
-    "	<div class=\"row\" style=\"text-align:left\">\n" +
-    "		<h2>Market Orders</h2>\n" +
-    "		<table class=\"table table-inverse table-hover\">\n" +
-    "		    <thead>\n" +
-    "				<tr>\n" +
-    "					<th>Type</th><!--not relevant.. just reverse asset1 and 2.. -->\n" +
-    "					<th></th>\n" +
-    "					<th></th>\n" +
-    "					<th>Date</th>\n" +
-    "				</tr>\n" +
-    "		    </thead>\n" +
-    "		    <tbody>\n" +
-    "				<tr ng-repeat=\"order in orders\">\n" +
-    "					<td>{{order.type}}</td>\n" +
-    "					<td>{{order.amount}} {{order.asset2}}</td>\n" +
-    "					<td>{{order.price}} {{order.asset1}}</td>\n" +
-    "					<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
-    "				</tr>\n" +
-    "		    </tbody>\n" +
-    "		</table>\n" +
-    "	</div>\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "\n" +
-    "<div class=\"spacing-50\"></div>\n" +
+    "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "\n" +
-    "<div ng-include=\"'footer/index.tpl.html'\"></div>");
+    "<div class=\"spacing-25\"></div>\n" +
+    "");
 }]);
 
 angular.module("markets/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("markets/index.tpl.html",
-    "<div style=\"background-color:black;color:white;text-align:left\">\n" +
-    "\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    <div class=\"container\">\n" +
-    "    	<div class=\"row\"><h1 ng-click=\"marketsToggle()\"><i style=\"font-size:30px\" class=\"fa fa-bars\"></i> Explore</h1></div>\n" +
+    "<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,code,tensor,algebra,chalkboard,portfolio,data');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "        	<div class=\"container\">\n" +
+    "				<h1>Explore</h1>				\n" +
+    "        	</div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"spacing-25\"></div>\n" +
-    "    \n" +
     "</div>\n" +
     "\n" +
     "<div class=\"spacing-15\"></div>\n" +
     "\n" +
-    "<div class=\"container\" style=\"text-align:left\">\n" +
+    "<div class=\"container\">\n" +
     "\n" +
+    "	<!--\n" +
     "	<div class=\"row\">\n" +
-    "\n" +
-    "		<!--BTC VALUE VECTOR OVER TIME-->\n" +
-    "		<!--TODO: MORE EXCHANGES; PAIRS-->\n" +
-    "		<!--<highchart config=\"chartConfig\"></highchart>-->\n" +
-    "\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
@@ -843,16 +1048,20 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
     "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
-    "		<!--<p class=\"btn btn-default\" ng-click=\"solvePortfolioPDF('60000', 100)\">MultiSolvePDF</p>-->\n" +
-    "\n" +
     "	</div>\n" +
     "\n" +
-    "	<div class=\"row\" ng-show=\"portfolioData.orderSet.length > 0\">\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
     "\n" +
+    "	<div class=\"row\">\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
+    "		<p class=\"btn btn-default\" ng-click=\"solvePortfolioMulti('60000', 100)\">MultiSolve</p>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
+    "	-->\n" +
+    "\n" +
+    "	<div class=\"row\" ng-show=\"portfolioData.orderSet.length > 0\" style=\"text-align:left\">\n" +
     "		<div class=\"spacing-15\"></div>\n" +
-    "		\n" +
     "		<!--\n" +
     "		<h3>Portfolio Set Over Time</h3>\n" +
     "		<div class=\"col-md-6\">\n" +
@@ -862,7 +1071,6 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "			</div>\n" +
     "		</div>\n" +
     "		-->\n" +
-    "\n" +
     "		<h3>Order Set</h3>\n" +
     "		<div ng-repeat=\"order in portfolioData.orderSet\">\n" +
     "			<div class=\"col-md-3 col-sm-4 col-xs-6 \">\n" +
@@ -873,132 +1081,134 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "\n" +
     "		<div class=\"spacing-15\"></div>\n" +
-    "\n" +
     "	</div>\n" +
     "\n" +
     "	<div class=\"row\">\n" +
+    "		<div class=\"col-sm-4 col-xs-6\" ng-repeat=\"market in uniqueMarkets\">\n" +
+    "			<div class=\"card\">\n" +
+    "				<div style=\"padding:16px\">\n" +
+    "					<h3><a href=\"/market/{{market}}\" ui-sref=\"market({path:market})\">{{market}}</a></h3>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
     "\n" +
-    "		<!--<h3>Value Vectors</h3>-->\n" +
-    "		<!--SEARCH-->\n" +
+    "	<div class=\"spacing-15\"></div>\n" +
+    "\n" +
+    "	<div class=\"row\" style=\"text-align:left\">\n" +
+    "\n" +
+    "\n" +
+    "		<div class=\"card\">\n" +
+    "			<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Value Matrix</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"spacing:16px\">\n" +
+    "				<div style=\"overflow:scroll\">\n" +
+    "					<table class=\"table table-striped table-hover\">\n" +
+    "			            <thead>\n" +
+    "			                <tr>\n" +
+    "			                	<th></th>\n" +
+    "			                	<th ng-repeat=\"vector in matrix\">\n" +
+    "			                		<a href=\"market/{{vector.name}}\" ui-sref=\"market({path:vector.name})\">{{vector.name}}</a>\n" +
+    "			                	</th>\n" +
+    "			                </tr>\n" +
+    "			            </thead>\n" +
+    "			            <tbody>\n" +
+    "			                <tr ng-repeat=\"vector in matrix\">\n" +
+    "			                	<td><b><a href=\"market/{{vector.name}}\" ui-sref=\"market({path:vector.name})\">{{vector.name}}</a></b></td>\n" +
+    "								<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\" ui-sref=\"marketPair({path1:vector.name, path:asset.name})\">{{asset.data}}</a></td>\n" +
+    "			                </tr>\n" +
+    "			            </tbody>\n" +
+    "			        </table>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
     "		<!--\n" +
-    "		<table class=\"table table-striped table-hover\">\n" +
-    "            <thead>\n" +
-    "                <tr>\n" +
-    "                	<th>Asset</th>\n" +
-    "                	<th>Value</th>\n" +
-    "                </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "                <tr ng-repeat=\"asset in vector.data\">\n" +
-    "                    <td><a href=\"market/{{asset}}\">{{asset.name}}</a></td>\n" +
-    "					<td>{{asset.data}}</td>\n" +
-    "                </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "    	-->\n" +
-    "	</div>\n" +
+    "		<div class=\"card\">\n" +
+    "	    	<div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code,tensor,algebra,chalkboard');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Order Book Tensor</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"spacing:16px\">\n" +
+    "		        <div style=\"overflow:scroll\">\n" +
+    "					<table class=\"table table-striped table-hover\">\n" +
+    "			            <thead>\n" +
+    "			                <tr>\n" +
+    "			                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "			                </tr>\n" +
+    "			            </thead>\n" +
+    "			            <tbody>\n" +
+    "			                <tr ng-repeat=\"vector in matrix\">\n" +
+    "								<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
+    "									<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
+    "									<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
+    "								</td>\n" +
+    "			                </tr>\n" +
+    "			            </tbody>\n" +
+    "			        </table>\n" +
+    "		       	</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		-->\n" +
     "\n" +
-    "	<div class=\"spacing-15\"></div>\n" +
-    "\n" +
-    "	<div class=\"row\">\n" +
-    "\n" +
-    "		<h3>Value Matrix</h3>\n" +
-    "		<!--SELECTED SET-->\n" +
-    "		<div style=\"overflow:scroll\">\n" +
-    "			<table class=\"table table-striped table-hover\">\n" +
-    "	            <thead>\n" +
-    "	                <tr>\n" +
-    "	                	<th></th>\n" +
-    "	                	<th ng-repeat=\"vector in matrix\">\n" +
-    "	                		<a href=\"market/{{vector.name}}\">{{vector.name}}</a>\n" +
-    "	                	</th>\n" +
-    "	                </tr>\n" +
-    "	            </thead>\n" +
-    "	            <tbody>\n" +
-    "	                <tr ng-repeat=\"vector in matrix\">\n" +
-    "	                	<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
-    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\"><a href=\"market/{{vector.name}}/{{asset.name}}\">{{asset.data}}</a></td>\n" +
-    "	                </tr>\n" +
-    "	            </tbody>\n" +
-    "	        </table>\n" +
+    "		<!--TODO-->\n" +
+    "		<!--\n" +
+    "	    <div class=\"card\">\n" +
+    "	        <div style=\"background:url('https://source.unsplash.com/1600x900/?value,math,matrix,{{market}},code,tensor,algebra,chalkboard');overflow:visible\" class=\"imageContainerSmall\">\n" +
+    "			    <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
+    "			        <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "			        	<div style=\"padding:15px\">\n" +
+    "							<h1>Market Image</h1>				\n" +
+    "			        	</div>\n" +
+    "			        </div>\n" +
+    "			    </div>\n" +
+    "			</div>\n" +
+    "			<div style=\"spacing:16px\">\n" +
+    "		        <div style=\"overflow:scroll\">\n" +
+    "					<table class=\"table table-striped table-hover\">\n" +
+    "			            <thead>\n" +
+    "			                <tr>\n" +
+    "								<th></th>\n" +
+    "			                	<th ng-repeat=\"vector in marketImage\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
+    "			                </tr>\n" +
+    "			            </thead>\n" +
+    "			            <tbody>\n" +
+    "			                <tr style=\"max-height:50px;overflow:scroll\" ng-repeat=\"vector in marketImage\">\n" +
+    "								<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
+    "								<td style=\"max-width:50px;overflow:scroll;max-height:50px;\" ng-repeat=\"asset in vector.data\">\n" +
+    "									<a ng-if=\"vector.name == asset.name\">1</a>\n" +
+    "									<a ng-if=\"vector.name != asset.name && !asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">CIRCUIT<a>\n" +
+    "									<a ng-if=\"vector.name != asset.name && asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">TENSOR</a>\n" +
+    "								</td>\n" +
+    "			                </tr>\n" +
+    "			            </tbody>\n" +
+    "			        </table>\n" +
+    "		       	</div>\n" +
+    "	       	</div>\n" +
     "	    </div>\n" +
+    "		-->\n" +
     "\n" +
-    "        <!--MULT BY PORTFOLIO VECTOR-->\n" +
-    "\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class=\"spacing-15\"></div>\n" +
-    "\n" +
-    "	<!--\n" +
-    "	<div class=\"row\">\n" +
-    "        <h3>Order Book Tensor</h3>\n" +
-    "        <div style=\"overflow:scroll\">\n" +
-    "			<table class=\"table table-striped table-hover\">\n" +
-    "	            <thead>\n" +
-    "	                <tr>\n" +
-    "						<th></th>\n" +
-    "	                	<th ng-repeat=\"vector in matrix\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
-    "	                </tr>\n" +
-    "	            </thead>\n" +
-    "	            <tbody>\n" +
-    "	                <tr ng-repeat=\"vector in matrix\">\n" +
-    "						<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
-    "						<td style=\"max-width:50px;overflow:scroll\" ng-repeat=\"asset in vector.data\">\n" +
-    "							<a ng-if=\"asset.data != '--' && asset.data != 1\" href=\"market/{{vector.name}}/{{asset.name}}\">[[{{asset.data}}], [{{asset.data}}]]</a>\n" +
-    "							<a ng-if=\"asset.data == '--' || asset.data == 1\">{{asset.data}}</a>\n" +
-    "						</td>\n" +
-    "	                </tr>\n" +
-    "	            </tbody>\n" +
-    "	        </table>\n" +
-    "       	</div>\n" +
-    "    </div>\n" +
-    "	-->\n" +
-    "\n" +
-    "    <div class=\"row\">\n" +
-    "\n" +
-    "        <h3>Market Image</h3>\n" +
-    "        <!--SELECTED SET & EXCHANGE-->\n" +
-    "        <div style=\"overflow:scroll\">\n" +
-    "			<table class=\"table table-striped table-hover\">\n" +
-    "	            <thead>\n" +
-    "	                <tr>\n" +
-    "						<th></th>\n" +
-    "	                	<th ng-repeat=\"vector in marketImage\"><a href=\"market/{{vector.name}}\">{{vector.name}}</a></th>\n" +
-    "	                </tr>\n" +
-    "	            </thead>\n" +
-    "	            <tbody>\n" +
-    "	                <tr style=\"max-height:50px;overflow:scroll\" ng-repeat=\"vector in marketImage\">\n" +
-    "						<td><b><a href=\"market/{{vector.name}}\">{{vector.name}}</a></b></td>\n" +
-    "						<td style=\"max-width:50px;overflow:scroll;max-height:50px;\" ng-repeat=\"asset in vector.data\">\n" +
-    "							<a ng-if=\"vector.name == asset.name\">1</a>\n" +
-    "							<a ng-if=\"vector.name != asset.name && !asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">CIRCUIT<a>\n" +
-    "							<a ng-if=\"vector.name != asset.name && asset.orderBooks[0].name\" href=\"market/{{vector.name}}/{{asset.name}}\">TENSOR</a>\n" +
-    "						</td>\n" +
-    "	                </tr>\n" +
-    "	            </tbody>\n" +
-    "	        </table>\n" +
-    "       	</div>\n" +
-    "\n" +
-    "    </div>\n" +
-    "\n" +
-    "\n" +
-    "    <div class=\"spacing-15\"></div>\n" +
-    " 	\n" +
-    "	<div ng-show=\"false\" class=\"row\">\n" +
-    "\n" +
-    "        <h3>Neural Networks</h3>\n" +
-    "        \n" +
     "	</div>\n" +
     "\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"spacing-50\"></div>\n" +
     "\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
-    "\n" +
-    "");
+    "<div class=\"spacing-25\"></div>");
 }]);
 
 angular.module("member/index.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -1087,20 +1297,16 @@ angular.module("member/index.tpl.html", []).run(["$templateCache", function($tem
 angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("nav/index.tpl.html",
     "<div ng-controller=\"NavCtrl\">\n" +
-    "\n" +
     "    <md-sidenav class=\"md-sidenav-right md-whiteframe-z2\" md-component-id=\"login\" md-is-locked-open=\"false\" style=\"text-align:center;position:fixed;background-color:white;width:70%;max-width:100%\">\n" +
     "        <div class=\"md-list-item-text\" layout=\"column\" style=\"height:100%;\">\n" +
     "            <div style=\"text-align:center\">\n" +
     "                <div class=\"spacing-25\"></div>\n" +
-    "\n" +
     "                <div style=\"background-color:black;color:white\">\n" +
     "                    <div class=\"spacing-25\"></div>\n" +
     "                    <div class=\"row\"><h1>Login | Welcome back!</h1></div>\n" +
     "                    <div class=\"spacing-25\"></div>\n" +
     "                </div>\n" +
-    "\n" +
     "                <div class=\"spacing-25\"></div>\n" +
-    "\n" +
     "                <div class=\"row\">\n" +
     "                    <div class=\"col-xs-10 col-xs-offset-1\">\n" +
     "                        <div class=\"login-form\">\n" +
@@ -1124,11 +1330,9 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
-    "\n" +
     "                <div class=\"spacing-25\"></div>\n" +
-    "\n" +
     "                <div ng-include=\"'footer/index.tpl.html'\"></div>  \n" +
-    "\n" +
+    "                <div class=\"spacing-25\"></div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </md-sidenav>\n" +
@@ -1159,70 +1363,33 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                        <input class=\"form-control\" style=\"margin-top:3px;border-radius:3px;\" ng-keyup=\"keyPress(searchValue)\" ng-model=\"searchValue\" id=\"search-link\" size=\"40\" type=\"text\" placeholder=\"\">\n" +
     "                    </div>\n" +
     "                </form>\n" +
-    "                <h3 ng-show=\"!currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/about\">ABOUT</a></h3>\n" +
+    "                <h3 ng-show=\"!currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/about\" ui-sref=\"about\">ABOUT</a></h3>\n" +
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white; text-transform:uppercase\"><a href=\"member/{{currentUser.username}}\">{{currentUser.username}}</a></h3>\n" +
-    "                <h3 class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/markets\">EXPLORE</a></h3>\n" +
+    "                <h3 class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/markets\" ui-sref=\"markets\">EXPLORE</a></h3>\n" +
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white;\"><a href=\"/\">PORTFOLIO</a></h3>\n" +
-    "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/account\">SETTINGS</a></h3>\n" +
+    "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/account\" ui-sref=\"account\">SETTINGS</a></h3>\n" +
     "                <h3 ng-show=\"currentUser\" class=\"nav-links\" style=\"padding:16px;color:white\"><a href=\"/logout\">LOGOUT</a></h3>\n" +
-    "                <h3 ng-show=\"!currentUser\" class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"/login\">LOGIN</a></h3>\n" +
-    "                <h3 ng-show=\"!currentUser\"class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"/register\">REGISTER</a></h3>\n" +
+    "                <h3 ng-show=\"!currentUser\" class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"#\" ng-click=\"loginToggle()\">LOGIN</a></h3><!--<a href=\"/login\" ui-sref=\"login\">LOGIN</a></h3>-->\n" +
+    "                <h3 ng-show=\"!currentUser\"class=\"nav-links\" style=\"padding:16px;;color:white\"><a href=\"/register\" ui-sref=\"register\">REGISTER</a></h3>\n" +
     "                <div class=\"spacing-25\"></div>\n" +
-    "                <a href=\"/\"><img style=\"width:50px\" src=\"images/tesseract.png\"></a>\n" +
+    "                <a href=\"/\" ui-sref=\"home\"><img style=\"width:50px\" src=\"images/tesseract.png\"></a>\n" +
     "                <div class=\"spacing-25\"></div>\n" +
     "                <div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </md-sidenav>\n" +
     "\n" +
-    "    <md-sidenav class=\"md-sidenav-left md-whiteframe-z2\" md-component-id=\"subNav\" md-is-locked-open=\"false\" style=\"text-align:center;position:fixed;background-color:white;width:70%;max-width:100%\">\n" +
-    "        <md-toolbar style=\"background-color:rgb(35, 170, 159)\" class=\"md-primary md-hue-2\">\n" +
-    "        </md-toolbar>\n" +
-    "        <md-content>\n" +
-    "            <md-list>\n" +
-    "                <md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" style=\"background:#e8e8e8;\">\n" +
-    "                    <div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "                        <h3><a ui-sref=\"\"><span class=\"pull-left ct-red\">Home</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
-    "                    </div>\n" +
-    "                </md-list-item>\n" +
-    "                <md-divider ></md-divider>\n" +
-    "                <md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('/markets')\">\n" +
-    "                    <div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "                        <h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Markets</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
-    "                    </div>\n" +
-    "                </md-list-item>\n" +
-    "                <md-divider ></md-divider>\n" +
-    "                <md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('member/troverman')\">\n" +
-    "                    <div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "                        <h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Portfolio</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
-    "                    </div>\n" +
-    "                </md-list-item>\n" +
-    "                <md-divider ></md-divider>\n" +
-    "                <md-list-item ui-sref-active=\"active\" class=\"menu-select md-3-line\" md-ink-ripple=\"#101010\" ng-click=\"changePath('')\">\n" +
-    "                    <div class=\"md-list-item-text\" layout=\"column\">\n" +
-    "                        <h3><a ui-sref=\"sites\"><span class=\"pull-left ct-red\">Trades</span><md-icon class=\"pull-right\"></md-icon></a></h3>\n" +
-    "                    </div>\n" +
-    "                </md-list-item>\n" +
-    "                <md-divider ></md-divider>\n" +
-    "            </md-list>\n" +
-    "        </md-content>\n" +
-    "    </md-sidenav>\n" +
-    "\n" +
     "    <div class=\"navbar navbar-custom navbar-fixed-top\" role=\"navigation\">\n" +
     "        <div class=\"container\">\n" +
-    "\n" +
     "            <button class=\"navIcon\" type=\"button\" ng-click=\"navToggle()\">\n" +
     "                <span class=\"sr-only\">Toggle navigation</span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "            </button>\n" +
-    "            <a class=\"navbar-brand\" href=\"/\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
-    "\n" +
-    "\n" +
+    "            <a class=\"navbar-brand\" href=\"/\" ui-sref=\"home\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "\n" +
     "    <md-progress-linear ng-if=\"stateIsLoading\" md-mode=\"indeterminate\"></md-progress-linear>\n" +
     "</div>");
 }]);
@@ -1278,7 +1445,9 @@ angular.module("register/index.tpl.html", []).run(["$templateCache", function($t
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "<div ng-include=\"'footer/index.tpl.html'\"></div>\n" +
+    "<div class=\"spacing-25\"></div>\n" +
     "");
 }]);
 

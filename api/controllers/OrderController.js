@@ -11,8 +11,10 @@ module.exports = {
 		var skip = req.query.skip;
 		var sort = 'createdAt DESC';//req.query.filter;
 
+		console.log('GET ORDERS', req.query);
+
 		//hak --> clean up if we want #cre8
-		if (asset1){
+		if (asset1 && asset2){
 			Order.find()
 			.where({asset1:asset1, asset2:asset2})
 			.limit(limit)
@@ -20,8 +22,16 @@ module.exports = {
 			.sort(sort)
 			.then(function(model) {
 				res.json(model);
-			})
-			.fail(function(err) {
+			});
+		}
+		if (asset1 && !asset2){
+			Order.find()
+			.where({asset1:asset1})
+			.limit(limit)
+			.skip(skip)
+			.sort(sort)
+			.then(function(model) {
+				res.json(model);
 			});
 		}
 		else{
@@ -31,13 +41,12 @@ module.exports = {
 			.sort(sort)
 			.then(function(model) {
 				res.json(model);
-			})
-			.fail(function(err) {
 			});
 		}
 	},
 
 	create: function (req, res) {
+
 		var model = {
 			asset1: req.param('asset1'),
 			asset2: req.param('asset2'),
@@ -50,10 +59,10 @@ module.exports = {
 		.exec(function(err, model) {
 			if (err) {return console.log(err);}
 			else {
-				//inject poloniex code here.
 				Order.publishCreate(model.toJSON());
 				res.json(model);
 			}
 		});
+
 	}
 };

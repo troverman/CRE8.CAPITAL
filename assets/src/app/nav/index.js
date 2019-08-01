@@ -91,7 +91,7 @@ angular.module( 'investing.nav', [
         'BCN/XMR',
     ];
 
-    $rootScope.loginToggle = function(){$mdSidenav('login').toggle()};
+    $rootScope.loginToggle = function(){$mdSidenav('nav').close();$mdSidenav('login').toggle();};
     $rootScope.marketsToggle = function(){$mdSidenav('markets').toggle()};
     $rootScope.navToggle = function(){$mdSidenav('nav').toggle()};
     $rootScope.subNavToggle = function(){$mdSidenav('subNav').toggle()};

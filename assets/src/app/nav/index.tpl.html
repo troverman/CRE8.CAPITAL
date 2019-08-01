@@ -1,18 +1,14 @@
 <div ng-controller="NavCtrl">
-
     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="login" md-is-locked-open="false" style="text-align:center;position:fixed;background-color:white;width:70%;max-width:100%">
         <div class="md-list-item-text" layout="column" style="height:100%;">
             <div style="text-align:center">
                 <div class="spacing-25"></div>
-
                 <div style="background-color:black;color:white">
                     <div class="spacing-25"></div>
                     <div class="row"><h1>Login | Welcome back!</h1></div>
                     <div class="spacing-25"></div>
                 </div>
-
                 <div class="spacing-25"></div>
-
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                         <div class="login-form">
@@ -36,11 +32,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="spacing-25"></div>
-
                 <div ng-include="'footer/index.tpl.html'"></div>  
-
+                <div class="spacing-25"></div>
             </div>
         </div>
     </md-sidenav>
@@ -71,69 +65,32 @@
                         <input class="form-control" style="margin-top:3px;border-radius:3px;" ng-keyup="keyPress(searchValue)" ng-model="searchValue" id="search-link" size="40" type="text" placeholder="">
                     </div>
                 </form>
-                <h3 ng-show="!currentUser" class="nav-links" style="padding:16px;color:white"><a href="/about">ABOUT</a></h3>
+                <h3 ng-show="!currentUser" class="nav-links" style="padding:16px;color:white"><a href="/about" ui-sref="about">ABOUT</a></h3>
                 <h3 ng-show="currentUser" class="nav-links" style="padding:16px;color:white; text-transform:uppercase"><a href="member/{{currentUser.username}}">{{currentUser.username}}</a></h3>
-                <h3 class="nav-links" style="padding:16px;color:white"><a href="/markets">EXPLORE</a></h3>
+                <h3 class="nav-links" style="padding:16px;color:white"><a href="/markets" ui-sref="markets">EXPLORE</a></h3>
                 <h3 ng-show="currentUser" class="nav-links" style="padding:16px;color:white;"><a href="/">PORTFOLIO</a></h3>
-                <h3 ng-show="currentUser" class="nav-links" style="padding:16px;color:white"><a href="/account">SETTINGS</a></h3>
+                <h3 ng-show="currentUser" class="nav-links" style="padding:16px;color:white"><a href="/account" ui-sref="account">SETTINGS</a></h3>
                 <h3 ng-show="currentUser" class="nav-links" style="padding:16px;color:white"><a href="/logout">LOGOUT</a></h3>
-                <h3 ng-show="!currentUser" class="nav-links" style="padding:16px;;color:white"><a href="/login">LOGIN</a></h3>
-                <h3 ng-show="!currentUser"class="nav-links" style="padding:16px;;color:white"><a href="/register">REGISTER</a></h3>
+                <h3 ng-show="!currentUser" class="nav-links" style="padding:16px;;color:white"><a href="#" ng-click="loginToggle()">LOGIN</a></h3><!--<a href="/login" ui-sref="login">LOGIN</a></h3>-->
+                <h3 ng-show="!currentUser"class="nav-links" style="padding:16px;;color:white"><a href="/register" ui-sref="register">REGISTER</a></h3>
                 <div class="spacing-25"></div>
-                <a href="/"><img style="width:50px" src="images/tesseract.png"></a>
+                <a href="/" ui-sref="home"><img style="width:50px" src="images/tesseract.png"></a>
                 <div class="spacing-25"></div>
                 <div ng-include="'footer/index.tpl.html'"></div>
             </div>
         </div>
     </md-sidenav>
 
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="subNav" md-is-locked-open="false" style="text-align:center;position:fixed;background-color:white;width:70%;max-width:100%">
-        <md-toolbar style="background-color:rgb(35, 170, 159)" class="md-primary md-hue-2">
-        </md-toolbar>
-        <md-content>
-            <md-list>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" style="background:#e8e8e8;">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref=""><span class="pull-left ct-red">Home</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('/markets')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Markets</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('member/troverman')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Portfolio</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-                <md-list-item ui-sref-active="active" class="menu-select md-3-line" md-ink-ripple="#101010" ng-click="changePath('')">
-                    <div class="md-list-item-text" layout="column">
-                        <h3><a ui-sref="sites"><span class="pull-left ct-red">Trades</span><md-icon class="pull-right"></md-icon></a></h3>
-                    </div>
-                </md-list-item>
-                <md-divider ></md-divider>
-            </md-list>
-        </md-content>
-    </md-sidenav>
-
     <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
-
             <button class="navIcon" type="button" ng-click="navToggle()">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><img src="images/tesseract.png" style="height:32px;float:left;margin-top:-3px;margin-right:10px">CRE8.CAPITAL</a>
-
-
+            <a class="navbar-brand" href="/" ui-sref="home"><img src="images/tesseract.png" style="height:32px;float:left;margin-top:-3px;margin-right:10px">CRE8.CAPITAL</a>
         </div>
     </div>
-
     <md-progress-linear ng-if="stateIsLoading" md-mode="indeterminate"></md-progress-linear>
 </div>

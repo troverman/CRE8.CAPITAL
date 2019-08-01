@@ -9,15 +9,28 @@ angular.module( 'investing.market', [
 				controller: 'MarketCtrl',
 				templateUrl: 'market/index.tpl.html'
 			}
-		}
+		},
+        resolve:{
+           
+            orders: ['$stateParams', 'OrderModel', function($stateParams, OrderModel) {
+                return OrderModel.getSome(500, 0, 'createdAt DESC', $stateParams.path.toUpperCase(), null);
+            }],
+
+        }
+
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'orders', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, orders, titleService ) {
 
     $scope.market = $stateParams.path.toUpperCase();
 
+    $scope.orders = orders;
+
     titleService.setTitle($scope.market + ' | CRE8.CAPITAL');
+
+    $scope.selectedTab = 'INFORMATION';
+    $scope.selectTab = function(model){$scope.selectedTab=model;}
 
     $scope.chart = {
         chart: {

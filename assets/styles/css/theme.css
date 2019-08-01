@@ -281,6 +281,26 @@ input:-ms-input-placeholder {
     wrap: wrap;
 }
 
+.member-tabs li{
+    display: inline;
+    font-size: 20px;
+    font-family:'Titillium Web',sans-serif;
+}
+
+.member-tabs > li > a{
+    padding:10px 15px;
+    color:rgb(125,125,125);
+}
+
+.member-tabs > li > a:hover{
+    background-color: #eee;
+    border-radius:3px;
+}
+
+.member-tab-container ul{
+    margin:10px 15px;
+}
+
 .nav {
   font-family:Barlow;
   font-size:20px;
