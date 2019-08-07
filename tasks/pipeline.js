@@ -50,6 +50,11 @@ var jsFilesToInject = [
   'bower_components/heatmap.js/plugins/angular-heatmap/angular-heatmap.js',
   'bower_components/Chart.HeatMap/dst/Chart.HeatMap.S.js',
 
+  'bower_components/cytoscape/dist/cytoscape.min.js',
+  'bower_components/cytoscape/dist/plugin/cola.v3.min.js',
+  'bower_components/cytoscape/dist/plugin/cytoscape-cola.js',
+  'bower_components/ngCytoscape/dist/ngCytoscape.js',
+
   'bower_components/highcharts/highstock.js',
   'bower_components/highcharts/modules/heatmap.js',
   'bower_components/highcharts/highcharts-more.js',

@@ -387,12 +387,10 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	<div class=\"container\">\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
-    "	    <div class=\"row\">\n" +
-    "	        <h3>The Network Effects Of Coming Together</h3>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence Creates Value.</p>\n" +
-    "	       	<!--<p style=\"font-style:italic;color:gray\">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->\n" +
-    "	        <!--<p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>-->\n" +
-    "	    </div>\n" +
+    "        <h3>The Network Effects Of Coming Together</h3>\n" +
+    "        <p style=\"font-style:italic;color:gray\">Our Shared Intelligence Creates Value.</p>\n" +
+    "       	<!--<p style=\"font-style:italic;color:gray\">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->\n" +
+    "        <!--<p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>-->\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "	\n" +
@@ -490,11 +488,9 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "	<div class=\"container\">\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
-    "	    <div class=\"row\">\n" +
-    "	        <h3>A Transparent Paradigm</h3>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">With nothing to to hide, we have everything to gain.</p>\n" +
-    "	        <p style=\"font-style:italic;color:gray\">Our performance defines us.</p>\n" +
-    "	    </div>\n" +
+    "        <h3>A Transparent Paradigm</h3>\n" +
+    "        <p style=\"font-style:italic;color:gray\">With nothing to to hide, we have everything to gain.</p>\n" +
+    "        <p style=\"font-style:italic;color:gray\">Our performance defines us.</p>\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "\n" +
@@ -601,6 +597,9 @@ angular.module("login/index.tpl.html", []).run(["$templateCache", function($temp
 
 angular.module("market/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("market/index.tpl.html",
+    "<style>\n" +
+    "	.ngCytoscape{height: 500px;width:100%;}\n" +
+    "</style>\n" +
     "<div class=\"container\" style=\"padding:0px\">\n" +
     "    <div class=\"card\" ng-click=\"marketsToggle()\">\n" +
     "        <div class=\"row\" style=\"margin:0px\">\n" +
@@ -643,6 +642,7 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "			<div style=\"padding:16px\">\n" +
     "				<h1>{{market}} Information</h1>\n" +
     "				<h5>{{vector.data.length}}</h5>\n" +
+    "                <cytoscape graph-ready=\"graphReady\" graph-options=\"directedGraphOptions\" graph-elements=\"directedGraphElements\" graph-layout=\"directedGraphLayout\" graph-style=\"directedGraphStyle\"></cytoscape>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "	</div>\n" +

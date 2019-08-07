@@ -593,6 +593,116 @@ module.exports = {
 		});
 	},
 
+	//TOKENIZE STOCKS APP
+	//TOKENIZE SYMBOL STRING AS STRING
+	//POPULATE TOKENS
+	populateStocks: function(){
+
+		console.log('populateStocks');
+		//tokenize all method calls as practice; design pattern
+
+		//ALPHA VANTAGE API
+		//https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=BA&apikey=3J08JZ9BNYK4JUTY
+
+		//appModel = {}
+		//reobinhood controlling mechanism
+
+		function nasdaqConnect(directory, file){
+
+			var PromiseFtp = require('promise-ftp');
+			var ftp = new PromiseFtp();
+			var fs = require('fs');
+
+			ftp.connect({host: 'ftp.nasdaqtrader.com', user: '', password: ''}).then(function (serverMessage) {
+				return ftp.get(directory+'/'+file);
+			}).then(function (stream) {
+				//console.log(stream)
+				return new Promise(function (resolve, reject) {
+					stream.once('close', resolve);
+					stream.once('error', reject);
+					stream.pipe(fs.createWriteStream('assets/data/'+file));
+				});
+			}).then(function () {
+
+				fs.readFile('assets/data/'+file, 'utf8', function(err, data) {
+					if (err) throw err;
+
+					var array = data.toString().split("\n");
+				    for(i in array) {
+				    	var assetInformation = array[i].split('|');
+				    	var assetModel = {
+				    		string: assetInformation[1],
+				    		description:assetInformation[2],
+				    		exchange: assetInformation[3],
+				    		category: assetInformation[4],
+				    		status:assetInformation[8],
+				    		cqsSymbol:assetInformation[9],
+				    		nasdaqSymbol:assetInformation[10]
+				    	};
+				    	//Nasdaq Traded|Symbol|Security Name|Listing Exchange|Market Category|ETF|Round Lot Size|Test Issue|Financial Status|CQS Symbol|NASDAQ Symbol|NextShares
+				    	console.log(assetModel)
+				    }
+
+
+				});
+
+				return ftp.end();
+			});
+
+		};
+
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/options.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxoptions.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxtraded.txt
+
+		nasdaqConnect('SymbolDirectory','nasdaqtraded.txt');
+
+
+
+
+
+
+
+		//var model = {url: nasdeqCsv};
+		//request(model, function (error, response, body) {
+		//	console.log(error, response, body)
+		//	console.log(body);
+		//});
+
+		//token and market
+		//replace token with Asset. 
+		var tokenModel = {
+			string:'SYMBOL',
+			description:'',
+			context:'',
+			exchange:'',
+			information:'',
+			//computed matrix?
+		};
+
+	},
+
+
+	//btc connection --> send to wallet.. connect create identity.. wallet addressi,
+	//do apps need to combile to webasm? 
+
+	BTCConnect: function(){},
+
+	ETHConnect: function(){},
+	ETHERC20Connect: function(){},
+	ETHERC721Connect: function(){},
+
+	LTCConnect: function(){},
+
+
+	//save each possible connection????????
+	//MarketPair as storage.. yes
+	//order is marketpair id and array 
+
+
+	//build market tensor -- graph
+	//SAVE EACH ASSET
 	marketImage: function(){
 		const ccxt = require ('ccxt');
 	    const orderBookTensorObj = [];

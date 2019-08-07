@@ -1,3 +1,6 @@
+<style>
+	.ngCytoscape{height: 500px;width:100%;}
+</style>
 <div class="container" style="padding:0px">
     <div class="card" ng-click="marketsToggle()">
         <div class="row" style="margin:0px">
@@ -40,6 +43,7 @@
 			<div style="padding:16px">
 				<h1>{{market}} Information</h1>
 				<h5>{{vector.data.length}}</h5>
+                <cytoscape graph-ready="graphReady" graph-options="directedGraphOptions" graph-elements="directedGraphElements" graph-layout="directedGraphLayout" graph-style="directedGraphStyle"></cytoscape>
 			</div>
 		</div>
 	</div>

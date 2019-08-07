@@ -1383,6 +1383,10 @@ module.exports.intervalService = function(){
 
 
 
+	dataService.populateStocks();
+
+
+
 
 	//CCUTL
 	//POPULATE DATA

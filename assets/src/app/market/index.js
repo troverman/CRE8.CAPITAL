@@ -32,6 +32,137 @@ angular.module( 'investing.market', [
     $scope.selectedTab = 'INFORMATION';
     $scope.selectTab = function(model){$scope.selectedTab=model;}
 
+
+    //DIRECTED GRAPH
+    $scope.directedGraphLayout = {name: 'cose', coolingFactor: 0, animate: true};
+    $scope.directedGraphOptions = {
+        pixelRatio: 'auto',
+        maxZoom:10,
+        minZoom:0.1,
+    };
+    $scope.directedGraphStyle = [
+        {
+            "selector": "core",
+            "style": {
+                "selection-box-color": "#AAD8FF",
+                "selection-box-border-color": "#8BB0D0",
+                "selection-box-opacity": "0.5"
+            }
+        }, {
+            "selector": "node",
+            "style": {
+                "width": "25",
+                "height": "25",
+                "content": "data(name)",
+                "font-size": "12px",
+                "text-valign": "center",
+                "text-halign": "center",
+                "background-color": "#77828C",
+                "text-outline-color": "#77828C",
+                "text-outline-width": "2px",
+                "color": "#fff",
+                "overlay-padding": "3px",
+                "z-index": "10"
+            }
+        }, {
+            "selector": "node[?attr]",
+            "style": {
+                "shape": "rectangle",
+                "background-color": "#aaa",
+                "text-outline-color": "#aaa",
+                "width": "8px",
+                "height": "8px",
+                "font-size": "3px",
+                "z-index": "1"
+            }
+        }, {
+            "selector": "node[?query]",
+            "style": {
+                "background-clip": "none",
+                "background-fit": "contain"
+            }
+        }, {
+            "selector": "node:selected",
+            "style": {
+                "border-width": "3px",
+                "border-color": "#AAD8FF",
+                "border-opacity": "0.5",
+                "background-color": "#77828C",
+                "text-outline-color": "#77828C"
+            }
+        }, {
+            "selector": "edge",
+            "style": {
+                "curve-style": "bezier",
+                "target-arrow-shape": "triangle",
+                "arrow-scale":"0.75",
+                "source-arrow-shape": "none",
+                "opacity": "0.9",
+                "line-color": "#bbb",
+                "width": "3",
+                "overlay-padding": "3px",
+                'label': 'data(label)'
+            }
+        },
+        {
+            "selector": ".edgeLabelStyle",
+            "style": {
+                "text-background-opacity": 1,
+                "color": "#fff",
+                "font-size": "12px",
+                "text-background-color": "#77828C",
+                "text-background-shape": "roundrectangle",
+                "text-border-color": "#e8e8e8",
+                "text-border-width": 1,
+                "text-border-opacity": 1
+            }
+        },
+        {
+            "selector": ".blue",
+            "style": {
+                "line-color": "#0000ff",
+            }
+        },
+        {
+            "selector": ".red",
+            "style": {
+                "line-color": "#ff0000",
+            }
+        },
+        {
+            "selector": "node.unhighlighted",
+            "style": {
+                "opacity": "0.2"
+            }
+        }, {
+            "selector": "edge.unhighlighted",
+            "style": {
+                "opacity": "0.05"
+            }
+        }, {
+            "selector": ".highlighted",
+            "style": {
+                "z-index": "999999"
+            }
+        }, {
+            "selector": "node.highlighted",
+            "style": {
+                "border-width": "3px",
+                "border-color": "#AAD8FF",
+                "border-opacity": "0.5",
+                "background-color": "#394855",
+                "text-outline-color": "#394855"
+            }
+        }, {
+            "selector": "edge.filtered",
+            "style": {
+                "opacity": "0"
+            }
+        }
+    ];
+
+    $scope.directedGraphElements = {};
+
     $scope.chart = {
         chart: {
             zoomType: 'x',
@@ -304,5 +435,32 @@ angular.module( 'investing.market', [
 
     var index = $scope.matrix.map(function(obj){return obj.name}).indexOf($scope.market);
     $scope.vector = $scope.matrix[index];
+
+    for (x in $scope.vector.data){
+        var nodeModel = {
+            group:'nodes',
+            data:{
+                id:$scope.vector.data[x].name,
+                name:$scope.vector.data[x].name
+            }
+        }; 
+        console.log(nodeModel)
+        $scope.directedGraphElements[$scope.vector.data[x].name] = nodeModel;
+    }
+
+    for (x in Object.keys($scope.directedGraphElements)){
+        var edgeModel = {
+            group:'edges',
+            data:{
+                id: $scope.market+'-'+$scope.directedGraphElements[Object.keys($scope.directedGraphElements)[x]].data.id, 
+                source: $scope.market, 
+                target: $scope.vector.data[x].name, 
+                label: $scope.vector.data[x].data,
+            },
+            classes: 'edgeLabelStyle',
+        };
+        $scope.directedGraphElements[$scope.market+'-'+$scope.directedGraphElements[Object.keys($scope.directedGraphElements)[x]].data.id] = edgeModel;
+    }
+    console.log( $scope.directedGraphElements );
 
 }]);

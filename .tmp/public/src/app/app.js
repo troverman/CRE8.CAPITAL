@@ -13,6 +13,7 @@ angular.module( 'investing', [
     'nvd3',
     'ngMaterial',
     'highcharts-ng',
+    'ngCytoscape',
     'investing.about',
     'investing.account',
     'investing.footer',
