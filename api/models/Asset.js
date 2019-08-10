@@ -9,46 +9,11 @@
 //TODO: save asset / update at each time --> complex data structure.. idk what.. . 
 module.exports = {
 
+
+
 	attributes: {
-        amount: {
-            type: 'float',
-        },
-        amountOnOrders: {
-            type: 'float',
-        },
-        symbol: {
-            type: 'string',
-        },
-        conversionArray: {
-            type: 'json',
-        },
-        user: {
-            model: 'user'
-        }
-    },
-
-    afterCreate: function (post, next) {
-        // set message.user = to appropriate user model
-        Asset.getOne(post.user)
-        .spread(function(user) {
-            post.user = user;
-            next(null, post);
-        });
-    },
-
-    getAll: function() {
-        return Asset.find()
-        .sort({createdAt: 'asc'})
-        .then(function (models) {
-            return [models];
-        });
-    },
-
-    getOne: function(id) {
-        return Asset.findOne(id)
-        .then(function (model) {
-            return [model];
-        });
+        
     }
+
 };
 

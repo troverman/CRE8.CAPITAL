@@ -79,8 +79,6 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "            <h4>Community Analysts</h4>\n" +
     "            <p style=\"font-style:italic;color:gray\">We all thrive when we share intelligence. Earn Tokens for Contribution.</p>\n" +
-    "\n" +
-    "\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"col-sm-6\">\n" +
@@ -362,23 +360,22 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "<div ng-show=\"!currentUser\">\n" +
     "\n" +
-    "	<div class=\"intro\" style=\"\">\n" +
+    "	<div class=\"intro\" style=\"margin-top:-50px\">\n" +
     "	    <div class=\"intro-container\">\n" +
     "	        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "	            <symbol id=\"intro-desktop-text\">\n" +
-    "	                <text style=\"font-size:62px;font-family:Titillium Web,Helvetica,Arial,sans-serif;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
-    "	                <text style=\"font-size:22px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
+    "	                <text class=\"headerText\" style=\"font-size:62px;font-family:Titillium Web,Helvetica,Arial,sans-serif;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
+    "	                <text class=\"subheaderText\" text-anchor=\"middle\" x=\"960\" y=\"550\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
     "	            </symbol>  \n" +
     "	            <div class=\"intro-shade\"></div>  \n" +
     "	        </svg> \n" +
     "	        <div class=\"box-with-text\">\n" +
     "	            <div class=\"text-fill\">\n" +
-    "	                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"https://s3-us-west-2.amazonaws.com/voetr/washington.mp4\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
+    "	                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"{{video}}\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
     "	            </div>\n" +
     "	            <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "	                <rect width=\"100%\" height=\"100%\" mask=\"url(#intro-desktop-mask)\" class=\"shape--fill\"/>\n" +
     "	                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
-    "	                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
     "	            </svg> \n" +
     "	        </div>\n" +
     "	    </div>\n" +
@@ -392,6 +389,27 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "       	<!--<p style=\"font-style:italic;color:gray\">Always growing and learning, CRE8 consists of a companies and individuals spanning the globe.</p>-->\n" +
     "        <!--<p style=\"font-style:italic;color:gray\">This network of intelligence spans the globe. A strong team.</p>-->\n" +
     "	    <div class=\"spacing-50\"></div>\n" +
+    "	    <div class=\"block\">\n" +
+    "            <div class=\"shape\">\n" +
+    "                <div class=\"cube outer\">\n" +
+    "                    <div class=\"side left\"></div>\n" +
+    "                    <div class=\"side right\"></div>\n" +
+    "                    <div class=\"side top\"></div>\n" +
+    "                    <div class=\"side bottom\"></div>\n" +
+    "                    <div class=\"side front\"></div>\n" +
+    "                    <div class=\"side back\"></div>\n" +
+    "                    <div class=\"cube\">\n" +
+    "                        <div class=\"side left\"></div>\n" +
+    "                        <div class=\"side right\"></div>\n" +
+    "                        <div class=\"side top\"></div>\n" +
+    "                        <div class=\"side bottom\"></div>\n" +
+    "                        <div class=\"side front\"></div>\n" +
+    "                        <div class=\"side back\"></div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "      	<div class=\"spacing-50\"></div>\n" +
     "	</div>\n" +
     "	\n" +
     "	<div class=\"container\" id=\"about\">\n" +
@@ -432,6 +450,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "			</div>\n" +
     "			<div class=\"col-sm-6\" style=\"text-align:right\">\n" +
+    "				<!--\n" +
     "				<div class=\"block\">\n" +
     "                    <div class=\"shape\">\n" +
     "                        <div class=\"cube outer\">\n" +
@@ -452,6 +471,7 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
+    "            	-->\n" +
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
@@ -641,6 +661,10 @@ angular.module("market/index.tpl.html", []).run(["$templateCache", function($tem
     "		<div class=\"card\">\n" +
     "			<div style=\"padding:16px\">\n" +
     "				<h1>{{market}} Information</h1>\n" +
+    "				<!--GET ASSET FROM MARKET-->\n" +
+    "				<!--:p-->\n" +
+    "				<p>{{asset.description}}</p>\n" +
+    "				{{asset.information}}\n" +
     "				<h5>{{vector.data.length}}</h5>\n" +
     "                <cytoscape graph-ready=\"graphReady\" graph-options=\"directedGraphOptions\" graph-elements=\"directedGraphElements\" graph-layout=\"directedGraphLayout\" graph-style=\"directedGraphStyle\"></cytoscape>\n" +
     "			</div>\n" +
@@ -1037,20 +1061,22 @@ angular.module("markets/index.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "<div class=\"container\">\n" +
     "\n" +
-    "	<!--\n" +
+    "\n" +
+    "\n" +
+    "	<!--UNITY-->\n" +
     "	<div class=\"row\">\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(60000,'BTC')\">1min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(300000,'BTC')\">5min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(1800000,'BTC')\">30min</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(3600000,'BTC')\">1hr</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(7200000,'BTC')\">2hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(14400000,'BTC')\">4hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(21600000,'BTC')\">6hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(43200000,'BTC')\">12hrs</p>\n" +
-    "		<p class=\"btn btn-default\" ng-click=\"selectTime(86400000,'BTC')\">24hrs</p>\n" +
+    "		<div class=\"col-xs-6\" ng-repeat=\"asset in assets\">\n" +
+    "			<div class=\"card\" style=\"min-height:150px;max-height:150px;overflow:auto\">\n" +
+    "				<div style=\"padding:16px\">\n" +
+    "					<h3><a href=\"/market/{{asset.string}}\" ui-sref=\"market({path:asset.string})\">{{asset.string}}</a></h3>\n" +
+    "					<p>{{asset.description}}</p>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "	</div>\n" +
     "\n" +
-    "	<div class=\"spacing-15\"></div>\n" +
+    "\n" +
+    "	<!--\n" +
     "\n" +
     "	<div class=\"row\">\n" +
     "		<p class=\"btn btn-default\" ng-click=\"solvePortfolio('60000', 100)\">Solve</p>\n" +
@@ -1387,7 +1413,10 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                <span class=\"icon-bar\"></span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "            </button>\n" +
-    "            <a class=\"navbar-brand\" href=\"/\" ui-sref=\"home\"><img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">CRE8.CAPITAL</a>\n" +
+    "            <a class=\"navbar-brand\" href=\"/\" ui-sref=\"home\">\n" +
+    "                <!--<img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">-->\n" +
+    "                CRE8.CAPITAL\n" +
+    "            </a>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <md-progress-linear ng-if=\"stateIsLoading\" md-mode=\"indeterminate\"></md-progress-linear>\n" +

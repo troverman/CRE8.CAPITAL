@@ -599,6 +599,7 @@ module.exports = {
 	populateStocks: function(){
 
 		console.log('populateStocks');
+
 		//tokenize all method calls as practice; design pattern
 
 		//ALPHA VANTAGE API
@@ -628,21 +629,70 @@ module.exports = {
 					if (err) throw err;
 
 					var array = data.toString().split("\n");
+					array.pop();array.pop();
 				    for(i in array) {
+				    	
 				    	var assetInformation = array[i].split('|');
+
+				    	//FORMALZE TO ALIGN WITH TOKEN MODEL
+				    	//STARTING WITH CAPITAL TO HELP THE DATA STRUCT!
 				    	var assetModel = {
-				    		string: assetInformation[1],
-				    		description:assetInformation[2],
-				    		exchange: assetInformation[3],
-				    		category: assetInformation[4],
-				    		status:assetInformation[8],
-				    		cqsSymbol:assetInformation[9],
-				    		nasdaqSymbol:assetInformation[10]
+				    		string: 'NASDEQ+'+assetInformation[1],
+			    			description: assetInformation[2],
+				    		information:{
+				    			symbols:{
+					    			symbol: assetInformation[1],
+					    			cqsSymbol: assetInformation[9],
+					    			nasdaqSymbol: assetInformation[10],
+					    		},
+					    		//PERHAPS ENCODE EXCHANGE TYPE INTO STRING.. BONDS ETC --> UNIFY WITH CRE8 MANIFOLD
+				    			exchange: assetInformation[3],
+				    			category: assetInformation[4],
+				    			status: assetInformation[8],
+				    			inCirculation:null,
+								markets: null,
+				    		},
+							protocols:['CRE8','NASDEQ'],
+							logic:{transferrable:true}
 				    	};
 				    	//Nasdaq Traded|Symbol|Security Name|Listing Exchange|Market Category|ETF|Round Lot Size|Test Issue|Financial Status|CQS Symbol|NASDAQ Symbol|NextShares
-				    	console.log(assetModel)
-				    }
+				    	//console.log(assetModel);
 
+				    	(function(assetModel) {
+					    	Asset.find({string:assetModel.string}).then(function(assetModels){
+					    		if (assetModels.length == 0){
+					    			Asset.create(assetModel).then(function(newAssetModel){console.log(newAssetModel)})
+					    		}
+					    	});
+						})(assetModel);
+
+
+						//FXN TO COMPUTE 'MARKET' FROM ORDERS 
+
+
+				    	//TRUST ME :)
+						//marketmaodel?
+						//have to fund account.. 
+				    	var connectionModel = {
+				    		modelAlpha:'NASDEQ+USD',
+				    		modelBeta:assetModel.string,
+				    	};
+				    	//console.log(connectionModel)
+				    	//Connection.create(connectionModel);
+
+				    	var orderModel = {
+				    		connection:1,
+				    		setAlpha:1,
+				    		setBeta:2,
+				    	};
+				    	//Order.create(orderModel)
+
+				    	//USD-NASDEX...
+				    	//Market.create
+				    	//MarketPair.create()
+				    	//Connection.create()
+
+				    }
 
 				});
 
@@ -651,18 +701,29 @@ module.exports = {
 
 		};
 
+		function nyseConnect(){};
+
+		//function tseConnect(){};
+		//Tokyo Stock Exchange, Japan
+
+		//function tsxConnect(){};
+		//Toronto Stock Exchange, Canada
+
+		//Bombay Stock Exchange, India
+		//Shenzhen Stock Exchange, China
+		//London Stock Exchange, United Kingdom
+		//Euronext, Eurozone
+		//Hong Kong Stock Exchange, Hong Kong
+		//Shanghai Stock Exchange, China
+
+		//https://en.wikipedia.org/wiki/List_of_stock_exchanges
+
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/options.txt
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxoptions.txt
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxtraded.txt
 
 		nasdaqConnect('SymbolDirectory','nasdaqtraded.txt');
-
-
-
-
-
-
 
 		//var model = {url: nasdeqCsv};
 		//request(model, function (error, response, body) {
@@ -672,14 +733,14 @@ module.exports = {
 
 		//token and market
 		//replace token with Asset. 
-		var tokenModel = {
-			string:'SYMBOL',
-			description:'',
-			context:'',
-			exchange:'',
-			information:'',
+		//var tokenModel = {
+		//	string:'SYMBOL',
+		//	description:'',
+		//	context:'',
+		//	exchange:'',
+		//	information:'',
 			//computed matrix?
-		};
+		//};
 
 	},
 

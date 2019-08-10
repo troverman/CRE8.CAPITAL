@@ -12,20 +12,22 @@
 
 <div class="container">
 
-	<!--
+
+
+	<!--UNITY-->
 	<div class="row">
-		<p class="btn btn-default" ng-click="selectTime(60000,'BTC')">1min</p>
-		<p class="btn btn-default" ng-click="selectTime(300000,'BTC')">5min</p>
-		<p class="btn btn-default" ng-click="selectTime(1800000,'BTC')">30min</p>
-		<p class="btn btn-default" ng-click="selectTime(3600000,'BTC')">1hr</p>
-		<p class="btn btn-default" ng-click="selectTime(7200000,'BTC')">2hrs</p>
-		<p class="btn btn-default" ng-click="selectTime(14400000,'BTC')">4hrs</p>
-		<p class="btn btn-default" ng-click="selectTime(21600000,'BTC')">6hrs</p>
-		<p class="btn btn-default" ng-click="selectTime(43200000,'BTC')">12hrs</p>
-		<p class="btn btn-default" ng-click="selectTime(86400000,'BTC')">24hrs</p>
+		<div class="col-xs-6" ng-repeat="asset in assets">
+			<div class="card" style="min-height:150px;max-height:150px;overflow:auto">
+				<div style="padding:16px">
+					<h3><a href="/market/{{asset.string}}" ui-sref="market({path:asset.string})">{{asset.string}}</a></h3>
+					<p>{{asset.description}}</p>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="spacing-15"></div>
+
+	<!--
 
 	<div class="row">
 		<p class="btn btn-default" ng-click="solvePortfolio('60000', 100)">Solve</p>

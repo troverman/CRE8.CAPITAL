@@ -13,7 +13,7 @@ angular.module( 'investing.nav', [
         $mdSidenav('login').close();
         $mdSidenav('markets').close();
         $mdSidenav('nav').close();
-        $mdSidenav('subNav').close();
+        //$mdSidenav('subNav').close();
     });
 
     $rootScope.tradingPairs = [
@@ -94,7 +94,7 @@ angular.module( 'investing.nav', [
     $rootScope.loginToggle = function(){$mdSidenav('nav').close();$mdSidenav('login').toggle();};
     $rootScope.marketsToggle = function(){$mdSidenav('markets').toggle()};
     $rootScope.navToggle = function(){$mdSidenav('nav').toggle()};
-    $rootScope.subNavToggle = function(){$mdSidenav('subNav').toggle()};
+    //$rootScope.subNavToggle = function(){$mdSidenav('subNav').toggle()};
     $scope.isActive = function (viewLocation) { return viewLocation === $location.path()};
 
 }]);

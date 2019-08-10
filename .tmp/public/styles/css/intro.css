@@ -131,16 +131,16 @@ svg {
 
 .intro-shade {
   background: rgba(0,0,0,0.5);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  z-index: -1;
 }
 
-.shape--fill {fill:rgba(0,0,0,0.25);}
+.shape--fill {fill:rgba(0,0,0,0.55);}
 
 .svg-defs {
   width:0;
@@ -162,7 +162,7 @@ svg {
 .text--transparent {
   fill:rgba(255,255,255,0.75);
   font-family: 'Barlow', sans-serif;
-  letter-spacing: 1px;
+  letter-spacing: 8px;
 }
 
 .video {
@@ -174,7 +174,4 @@ svg {
   min-height:100%;
   overflow:hidden;
   z-index:-5
-}
-.intro-desktop-text{
-  zoom:.1;
 }

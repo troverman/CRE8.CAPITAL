@@ -12,6 +12,13 @@ angular.module( 'investing.market', [
 		},
         resolve:{
            
+
+            asset: ['$stateParams', 'AssetModel', function($stateParams, AssetModel) {
+                return AssetModel.getSome({limit:1,skip:0,sort:'createdAt DESC',string:$stateParams.path.toUpperCase()});
+            }],
+
+            //marbet -- by asset
+
             orders: ['$stateParams', 'OrderModel', function($stateParams, OrderModel) {
                 return OrderModel.getSome(500, 0, 'createdAt DESC', $stateParams.path.toUpperCase(), null);
             }],
@@ -21,7 +28,9 @@ angular.module( 'investing.market', [
 	});
 }])
 
-.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams', 'AnalysisModel', 'config', 'DataModel', 'orders', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, config, DataModel, orders, titleService ) {
+.controller( 'MarketCtrl', ['$rootScope', '$sailsSocket', '$scope', '$stateParams',  'AnalysisModel', 'asset', 'config', 'DataModel', 'orders', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, $stateParams, AnalysisModel, asset, config, DataModel, orders, titleService ) {
+
+    $scope.asset = asset;
 
     $scope.market = $stateParams.path.toUpperCase();
 
@@ -342,36 +351,39 @@ angular.module( 'investing.market', [
 
         DataModel.getData(100, 0, 'createdAt DESC', asset1, asset2, delta).then(function(model){
 
-            var column = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset2);
-            var column1 = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset1);
+            if (model.length != 0){
 
-            $scope.matrix[row].data[column].data = parseFloat(model[0].price);
-            $scope.matrix[row1].data[column1].data = parseFloat(model[0].price);
+                var column = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset2);
+                var column1 = $scope.matrix.map(function(obj){return obj.name}).indexOf(asset1);
+
+                $scope.matrix[row].data[column].data = parseFloat(model[0].price);
+                $scope.matrix[row1].data[column1].data = parseFloat(model[0].price);
 
 
-            if ($scope.market == asset1){
-                $scope.chart.series.push({
-                    id: asset1+asset2,
-                    name: asset1.toUpperCase() + ' | ' + asset2.toUpperCase(),
-                    lineWidth: 1.2, 
-                    color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
-                    type: 'area',
-                    data: model.map(function(obj){
-                        return [parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.percentChange)]
-                    }),
-                });
-            }
-            if ($scope.market == asset2){
-                $scope.chart.series.push({
-                    id: asset1+asset2,
-                    name: asset1.toUpperCase() + ' | ' + asset2.toUpperCase(),
-                    lineWidth: 1.2, 
-                    color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
-                    type: 'area',
-                    data: model.map(function(obj){
-                        return [parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.percentChange)]
-                    }),
-                });
+                if ($scope.market == asset1){
+                    $scope.chart.series.push({
+                        id: asset1+asset2,
+                        name: asset1.toUpperCase() + ' | ' + asset2.toUpperCase(),
+                        lineWidth: 1.2, 
+                        color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+                        type: 'area',
+                        data: model.map(function(obj){
+                            return [parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.percentChange)]
+                        }),
+                    });
+                }
+                if ($scope.market == asset2){
+                    $scope.chart.series.push({
+                        id: asset1+asset2,
+                        name: asset1.toUpperCase() + ' | ' + asset2.toUpperCase(),
+                        lineWidth: 1.2, 
+                        color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+                        type: 'area',
+                        data: model.map(function(obj){
+                            return [parseInt(new Date(obj.createdAt).getTime()), parseFloat(obj.percentChange)]
+                        }),
+                    });
+                }
             }
 
         });
@@ -436,16 +448,18 @@ angular.module( 'investing.market', [
     var index = $scope.matrix.map(function(obj){return obj.name}).indexOf($scope.market);
     $scope.vector = $scope.matrix[index];
 
-    for (x in $scope.vector.data){
-        var nodeModel = {
-            group:'nodes',
-            data:{
-                id:$scope.vector.data[x].name,
-                name:$scope.vector.data[x].name
-            }
-        }; 
-        console.log(nodeModel)
-        $scope.directedGraphElements[$scope.vector.data[x].name] = nodeModel;
+    if ($scope.vector){
+        for (x in $scope.vector.data){
+            var nodeModel = {
+                group:'nodes',
+                data:{
+                    id:$scope.vector.data[x].name,
+                    name:$scope.vector.data[x].name
+                }
+            }; 
+            console.log(nodeModel)
+            $scope.directedGraphElements[$scope.vector.data[x].name] = nodeModel;
+        }
     }
 
     for (x in Object.keys($scope.directedGraphElements)){

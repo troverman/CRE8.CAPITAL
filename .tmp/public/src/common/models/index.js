@@ -1,5 +1,6 @@
 angular.module('models', [
 	'models.analysis',
+	'models.asset',
 	'models.data',
 	'models.network',
 	'models.order',

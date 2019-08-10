@@ -34,6 +34,9 @@ angular.module( 'investing.home', [
     $scope.btcValue = 0;
     $scope.btcOrderValue = 0;
 
+    $scope.videoList = ['https://s3-us-west-2.amazonaws.com/voetr/washington.mp4', 'videos/geometry.mp4', 'videos/earth.mp4', 'videos/cube.mp4']
+    $scope.video = $scope.videoList[Math.floor(Math.random()*$scope.videoList.length)];
+        
     //EXAMPLE
     //DataModel.getExchangeMap().then(function(data){
     //    console.log(data);

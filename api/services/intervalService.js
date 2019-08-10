@@ -1381,9 +1381,9 @@ module.exports.intervalService = function(){
 
 
 
+	//TODO 
 
-
-	dataService.populateStocks();
+	//dataService.populateStocks();
 
 
 

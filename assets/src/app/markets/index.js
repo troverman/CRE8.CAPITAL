@@ -15,11 +15,14 @@ angular.module( 'investing.markets', [
                 //return DataModel.getMarketImage();
                 return null;
             }],
+            assets: ['AssetModel', function(AssetModel) {
+                return AssetModel.getSome({limit:10000, skip:0, sort:'string ASC'});
+            }]
         }
 	});
 }])
 
-.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'config', 'DataModel', 'marketImage', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, config, DataModel, marketImage, titleService ) {
+.controller( 'MarketsCtrl', ['$rootScope', '$sailsSocket', '$scope', 'AnalysisModel', 'assets', 'config', 'DataModel', 'marketImage', 'titleService', function MarketsController( $rootScope, $sailsSocket, $scope, AnalysisModel, assets, config, DataModel, marketImage, titleService ) {
 	titleService.setTitle('Markets | CRE8.CAPITAL');
     $scope.marketImage = marketImage;
     $scope.selectedDelta = '60000';
@@ -28,6 +31,12 @@ angular.module( 'investing.markets', [
         $scope.marketImage = data;
         console.log($scope.marketImage);
     });
+
+    //assets ~ tokens 
+    //--> asset is better marketing LOL
+
+    $scope.assets = assets;
+    console.log(assets);
 
     //STORE AS VECTOR
     //MATRIX - VECTOR SET WITH 1 TRAVERSAL
