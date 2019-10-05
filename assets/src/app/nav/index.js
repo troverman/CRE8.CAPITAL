@@ -5,9 +5,7 @@ angular.module( 'investing.nav', [
     
     $scope.currentUser = config.currentUser;
 
-    $rootScope.$on("$stateChangeSuccess", function() {
-        window.scrollTo(0, 0);
-    });
+    $rootScope.$on("$stateChangeSuccess", function() {window.scrollTo(0, 0);});
 
     $rootScope.$on("$stateChangeStart", function() {
         $mdSidenav('login').close();
@@ -91,9 +89,9 @@ angular.module( 'investing.nav', [
         'BCN/XMR',
     ];
 
-    $rootScope.loginToggle = function(){$mdSidenav('nav').close();$mdSidenav('login').toggle();};
-    $rootScope.marketsToggle = function(){$mdSidenav('markets').toggle()};
-    $rootScope.navToggle = function(){$mdSidenav('nav').toggle()};
+    $rootScope.loginToggle = function(){$mdSidenav('nav').close();$mdSidenav('markets').close();$mdSidenav('login').toggle();};
+    $rootScope.marketsToggle = function(){$mdSidenav('login').close();$mdSidenav('nav').close();$mdSidenav('markets').toggle()};
+    $rootScope.navToggle = function(){$mdSidenav('login').close();$mdSidenav('markets').close();$mdSidenav('nav').toggle()};
     //$rootScope.subNavToggle = function(){$mdSidenav('subNav').toggle()};
     $scope.isActive = function (viewLocation) { return viewLocation === $location.path()};
 

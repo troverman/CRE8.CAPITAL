@@ -661,44 +661,84 @@ module.exports = {
 				    	(function(assetModel) {
 					    	Asset.find({string:assetModel.string}).then(function(assetModels){
 					    		if (assetModels.length == 0){
-					    			Asset.create(assetModel).then(function(newAssetModel){console.log(newAssetModel)})
+					    			Asset.create(assetModel).then(function(newAssetModel){
+					    				console.log(newAssetModel);
+					    			})
 					    		}
+
+					    		//FXN TO COMPUTE 'MARKET' FROM ORDERS 
+						    	//TRUST ME :)
+						    	var associationModel = {
+						    		//source, target
+						    		//associatedModels
+						    		associatedModels:[{
+					    				id:assetModels[0].id, 
+					    				type:'ASSET', 
+					    				parameters:[{
+					    					label:'source'
+					    				}],
+					    			},
+					    			{
+					    				id:'USD', 
+					    				type:'ASSET', 
+					    				parameters:[{
+					    					label:'target'
+					    				}],
+					    			}],
+						    		connection:{
+						    			type:'NASDEQ EXHANGE',
+						    			parameters:{
+						    				config:{
+						    					nodeParameters:true,
+						    					modelParameters:true,
+						    				},
+						    				//attributes:{
+						    				//	direction:{type:'',},
+						    				//},
+						    				associatedModels:[{
+							    				attributes:{
+							    					label:{type:''},
+							    				},
+						    				}],
+						    				model:[{
+						    					bids:{type:[]},
+						    					asks:{type:[]}
+						    				}],
+						    				//logic:[],
+						    				//mapping:[],
+						    				//reduction:[]
+					    				}
+						    		},
+						    		parameters:[{
+						    			bids:[],
+						    			asks:[],
+						    		}],
+						    	};
+
+						    	//Association.create(associationModel);
+
+						    	//USD-NASDEX
+						    	//Asset (USD)
+						    		//Market (USD-ETH)
+						    			//Connection 
+						    	//Model
+						    		//Connection
+						    			//Association
+						    				//Validation
+						    	//Asset
+						    		//Connection
+						    			//Market ( Association )
+						    				//Order
+						    	//{}={}
+						    	//context:{}
+						    	//(element, multiDContextObj);
+
 					    	});
 						})(assetModel);
-
-
-						//FXN TO COMPUTE 'MARKET' FROM ORDERS 
-
-
-				    	//TRUST ME :)
-						//marketmaodel?
-						//have to fund account.. 
-				    	var connectionModel = {
-				    		modelAlpha:'NASDEQ+USD',
-				    		modelBeta:assetModel.string,
-				    	};
-				    	//console.log(connectionModel)
-				    	//Connection.create(connectionModel);
-
-				    	var orderModel = {
-				    		connection:1,
-				    		setAlpha:1,
-				    		setBeta:2,
-				    	};
-				    	//Order.create(orderModel)
-
-				    	//USD-NASDEX...
-				    	//Market.create
-				    	//MarketPair.create()
-				    	//Connection.create()
-
 				    }
-
 				});
-
 				return ftp.end();
 			});
-
 		};
 
 		function nyseConnect(){};
