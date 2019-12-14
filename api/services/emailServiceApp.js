@@ -5,16 +5,20 @@ var mailgun = require('mailgun-js')({
 	domain: sails.config.mailgun.domain})
 	.messages();
 
+//EMAIL SERVICE APP
+	//PROVIDER: MAILGUN SERVICE APP
 module.exports = {
+	
+	//TODO: DYNAMIC DB LOAD VS FS
 	loadTemplates: function(){
 		var that = this;
 		var templateFileNames;
-		return utilsService.promisify(fs.readdir, "./views/email/")
+		return utilityServiceApp.promisify(fs.readdir, "./views/email/")
 			.then(function(fileNames){
 				templateFileNames = fileNames.map(function(fileName){return fileName.split(".").shift()});
 				return Promise.all(
 					fileNames.map(function(fileName){
-						return utilsService.promisify(fs.readFile, "./views/email/" + fileName);
+						return utilityServiceApp.promisify(fs.readFile, "./views/email/" + fileName);
 					})
 				)
 			})
@@ -36,7 +40,7 @@ module.exports = {
 			subject: subject,
 			html: that.templates[template](data)
 		}
-		return utilsService.promisify(mailgun.send.bind(mailgun), sendData)
+		return utilityServiceApp.promisify(mailgun.send.bind(mailgun), sendData)
 	},
 
 	prepareTemplate: function(template, data){

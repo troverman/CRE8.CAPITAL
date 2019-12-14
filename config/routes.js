@@ -47,7 +47,6 @@ module.exports.routes = {
   /**
    * Market routes
    */
-  'get /api/market': 'DataController.getCurrency',
 
   /**
    * Data routes
@@ -57,8 +56,6 @@ module.exports.routes = {
   'get /api/data/marketImage': 'DataController.getSomeMarketImage',
   'get /api/data/latest': 'DataController.getLatestData',
   'get /api/data/map': 'DataController.getExchangeMap',
-  'get /api/data/currency': 'DataController.getCurrency',
-  'get /api/data/ticker': 'DataController.getTicker',
 
   /**
    * Order routes
@@ -85,7 +82,6 @@ module.exports.routes = {
    * User routes
    */
   'get /api/user': 'UserController.getSome',
-  'get /api/user/me': 'UserController.getMine',
   'post /api/user': 'UserController.create',
   'post /api/user/:id': 'UserController.update',
 
@@ -93,14 +89,6 @@ module.exports.routes = {
    * Exchange routes
    */
 
-  /**
-   * Post routes
-   */
-  'get /api/post': 'PostController.getAll',
-  'get /api/post/:id': 'PostController.getOne',
-  'get /api/post/url/:path': 'PostController.getByUrlTitle',
-  'post /api/post': 'PostController.create',
-  'delete /api/post/:id': 'PostController.destroy',
 
   '/.well-known/acme-challenge/6vMcD5bHdA1IbOn59yq6ms_wEF_h38L-rrOhjlJOKNI': 'HomeController.ssl',
 

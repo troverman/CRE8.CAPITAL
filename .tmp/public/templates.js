@@ -2,23 +2,22 @@ angular.module("templates-app", ["about/index.tpl.html", "account/index.tpl.html
 
 angular.module("about/index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/index.tpl.html",
-    "<div class=\"intro\" style=\"\">\n" +
+    "<div class=\"intro\" style=\"margin-top:-50px\">\n" +
     "    <div class=\"intro-container\">\n" +
     "        <svg class=\"svg-defs\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "            <symbol id=\"intro-desktop-text\">\n" +
-    "                <text style=\"font-size:108px;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
-    "                <text style=\"font-size:28px;\" text-anchor=\"middle\" x=\"960\" y=\"570\" dy=\".35em\" class=\"medium-text\">ABOUT</text> \n" +
+    "                <text class=\"headerText\" style=\"font-size:62px;font-family:Titillium Web,Helvetica,Arial,sans-serif;\" text-anchor=\"middle\" x=\"960\" y=\"488\" dy=\".35em\" class=\"medium-text\">CRE8.CAPITAL</text> \n" +
+    "                <text class=\"subheaderText\" text-anchor=\"middle\" x=\"960\" y=\"550\" dy=\".35em\" class=\"medium-text\">MULTIDIMENSIONAL CAPITAL PARTNERS</text> \n" +
     "            </symbol>  \n" +
     "            <div class=\"intro-shade\"></div>  \n" +
     "        </svg> \n" +
     "        <div class=\"box-with-text\">\n" +
     "            <div class=\"text-fill\">\n" +
-    "                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"https://www.cre8.xyz/videos/galaxys.mp4\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
+    "                <video itemscope itemtype=\"VideoObject\" class=\"video\" src=\"{{video}}\" preload=\"auto\"autoplay=\"autoplay\" loop=\"loop\" muted=\"muted\"></video>\n" +
     "            </div>\n" +
     "            <svg class=\"svg-inverted-mask\" viewBox=\"0 0 1920 1080\" viewPort=\"0 0 1920 1080\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
     "                <rect width=\"100%\" height=\"100%\" mask=\"url(#intro-desktop-mask)\" class=\"shape--fill\"/>\n" +
     "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-text\" class=\"text--transparent\"></use>\n" +
-    "                <use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"#intro-desktop-novo\" class=\"text--transparent\"></use>\n" +
     "            </svg> \n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -35,7 +34,6 @@ angular.module("about/index.tpl.html", []).run(["$templateCache", function($temp
     "    </div>\n" +
     "    <div class=\"spacing-50\"></div>\n" +
     "</div>\n" +
-    "\n" +
     "\n" +
     "<!--\n" +
     "<div style=\"color:white;background-color:black\">\n" +
@@ -530,36 +528,38 @@ angular.module("home/index.tpl.html", []).run(["$templateCache", function($templ
     "\n" +
     "		<div style=\"background:url('https://source.unsplash.com/1600x900/?finance,code,data,forex')\" class=\"imageContainerSmall\">\n" +
     "            <div style=\"background:rgba(0,0,0,0.75)\" class=\"imageContainerSmallDiv\">  \n" +
-    "                <div style=\"margin-top: auto;margin-bottom: auto;\">\n" +
+    "                <div style=\"margin-top: auto;margin-bottom: auto;text-align:center\">\n" +
     "                    <div class=\"container\">\n" +
-    "                        <h1 style=\"text-align:left;font-size:35px;color:rgba(255,255,255,0.9);font-weight:400;\">Transparent Orders</h1>\n" +
-    "                        <h5 style=\"color:white;text-align:left\">Accountability in Investment</h5>\n" +
+    "                        <h1 style=\";font-size:35px;color:rgba(255,255,255,0.9);font-weight:400;\">Transparent Orders</h1>\n" +
+    "                        <h5 style=\"color:white;\">Accountability in Investment</h5>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "		<div class=\"spacing-10\"></div>\n" +
-    "		<div style=\"padding:16px\">\n" +
-    "			<table class=\"table table-inverse table-hover\">\n" +
-    "			    <thead>\n" +
-    "					<tr>\n" +
-    "						<th>Market</th>\n" +
-    "						<th>Type</th>\n" +
-    "						<th></th>\n" +
-    "						<th></th>\n" +
-    "						<th>Date</th>\n" +
-    "					</tr>\n" +
-    "			    </thead>\n" +
-    "			    <tbody>\n" +
-    "					<tr ng-repeat=\"order in orders\">\n" +
-    "						<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
-    "						<td>{{order.type}}</td>\n" +
-    "						<td>{{order.amount}} {{order.asset2}}</td>\n" +
-    "						<td>{{order.price}} {{order.asset1}}</td>\n" +
-    "						<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
-    "					</tr>\n" +
-    "			    </tbody>\n" +
-    "			</table>\n" +
+    "		<div class=\"\">\n" +
+    "			<div style=\"padding:16px\">\n" +
+    "				<table class=\"table table-inverse table-hover\">\n" +
+    "				    <thead>\n" +
+    "						<tr>\n" +
+    "							<th>Market</th>\n" +
+    "							<th>Type</th>\n" +
+    "							<th></th>\n" +
+    "							<th></th>\n" +
+    "							<th>Date</th>\n" +
+    "						</tr>\n" +
+    "				    </thead>\n" +
+    "				    <tbody>\n" +
+    "						<tr ng-repeat=\"order in orders\">\n" +
+    "							<td><a style=\"color:gray\" href=\"market/{{order.asset1}}/{{order.asset2}}\">{{order.asset1}}/{{order.asset2}}</a></td>\n" +
+    "							<td>{{order.type}}</td>\n" +
+    "							<td>{{order.amount}} {{order.asset2}}</td>\n" +
+    "							<td>{{order.price}} {{order.asset1}}</td>\n" +
+    "							<td>{{order.createdAt | date :  \"y MM-dd hh:mm.ss a\"}}</td>\n" +
+    "						</tr>\n" +
+    "				    </tbody>\n" +
+    "				</table>\n" +
+    "			</div>\n" +
     "		</div>\n" +
     "\n" +
     "		<div class=\"spacing-50\"></div>\n" +
@@ -1413,7 +1413,7 @@ angular.module("nav/index.tpl.html", []).run(["$templateCache", function($templa
     "                <span class=\"icon-bar\"></span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "            </button>\n" +
-    "            <a class=\"navbar-brand\" href=\"/\" ui-sref=\"home\">\n" +
+    "            <a style=\"padding-left:10px\" class=\"navbar-brand\" href=\"/\" ui-sref=\"home\">\n" +
     "                <!--<img src=\"images/tesseract.png\" style=\"height:32px;float:left;margin-top:-3px;margin-right:10px\">-->\n" +
     "                CRE8.CAPITAL\n" +
     "            </a>\n" +

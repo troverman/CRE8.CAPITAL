@@ -1,5 +1,3 @@
-var fs = require("fs");
-
 module.exports = {
 	/*convert function w/ function(err,result) style callback to promise*/
 	promisify: function(){

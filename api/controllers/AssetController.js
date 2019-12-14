@@ -1,14 +1,7 @@
 module.exports = {
 
-	getSome: function(req, res) {
-
-
-		//DEPRECIATE --> UNIFY WITH CREATE BALANCE MAPPING --> STORE COMPUED STRUCT SOON
-		//Asset.find({user: req.query.user})
-		//.sort('updatedAt DESC')
-		//.then(function(model){
-		//	res.json(model);
-		//});
+	//DEPRECIATE --> UNIFY WITH CREATE BALANCE MAPPING --> STORE COMPUED STRUCT SOON
+	getSome: function(req, res) {	
 
 		var limit = req.query.limit || 1;
 		var skip = req.query.skip || 0;
