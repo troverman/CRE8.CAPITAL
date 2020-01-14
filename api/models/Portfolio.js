@@ -1,8 +1,5 @@
 /**
 * Portfolio.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
 */
 
 //could be mapping asset relations - save the array every time delta 
@@ -20,19 +17,17 @@
 //the space of all portfolios
 
 
+//THIS IS BALANCE MAPPING
 module.exports = {
 
 	attributes: {
-        assetSet: {
-            type: 'json',
-        },
+        id: {type:'string'},
+        assetSet: {type: 'json'},
         //conversionArray: {
         //    type: 'json',
         //    required: true
         //},
-        user: {
-            model: 'user'
-        }
+        user: {model: 'user'}
     },
 
     getAll: function() {

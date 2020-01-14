@@ -58,7 +58,7 @@ angular.module('angularSails.io', [])
  */
     .constant('$$sailsSDKParams', {
 
-        version: '0.11.0',  // TODO: pull this automatically from package.json during build.
+        version: '0.10.0',  // TODO: pull this automatically from package.json during build.
         platform: typeof module === 'undefined' ? 'browser' : 'node',
         language: 'javascript',
         flavor: 'angular'
@@ -122,7 +122,6 @@ angular.module('angularSails.io', [])
  */
 
     .provider('$sailsSocket', function () {
-        var _debug = false;
 
         var _socketDefaults = {
             autoConnect: true,
@@ -214,11 +213,11 @@ angular.module('angularSails.io', [])
 
                 // Name of socket request listener on the server
                 // ( === the request method, e.g. 'get', 'post', 'put', etc. )
-                var sailsEndpoint = requestCtx.method.toLowerCase();
+                var sailsEndpoint = requestCtx.method;
 
 
                 socket.emit(sailsEndpoint, requestCtx, tick(socket, function serverResponded(responseCtx) {
-                    if (_debug) console.log(responseCtx)
+                    console.log(responseCtx)
 
                     var serverResponse = new SailsResponse(requestCtx, responseCtx);
 
@@ -243,11 +242,10 @@ angular.module('angularSails.io', [])
 
                 self._requestQueue = []
 
-                self._socketOptions = angular.extend({}, _socketDefaults, options);
+                self._socketOptions = options || {}
 
                 self._socket = new TmpSocket();
 
-                if (self._socketOptions.autoConnect) self.connect();
             };
 
             SailsSocket.prototype.connect = function (url, opts) {
@@ -282,7 +280,6 @@ angular.module('angularSails.io', [])
                 self._socket.once('connect', connection.resolve);
                 self._socket.on('connecting', connection.notify);
                 self._socket.once('connect_failed', connection.reject);
-                self.connection = connection;
 
                 return connection.promise;
 
@@ -290,7 +287,7 @@ angular.module('angularSails.io', [])
 
             SailsSocket.prototype.isConnected = function () {
 
-                return this.connection && this.connection.promise.$$state.status === 1;
+                return this._socket.socket.connected;
 
             }
 
@@ -361,7 +358,7 @@ angular.module('angularSails.io', [])
 
                 response.promise.success = function (fn) {
                     response.promise.then(function (response) {
-                      if (_debug) console.log(response)
+                        console.log(response)
                       fn(response.data, response.statusCode, response.headers, request);
                     });
                     return response.promise;

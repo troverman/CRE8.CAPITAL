@@ -1,6 +1,7 @@
 module.exports = {
 
 	attributes: {
+        id: {type:'string'},
         orderBook: {
             type: 'json',
         },

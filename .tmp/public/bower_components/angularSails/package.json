@@ -1,15 +1,13 @@
 {
-  "name": "angularsails",
-  "version": "0.12.1",
+  "name": "angularSails",
+  "version": "0.0.0",
   "description": "SailsJS SDK for AngularJS",
-  "main": "dist/ngsails.io.js",
+  "main": "index.js",
   "directories": {
-    "doc": "docs",
-    "example": "example",
-    "test": "tests"
+    "doc": "docs"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt build"
   },
   "repository": {
     "type": "git",
@@ -54,6 +52,5 @@
     "grunt-ngdocs": "~0.2.1",
     "grunt-contrib-copy": "^0.5.0"
   },
-  "dependencies": {},
-  "author": ""
+  "dependencies": {}
 }

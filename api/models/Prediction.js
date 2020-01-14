@@ -8,6 +8,7 @@
 module.exports = {
 
     attributes: {
+        id:{type:'string'},
         //TODO: link to connect Data model. -- lotsa replication;
         //TODO: investigate.
         normalizeData: {

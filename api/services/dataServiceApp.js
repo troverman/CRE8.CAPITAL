@@ -7,11 +7,8 @@ var Q = require('q');
 
 module.exports = {
 
-
 	//btc connection --> send to wallet.. connect create identity.. wallet addressi,
 	//do apps need to combile to webasm? 
-
-	
 	
 	//TODO: TOKENIZE STOCKS APP
 	//TOKENIZE SYMBOL STRING AS STRING
@@ -24,208 +21,161 @@ module.exports = {
 
 	populateStocks: function(){
 
+		//META MODEL FOR ATTENTION 
+		//machieneAttention.create({
+		//	type:'populateStocks',
+		//	amount:1,
+		//	context:{}
+		//});
+
 		//tokenize all method calls as practice; design pattern
 
 		//ALPHA VANTAGE API
 		//https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=BA&apikey=3J08JZ9BNYK4JUTY
 
-		//appModel = {}
-		//reobinhood controlling mechanism
-		//SOURCE nasdaqtrader
-		//USING FTP LOL
-		//TODO: AWAIT
-		//return assets models
-		function nasdaqConnect(directory, file){
+		//THINK CASH APP / THINK ROBINHOOD
 
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/options.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxoptions.txt
+		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxtraded.txt
+		//IMPROVEMENT: REDUCE FROM LOCAL STORE
+    	//Nasdaq Traded|Symbol|Security Name|Listing Exchange|Market Category|ETF|Round Lot Size|Test Issue|Financial Status|CQS Symbol|NASDAQ Symbol|NextShares
+	 	async function nasdaqConnect(directory, file){
 			var PromiseFtp = require('promise-ftp');
 			var ftp = new PromiseFtp();
 			var fs = require('fs');
-
-			ftp.connect({host: 'ftp.nasdaqtrader.com', user: '', password: ''}).then(function (serverMessage) {
-				return ftp.get(directory+'/'+file);
-			}).then(function (stream) {
-				//console.log(stream)
-				return new Promise(function (resolve, reject) {
-					stream.once('close', resolve);
-					stream.once('error', reject);
-					stream.pipe(fs.createWriteStream('assets/data/'+file));
-				});
-			}).then(function () {
-
-				fs.readFile('assets/data/'+file, 'utf8', function(err, data) {
-					if (err) throw err;
-
-					var array = data.toString().split("\n");
-					array.pop();array.pop();
-				    for(i in array) {
-				    	
-				    	var assetInformation = array[i].split('|');
-
-				    	//FORMALZE TO ALIGN WITH TOKEN MODEL
-				    	//STARTING WITH CAPITAL TO HELP THE DATA STRUCT!
-				    	var assetModel = {
-				    		string: 'NASDEQ+'+assetInformation[1],
-			    			description: assetInformation[2],
-				    		information:{
-				    			symbols:{
-					    			symbol: assetInformation[1],
-					    			cqsSymbol: assetInformation[9],
-					    			nasdaqSymbol: assetInformation[10],
-					    		},
-					    		//PERHAPS ENCODE EXCHANGE TYPE INTO STRING.. BONDS ETC --> UNIFY WITH CRE8 MANIFOLD
-				    			exchange: assetInformation[3],
-				    			category: assetInformation[4],
-				    			status: assetInformation[8],
-				    			inCirculation:null,
-								markets: null,
-				    		},
-							protocols:['CRE8','NASDEQ'],
-							logic:{transferrable:true}
-				    	};
-				    	//Nasdaq Traded|Symbol|Security Name|Listing Exchange|Market Category|ETF|Round Lot Size|Test Issue|Financial Status|CQS Symbol|NASDAQ Symbol|NextShares
-				    	//console.log(assetModel);
-
-				    	(function(assetModel) {
-					    	Asset.find({string:assetModel.string}).then(function(assetModels){
-					    		if (assetModels.length == 0){
-					    			Asset.create(assetModel).then(function(newAssetModel){
-					    				console.log(newAssetModel);
-					    			})
-					    		}
-
-
-					    		//TODO: UNIFY ORDERS AND VALIDATIONS
-					    			//TODO:EXPAND THE DEFINITION OF VALIDATION
-
-					    		//TODO: EVENT DATA MODEL....
-
-					    		//TODO: ASSOCIATION QUERY 
-
-					    		//TODO: MEMBER - MEMBER CONNECTION AND FOLLOWER UPGRADE
-
-					    		//TODO: FIX REPL.IT GENERATOR
-
-					    		//TODO: MULTI MARKET ALGS AND FUN :)
-
-								//TODO: REACT INIT FOR PROJECTS
-
-								//TODO: NOVO GOV
-
-								//TODO: DOCS FOR CREATE U2B PARTNERSHIP
-									//OR NOVO B2B
-
-								//ASSOCIATIONS OF CONNECTION TYPE MARKET
-
-					    		//FXN TO COMPUTE 'MARKET' FROM ORDERS 
-						    	//TRUST ME :)
-								//DIS IT ..
-
-								//OKAY THANKS FOR WATCHING
-								//CONNECTION(S) SOON --> POC (PROOF OF CONCEPT)
-						    	var associationModel = {
-						    		//source, target
-						    		//associatedModels
-						    		associatedModels:[{
-					    				id:assetModels[0].id, 
-					    				type:'ASSET', 
-					    				parameters:[{
-					    					label:'source'
-					    				}],
-					    			},
-					    			{
-					    				id:'USD', 
-					    				type:'ASSET', 
-					    				parameters:[{
-					    					label:'target'
-					    				}],
-					    			}],
-						    		connection:{
-						    			type:'NASDEQ EXHANGE',
-						    			parameters:{
-
-						    				config:{
-						    					nodeParameters:true,
-						    					modelParameters:true,
-						    				},
-						    				parameters:{
-						    					direction:{type:'',},
-						    				},
-						    				associatedModels:[{
-							    				parameters:{label:{type:''}},
-						    				}],
-						    				model:[{
-						    					bids:{type:[]},
-						    					asks:{type:[]}
-						    				}],
-						    				//logic:[],
-						    				//mapping:[],
-						    				//reduction:[]
-
-
-
-					    				}
-						    		},
-						    		parameters:[{
-						    			bids:[],
-						    			asks:[],
-						    		}],
-						    	};
-
-						    	//Association.create(associationModel);
-
-						    	//USD-NASDEX
-						    	//Asset (USD)
-						    		//Market (USD-ETH)
-						    			//Connection 
-						    	//Model
-						    		//Connection
-						    			//Association
-						    				//Validation
-						    	//Asset
-						    		//Connection
-						    			//Market ( Association )
-						    				//Order
-						    	//{}={}
-						    	//context:{}
-						    	//(element, multiDContextObj);
-
-					    	});
-						})(assetModel);
-				    }
-				});
-				return ftp.end();
+			var serverMesage = await ftp.connect({host: 'ftp.nasdaqtrader.com', user: '', password: ''})
+			var stream = await ftp.get(directory+'/'+file);
+			await new Promise(function (resolve, reject) {
+				stream.once('close', resolve);
+				stream.once('error', reject);
+				stream.pipe(fs.createWriteStream('assets/data/'+file));
 			});
+			var data = await fs.promises.readFile('assets/data/'+file, 'utf8');
+			var array = data.toString().split("\n");
+			array.pop();array.pop();
+			await ftp.end();
+			return array;
 		};
-
-		function nyseConnect(){};
-
+		//function nyseConnect(){};
 		//function tseConnect(){};
 		//Tokyo Stock Exchange, Japan
-
 		//function tsxConnect(){};
 		//Toronto Stock Exchange, Canada
-
 		//Bombay Stock Exchange, India
 		//Shenzhen Stock Exchange, China
 		//London Stock Exchange, United Kingdom
 		//Euronext, Eurozone
 		//Hong Kong Stock Exchange, Hong Kong
 		//Shanghai Stock Exchange, China
-
 		//https://en.wikipedia.org/wiki/List_of_stock_exchanges
 
-		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt
-		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/options.txt
-		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxoptions.txt
-		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/bxtraded.txt
+		var array = nasdaqConnect('SymbolDirectory','nasdaqtraded.txt');
 
-		nasdaqConnect('SymbolDirectory','nasdaqtraded.txt');
+	  	for(i in array) {
+	    	
+	    	var assetInformation = array[i].split('|');
+	    	var assetModel = {
+	    		string: 'NASDEQ+'+assetInformation[1],
+    			description: assetInformation[2],
+	    		information:{
+	    			symbols:{
+		    			symbol: assetInformation[1],
+		    			cqsSymbol: assetInformation[9],
+		    			nasdaqSymbol: assetInformation[10],
+		    		},
+		    		//PERHAPS ENCODE EXCHANGE TYPE INTO STRING.. BONDS ETC --> UNIFY WITH CRE8 MANIFOLD
+	    			exchange: assetInformation[3],
+	    			category: assetInformation[4],
+	    			status: assetInformation[8],
+	    			inCirculation:null,
+					markets: null,
+	    		},
+				protocols:['CRE8','NASDEQ'],
+				logic:{transferrable:true}
+	    	};
 
-		//var model = {url: nasdeqCsv};
-		//request(model, function (error, response, body) {
-		//	console.log(error, response, body)
-		//	console.log(body);
-		//});
+	    	var assetModels = await Asset.find({string:assetModel.string})
+    		if (assetModels.length == 0){
+    			var newAssetModel = await Asset.create(assetModel);
+				console.log(newAssetModel);
+    		}
+
+    		//TODO: UNIFY ORDERS AND VALIDATIONS
+    		//TODO:EXPAND THE DEFINITION OF VALIDATION
+    		//TODO: MULTI MARKET ALGS AND FUN :)
+			//ASSOCIATIONS OF CONNECTION TYPE MARKET
+			//CONNECTION(S) SOON --> POC (PROOF OF CONCEPT)
+
+			//TODO: FXN TO COMPUTE 'MARKET' FROM ORDERS 
+	    	//TRUST ME :) -- MARKET COMBINATORIAL OBJECTS
+
+	    	var associationModel = {
+	    		//source, target
+	    		//associatedModels
+	    		associatedModels:[{
+    				id:assetModels[0].id, 
+    				type:'ASSET', 
+    				parameters:[{
+    					label:'source'
+    				}],
+    			},
+    			{
+    				id:'USD', 
+    				type:'ASSET', 
+    				parameters:[{
+    					label:'target'
+    				}],
+    			}],
+	    		connection:{
+	    			type:'NASDEQ EXHANGE',
+	    			parameters:{
+	    				config:{
+	    					nodeParameters:true,
+	    					modelParameters:true,
+	    				},
+	    				parameters:{
+	    					direction:{type:'string',},
+	    				},
+	    				associatedModels:[{
+		    				parameters:{label:{type:'string'}},
+	    				}],
+	    				model:[{
+	    					bids:{type:[]},
+	    					asks:{type:[]}
+	    				}],
+	    				//logic:[],
+	    				//mapping:[],
+	    				//reduction:[]
+    				}
+	    		},
+	    		parameters:[{
+	    			bids:[],
+	    			asks:[],
+	    		}],
+	    	};
+
+	    	//Association.create(associationModel);
+
+	    	//USD-NASDEX
+	    	//Asset (USD)
+	    		//Market (USD-ETH)
+	    			//Connection 
+	    	//Model
+	    		//Connection
+	    			//Association
+	    				//Validation
+	    	//Asset
+	    		//Connection
+	    			//Market ( Association )
+	    				//Order
+	    	//{}={}
+	    	//context:{}
+	    	//(element, multiDContextObj);
+
+	    	
+	    }
 
 		//token and market
 		//replace token with Asset. 

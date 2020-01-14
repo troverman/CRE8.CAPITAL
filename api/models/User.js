@@ -1,12 +1,13 @@
 module.exports = {
     attributes: {
+        id:{type:'string'},
         username: {
             type: 'string',
             required: true,
             unique: true
         },
         email: {
-            type: 'email',
+            type: 'string',
             required: true,
             unique: true
         },

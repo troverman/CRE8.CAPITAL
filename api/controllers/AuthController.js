@@ -1,7 +1,5 @@
 module.exports = {
- 
     login: function (req, res) {
-        //TODO
         var strategies = sails.config.passport, providers = {};
         Object.keys(strategies).forEach(function (key) {
             if (key === 'local') return;
@@ -9,22 +7,9 @@ module.exports = {
         });
         res.view({providers : providers});
     },
-
-    logout: function (req, res) {
-        req.logout();
-        res.redirect('/');
-    },
-
-
-    register: function (req, res) {
-        res.view({errors: req.flash('error')});
-    },
-
-
-    provider: function (req, res) {
-        passportApp.endpoint(req, res);
-    },
-
+    logout: function (req, res) {req.logout();res.redirect('/');},
+    register: function (req, res) {res.view({errors: req.flash('error')});},
+    provider: function (req, res) {passportApp.endpoint(req, res);},
     callback: function (req, res) {
         passportApp.callback(req, res, function (err, user) {
             req.login(user, function (err) {
@@ -38,5 +23,4 @@ module.exports = {
             });
         });
     }
-
 };

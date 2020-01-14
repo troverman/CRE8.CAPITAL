@@ -2,6 +2,12 @@
 //INTERVAL APP
 module.exports = {
 
+	//REQUIRE
+	import:{
+		//centralized fork is npm
+		//UtilityServiceApp:require'UtilityServiceApp'),
+	},
+
 	interval: function(callback, delay) {
 	    var self = this;
 	    var counter = 0;
@@ -18,6 +24,55 @@ module.exports = {
 
 
 	init:async function(){
+
+
+		//WORK HERE ! 
+		//TREE
+		function recursivePowersetDecompose(model, count, length){
+
+			//SHOULD BE LOCAL --> SHOULD HAVE KNOWN :P
+			//if(!model.count){model.count=0}
+			//model.count++;
+
+			if(!count){count=0}
+			count++;
+
+			var returnObj = [];
+			var powerSet = utilityServiceApp.getAllSubsets(model.data);
+			powerSet.shift();
+
+			for (x in powerSet){
+				var set = powerSet[x];
+				if (set.length > model.params.size && count < model.params.recursion && length != set.length ){
+					
+					//if set length == length passed in param
+					console.log(set);
+					console.log(length, set.length, model.params.size);
+					//console.log(count, model.count);
+
+					model.data=set;
+					set = recursivePowersetDecompose(model, count, set.length);
+					//returnObj.push(set);
+
+				}
+				returnObj.push(set);
+			}
+
+			return returnObj;
+
+		}
+		var treeObj = recursivePowersetDecompose({
+			//TODO: SUPERSET CODE MODEL FOR COMPOSTABILITY
+			data:['A', 'B', 'C', 'D'],// 'E', 'F', 'G', 'H'],
+			params:{
+				size:1,
+				recursion:3,
+			},
+		});
+		console.dir(treeObj, { depth: null });
+		//WORK HERE !
+
+
 
 		//TODO: UNIFY
 		//var marketImage = await marketImageApp.build();

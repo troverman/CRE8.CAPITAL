@@ -1,8 +1,6 @@
 var Q = require('q');
 const ccxt = require ('ccxt')
-
 module.exports = {
-
 	getData: async function(req, res){
 		var delta = req.query.delta;
 		var asset1 = req.query.asset1;
@@ -17,13 +15,10 @@ module.exports = {
 		Data.watch(req);
 		res.json(dataModel);
 	},
-
 	//REDUCE -- MARKET IMAGE APP
 	buildMarketImage: async function(req, res){
-
 	    const orderBookTensorObj = [];
 		const marketImage = [];
-
 		var initPromiseSet = [];
 		for (x in ccxt.exchanges){
 			if (ccxt.exchanges[x] == 'poloniex'){
