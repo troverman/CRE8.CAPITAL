@@ -1,14 +1,12 @@
-module.exports = {
-
-	getSome: async function(req,res){
-		var neuralNetworkModell = await NeuralNetwork.find().limit(req.query.limit).skip(req.query.skip).sort(req.query.sort).where(JSON.parse(req.query.filter))
-		res.json(neuralNetworkModell);
+var App = {
+	get: async function(input, output){
+		var neuralNetworkModel = await NeuralNetwork.find().limit(input.query.limit).skip(input.query.skip).sort(input.query.sort).where(JSON.parse(input.query.filter))
+		output.json(neuralNetworkModel);
 	},
-
-	create: async function (req, res) {
+	create: async function (input, output) {
 		var model = await NeuralNetwork.create(model);
 		Network.publishCreate(model.toJSON());
-		res.json(model);
+		output.json(model);
 	}
-
 };
+module.exports = App;

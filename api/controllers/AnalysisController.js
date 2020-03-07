@@ -1,128 +1,123 @@
-var Q = require('q');
-var tulind = require('tulind');
-var regression = require('regression');
-
-const tradingPairs = [
-    'XRP/BTC',
-    'ETH/BTC',
-    'BTC/USDT',
-    'LTC/BTC',
-    'BCH/BTC',
-	'STR/BTC',
-    'XRP/USDT',
-    'ETH/USDT',
-    'BCH/USDT',
-    'XMR/BTC',
-    'ZEC/BTC',
-    'LTC/USDT',
-    'DASH/BTC',
-    'ETC/BTC',
-    'XEM/BTC',
-    'ZEC/USDT',
-    'FCT/BTC',
-    'ETC/USDT',
-    'BTS/BTC',
-    'LSK/BTC',
-    'DGB/BTC',  
-    'EMC2/BTC',
-    'NXT/BTC',
-    'SC/BTC',
-    'POT/BTC',  
-    'STRAT/BTC',
-    'NXT/USDT',
-    'DOGE/BTC',
-    'DASH/USDT',
-    'XMR/USDT',
-    'BCH/ETH',
-    'ZRX/BTC',  
-    'ARDR/BTC',
-    'VTC/BTC',
-    'BTM/BTC',  
-    'OMG/BTC',
-    'MAID/BTC',
-    'VRC/BTC',  
-    'GNT/BTC',  
-    'GAME/BTC',
-    'CVC/BTC',  
-    'REP/BTC',
-    'STEEM/BTC',
-    'SYS/BTC',
-    'BCN/BTC',
-    'LBC/BTC',
-    'DCR/BTC',
-    'ZEC/ETH',
-    'REP/USDT',
-    'ETC/ETH',
-    'LTC/XMR',
-    'ZRX/ETH',
-    'GNO/BTC',
-    'PPC/BTC',
-    'GAS/BTC',
-    'BURST/BTC',
-    'PASC/BTC', 
-    'VIA/BTC',
-    'NEOS/BTC', 
-    'OMG/ETH',
-    'STORJ/BTC',
-    'GNT/ETH',
-    'CLAM/BTC', 
-    'NAV/BTC',
-    'XCP/BTC',
-    'LSK/ETH',
-    'XBC/BTC',
-    'AMP/BTC',
-    'OMNI/BTC', 
-    'EXP/BTC',
-    'GRC/BTC',
-    'SBD/BTC',
-    'NMC/BTC',
-    'GNO/ETH',
-    'CVC/ETH',
-    'NXT/XMR',
-    'ZEC/XMR',
-    'XPM/BTC',
-    'BTCD/BTC', 
-    'REP/ETH',
-    'MAID/XMR', 
-    'DASH/XMR', 
-    'HUC/BTC',
-    'STEEM/ETH',
-    'BCN/XMR',
-    'BTCD/XMR', 
-];
-
-module.exports = {
-
-	ema: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
+var App = {
+	import:{
+		Q: require('q'),
+		tulind: require('tulind'),
+		regression: require('regression'),
+	},
+	static:{
+		tradingPairs:[
+		    'XRP/BTC',
+		    'ETH/BTC',
+		    'BTC/USDT',
+		    'LTC/BTC',
+		    'BCH/BTC',
+			'STR/BTC',
+		    'XRP/USDT',
+		    'ETH/USDT',
+		    'BCH/USDT',
+		    'XMR/BTC',
+		    'ZEC/BTC',
+		    'LTC/USDT',
+		    'DASH/BTC',
+		    'ETC/BTC',
+		    'XEM/BTC',
+		    'ZEC/USDT',
+		    'FCT/BTC',
+		    'ETC/USDT',
+		    'BTS/BTC',
+		    'LSK/BTC',
+		    'DGB/BTC',  
+		    'EMC2/BTC',
+		    'NXT/BTC',
+		    'SC/BTC',
+		    'POT/BTC',  
+		    'STRAT/BTC',
+		    'NXT/USDT',
+		    'DOGE/BTC',
+		    'DASH/USDT',
+		    'XMR/USDT',
+		    'BCH/ETH',
+		    'ZRX/BTC',  
+		    'ARDR/BTC',
+		    'VTC/BTC',
+		    'BTM/BTC',  
+		    'OMG/BTC',
+		    'MAID/BTC',
+		    'VRC/BTC',  
+		    'GNT/BTC',  
+		    'GAME/BTC',
+		    'CVC/BTC',  
+		    'REP/BTC',
+		    'STEEM/BTC',
+		    'SYS/BTC',
+		    'BCN/BTC',
+		    'LBC/BTC',
+		    'DCR/BTC',
+		    'ZEC/ETH',
+		    'REP/USDT',
+		    'ETC/ETH',
+		    'LTC/XMR',
+		    'ZRX/ETH',
+		    'GNO/BTC',
+		    'PPC/BTC',
+		    'GAS/BTC',
+		    'BURST/BTC',
+		    'PASC/BTC', 
+		    'VIA/BTC',
+		    'NEOS/BTC', 
+		    'OMG/ETH',
+		    'STORJ/BTC',
+		    'GNT/ETH',
+		    'CLAM/BTC', 
+		    'NAV/BTC',
+		    'XCP/BTC',
+		    'LSK/ETH',
+		    'XBC/BTC',
+		    'AMP/BTC',
+		    'OMNI/BTC', 
+		    'EXP/BTC',
+		    'GRC/BTC',
+		    'SBD/BTC',
+		    'NMC/BTC',
+		    'GNO/ETH',
+		    'CVC/ETH',
+		    'NXT/XMR',
+		    'ZEC/XMR',
+		    'XPM/BTC',
+		    'BTCD/BTC', 
+		    'REP/ETH',
+		    'MAID/XMR', 
+		    'DASH/XMR', 
+		    'HUC/BTC',
+		    'STEEM/ETH',
+		    'BCN/XMR',
+		    'BTCD/XMR', 
+		]
+	},
+	ema: async function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
 		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange})
 
-		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
+		//TODO --> var results = analysisApp.. dataService(data, period); output.json(results)
 		//zlema
-		tulind.indicators.ema.indicator([price], [period], function(err, results) {
-			var returnData = [];
-			for (x in results[0]){
-				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x]])
-			}
-			var dataArray = [];
-			for (x in returnData){
-				dataArray.push([x, returnData[x]]);
-	    	}
-			var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+		App.import.tulind.indicators.ema.indicator([price], [period], function(err, results) {
+			var returnData, dataArray = [];
+			for (x in results[0]){returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x]])}
+			for (x in returnData){dataArray.push([x, returnData[x]]);}
+			var result = App.import.regression.polynomial(dataArray, { order: 14, precision: 100 });
 			console.log(result, result.r2, result.predict(1000), period, result.string);
-			res.json(returnData);
+			output.json(returnData);
 		});
 	},
-
-	zelma: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
+	zelma: async function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
 		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange})
 		//wma, kama, dema, tema
-		tulind.indicators.kama.indicator([price], [period], function(err, results) {
+		App.import.tulind.indicators.kama.indicator([price], [period], function(err, results) {
 			var returnData = [];
 			//reverse though data for ex, dema, tema
 			for (x in data){
@@ -130,37 +125,33 @@ module.exports = {
 					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), results[0][x-parseInt(period)]]);
 				}
 			}
-			res.json(returnData);
+			output.json(returnData);
 		});
 	},
-
-	macd: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var shortPeriod = req.query.shortPeriod;
-		var longPeriod = req.query.longPeriod;
-		var signalPeriod = req.query.signalPeriod;
-		var type = req.query.type;
-
-		dataService.getMACD(data, shortPeriod, longPeriod, signalPeriod, type).then(function(macdData){
-			var returnData = [];
-			//var macdSignal = [];
-			//var macdHistogram = [];
-			for (x in data){
-				if (x >= parseInt(longPeriod)){
-					//TODO: macd[1], macd[2]
-					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), macdData[0][x-parseInt(longPeriod)]]);
-				}
+	macd: async function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var shortPeriod = input.query.shortPeriod;
+		var longPeriod = input.query.longPeriod;
+		var signalPeriod = input.query.signalPeriod;
+		var type = input.query.type;
+		var macdData = await analysisApp.getMACD(data, shortPeriod, longPeriod, signalPeriod, type);
+		var returnData = [];
+		//var macdSignal = [];
+		//var macdHistogram = [];
+		for (x in data){
+			if (x >= parseInt(longPeriod)){
+				//TODO: macd[1], macd[2]
+				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), macdData[0][x-parseInt(longPeriod)]]);
 			}
-			res.json(returnData);
-		});
+		}
+		output.json(returnData);
 	},
-
-	tsf: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
+	tsf: async  function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
 		var price = data.map(function(obj){return obj.price});
 		var change = data.map(function(obj){return obj.percentChange})
-		tulind.indicators.tsf.indicator([price], [period], function(err, results) {
+		App.import.tulind.indicators.tsf.indicator([price], [period], function(err, results) {
 			var returnData = [];
 			for (x in results[0]){
 				if (parseInt(x)+parseInt(period) < data.length){
@@ -177,62 +168,52 @@ module.exports = {
 				}
 			}
 			var dataArray = [];
-			for (x in returnData){
-				dataArray.push([x, returnData[x]]);
-	    	}
-	    	var result = regression.polynomial(dataArray, { order: 14, precision: 100 });
+			for (x in returnData){dataArray.push([x, returnData[x]]);}
+	    	var result = App.import.regression.polynomial(dataArray, { order: 14, precision: 100 });
 			console.log(result, result.r2, result.predict(1000), period, result.string);
-			res.json(returnData);
+			output.json(returnData);
 		});
 	},
-	
-	fosc: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
-		var type = req.query.type;
-		dataService.getFOSC(data, period, type).then(function(foscData){
-			var returnData = [];
-			for (x in data){
-				if (x >= parseInt(period)){
-					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), foscData[0][x-parseInt(period)]]);
-				}
+	fosc: async function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
+		var type = input.query.type;
+		var foscData = await analysisApp.getFOSC(data, period, type);
+		var returnData = [];
+		for (x in data){
+			if (x >= parseInt(period)){
+				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), foscData[0][x-parseInt(period)]]);
 			}
-			res.json(returnData);
-		});
+		}
+		output.json(returnData);
 	},
-
-	rsi: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
-		var type = req.query.type;
-		dataService.getRSI(data, period, type).then(function(rsiData){
-			var returnData = [];
-			for (x in data){
-				if (x >= parseInt(period)){
-					returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), rsiData[0][x-parseInt(period)]]);
-				}
+	rsi: async function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
+		var type = input.query.type;
+		var rsiData = await analysisApp.getRSI(data, period, type);
+		var returnData = [];
+		for (x in data){
+			if (x >= parseInt(period)){
+				returnData.push([parseInt(new Date(data[parseInt(x)].createdAt).getTime()), rsiData[0][x-parseInt(period)]]);
 			}
-			res.json(returnData);
-		});
+		}
+		output.json(returnData);
 	},
-
-	bband: function(req, res) {
-		var data = JSON.parse(req.query.data);
-		var period = req.query.period;
-		var sD = req.query.sD;
-		var type = req.query.type;
+	bband: function(input, output) {
+		var data = JSON.parse(input.query.data);
+		var period = input.query.period;
+		var sD = input.query.sD;
+		var type = input.query.type;
 		var analysisData = [];
 		if (type == 'price'){analysisData = data.map(function(obj){return obj.price});}
 		if (type == 'change'){analysisData = data.map(function(obj){return obj.percentChange});}
-
-		//TODO --> var results = dataService.. dataService(data, period); res.json(results)
-		tulind.indicators.bbands.indicator([analysisData], [period, sD], function(err, results) {
+		//TODO --> var results = analysisApp.. dataService(data, period); output.json(results)
+		App.import.tulind.indicators.bbands.indicator([analysisData], [period, sD], function(err, results) {
 			//console.log(results);
 			//TODO:meh~
 			//too structured
-			var lowerData = [];
-			var middleData = [];
-			var uppderData = [];
+			var lowerData, middleData, uppderData = [];
 			for (x in data){
 				//shift.
 				if (x >= parseInt(period)){
@@ -242,38 +223,23 @@ module.exports = {
 				}
 			}
 			console.log(lowerData.length, results[0].length, parseInt(period));
-			res.json({lower:lowerData, middle:middleData, upper:uppderData});
+			output.json({lower:lowerData, middle:middleData, upper:uppderData});
 		});
 	},
-
-	fft: function(req, res) {
+	fft: function(input, output) {},
+	regression: function(input, output) {},
+	prediction: async function(input, output) {
+		var model = await analysisApp.predictiveModelPolynomial(input.query.asset1, input.query.asset2, input.query.delta, input.query.dataCount, input.query.order, input.query.precision);
+		console.log(model);
+		output.json(model);
 	},
 
-	regression: function(req, res) {
-	},
-
-	prediction: function(req, res) {
-		dataService.predictiveModelPolynomial(req.query.asset1, req.query.asset2, req.query.delta, req.query.dataCount, req.query.order, req.query.precision).then(function(model){
-			console.log(model);
-		});
-	},
-
-
-
-
-
-
-	//SOLVERS !!! 
-	//PDF
-	//TRAIN WITH THESE GUYS AND THE TENSORS
+	//PDF | TRAIN WITH THESE GUYS
 	//TODO: REDUCE TO APP 
-	//TODO:THIS WILL BE A DB LOL OVER ENG
-	pdf: async function(req, res) {
-		console.log('PDF!!')
-		var heatMap = []
-		var promises = [];
-		var data = JSON.parse(req.query.data);
-		var predictionArray = [];
+	//TODO: THIS WILL BE A DB
+	pdf: async function(input, output) {
+		var heatMap, promises, predictionArray = []
+		var data = JSON.parse(input.query.data);
 		for (x in data){
 			var dataData = data[x];
 			var dataArray = [];
@@ -282,13 +248,14 @@ module.exports = {
 			if (index>0){
 
 				console.log(index);
+
 				var pairData = data.slice(0, index);
 				var periodArray = [3,5,10,20,40,80];
 				var tsfPredictionData = [];
 				//for (y in periodArray){
-				for (var y = 1; y <= index; y++) {tsfPredictionData.push(dataService.getTSF(pairData, y));}
+				for (var y = 1; y <= index; y++) {tsfPredictionData.push(analysisApp.getTSF(pairData, y));}
 				
-				var predictionData = await Q.all(tsfPredictionData);
+				var predictionData = await App.import.Q.all(tsfPredictionData);
 					
 				var sortedData = predictionData.sort(function(a,b) {return (a < b) ? 1 : ((b < a) ? -1 : 0);}); 
 				var low = sortedData[sortedData.length-1];
@@ -297,12 +264,11 @@ module.exports = {
 				var lastPrice = pairData[pairData.length-1].price;
 				var changeHigh = (high - lastPrice)/high;
 				var changeLow = (low - lastPrice)/low;
-
 				//console.log(pairData[0].asset1, pairData[0].asset2, pairData[0].delta);
 				//console.log(sortedData);
 				//console.log(lastPrice, high, low, range);
 				//console.log(changeHigh, changeLow);
-			
+	
 				//INIT PDF
 				//might need to save pdfs as prediction db
 				//populate oppropiately ~ normal dist around 0? liner relation..
@@ -310,9 +276,9 @@ module.exports = {
 				var bbandData = [];
 				for (var y = 1; y <= 30; y++) { 
 					var sD =y/10;
-					bbandData.push(dataService.getBband(pairData, 10, y));
+					bbandData.push(analysisApp.getBband(pairData, 10, y));
 				}
-				var bbandData = await Q.all(bbandData);
+				var bbandData = await App.import.Q.all(bbandData);
 				var bbandIndicator = [];
 				for (x in bbandData){
 					//console.log(bbandData[x].upper)
@@ -321,10 +287,8 @@ module.exports = {
 					var lowerLastElement = bbandData[x].lower[bbandData[x].lower.length-1];
 					bbandIndicator.push({upper:upperLastElement, lower:lowerLastElement});
 				}
-
 				for (var i=1000; i>=-1000; i--){pdfMap[i/1000] = 0.60811/Math.pow(i, 2);}
 				pdfMap[0] = pdfMap[0.001];
-
 				//INIT pdfMap w bbandData!
 				//w bband --> fill in area between bands.. --> layer it 
 				for (x in bbandIndicator){
@@ -338,62 +302,36 @@ module.exports = {
 						}
 					}
 				}
-
 				//TEST
 				var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
 				for (x in testData){pdfMap[parseFloat(testData[x].toFixed(3))] += 0.50}
 				//console.log(pdfMap);
 				heatMap.push(pdfMap);
-
 			}
 		}
-		res.json({heatMap:heatMap})
+		output.json({heatMap:heatMap})
 	},
 
 	//TODO: SKINNY CONTROLLERS -- CALL APP..
-	portfolioBalance: async function(req, res) {
-
+	portfolioBalance: async function(input, output) {
 		function hasUndefined(a) {return a.indexOf() !== -1;};
 		function clone(a) {return JSON.parse(JSON.stringify(a));};
 		function getData(limit, delta, tradingPair){
-		    var defered = Q.defer();
-		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-			.limit(limit)
-			.sort('createdAt DESC')
-			.then(function(models){
-				console.log(tradingPair);
-				defered.resolve(models.reverse());
-			});
+		    var defered = App.import.Q.defer();
+		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]}).limit(limit).sort('createdAt DESC').then(function(models){console.log(tradingPair);defered.resolve(models.reverse());});
 		    return defered.promise;
 		};
-
 		//limit to btc for now.. 
-		var exchangeMap = [];
-		var promises = [];
+		var initPortfolio, currentPortfolio = {BTC:input.query.btc}
+		var limit = input.query.limit;
+		var delta = input.query.delta;
+		var selectedValues, portfolioSet, orderSet, promises, exchangeMap = [];
+		var totalChange, smallestChange, largestChange = 0;
 
-		var initPortfolio, currentPortfolio = {BTC:req.query.btc}
+		tradingPairs = App.static.tradingPairs.filter(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
+		tradingPairs.forEach(function(tradingPair, index){var promise = getData(limit, delta, tradingPair);promises.push(promise);});
 
-		var limit = req.query.limit;
-		var delta = req.query.delta;
-		
-		var selectedValues = [];
-		var portfolioSet = [];
-		var orderSet = [];
-
-		var totalChange = 0;
-		var smallestChange = 0;
-		var largestChange = 0;
-
-		tradingPairs = tradingPairs.filter(function(obj){
-	        if (obj.split('/')[1]=='BTC'){return obj}
-	    });
-
-		tradingPairs.forEach(function(tradingPair, index){
-		    var promise = getData(limit, delta, tradingPair);
-		    promises.push(promise);
-		});
-
-		var data = await Q.all(promises);
+		var data = await App.import.Q.all(promises);
 		exchangeMap = data;
 		//gotta compare 
 		//exchangeMap[0][1]
@@ -405,10 +343,8 @@ module.exports = {
 
 		//TODO: efficencicy redux
 		for (y in exchangeMap[0]){
-
 			var timeArray = [];
 			var predictionArray = [];
-
 			for (x in exchangeMap){
 				//SLOP
 				timeArray.push(exchangeMap[x][y]);
@@ -418,35 +354,21 @@ module.exports = {
 					if(!currentPortfolio[exchangeMap[x][y].asset2]){currentPortfolio[exchangeMap[x][y].asset2]=0}
 				}
 			}
-
 			//sloppy fix.. | it's becoming undefined ?? 
 			//if(exchangeMap[x][parseInt(y)+1]){
 			if (!hasUndefined(predictionArray)){
 				timeArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 				predictionArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
-
 				var mostPositiveChange = predictionArray[0].percentChange;
 				var mostNegativeChange = predictionArray[predictionArray.length-1].percentChange;
-
-				var totalPositiveChange = predictionArray.reduce(function (s, a) {
-					if (a.percentChange > 0){return s + a.percentChange;}
-					else{return s}
-				}, 0);
-
-				var totalNegativeChange = predictionArray.reduce(function (s, a) {
-					if (a.percentChange < 0){return s + a.percentChange;}
-					else{return s}
-				}, 0);
-
+				var totalPositiveChange = predictionArray.reduce(function (s, a) {if (a.percentChange > 0){return s + a.percentChange;}else{return s}}, 0);
+				var totalNegativeChange = predictionArray.reduce(function (s, a) {if (a.percentChange < 0){return s + a.percentChange;}else{return s}}, 0);
 				var totalChange = predictionArray.reduce(function (s, a) {return s + a.percentChange;}, 0);
-
 				//console.log(y, mostPositiveChange, mostNegativeChange, totalChange);
 				//console.log(y, totalPositiveChange, totalNegativeChange);
-
 				//MULTIPICK -- prob best to cap from 3-7
 				var cap = 4;
 				var capPositiveChange = predictionArray.slice(0, cap).reduce(function (s, a) {return s + a.percentChange}, 0);
-
 				//TODO: STRAT
 				//go to btc
 				for (n in Object.keys(currentPortfolio)){
@@ -461,8 +383,6 @@ module.exports = {
 						}
 					}
 				};
-
-				
 				//all in on PREDICTED NEXT HIGHEST
 				//IF STRAT == CLASSIC
 				if(predictionArray[0].percentChange != 0){
@@ -473,7 +393,6 @@ module.exports = {
 					currentPortfolio[predictionArray[0].asset1] = 0;
 					portfolioSet.push(clone(currentPortfolio));
 				}
-				
 				//MULTIPICK
 				//IF STRAT == MULTIPICK, CAP
 				/*var asset1Amount = currentPortfolio[predictionArray[x].asset1];
@@ -490,62 +409,39 @@ module.exports = {
 						//}
 					}
 				}*/
-
 				//console.log(currentPortfolio.BTC)
 				//console.log(y, currentPortfolio);
-
 			}
-
 		}
-
-		console.log(portfolioSet);
-		console.log(orderSet);
-		res.json({portfolioSet:portfolioSet, orderSet:orderSet});
+		console.log(portfolioSet); console.log(orderSet);
+		output.json({portfolioSet:portfolioSet, orderSet:orderSet});
 	},
 
 	//TODO: SKINNY CONTROLLERS -- CALL APP..
-	portfolioBalanceMulti: async function(req, res) {
-
+	portfolioBalanceMulti: async function(input, output) {
 		function hasUndefined(a) {return a.indexOf() !== -1;};
 		function clone(a) {return JSON.parse(JSON.stringify(a));};
 		function getData(limit, delta, tradingPair){
-		    var defered = Q.defer();
-		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-			.limit(limit)
-			.sort('createdAt DESC')
-			.then(function(models){
-				console.log(tradingPair);
-				defered.resolve(models.reverse());
-			});
+		    var defered = App.import.Q.defer();
+		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]}).limit(limit).sort('createdAt DESC').then(function(models){console.log(tradingPair);defered.resolve(models.reverse());});
 		    return defered.promise;
 		};
-
 		//limit to btc for now.. 
-		var exchangeMap = [];
-		var promises = [];
-		var currentPortfolio = {BTC:req.query.btc}
-		var limit = req.query.limit;
-		var delta = req.query.delta;
-		var portfolioSet = [];
-		var orderSet = [];
+		var exchangeMap, promises = [];
+		var currentPortfolio = {BTC:input.query.btc}
+		var limit = input.query.limit;
+		var delta = input.query.delta;
+		var portfolioSet, orderSet = [];
+		tradingPairs = App.static.tradingPairs.filter(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
+		tradingPairs.forEach(function(tradingPair, index){var promise = getData(limit, delta, tradingPair);promises.push(promise);});
 
-		tradingPairs = tradingPairs.filter(function(obj){
-	        if (obj.split('/')[1]=='BTC'){return obj}
-	    });
-
-		tradingPairs.forEach(function(tradingPair, index){
-		    var promise = getData(limit, delta, tradingPair);
-		    promises.push(promise);
-		});
-
-		var data = await Q.all(promises)
+		var data = await App.import.Q.all(promises)
 		exchangeMap = data;
 
 		//TODO: efficencicy redux
 		for (y in exchangeMap[0]){
 			var timeArray = [];
 			var predictionArray = [];
-
 			for (x in exchangeMap){
 				timeArray.push(exchangeMap[x][y]);
 				predictionArray.push(exchangeMap[x][parseInt(y)+1]);//--> this is oh boi.
@@ -554,35 +450,20 @@ module.exports = {
 					if(!currentPortfolio[exchangeMap[x][y].asset2]){currentPortfolio[exchangeMap[x][y].asset2]=0}
 				}
 			}
-
 			if (!hasUndefined(predictionArray)){
-
 				timeArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 				predictionArray.sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
-
 				var mostPositiveChange = predictionArray[0].percentChange;
 				var mostNegativeChange = predictionArray[predictionArray.length-1].percentChange;
-
-				var totalPositiveChange = predictionArray.reduce(function (s, a) {
-					if (a.percentChange > 0){return s + a.percentChange;}
-					else{return s}
-				}, 0);
-
-				var totalNegativeChange = predictionArray.reduce(function (s, a) {
-					if (a.percentChange < 0){return s + a.percentChange;}
-					else{return s}
-				}, 0);
-
+				var totalPositiveChange = predictionArray.reduce(function (s, a) {if (a.percentChange > 0){return s + a.percentChange;}else{return s}}, 0);
+				var totalNegativeChange = predictionArray.reduce(function (s, a) {if (a.percentChange < 0){return s + a.percentChange;}else{return s}}, 0);
 				var totalChange = predictionArray.reduce(function (s, a) {return s + a.percentChange;}, 0);
-
 				//console.log(y, mostPositiveChange, mostNegativeChange, totalChange);
 				//console.log(y, totalPositiveChange, totalNegativeChange);
-
 				//MULTIPICK -- prob best to cap from 3-7
-				var cap = req.query.cap;
+				var cap = input.query.cap;
 				//var cap = 4;
 				var capPositiveChange = predictionArray.slice(0, cap).reduce(function (s, a) {return s + a.percentChange}, 0);
-
 				//TODO: STRAT
 				//go to btc
 				for (n in Object.keys(currentPortfolio)){
@@ -597,7 +478,6 @@ module.exports = {
 						}
 					}
 				};
-
 				//MULTIPICK
 				//IF STRAT == MULTIPICK, CAP
 				var sum = 0;
@@ -619,7 +499,6 @@ module.exports = {
 						//}
 					}
 				}
-
 				console.log(y, exchangeMap[0].length-2)
 				if (y == exchangeMap[0].length-2){
 					for (n in Object.keys(currentPortfolio)){
@@ -635,41 +514,28 @@ module.exports = {
 						}
 					}
 				}
-
 			}
 		}
-
 		console.log(portfolioSet);
 		console.log(orderSet);
-		res.json({portfolioSet:portfolioSet, orderSet:orderSet})
+		output.json({portfolioSet:portfolioSet, orderSet:orderSet})
 	},
 
 	//TODO: SKINNY CONTROLLERS -- CALL APP..
-	//only using TSF atm
 	//IF THIS IS PROFITABLE.. TURN IT ON!
 	//TODO: restructure to object strcutre vs. reliying on indexing 
-	//TODO: this a mess lol
-	//TODO: pdf from multipick
-	portfolioSolvePDF: async function(req, res) {
-
+	portfolioSolvePDF: async function(input, output) {
 		function hasUndefined(a) {return a.indexOf() !== -1;};
 		function clone(a) {return JSON.parse(JSON.stringify(a));};
 		function getData(limit, delta, tradingPair){
-		    var defered = Q.defer();
-		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]})
-			.limit(limit)
-			.sort('createdAt DESC')
-			.then(function(models){
-				console.log(tradingPair);
-				defered.resolve(models.reverse());
-			});
+		    var defered = App.import.Q.defer();
+		    Data.find({delta:delta, asset1:tradingPair.split('/')[1], asset2:tradingPair.split('/')[0]}).limit(limit).sort('createdAt DESC').then(function(models){console.log(tradingPair);defered.resolve(models.reverse());});
 		    return defered.promise;
 		};
 
 		//TODO: THIS IS IT
 		//DO THIS AS A SAVER..
 		async function getPdf(pairData, callback){
-
 			//TODO: restructure to object strcutre vs. reliying on indexing 
 			//pairData[0].asset1 ~ {}
 			var pdfMapArray = [];
@@ -681,10 +547,8 @@ module.exports = {
 					var predictionData = pairData.slice(0, index);
 					var tsfPredictionData = [];
 					//TODO: period vs prediction delta..?
-					for (var z = 1; z <= index; z++){
-						tsfPredictionData.push(dataService.getTSF(predictionData, z));
-					}
-					var data = await Q.all(tsfPredictionData);
+					for (var z = 1; z <= index; z++){tsfPredictionData.push(analysisApp.getTSF(predictionData, z));}
+					var data = await App.import.Q.all(tsfPredictionData);
 					//large list of predictions.. (not pdf yet.)
 					//theoretitically pdf will have +8.8 indicators +1 complexity
 					//return obj here for predictions 
@@ -695,16 +559,11 @@ module.exports = {
 					//INIT PDF
 					/*var pdfMap = {};
 					var pdfSum = 0;
-					for (var i=1000; i>=-1000; i--){
-						pdfMap[i/1000] = 0.60811/Math.pow(i, 2);
-					}
+					for (var i=1000; i>=-1000; i--){pdfMap[i/1000] = 0.60811/Math.pow(i, 2);}
 					pdfMap[0] = pdfMap[0.001];
-					
 					var pdfData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
 					for (x in pdfData){
-						if (!isNaN(pdfData[x])){
-							pdfMap[parseFloat(pdfData[x].toFixed(3))] += 0.25
-						}
+						if (!isNaN(pdfData[x])){pdfMap[parseFloat(pdfData[x].toFixed(3))] += 0.25}
 					}*/
 
 					//PDF ANALYSIS HERE!
@@ -722,12 +581,12 @@ module.exports = {
 					var bbandData = [];
 					for (var y = 1; y <= 30; y++) { 
 						var sD =y/10;
-						bbandData.push(dataService.getBband(pairData, 10, y));
+						bbandData.push(analysisApp.getBband(pairData, 10, y));
 						//for (var z = 2; z <= 20; z++) { 
-						//	bbandData.push(dataService.getBband(pairData, z, y));
+						//	bbandData.push(analysisApp.getBband(pairData, z, y));
 						//}
 					}
-					var bbandData = await Q.all(bbandData);
+					var bbandData = await App.import.Q.all(bbandData);
 					var bbandIndicator = [];
 					for (x in bbandData){
 						//console.log(bbandData[x].upper)
@@ -760,95 +619,69 @@ module.exports = {
 
 					//TEST
 					var testData = sortedData.map(function(obj){return (obj - lastPrice)/lastPrice});
-					for (x in testData){
-						pdfMap[parseFloat(testData[x].toFixed(3))] += 0.50
-					}
+					for (x in testData){pdfMap[parseFloat(testData[x].toFixed(3))] += 0.50}
 
-					//TODO EMA PDF,
-					//dataService.getEMA(pairData, 10).then(function(data){
-						//console.log(data);
-					//});
+					//TODO: EMA PDF,
+					//var data = await analysisApp.getEMA(pairData, 10);
 
 					//MACD PDF....~~~
 					//TODO OSC PDF
-					//dataService.getFOSC(pairData, 10).then(function(data){
-					//	console.log(data);
-					//});
+					//var data = await analysisApp.getFOSC(pairData, 10);
 
 					//MACD PDF....~~~
-					//dataService.getMACD(pairData, 2, 5, 9).then(function(data){
-						//console.log(data);
-					//});
+					//var data = await analysisApp.getMACD(pairData, 2, 5, 9);
 
-					//NN PDF
-					//TODO:LOL
-					/*console.log('SUP!');
-					NeuralNetwork.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2})
-					.then(function(neuralNetworkModel) {
-						var synaptic = require('synaptic');
-						var Neuron = synaptic.Neuron,
-							Layer = synaptic.Layer,
-							Network = synaptic.Network,
-							Trainer = synaptic.Trainer,
-							Architect = synaptic.Architect;
-						var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
-						Prediction
-						.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2})
-						.limit(1)
-						.sort('createdAt DESC')
-						.then(function(lastestPrediction){
-							console.log(lastestPrediction)
-							if (lastestPrediction.length > 0){
-								var model = {};
-								var normalizedBidInput = (lastPrice - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
-								if (isNaN(normalizedBidInput)){normalizedBidInput=0}
-								var normalizedAskInput = (lastPrice - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
-								if (isNaN(normalizedAskInput)){normalizedAskInput=0}
-								var latestInput = [normalizedBidInput, normalizedAskInput];
-								var output = myNetwork.activate(latestInput);
-								var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
-								var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
-								model.output = [denormalizeBid, denormalizeAsk];
-								console.log(model.output[0], model.output[1], (lastPrice - model.output[0])/lastPrice, (lastPrice - model.output[1])/lastPrice);
-								
-							}
-						});
-					});*/
+					//CREATE DATA SETS .. 
 
+					//PASS THEM TO TRAINING NETS 
+
+					//TODO: CONTAINERIZE PYTHON ? KERAS ? PLAYGROUND 
+					//NEED A DB OF PRETRAINED MODELS AND THE ABILITY TO CALL THEM .. 
+					//NEED A DB OF DATA TO TRAIN .. 
+
+					//SAVED NEURAL MODELS ..
+					var neuralNetworkModel = await NeuralNetwork.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2})
+					
+					var synaptic = require('synaptic');
+					var Neuron = synaptic.Neuron, Layer = synaptic.Layer, Network = synaptic.Network, Trainer = synaptic.Trainer, Architect = synaptic.Architect;
+					var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
+					
+					var lastestPrediction = await Prediction.find({delta:'300000', asset1: pairData[0].asset1, asset2:pairData[0].asset2}).limit(1).sort('createdAt DESC')
+					console.log(lastestPrediction)
+					if (lastestPrediction.length > 0){
+						var model = {};
+						var normalizedBidInput = (lastPrice - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
+						if (isNaN(normalizedBidInput)){normalizedBidInput=0}
+						var normalizedAskInput = (lastPrice - lastestPrediction[0].normalizeData.minAskInput)/(lastestPrediction[0].normalizeData.maxAskInput - lastestPrediction[0].normalizeData.minAskInput);
+						if (isNaN(normalizedAskInput)){normalizedAskInput=0}
+						var latestInput = [normalizedBidInput, normalizedAskInput];
+						var output = myNetwork.activate(latestInput);
+						var denormalizeBid = lastestPrediction[0].normalizeData.minBidInput*-1*output[0]+lastestPrediction[0].normalizeData.minBidInput+output[0]*lastestPrediction[0].normalizeData.maxBidInput;
+						var denormalizeAsk = lastestPrediction[0].normalizeData.minAskInput*-1*output[1]+lastestPrediction[0].normalizeData.minAskInput+output[1]*lastestPrediction[0].normalizeData.maxAskInput;
+						model.output = [denormalizeBid, denormalizeAsk];
+						console.log(model.output[0], model.output[1], (lastPrice - model.output[0])/lastPrice, (lastPrice - model.output[1])/lastPrice);
+					}
 					pdfMapArray.push(pdfMap);
-				
 				}
 			}
 			callback(pdfMapArray);
-
 		};
 
-		var exchangeMap = [];
-		var promises = [];
-		var currentPortfolio = {BTC:req.query.btc}
-		var limit = 20//req.query.limit;
-		var delta = '7200000'//req.query.delta;
-		var portfolioSet = [];
-		var orderSet = [];
+		var currentPortfolio = {BTC:input.query.btc}
+		var limit = 20//input.query.limit;
+		var delta = '7200000'//input.query.delta;
+		var portfolioSet, orderSet, exchangeMap, promises, pdfArray = [];
 		var sum = 0;
-		tradingPairs = tradingPairs.filter(function(obj){
-	        if (obj.split('/')[1]=='BTC'){return obj}
-	    });
-		tradingPairs.forEach(function(tradingPair, index){
-		    var promise = getData(limit, delta, tradingPair);
-		    promises.push(promise);
-		});
-		var data = await Q.all(promises);
-		var pdfArray = [];
+		tradingPairs = tradingPairs.filter(function(obj){if (obj.split('/')[1]=='BTC'){return obj}});
+		tradingPairs.forEach(function(tradingPair, index){var promise = getData(limit, delta, tradingPair);promises.push(promise);});
+		var data = await App.import.Q.all(promises);
 		var exchangeMap = data;
 		var pairData;
 
 		for (x in exchangeMap){
 			pairData = data[x]
 			getPdf(pairData, function(pdfMap){pdfArray.push(pdfMap)});
-		
 		}
-
 		for (y in exchangeMap[0]){
 			var timeArray = [];
 			var predictionArray = [];
@@ -865,7 +698,6 @@ module.exports = {
 
 			//TODO:fix lag ~ length probs.
 			if (!hasUndefined(predictionArray)){
-
 				var pdfAnalysis = [];
 				//TODO REDUX. STORE IN PDF ARRAY :analyis
 				//TOO MUCH CALC
@@ -886,9 +718,7 @@ module.exports = {
 						if (key > 0){totalPositiveProbability += key*pdfMap[key];}
 						if (key < 0){
 							totalNegativeProbability += key*pdfMap[key];
-							if (pdfMap[key] > 0.1){
-								allPostiveProbability = false
-							}
+							if (pdfMap[key] > 0.1){allPostiveProbability = false}
 						}
 					}
 					//console.log(totalPositiveProbability, totalNegativeProbability, allPostiveProbability, totalPositiveProbability + totalNegativeProbability, sum);
@@ -904,11 +734,7 @@ module.exports = {
 				//this may be redundant vs relativity +1 start complexity
 				//var positiveProbabilityIndex = pdfAnalysis.map(function(obj){return obj.allPostiveProbability}).indexOf(true);
 				
-				var sortMap = pdfAnalysis.concat().sort(function(a,b) {
-					return (a.totalPositiveProbability + a.totalNegativeProbability < b.totalPositiveProbability + b.totalNegativeProbability) ? 1 : ((b.totalPositiveProbability + b.totalNegativeProbability < a.totalPositiveProbability + a.totalNegativeProbability) ? -1 : 0);
-				}); 
-			
-
+				var sortMap = pdfAnalysis.concat().sort(function(a,b) {return (a.totalPositiveProbability + a.totalNegativeProbability < b.totalPositiveProbability + b.totalNegativeProbability) ? 1 : ((b.totalPositiveProbability + b.totalNegativeProbability < a.totalPositiveProbability + a.totalNegativeProbability) ? -1 : 0);}); 
 				//TODO: move away from index.
 				var pickOrderIndex = [];
 				//console.log(pdfAnalysis);
@@ -917,14 +743,11 @@ module.exports = {
 					//console.log(sortMap[x].totalPositiveProbability + sortMap[x].totalNegativeProbability)
 					pickOrderIndex.push(pdfAnalysis.map(function(obj){return obj.totalPositiveProbability}).indexOf(sortMap[x].totalPositiveProbability));
 				}
-
 				//TODO: add positiveProbabilityIndex to pickOrderIndex, reduce.
-
 				//MULTIPICK -- prob best to cap from 3-7
 				var cap = 3;
 				var cappedPickIndex = pickOrderIndex.slice(0, cap);
 				//console.log(cappedPickIndex);
-
 				var trainSort = trainArray.concat().sort(function(a,b) {return (a.percentChange < b.percentChange) ? 1 : ((b.percentChange < a.percentChange) ? -1 : 0);}); 
 				console.log('BEST PICK', trainSort[0].asset2, trainSort[0].percentChange)
 				for (x in cappedPickIndex){
@@ -934,10 +757,7 @@ module.exports = {
 
 				//TODO: relativity? 
 				var totalPositiveChange = 0;
-				for (x in pdfAnalysis){
-					totalPositiveChange += pdfAnalysis[x].totalPositiveProbability;
-				}
-
+				for (x in pdfAnalysis){totalPositiveChange += pdfAnalysis[x].totalPositiveProbability;}
 				//STRAT
 				//go to btc
 				for (n in Object.keys(currentPortfolio)){
@@ -951,7 +771,6 @@ module.exports = {
 						}
 					}
 				}
-
 				//MULTIPICK
 				for (n in cappedPickIndex){
 					var asset1Amount = currentPortfolio[timeArray[cappedPickIndex[n]].asset1];
@@ -961,7 +780,6 @@ module.exports = {
 					orderSet.push({asset1: timeArray[cappedPickIndex[n]].asset1, asset2:timeArray[cappedPickIndex[n]].asset2, price:parseFloat(timeArray[cappedPickIndex[n]].price), amount:relativeAmount, createdAt:timeArray[cappedPickIndex[n]].createdAt})
 					portfolioSet.push(clone(currentPortfolio));
 				}
-
 				//to see roi
 				console.log(y, exchangeMap[0].length-2)
 				if (y == exchangeMap[0].length-2){
@@ -978,15 +796,11 @@ module.exports = {
 						}
 					}
 				}
-
 			}
 		}
-
 		//console.log(portfolioSet);
-		console.log(orderSet);
-		console.log(portfolioSet[portfolioSet.length-1]);
-		res.json({portfolioSet:portfolioSet, orderSet:orderSet})
+		console.log(orderSet); console.log(portfolioSet[portfolioSet.length-1]);
+		output.json({portfolioSet:portfolioSet, orderSet:orderSet})
 	},
-
-
 };
+module.exports = App;

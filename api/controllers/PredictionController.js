@@ -1,30 +1,22 @@
-
-module.exports = {
-
-	getCurrentPrediction: async function(req, res) {
-
+var App = {
+	import:{
+		Q: require('q'),
+		request: require('request'),
+		synaptic: require('synaptic'),
+	},
+	getCurrentPrediction: async function(input, output) {
 		function getPairData(asset1, asset2){
-			var Q = require('q');
-			var request = require('request');
-			var deferred = Q.defer();
+			var deferred = App.import.Q.defer();
 			var url = "https://api.bitfinex.com/v1/pubticker/"+asset1+asset2;
-			request({url: url, json: true }, function (error, response, body) {
-			    if (!error && response.statusCode === 200) {
-			        deferred.resolve(body);
-			    }
+			App.import.request({url: url, json: true }, function (error, response, body) {
+			    if (!error && response.statusCode === 200) {deferred.resolve(body);}
 			});
 			return deferred.promise;
 		};
-		var synaptic = require('synaptic');
-		var Neuron = synaptic.Neuron,
-			Layer = synaptic.Layer,
-			Network = synaptic.Network,
-			Trainer = synaptic.Trainer,
-			Architect = synaptic.Architect;
-
-		var predictionTime = req.query.delta;
-		var asset1 = req.query.asset1;
-		var asset2 = req.query.asset2;
+		var Neuron = App.import.synaptic.Neuron, Layer = App.import.synaptic.Layer, Network = App.import.synaptic.Network, Trainer = App.import.synaptic.Trainer, Architect = App.import.synaptic.Architect;
+		var predictionTime = input.query.delta;
+		var asset1 = input.query.asset1;
+		var asset2 = input.query.asset2;
 		var neuralNetworkModel = await NeuralNetwork.find({predictionTime:predictionTime, asset1: asset1, asset2:asset2})
 		var myNetwork = Network.fromJSON(neuralNetworkModel[0].networkJson);
 
@@ -35,7 +27,6 @@ module.exports = {
 		model.currentData = currentData;
 
 		var lastestPrediction = await Prediction.find({predictionTime:predictionTime, asset1: asset1, asset2: asset2}).limit(1).sort('createdAt DESC')
-	
 		console.log(lastestPrediction[0]);
 
 		var normalizedBidInput = (model.currentData.bid - lastestPrediction[0].normalizeData.minBidInput)/(lastestPrediction[0].normalizeData.maxBidInput - lastestPrediction[0].normalizeData.minBidInput);
@@ -62,17 +53,12 @@ module.exports = {
 
 		//model.output = [output[0]/0.5 * model.currentData.bid, output[1]/0.5 * model.currentData.ask];
 		model.output = [denormalizeBid, denormalizeAsk];
-
 		console.log(model);
-		res.json(model);
-	
+		output.json(model);
 	},
-
-	getSome: async function(req,res){
-		var predictionModel = await Prediction.find().limit(req.query.limit).skip(req.query.skip).sort(req.query.sort).where(JSON.parse(req.query.filter))
-		res.json(predictionModel);
-		Prediction.watch(req);
-		Prediction.subscribe(req, predictionModel);
+	get: async function(input, output){
+		var predictionModel = await Prediction.find().limit(input.query.limit).skip(input.query.skip).sort(input.query.sort).where(JSON.parse(input.query.filter))
+		output.json(predictionModel);
 	},
-
 };
+module.exports = App;

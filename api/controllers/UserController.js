@@ -1,41 +1,39 @@
-module.exports = {
-
-	getSome: async function(req, res) {
-		if (req.query.type=='username'){
-			var model = await User.find({username:req.query.filter}).limit(req.query.limit).skip(req.query.skip).sort(req.query.sort)
-			res.json(model[0]);
+var App = {
+	get: async function(input, output) {
+		if (input.query.type=='username'){
+			var model = await User.find({username:input.query.filter}).limit(input.query.limit).skip(input.query.skip).sort(input.query.sort)
+			output.json(model[0]);
 		}
-		else{res.json({})}
+		else{
+			var models = await User.find()
+         	//STRIP SECRET INFO
+            for (x in models){delete models[x].poloniexApiKey; delete models[x].poloniexApiSecret;}
+			output.json(models);
+		}
 	},
-
-	update: async function (req, res) {
-		var id = req.session.user.id
+	create: async function (input, output) {
+		var model = {username: input.param('username'), email: input.param('email'), firstName: input.param('firstName'), lastName: input.param('lastName')};
+		var model = await User.create(model);
+		User.publishCreate(model.toJSON());
+		output.json(model);	
+	},
+	update: async function (input, output) {
+		var id = input.session.user.id
 		var model = {
-			username: req.param('username'),
-			firstName: req.param('firstName'),
-			lastName: req.param('lastName'),
+			username: input.param('username'),
+			firstName: input.param('firstName'),
+			lastName: input.param('lastName'),
 
 			//LOL
-			poloniexApiKey: req.param('poloniexApiKey'),
-			poloniexApiSecret: req.param('poloniexApiSecret'),
-			btcWalletAddress: req.param('btcWalletAddress'),
-			ltcWalletAddress: req.param('ltcWalletAddress'),
+			poloniexApiKey: input.param('poloniexApiKey'),
+			poloniexApiSecret: input.param('poloniexApiSecret'),
+			btcWalletAddress: input.param('btcWalletAddress'),
+			ltcWalletAddress: input.param('ltcWalletAddress'),
 
 		};
 		var model = await User.update({id:id}, model);
 		User.publishCreate(model);
-		res.json(model);	
+		output.json(model);	
 	},
-
-	create: async function (req, res) {
-		var model = {
-			username: req.param('username'),
-			email: req.param('email'),
-			firstName: req.param('firstName'),
-			lastName: req.param('lastName')
-		};
-		var model = await User.create(model);
-		User.publishCreate(model.toJSON());
-		res.json(model);	
-	}
 };
+module.exports = App;
