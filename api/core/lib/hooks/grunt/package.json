@@ -3480,7 +3480,7 @@
   "deprecated": false,
   "description": "The Grunt hook from Sails core in v1.0 and up.",
   "devDependencies": {
-    "eslint": "4.11.0",
+    "eslint": "4.18.2",
     "mocha": "3.0.2"
   },
   "homepage": "https://sailsjs.com",
