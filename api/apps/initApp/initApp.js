@@ -16,6 +16,10 @@ var App = {
 		});
 		console.dir(treeObj, { depth: null });
 
+		//REUDCE TREE TO LIST ITERATE AND CREATE :: 
+		//Market :: [] Assets (pow set of assets)
+		//Association :: non reflective 
+
 	}
 };
 module.exports = App;

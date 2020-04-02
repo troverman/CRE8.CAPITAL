@@ -6,6 +6,9 @@ var App = {
 		ema: require('exponential-moving-average'),
 		regression: require('regression')
 	},
+
+	//ATTEMPTING TO CONSTRUCT A MULTIDIMENSIONAL TOKEN MAKRET && MATCHING ENGINE // BETER NAME SANS BUZZ
+
 	recursivePowersetDecompose: function(model, count, length){
 		//SHOULD BE LOCAL --> SHOULD HAVE KNOWN :P
 		//if(!model.count){model.count=0}
@@ -278,13 +281,13 @@ var App = {
 		//console.log(models.map(function(obj){return obj.percentChange}))
     	return result;
 	},
-	predictiveModelFFT: async function(asset1, asset2, delta, limit){
+	predictiveModelFFT: async function(model){
 		var fft = App.import.fft;
 		var forecast = App.import.nostradamus;
 	   	var dataArray, predictions = [];	
 		var now = new Date(), start = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 		var yesterday = Date.parse(start);
-	    var models = await Data.find({asset1:asset1, asset2:asset2, delta:delta}).sort('createdAt DESC').limit(limit)
+	    var models = await Data.find({asset1:model.asset1, asset2:model.asset2, delta:model.delta}).sort('createdAt DESC').limit(model.limit)
     	for (x in models){
 			var price = models[x].price;
     		var date = Date.parse(models[x].createdAt);

@@ -7,6 +7,10 @@ var App = {
 		fs: require('fs')
 	},
 
+	secret:{
+
+	},
+
 	//output : email :: 
 	strategyFlash: async function(model){
 		var trovermanTestId = '591a95d935ab691100c584ce  ';
@@ -116,7 +120,7 @@ var App = {
 	//POPULATE TOKENS
 	//LEGACY
 		//REDUCE THE ABSTRACTION
-		//STOKCS ARE BASE TOKEN AND +[EXCANGE] IDENTIFER
+		//STOCKS ARE BASE TOKEN AND +[EXCANGE] IDENTIFER
 			//ASSOCIATION + GRAMMER
 			//CONNECTION RULES IN + [EXCHANGE]
 
@@ -129,12 +133,16 @@ var App = {
 		//	context:{}
 		//});
 
+		//activityApp['CREATE']({
+			//string:
+			//data:
+			//type:
+		//});
+
 		//tokenize all method calls as practice; design pattern
 
 		//ALPHA VANTAGE API
 		//https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=BA&apikey=3J08JZ9BNYK4JUTY
-
-		//THINK CASH APP / THINK ROBINHOOD
 
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt
 		//ftp://ftp.nasdaqtrader.com/SymbolDirectory/options.txt
@@ -212,43 +220,82 @@ var App = {
 			//TODO: FXN TO COMPUTE 'MARKET' FROM ORDERS 
 	    	//TRUST ME :) -- MARKET COMBINATORIAL OBJECTS
 
+	    	//connections are dynamically instantiated 'abstract' data models 
+
 	    	var associationModel = {
 	    		//source, target
 	    		//associatedModels
-	    		associatedModels:[{
-    				id:assetModels[0].id, 
-    				type:'ASSET', 
-    				parameters:[{
-    					label:'source'
-    				}],
-    			},
-    			{
-    				id:'USD', 
-    				type:'ASSET', 
-    				parameters:[{
-    					label:'target'
-    				}],
-    			}],
-	    		connection:{
+	    		associatedModels:[
+		    		{
+	    				id:assetModels[0].id, 
+	    				type:'ASSET', 
+	    				parameters:{label:'source'},
+	    			},
+	    			{
+	    				id:'USD', 
+	    				type:'ASSET', 
+	    				parameters:{label:'target'},
+	    			}
+    			],
+	    		connection: {
 	    			type:'NASDEQ EXHANGE',
 	    			parameters:{
-	    				config:{
-	    					nodeParameters:true,
-	    					modelParameters:true,
-	    				},
-	    				parameters:{
-	    					direction:{type:'string',},
-	    				},
-	    				associatedModels:[{
-		    				parameters:{label:{type:'string'}},
-	    				}],
-	    				model:[{
-	    					bids:{type:[]},
-	    					asks:{type:[]}
-	    				}],
+
+	    				//config:{
+	    				//	nodeParameters:true,
+	    				//	modelParameters:true,
+	    				//},
+
+	    				association:{
+	    					type:{type:'string'},
+		    				parameters:{direction:{type:'string'}},
+		    				associatedModels:[
+		    					{
+		    						parameters:{
+		    							type:{type:'string'},
+		    							label:{type:'string'}
+		    						}
+		    					},
+		    					{
+		    						parameters:{
+		    							type:{type:'string'},
+		    							label:{type:'string'}
+		    						}
+		    					},
+		    				],
+
+		    				//logic:[],
+		    				//mapping:[],
+		    				//reduction:[],
+
+		    				//validation:{
+    						//	type:{type:'string'},
+    						//	type:{type:'type'},
+		    				//	create:{type:'function'}
+		    				//}, 			
+		    			
+		    				//validation:{
+			    				//	type: 'order',
+		    					//	parameters: {},
+			    				//	create: function(model){
+			    						//LOGIC FOR TRANSFERING BALANCES AND ESKROW TO MAKE AN ORDER 
+			    						//BUILD ASSOCIATION
+			    				//	},
+			    				//}, 			
+		    				//}
+		    			},
+	    				
+	    				//model:[{
+	    				//	bids:{type:[]},
+	    				//	asks:{type:[]}
+	    				//}],
+
+	    				//association ::
+	    				//validation ::
 	    				//logic:[],
 	    				//mapping:[],
 	    				//reduction:[]
+	    			    				 			
     				}
 	    		},
 	    		parameters:[{
@@ -273,9 +320,7 @@ var App = {
 	    				//Order
 	    	//{}={}
 	    	//context:{}
-	    	//(element, multiDContextObj);
-
-	    	
+	    	//(element, multiDContextObj);	
 	    }
 
 		//token and market
@@ -286,7 +331,7 @@ var App = {
 		//	context:'',
 		//	exchange:'',
 		//	information:'',
-			//computed matrix?
+		//  computed matrix?
 		//};
 
 	},
@@ -583,6 +628,7 @@ var App = {
 		//marginBuy(currencyPair, rate, amount, lendingRate [, callback])
 	},
 	//TODO: REFACTOR PARAMETERS
+	//LEGACY
 	createOrderSimulation: async function(model, user, percent){
 		var orderModel = model;
 		orderModel.assetPair = model.assetPair;
@@ -638,6 +684,10 @@ var App = {
 			await Asset.update({user:user, symbol: orderModel.asset1}, {amount:updateAmount});
 			emailService.sendTemplate('orderCreate', 'troverman@gmail.com', 'CREATE ORDER: SELL ' + orderModel.asset2, {data: orderModel});    
     	}
-	}
+	},
+
+
+
+
 };
 module.exports = App;
