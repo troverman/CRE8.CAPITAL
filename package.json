@@ -26,7 +26,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-html2js": "^0.7.1",
     "grunt-sync": "^0.8.2",
-    "handlebars": "^4.5.3",
+    "handlebars": "^4.7.7",
     "holtwinters": "0.0.1",
     "include-all": "^4.0.3",
     "mailgun-js": "^0.20.0",
