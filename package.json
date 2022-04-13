@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "@tensorflow/tfjs-node": "^0.1.21",
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "bollinger-bands": "^3.0.1",
     "ccxt": "^1.17.569",
